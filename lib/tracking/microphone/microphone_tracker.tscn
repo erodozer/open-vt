@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://15kl1t37lo3j"]
+
+[ext_resource type="Script" path="res://lib/tracking/microphone/microphone_tracker.gd" id="1_01a2e"]
+
+[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_y3nw3"]
+
+[node name="MicrophoneTracker" type="Node"]
+script = ExtResource("1_01a2e")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamMicrophone_y3nw3")
+autoplay = true
+bus = &"VoiceInput"

@@ -1,0 +1,52 @@
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://bwesfr5en0lxv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ghokm"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.144063, 0.144063, 0.144062, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nttvt"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 0.588235)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_piqja"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.262932, 0.262932, 0.262932, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_size = 2
+shadow_offset = Vector2(0, 4)
+
+[resource]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_ghokm")
+Section/base_type = &"PanelContainer"
+Section/styles/panel = SubResource("StyleBoxFlat_nttvt")
+SubPanelContainer/base_type = &"PanelContainer"
+SubPanelContainer/styles/panel = SubResource("StyleBoxFlat_piqja")
+VBoxContainer/constants/separation = 16
+VBoxList/base_type = &"VBoxContainer"
+VBoxList/constants/separation = 4

@@ -1,0 +1,171 @@
+[gd_scene load_steps=16 format=3 uid="uid://bbh7pj5wq0sii"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_g562h"]
+[ext_resource type="Theme" uid="uid://bwesfr5en0lxv" path="res://studio/ui/ui_theme.tres" id="4_vl1ux"]
+[ext_resource type="Script" path="res://studio/hud.gd" id="5_pr18m"]
+[ext_resource type="Texture2D" uid="uid://ddqu1ma3rgo08" path="res://studio/ui/icons/aperture.svg" id="6_pyns6"]
+[ext_resource type="Texture2D" uid="uid://jqiaeaslelbe" path="res://studio/ui/icons/person.svg" id="7_e0oav"]
+[ext_resource type="Script" path="res://lib/tracking_system.gd" id="8_dv8e1"]
+[ext_resource type="Texture2D" uid="uid://blil5brl4i0qh" path="res://studio/ui/icons/gear.svg" id="8_jn2ra"]
+[ext_resource type="PackedScene" uid="uid://dpw8au0ueatrg" path="res://studio/ui/parameter_panel/parameter_panel.tscn" id="8_sw6px"]
+[ext_resource type="Texture2D" uid="uid://0yh01fnusj7i" path="res://studio/ui/icons/square-t.svg" id="9_v852m"]
+[ext_resource type="PackedScene" uid="uid://dijec4c8prced" path="res://studio/ui/model_panel/model_panel.tscn" id="10_tc0r5"]
+[ext_resource type="PackedScene" uid="uid://crwh7f50woqgu" path="res://studio/ui/camera_panel/camera_panel.tscn" id="11_3ft6e"]
+[ext_resource type="Script" path="res://lib/model_manager.gd" id="12_ufyfb"]
+
+[sub_resource type="Gradient" id="Gradient_joccq"]
+colors = PackedColorArray(1.68458e-07, 0.184621, 0.229052, 1, 0, 0.313239, 0.313239, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kr4px"]
+gradient = SubResource("Gradient_joccq")
+fill_from = Vector2(0, 1)
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_42qc0"]
+allow_unpress = true
+
+[node name="Studio" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_g562h")
+
+[node name="BgFill" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_kr4px")
+
+[node name="TrackerSystem" type="Node" parent="." groups=["system:tracking"]]
+script = ExtResource("8_dv8e1")
+
+[node name="ModelManager" type="Node" parent="." groups=["system:model"]]
+script = ExtResource("12_ufyfb")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("4_vl1ux")
+script = ExtResource("5_pr18m")
+
+[node name="Menu" type="PanelContainer" parent="CanvasLayer/HUD"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.01
+anchor_top = 0.5
+anchor_right = 0.01
+anchor_bottom = 0.5
+offset_top = -119.0
+offset_right = 64.0
+offset_bottom = 119.0
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HUD/Menu"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="CameraBtn" type="Button" parent="CanvasLayer/HUD/Menu/VBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_42qc0")
+icon = ExtResource("6_pyns6")
+icon_alignment = 1
+expand_icon = true
+metadata/panel = NodePath("../../../CameraPanel")
+
+[node name="ModelBtn" type="Button" parent="CanvasLayer/HUD/Menu/VBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_42qc0")
+icon = ExtResource("7_e0oav")
+icon_alignment = 1
+expand_icon = true
+metadata/panel = NodePath("../../../ModelPanel")
+
+[node name="ParameterBtn" type="Button" parent="CanvasLayer/HUD/Menu/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_42qc0")
+icon = ExtResource("8_jn2ra")
+icon_alignment = 1
+expand_icon = true
+metadata/panel = NodePath("../../../ParameterPanel")
+
+[node name="HotkeysBtn" type="Button" parent="CanvasLayer/HUD/Menu/VBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_42qc0")
+icon = ExtResource("9_v852m")
+icon_alignment = 1
+expand_icon = true
+metadata/panel = NodePath("../../../HotkeyPanel")
+
+[node name="ParameterPanel" parent="CanvasLayer/HUD" instance=ExtResource("8_sw6px")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 301.0
+offset_right = 781.0
+grow_horizontal = 0
+
+[node name="ModelPanel" parent="CanvasLayer/HUD" instance=ExtResource("10_tc0r5")]
+unique_name_in_owner = true
+layout_mode = 1
+offset_left = 308.0
+offset_right = 788.0
+
+[node name="CameraPanel" parent="CanvasLayer/HUD" instance=ExtResource("11_3ft6e")]
+unique_name_in_owner = true
+layout_mode = 1
+offset_left = 310.0
+offset_right = 790.0
+
+[node name="HotkeyPanel" type="PanelContainer" parent="CanvasLayer/HUD"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 253.0
+offset_right = 269.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[connection signal="parameters_updated" from="TrackerSystem" to="ModelManager" method="_on_tracker_system_parameters_updated"]
+[connection signal="parameters_updated" from="TrackerSystem" to="CanvasLayer/HUD/ParameterPanel" method="_on_tracker_system_parameters_updated"]
+[connection signal="parameters_updated" from="TrackerSystem" to="CanvasLayer/HUD/CameraPanel" method="_on_tracker_system_parameters_updated"]
+[connection signal="tracker_changed" from="TrackerSystem" to="CanvasLayer/HUD/CameraPanel" method="_on_tracker_system_tracker_changed"]
+[connection signal="list_updated" from="ModelManager" to="CanvasLayer/HUD/ModelPanel" method="_on_model_manager_list_updated"]
+[connection signal="model_changed" from="ModelManager" to="." method="_on_model_changed"]
+[connection signal="model_changed" from="ModelManager" to="CanvasLayer/HUD" method="_on_model_manager_model_changed"]
+[connection signal="model_changed" from="ModelManager" to="CanvasLayer/HUD/ParameterPanel" method="_on_model_manager_model_changed"]

@@ -1,0 +1,90 @@
+[gd_scene load_steps=2 format=3 uid="uid://crwh7f50woqgu"]
+
+[ext_resource type="Script" path="res://studio/ui/camera_panel/camera_panel.gd" id="1_qt06k"]
+
+[node name="CameraPanel" type="PanelContainer"]
+custom_minimum_size = Vector2(480, 0)
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -288.0
+grow_horizontal = 0
+grow_vertical = 2
+script = ExtResource("1_qt06k")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 2
+vertical_scroll_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PanelContainer2" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"SubPanelContainer"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer2"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "Transparent Background"
+
+[node name="TransparencyToggle" type="CheckButton" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "Preview Background Color"
+
+[node name="PreviewBackgroundColor" type="ColorPickerButton" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+edit_alpha = false
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"SubPanelContainer"
+
+[node name="Tracking" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/PanelContainer/Tracking"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "Face Tracking Source"
+
+[node name="TrackingSource" type="OptionButton" parent="ScrollContainer/VBoxContainer/PanelContainer/Tracking"]
+unique_name_in_owner = true
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "OpenSeeFace"
+popup/item_1/text = "VTubeStudio (iOS/Android)"
+popup/item_1/id = 1
+
+[node name="Config" type="Control" parent="ScrollContainer/VBoxContainer/PanelContainer/Tracking"]
+layout_mode = 2
+
+[node name="PanelContainer3" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"SubPanelContainer"
+
+[node name="ParameterList" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer3"]
+unique_name_in_owner = true
+layout_mode = 2

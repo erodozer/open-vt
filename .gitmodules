@@ -1,0 +1,6 @@
+[submodule "thirdparty/OpenSeeFace"]
+	path = thirdparty/OpenSeeFace
+	url = https://github.com/erodozer/OpenSeeFace.git
+[submodule "thirdparty/gd_cubism"]
+	path = thirdparty/gd_cubism
+	url = https://github.com/MizunagiKB/gd_cubism
