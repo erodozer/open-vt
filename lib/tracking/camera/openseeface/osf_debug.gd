@@ -3,7 +3,6 @@ extends Control
 const OpenSeeData = preload("./osf_data.gd")
 
 @export var mirror = false
-@onready var fps_counter = %FpsCounter
 
 var mat: BaseMaterial3D
 var mesh: ImmediateMesh

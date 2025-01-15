@@ -5,13 +5,15 @@ var peer: PacketPeerUDP
 
 func start():
 	if server != null and server.is_listening():
-		return
+		return false
 	
 	server = UDPServer.new()
 	var err = server.listen(port)
 	if err != OK:
-		return
+		push_error("could not open udp server")
+		return false
 	connection_status.emit(ConnectionStatus.WAIT)
+	return true
 	
 func stop():
 	if server == null or not server.is_listening():
@@ -21,12 +23,15 @@ func stop():
 	server.stop()
 	
 	connection_status.emit(ConnectionStatus.OFF)
+	
+	server = null
 
 func _listen():
 	if server == null:
 		return
 		
 	if server != null and not server.is_listening():
+		server = null
 		return
 		
 	server.poll()

@@ -1,4 +1,4 @@
-extends Node
+extends RefCounted
 
 const utils = preload("res://lib/utils.gd")
 const BufferedReader = preload("./buffered_reader.gd")

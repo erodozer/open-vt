@@ -56,7 +56,8 @@ func _update_data(data):
 
 	var now = Time.get_ticks_msec()
 	# estimate avg sample rate
-	fps_sample.push(1.0 / (now - last_update))
+	var delta = 1.0 / ((now - last_update) / 1000.0)
+	fps_sample.push(delta)
 	fps = 0
 	for i in fps_sample.values():
 		fps = (fps + i) / 2

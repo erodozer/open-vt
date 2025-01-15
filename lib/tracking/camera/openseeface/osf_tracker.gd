@@ -25,7 +25,9 @@ func start():
 	if osf_pid > 0:
 		return
 	
-	super.start()
+	var opened = super.start()
+	if not opened:
+		return
 	
 	var executable
 	if OS.has_feature("linux"):
