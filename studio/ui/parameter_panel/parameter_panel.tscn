@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dpw8au0ueatrg"]
+[gd_scene load_steps=6 format=3 uid="uid://dpw8au0ueatrg"]
 
 [ext_resource type="Script" path="res://studio/ui/parameter_panel/parameter_panel.gd" id="1_5864b"]
+[ext_resource type="Texture2D" uid="uid://d1kej52kqrg0g" path="res://studio/ui/icons/eraser.svg" id="2_4qkrp"]
 [ext_resource type="PackedScene" uid="uid://btuev1y2eb6se" path="res://studio/ui/parameter_panel/parameter_setting.tscn" id="2_loemu"]
 [ext_resource type="Texture2D" uid="uid://d0oc7kwqufoqr" path="res://studio/ui/icons/circle-plus.svg" id="3_6caqy"]
 [ext_resource type="Theme" uid="uid://bwesfr5en0lxv" path="res://studio/ui/ui_theme.tres" id="4_5l1qi"]
@@ -58,7 +59,10 @@ text = "Save Transform"
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Transformation"
 
@@ -70,6 +74,7 @@ theme_override_constants/margin_left = 16
 layout_mode = 2
 
 [node name="Position" type="HBoxContainer" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position"]
@@ -97,7 +102,14 @@ custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 text = "Y"
 
+[node name="Erase" type="Button" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+icon = ExtResource("2_4qkrp")
+expand_icon = true
+
 [node name="Scale" type="HBoxContainer" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale"]
@@ -126,7 +138,14 @@ custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 text = "Y"
 
+[node name="Erase" type="Button" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+icon = ExtResource("2_4qkrp")
+expand_icon = true
+
 [node name="Rotation" type="HBoxContainer" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation"]
@@ -134,7 +153,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Rotation"
 
-[node name="XValue" type="SpinBox" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation"]
+[node name="Value" type="SpinBox" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation"]
 layout_mode = 2
 step = 0.01
 editable = false
@@ -143,6 +162,12 @@ editable = false
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 text = "°"
+
+[node name="Erase" type="Button" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+icon = ExtResource("2_4qkrp")
+expand_icon = true
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer"]
 layout_mode = 2
@@ -329,3 +354,6 @@ size_flags_vertical = 3
 theme_type_variation = &"VBoxList"
 
 [connection signal="item_selected" from="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/TextureFilter" to="." method="_on_texture_filter_item_selected"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position/Erase" to="." method="_on_erase_position_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale/Erase" to="." method="_on_erase_scale_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation/Erase" to="." method="_on_erase_rotate_pressed"]

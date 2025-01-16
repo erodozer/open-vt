@@ -1,12 +1,14 @@
 # System for loading models from VTubeStudio's format
 # and spawning them into the scene to be managed
-extends Node
+extends Node2D
 
+const utils = preload("res://lib/utils.gd")
 const ParameterSetting = preload("res://lib/tracking/parameter_setting.gd")
+const Draggable = preload("res://lib/draggable.gd")
 const ModelMeta = preload("./metadata.gd")
 
-@onready var live2d_model: GDCubismUserModel = $GDCubismUserModel
-@onready var renderer: TextureRect = $Model
+@onready var drag: Draggable = %Drag
+@onready var live2d_model = %GDCubismUserModel
 var model: ModelMeta
 
 var parameters_l2d: Array
@@ -14,7 +16,16 @@ var model_parameters: Dictionary
 var filter: CanvasItem.TextureFilter :
 	set(v):
 		filter = v
-		renderer.texture_filter = filter
+		live2d_model.texture_filter = filter
+		if filter == CanvasItem.TextureFilter.TEXTURE_FILTER_NEAREST:
+			live2d_model.shader_add = preload("res://addons/gd_cubism/res/nearest_shader/2d_cubism_norm_add.gdshader")
+			live2d_model.shader_mix = preload("res://addons/gd_cubism/res/nearest_shader/2d_cubism_norm_mix.gdshader")
+			live2d_model.shader_mul = preload("res://addons/gd_cubism/res/nearest_shader/2d_cubism_norm_mul.gdshader")
+		else:
+			live2d_model.shader_add = preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_add.gdshader")
+			live2d_model.shader_mix = preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_mix.gdshader")
+			live2d_model.shader_mul = preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_mul.gdshader")
+			
 var parameters: Array :
 	get():
 		return %Parameters.get_children()
@@ -23,8 +34,16 @@ func is_bound(parameter: GDCubismParameter) -> bool:
 	return has_node(parameter.id)
 
 func _ready():
+	var placeholder = live2d_model
+	
+	live2d_model = GDCubismUserModel.new()
 	live2d_model.assets = model.model
-	live2d_model.size = live2d_model.get_canvas_info().size_in_pixels
+	placeholder.replace_by(live2d_model)
+	placeholder.queue_free()
+	
+	var canvas_info = live2d_model.get_canvas_info()
+	# drag.size = live2d_model.get_canvas_info().size_in_pixels
+	%Model.position = -live2d_model.get_canvas_info().origin_in_pixels
 	
 	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(model.studio_parameters))
 	var model_data = JSON.parse_string(FileAccess.get_file_as_string(model.model))
@@ -45,7 +64,14 @@ func _ready():
 			%Parameters.add_child(p)
 		if tracking != null:
 			tracking.parameters_updated.connect(p.update)
-
+			
+	var transform = vtube_data.get("SavedModelPosition", {})
+	position = utils.vts_to_world(Vector2(transform.get("Position", {}).get("x", 0.0), transform.get("Position", {}).get("y", 0.0)))
+	scale = Vector2(transform.get("Scale", {}).get("x", 0.0), transform.get("Scale", {}).get("y", 0.0))
+	rotation = transform.get("Rotation", {}).get("z", 0.0)
+	
+	await get_tree().process_frame
+	
 func add_parameter():
 	var p = preload("res://lib/tracking/parameter_setting.gd").new()
 	%Parameters.add_child(p)

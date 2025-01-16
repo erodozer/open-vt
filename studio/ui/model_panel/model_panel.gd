@@ -4,7 +4,14 @@ const ModelManager = preload("res://lib/model_manager.gd")
 
 @onready var list = %ModelList
 
+func _refresh():
+	var mm = get_tree().get_first_node_in_group("system:model") as ModelManager
+	mm.refresh_models()
+	
 func _on_model_manager_list_updated(models: Array) -> void:
+	for f in list.get_children():
+		f.queue_free()
+	
 	for i in models:
 		var btn = Button.new()
 		btn.set_meta("model", i)

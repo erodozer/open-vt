@@ -51,6 +51,9 @@ func refresh_models():
 	list_updated.emit(model_cache.values())
 
 func activate_model(model):
+	if model not in model_cache:
+		return
+	
 	var data = model_cache[model]
 	
 	var new_model: VtModel = preload("res://lib/model/vt_model.tscn").instantiate()
@@ -66,4 +69,11 @@ func activate_model(model):
 		CONNECT_ONE_SHOT
 	)
 	add_child(new_model)
+	
+func load_settings(data):
+	if "active_model" in data:
+		activate_model(data["active_model"])
+	
+func save_settings(data):
+	data["active_model"] = active_model.model.id
 	

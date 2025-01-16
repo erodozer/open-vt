@@ -4,6 +4,9 @@ const Tracker = preload("res://lib/tracking/tracker.gd")
 const TrackingSystem = preload("res://lib/tracking_system.gd")
 const TrackingInputs = preload("res://lib/tracking/tracker.gd").Inputs
 
+signal toggle_bg_transparency(enabled: bool)
+signal update_bg_color(color: Color)
+
 func _ready() -> void:
 	for i in TrackingInputs:
 		var box = HBoxContainer.new()
@@ -37,3 +40,10 @@ func _on_tracker_system_parameters_updated(parameters: Dictionary) -> void:
 		return
 	for i in TrackingInputs:
 		%ParameterList.get_child(TrackingInputs[i]).get_node("Value").text = "%.02f" % parameters.get(TrackingInputs[i], 0)
+
+
+func _on_preview_background_color_color_changed(color: Color) -> void:
+	update_bg_color.emit(color)
+
+func _on_transparency_toggle_toggled(toggled_on: bool) -> void:
+	toggle_bg_transparency.emit(toggled_on)

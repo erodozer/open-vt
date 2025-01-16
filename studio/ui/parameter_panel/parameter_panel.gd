@@ -24,8 +24,23 @@ func _on_model_manager_model_changed(_model: VtModel) -> void:
 		control.get_node("%OutputSelect").pressed.connect(_popup_output_select.bind(parameter_data))
 		list.add_child(control)
 		
+	# _model.renderer.transform_updated.connect(_update_transform)
+		
 	_build_output_parameter_list(_model)
+	_update_transform(model.position, model.scale, model.rotation)
 	
+func _update_transform(pos, scl, rot):
+	%Position/XValue.min_value = int(-get_viewport_rect().size.x)
+	%Position/XValue.max_value = int(get_viewport_rect().size.x * 2)
+	%Position/YValue.min_value = int(-get_viewport_rect().size.y)
+	%Position/YValue.max_value = int(get_viewport_rect().size.y * 2)
+	
+	%Position/XValue.value = pos.x
+	%Position/YValue.value = pos.y
+	%Scale/XValue.value = scl.x
+	%Scale/YValue.value = scl.y
+	%Rotation/Value.value = rot
+			
 func _build_input_parameter_list():
 	for c in %InputParameterList.get_children():
 		c.queue_free()
@@ -109,3 +124,16 @@ func _on_texture_filter_item_selected(index: int) -> void:
 			model.filter = CanvasItem.TextureFilter.TEXTURE_FILTER_NEAREST
 		_:
 			model.filter = CanvasItem.TextureFilter.TEXTURE_FILTER_LINEAR
+
+
+func _on_erase_position_pressed() -> void:
+	model.position = Vector2.ZERO
+	_update_transform(model.position, model.scale, model.rotation)
+	
+func _on_erase_scale_pressed() -> void:
+	model.scale = Vector2.ONE
+	_update_transform(model.position, model.scale, model.rotation)
+
+func _on_erase_rotate_pressed() -> void:
+	model.rotation = 0
+	_update_transform(model.position, model.scale, model.rotation)

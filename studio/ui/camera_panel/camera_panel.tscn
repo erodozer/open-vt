@@ -88,3 +88,6 @@ theme_type_variation = &"SubPanelContainer"
 [node name="ParameterList" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer3"]
 unique_name_in_owner = true
 layout_mode = 2
+
+[connection signal="toggled" from="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer2/TransparencyToggle" to="." method="_on_transparency_toggle_toggled"]
+[connection signal="color_changed" from="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer/PreviewBackgroundColor" to="." method="_on_preview_background_color_color_changed"]

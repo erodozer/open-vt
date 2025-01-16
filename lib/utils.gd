@@ -36,3 +36,15 @@ class RingBuffer:
 		
 	func values() -> Array:
 		return _backing
+
+const VTS_VIEWPORT = Vector2(1280, 720)
+const VTS_ASPECT = VTS_VIEWPORT.y / VTS_VIEWPORT.x
+const VTS_WORLD = Vector2(100, -100) # vts appears to have a world that's 100 wide in each direction, unity's coordinates are Y flipped
+
+static func world_to_vts(v: Vector2):
+	pass
+
+static func vts_to_world(v: Vector2):
+	var xy = v / VTS_WORLD - Vector2(0.5, 0.5)
+	
+	return Vector2(xy)

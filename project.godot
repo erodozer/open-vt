@@ -13,6 +13,7 @@ config_version=5
 config/name="open-vt"
 run/main_scene="res://main.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
+run/max_fps=60
 config/icon="res://icon.svg"
 
 [audio]
@@ -36,6 +37,7 @@ enabled=PackedStringArray("res://addons/gd_cubism/plugin.cfg")
 
 system:tracking=""
 system:model=""
+persist="Accesses and Stores state within application config"
 
 [importer_defaults]
 
@@ -47,4 +49,3 @@ gd_cubism.model={
 [rendering]
 
 environment/defaults/default_clear_color=Color(0.301961, 0.301961, 0.301961, 0)
-viewport/transparent_background=true
