@@ -7,7 +7,7 @@ const ParameterSetting = preload("res://lib/tracking/parameter_setting.gd")
 const Draggable = preload("res://lib/draggable.gd")
 const ModelMeta = preload("./metadata.gd")
 
-@onready var drag: Draggable = %Drag
+@onready var drag: Draggable = %Model
 @onready var live2d_model = %GDCubismUserModel
 var model: ModelMeta
 
@@ -44,6 +44,7 @@ func _ready():
 	var canvas_info = live2d_model.get_canvas_info()
 	# drag.size = live2d_model.get_canvas_info().size_in_pixels
 	%Model.position = -live2d_model.get_canvas_info().origin_in_pixels
+	%Model.texture = live2d_model.get_texture()
 	
 	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(model.studio_parameters))
 	var model_data = JSON.parse_string(FileAccess.get_file_as_string(model.model))

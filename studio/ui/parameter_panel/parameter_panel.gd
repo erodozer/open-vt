@@ -4,7 +4,8 @@ const VtModel = preload("res://lib/model/vt_model.gd")
 const TrackingInput = preload("res://lib/tracking/tracker.gd").Inputs
 const ParameterSetting = preload("res://lib/tracking/parameter_setting.gd")
 
-@onready var list = %ParameterList
+@onready var list = get_node("%ParameterList")
+@onready var colors = get_node("%Color Settings")
 var model: VtModel
 
 signal parameter_selected(value)
@@ -15,6 +16,8 @@ func _ready():
 func _on_model_manager_model_changed(_model: VtModel) -> void:
 	for c in list.get_children():
 		c.queue_free()
+	for c in colors.get_children():
+		c.queue_free()
 
 	for parameter_data in _model.parameters:
 		var control = preload("./parameter_setting.tscn").instantiate()
@@ -24,6 +27,15 @@ func _on_model_manager_model_changed(_model: VtModel) -> void:
 		control.get_node("%OutputSelect").pressed.connect(_popup_output_select.bind(parameter_data))
 		list.add_child(control)
 		
+	for mesh in _model.live2d_model.get_meshes().values():
+		var control = preload("./color_setting.tscn").instantiate()
+		control.get_node("%PartName").text = mesh.name
+		control.get_node("%Color").color = mesh.modulate
+		control.get_node("%Color").color_changed.connect(
+			func (color):
+				mesh.modulate = color
+		)
+		colors.add_child(control)
 	# _model.renderer.transform_updated.connect(_update_transform)
 		
 	_build_output_parameter_list(_model)

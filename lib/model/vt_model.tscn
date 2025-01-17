@@ -1,23 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://bkm4lgw38g4di"]
+[gd_scene load_steps=3 format=3 uid="uid://bkm4lgw38g4di"]
 
 [ext_resource type="Script" path="res://lib/model/vt_model.gd" id="1_bvpwh"]
+[ext_resource type="Script" path="res://lib/draggable.gd" id="2_ribot"]
 
 [node name="VtModel" type="Node2D"]
 script = ExtResource("1_bvpwh")
 
+[node name="GDCubismUserModel" type="SubViewport" parent="."]
+unique_name_in_owner = true
+handle_input_locally = false
+render_target_update_mode = 4
+
 [node name="Parameters" type="Node" parent="."]
 unique_name_in_owner = true
 
-[node name="Model" type="SubViewportContainer" parent="."]
+[node name="Model" type="TextureRect" parent="."]
 unique_name_in_owner = true
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="GDCubismUserModel" type="SubViewport" parent="Model"]
-unique_name_in_owner = true
-
-[node name="Drag" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 512.0
+offset_bottom = 512.0
+script = ExtResource("2_ribot")

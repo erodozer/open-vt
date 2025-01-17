@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://dpw8au0ueatrg"]
+[gd_scene load_steps=7 format=3 uid="uid://dpw8au0ueatrg"]
 
 [ext_resource type="Script" path="res://studio/ui/parameter_panel/parameter_panel.gd" id="1_5864b"]
 [ext_resource type="Texture2D" uid="uid://d1kej52kqrg0g" path="res://studio/ui/icons/eraser.svg" id="2_4qkrp"]
+[ext_resource type="Script" path="res://studio/ui/accordion/accordion.gd" id="2_57r6x"]
 [ext_resource type="PackedScene" uid="uid://btuev1y2eb6se" path="res://studio/ui/parameter_panel/parameter_setting.tscn" id="2_loemu"]
 [ext_resource type="Texture2D" uid="uid://d0oc7kwqufoqr" path="res://studio/ui/icons/circle-plus.svg" id="3_6caqy"]
 [ext_resource type="Theme" uid="uid://bwesfr5en0lxv" path="res://studio/ui/ui_theme.tres" id="4_5l1qi"]
@@ -19,30 +20,28 @@ layout_mode = 2
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="ScrollContainer"]
+[node name="Accordion" type="VBoxContainer" parent="ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("2_57r6x")
 
-[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer2"]
-layout_mode = 2
-text = "Model Settings"
-
-[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer2"]
+[node name="Model Settings" type="PanelContainer" parent="ScrollContainer/Accordion"]
 layout_mode = 2
 theme_type_variation = &"SubPanelContainer"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer2/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/Accordion/Model Settings"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Filter Mode"
 
-[node name="TextureFilter" type="OptionButton" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="TextureFilter" type="OptionButton" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 selected = 0
@@ -51,199 +50,203 @@ popup/item_0/text = "Nearest Neighbor"
 popup/item_1/text = "Bilinear"
 popup/item_1/id = 1
 
-[node name="PreserveTransform" type="CheckButton" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer"]
+[node name="PreserveTransform" type="CheckButton" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Save Transform"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Transformation"
 
-[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Position" type="HBoxContainer" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="Position" type="HBoxContainer" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position"]
+[node name="Label" type="Label" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Position"
 
-[node name="XValue" type="SpinBox" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position"]
+[node name="XValue" type="SpinBox" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position"]
 layout_mode = 2
 step = 0.01
 editable = false
 
-[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position"]
+[node name="Label2" type="Label" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position"]
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 text = "X"
 
-[node name="YValue" type="SpinBox" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position"]
+[node name="YValue" type="SpinBox" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position"]
 layout_mode = 2
 step = 0.01
 editable = false
 
-[node name="Label3" type="Label" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position"]
+[node name="Label3" type="Label" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position"]
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 text = "Y"
 
-[node name="Erase" type="Button" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position"]
+[node name="Erase" type="Button" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 icon = ExtResource("2_4qkrp")
 expand_icon = true
 
-[node name="Scale" type="HBoxContainer" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="Scale" type="HBoxContainer" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale"]
+[node name="Label" type="Label" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Scale
 "
 
-[node name="XValue" type="SpinBox" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale"]
+[node name="XValue" type="SpinBox" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale"]
 layout_mode = 2
 step = 0.01
 editable = false
 
-[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale"]
+[node name="Label2" type="Label" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale"]
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 text = "X"
 
-[node name="YValue" type="SpinBox" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale"]
+[node name="YValue" type="SpinBox" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale"]
 layout_mode = 2
 step = 0.01
 editable = false
 
-[node name="Label3" type="Label" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale"]
+[node name="Label3" type="Label" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale"]
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 text = "Y"
 
-[node name="Erase" type="Button" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale"]
+[node name="Erase" type="Button" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 icon = ExtResource("2_4qkrp")
 expand_icon = true
 
-[node name="Rotation" type="HBoxContainer" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="Rotation" type="HBoxContainer" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation"]
+[node name="Label" type="Label" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Rotation"
 
-[node name="Value" type="SpinBox" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation"]
+[node name="Value" type="SpinBox" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation"]
 layout_mode = 2
 step = 0.01
 editable = false
 
-[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation"]
+[node name="Label2" type="Label" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation"]
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 text = "°"
 
-[node name="Erase" type="Button" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation"]
+[node name="Erase" type="Button" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 icon = ExtResource("2_4qkrp")
 expand_icon = true
 
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer"]
 layout_mode = 2
 text = "Movement Controls"
 
-[node name="MovementControls" type="VBoxContainer" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer"]
+[node name="MovementControls" type="VBoxContainer" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer"]
 layout_mode = 2
 
-[node name="AxisX" type="HBoxContainer" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/MovementControls"]
+[node name="AxisX" type="HBoxContainer" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/MovementControls"]
 layout_mode = 2
 
-[node name="Toggle" type="Button" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/MovementControls/AxisX"]
+[node name="Toggle" type="Button" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/MovementControls/AxisX"]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 toggle_mode = true
 button_pressed = true
 text = "X"
 
-[node name="HSlider" type="HSlider" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/MovementControls/AxisX"]
+[node name="HSlider" type="HSlider" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/MovementControls/AxisX"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 min_value = -10.0
 max_value = 10.0
 
-[node name="AxisY" type="HBoxContainer" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/MovementControls"]
+[node name="AxisY" type="HBoxContainer" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/MovementControls"]
 layout_mode = 2
 
-[node name="Toggle" type="Button" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/MovementControls/AxisY"]
+[node name="Toggle" type="Button" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/MovementControls/AxisY"]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 toggle_mode = true
 button_pressed = true
 text = "Y"
 
-[node name="HSlider" type="HSlider" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/MovementControls/AxisY"]
+[node name="HSlider" type="HSlider" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/MovementControls/AxisY"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 min_value = -10.0
 max_value = 10.0
 
-[node name="AxisZ" type="HBoxContainer" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/MovementControls"]
+[node name="AxisZ" type="HBoxContainer" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/MovementControls"]
 layout_mode = 2
 
-[node name="Toggle" type="Button" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/MovementControls/AxisZ"]
+[node name="Toggle" type="Button" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/MovementControls/AxisZ"]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 toggle_mode = true
 button_pressed = true
 text = "Z"
 
-[node name="HSlider" type="HSlider" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/MovementControls/AxisZ"]
+[node name="HSlider" type="HSlider" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/MovementControls/AxisZ"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 min_value = -10.0
 max_value = 10.0
 
-[node name="CheckButton" type="CheckButton" parent="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/MovementControls"]
+[node name="CheckButton" type="CheckButton" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/MovementControls"]
 layout_mode = 2
 text = "Activate"
 
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer2"]
+[node name="Color Settings" type="VBoxContainer" parent="ScrollContainer/Accordion"]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
-text = "Parameters"
 
-[node name="ParameterList" type="VBoxContainer" parent="ScrollContainer/VBoxContainer2"]
+[node name="Parameters" type="VBoxContainer" parent="ScrollContainer/Accordion"]
+layout_mode = 2
+
+[node name="ParameterList" type="VBoxContainer" parent="ScrollContainer/Accordion/Parameters"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Control" parent="ScrollContainer/VBoxContainer2/ParameterList" instance=ExtResource("2_loemu")]
+[node name="Control" parent="ScrollContainer/Accordion/Parameters/ParameterList" instance=ExtResource("2_loemu")]
 layout_mode = 2
 
-[node name="TextureButton" type="TextureButton" parent="ScrollContainer/VBoxContainer2"]
+[node name="TextureButton" type="TextureButton" parent="ScrollContainer/Accordion/Parameters"]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 texture_normal = ExtResource("3_6caqy")
@@ -353,7 +356,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_type_variation = &"VBoxList"
 
-[connection signal="item_selected" from="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/HBoxContainer/TextureFilter" to="." method="_on_texture_filter_item_selected"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position/Erase" to="." method="_on_erase_position_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale/Erase" to="." method="_on_erase_scale_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer2/PanelContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation/Erase" to="." method="_on_erase_rotate_pressed"]
+[connection signal="item_selected" from="ScrollContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer/TextureFilter" to="." method="_on_texture_filter_item_selected"]
+[connection signal="pressed" from="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position/Erase" to="." method="_on_erase_position_pressed"]
+[connection signal="pressed" from="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale/Erase" to="." method="_on_erase_scale_pressed"]
+[connection signal="pressed" from="ScrollContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation/Erase" to="." method="_on_erase_rotate_pressed"]
