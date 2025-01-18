@@ -38,6 +38,7 @@ enabled=PackedStringArray("res://addons/gd_cubism/plugin.cfg")
 system:tracking=""
 system:model=""
 persist="Accesses and Stores state within application config"
+system:hotkey=""
 
 [importer_defaults]
 

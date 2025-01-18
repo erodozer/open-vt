@@ -6,6 +6,7 @@ const utils = preload("res://lib/utils.gd")
 const ParameterSetting = preload("res://lib/tracking/parameter_setting.gd")
 const Draggable = preload("res://lib/draggable.gd")
 const ModelMeta = preload("./metadata.gd")
+const HotkeyBinding = preload("res://lib/hotkey/binding.gd")
 
 @onready var drag: Draggable = %Model
 @onready var live2d_model = %GDCubismUserModel
@@ -13,6 +14,7 @@ var model: ModelMeta
 
 var parameters_l2d: Array
 var model_parameters: Dictionary
+
 var filter: CanvasItem.TextureFilter :
 	set(v):
 		filter = v
@@ -29,6 +31,10 @@ var filter: CanvasItem.TextureFilter :
 var parameters: Array :
 	get():
 		return %Parameters.get_children()
+		
+var hotkeys: Array :
+	get():
+		return %HotKeys.get_children()
 
 func is_bound(parameter: GDCubismParameter) -> bool:
 	return has_node(parameter.id)
@@ -70,6 +76,31 @@ func _ready():
 	position = utils.vts_to_world(Vector2(transform.get("Position", {}).get("x", 0.0), transform.get("Position", {}).get("y", 0.0)))
 	scale = Vector2(transform.get("Scale", {}).get("x", 0.0), transform.get("Scale", {}).get("y", 0.0))
 	rotation = transform.get("Rotation", {}).get("z", 0.0)
+	
+	for hotkey in vtube_data.get("Hotkeys", []):
+		var binding = HotkeyBinding.new()
+
+		match hotkey.Action:
+			"ToggleExpression":
+				binding.action = HotkeyBinding.Action.TOGGLE_EXPRESSION
+				binding.file = model.studio_parameters.get_base_dir().path_join(hotkey.File)
+			_:
+				continue
+
+		binding.name = hotkey.Name
+		binding.button_1 = hotkey.Triggers.Trigger1
+		binding.button_2 = hotkey.Triggers.Trigger2
+		binding.button_3 = hotkey.Triggers.Trigger3
+		binding.screen_button = hotkey.Triggers.ScreenButton
+		binding.screen_button_color = Color(
+			hotkey.OnScreenHotkeyColor.r,
+			hotkey.OnScreenHotkeyColor.g,
+			hotkey.OnScreenHotkeyColor.b,
+			hotkey.OnScreenHotkeyColor.a
+		)
+		binding.duration = hotkey.FadeSecondsAmount
+		binding.deactivate_on_keyup = hotkey.DeactivateAfterKeyUp
+		%HotKeys.add_child(binding)
 	
 	await get_tree().process_frame
 	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bbh7pj5wq0sii"]
+[gd_scene load_steps=18 format=3 uid="uid://bbh7pj5wq0sii"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_g562h"]
 [ext_resource type="Theme" uid="uid://bwesfr5en0lxv" path="res://studio/ui/ui_theme.tres" id="4_vl1ux"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://dijec4c8prced" path="res://studio/ui/model_panel/model_panel.tscn" id="10_tc0r5"]
 [ext_resource type="PackedScene" uid="uid://crwh7f50woqgu" path="res://studio/ui/camera_panel/camera_panel.tscn" id="11_3ft6e"]
 [ext_resource type="Script" path="res://lib/model_manager.gd" id="12_ufyfb"]
+[ext_resource type="PackedScene" uid="uid://scglt3qchj3j" path="res://studio/ui/hotkey_panel/hotkey_panel.tscn" id="13_f05v4"]
 [ext_resource type="Script" path="res://lib/vts_camera.gd" id="13_qhk4g"]
 
 [sub_resource type="Gradient" id="Gradient_joccq"]
@@ -157,16 +158,14 @@ layout_mode = 1
 offset_left = 310.0
 offset_right = 790.0
 
-[node name="HotkeyPanel" type="PanelContainer" parent="CanvasLayer/HUD"]
+[node name="HotkeyPanel" parent="CanvasLayer/HUD" instance=ExtResource("13_f05v4")]
 layout_mode = 1
 anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 253.0
-offset_right = 269.0
+offset_left = 302.0
+offset_right = 782.0
 grow_horizontal = 0
-grow_vertical = 2
 
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("13_qhk4g")
@@ -179,4 +178,5 @@ script = ExtResource("13_qhk4g")
 [connection signal="model_changed" from="ModelManager" to="." method="_on_model_changed"]
 [connection signal="model_changed" from="ModelManager" to="CanvasLayer/HUD" method="_on_model_manager_model_changed"]
 [connection signal="model_changed" from="ModelManager" to="CanvasLayer/HUD/ParameterPanel" method="_on_model_manager_model_changed"]
+[connection signal="model_changed" from="ModelManager" to="CanvasLayer/HUD/HotkeyPanel" method="_on_model_manager_model_changed"]
 [connection signal="toggle_bg_transparency" from="CanvasLayer/HUD/CameraPanel" to="." method="_on_camera_panel_toggle_bg_transparency"]

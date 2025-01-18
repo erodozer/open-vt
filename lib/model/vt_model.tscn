@@ -14,6 +14,9 @@ render_target_update_mode = 4
 [node name="Parameters" type="Node" parent="."]
 unique_name_in_owner = true
 
+[node name="HotKeys" type="Node" parent="."]
+unique_name_in_owner = true
+
 [node name="Model" type="TextureRect" parent="."]
 unique_name_in_owner = true
 offset_right = 512.0

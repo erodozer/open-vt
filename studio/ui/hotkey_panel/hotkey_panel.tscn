@@ -1,0 +1,134 @@
+[gd_scene load_steps=3 format=3 uid="uid://scglt3qchj3j"]
+
+[ext_resource type="Script" path="res://studio/ui/hotkey_panel/hotkey_panel.gd" id="1_ntnou"]
+[ext_resource type="Theme" uid="uid://bwesfr5en0lxv" path="res://studio/ui/ui_theme.tres" id="2_tupr2"]
+
+[node name="HotkeyPanel" type="PanelContainer"]
+custom_minimum_size = Vector2(480, 0)
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 16.0
+grow_vertical = 2
+script = ExtResource("1_ntnou")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Theme" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_tupr2")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Theme"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.258824)
+
+[node name="ActionPopup" type="Window" parent="CanvasLayer/Theme"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+transparent_bg = true
+title = "Select Output Parameter"
+initial_position = 1
+size = Vector2i(480, 600)
+visible = false
+transient = true
+transient_to_focused = true
+exclusive = true
+unresizable = true
+borderless = true
+transparent = true
+popup_window = true
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Theme/ActionPopup"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Theme/ActionPopup/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Theme/ActionPopup/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Select Action"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Theme/ActionPopup/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ActionList" type="VBoxContainer" parent="CanvasLayer/Theme/ActionPopup/PanelContainer/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_type_variation = &"VBoxList"
+
+[node name="InputParameterPopup" type="Window" parent="CanvasLayer/Theme"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+transparent_bg = true
+title = "Select Output Parameter"
+initial_position = 1
+size = Vector2i(480, 600)
+visible = false
+transient = true
+transient_to_focused = true
+exclusive = true
+unresizable = true
+borderless = true
+transparent = true
+popup_window = true
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Theme/InputParameterPopup"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Theme/InputParameterPopup/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Theme/InputParameterPopup/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Select Parameter"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Theme/InputParameterPopup/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="InputParameterList" type="VBoxContainer" parent="CanvasLayer/Theme/InputParameterPopup/PanelContainer/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_type_variation = &"VBoxList"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_right = 8
+
+[node name="List" type="VBoxContainer" parent="ScrollContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
