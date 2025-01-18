@@ -42,6 +42,7 @@ shadow_size = 2
 shadow_offset = Vector2(0, 4)
 
 [resource]
+MarginContainer/constants/margin_right = 8
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_ghokm")
 Section/base_type = &"PanelContainer"
 Section/styles/panel = SubResource("StyleBoxFlat_nttvt")

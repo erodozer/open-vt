@@ -23,6 +23,10 @@ func _ready():
 	
 	activate_tracker(TrackerType.OPENSEEFACE)
 	
+	for i in Tracker.Inputs:
+		var ord = Tracker.Inputs[i]
+		parameters[ord] = Tracker.Meta.get(ord, {}).get("default", 0)
+	
 func activate_tracker(id: TrackerType) -> Tracker:
 	if has_node("FaceTracker"):
 		var prev = get_node("FaceTracker")

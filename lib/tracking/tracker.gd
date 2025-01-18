@@ -126,6 +126,14 @@ const Meta = {
 	Inputs.EYE_RIGHT_Y: {
 		"range": Vector2(-1, 1),
 	},
+	Inputs.EYE_OPEN_LEFT: {
+		"range": Vector2(0, 1),
+		"default": 1
+	},
+	Inputs.EYE_OPEN_RIGHT: {
+		"range": Vector2(0, 1),
+		"default": 1
+	},
 	Inputs.MOUSE_POSITION_X: {
 		"range": Vector2(-1, 1),
 	},

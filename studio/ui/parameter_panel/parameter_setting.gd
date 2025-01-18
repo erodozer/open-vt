@@ -11,7 +11,7 @@ func _ready() -> void:
 	if parameter == null:
 		return
 	
-	%Name.text = parameter.name
+	%Name.text = parameter.display_name
 	%InputRangeLower.value = parameter.input_range.x
 	%InputRangeUpper.value = parameter.input_range.y
 	%InputLevel.min_value = %InputRangeLower.value

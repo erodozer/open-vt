@@ -57,6 +57,9 @@ var minimized: bool = false
 signal changed(field, old_value, new_value)
 
 func value(input: float) -> float:
+	if input_parameter == TrackingInput.UNSET:
+		return output_range.x
+	
 	return lerp(
 		output_range.x, output_range.y,
 		inverse_lerp(
@@ -66,7 +69,7 @@ func value(input: float) -> float:
 
 func update(tracking_data: Dictionary):
 	# skip paramters that haven't been fully configured
-	if output_parameter == null or input_parameter == null or model_parameter == null:
+	if output_parameter == null or model_parameter == null:
 		return
 	# skip parameters that we do not yet support binding to
 	var raw_value = tracking_data.get(input_parameter, 0)

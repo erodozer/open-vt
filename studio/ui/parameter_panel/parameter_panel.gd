@@ -93,9 +93,10 @@ func _build_output_parameter_list(_model: VtModel):
 
 func _popup_output_select(parameter: ParameterSetting):
 	%Modal.show()
+	%OutputParameterPopup.set_meta("previous_value", parameter.output_parameter)
 	%OutputParameterPopup.show()
 	
-	var model_parameter = await parameter_selected as GDCubismParameter
+	var model_parameter = await parameter_selected
 	
 	%OutputParameterPopup.hide()
 	%Modal.hide()
@@ -111,12 +112,16 @@ func _popup_output_select(parameter: ParameterSetting):
 
 func _popup_input_select(parameter: ParameterSetting):
 	%Modal.show()
+	%InputParameterPopup.set_meta("previous_value", parameter.input_parameter)
 	%InputParameterPopup.show()
 	
-	var input_parameter = await parameter_selected as TrackingInput
+	var input_parameter = await parameter_selected
 	
 	%InputParameterPopup.hide()
 	%Modal.hide()
+	
+	if input_parameter == null:
+		return
 	
 	parameter.input_parameter = input_parameter
 
@@ -127,8 +132,9 @@ func _on_tracker_system_parameters_updated(parameters: Dictionary) -> void:
 		if p.parameter == null:
 			continue
 		var input = parameters.get(p.parameter.input_parameter, 0)
+		var output = p.parameter.value(input)
 		p.get_node("%InputLevel").value = input
-		p.get_node("%OutputLevel").value = p.parameter.value(input)
+		p.get_node("%OutputLevel").value = output
 
 func _on_texture_filter_item_selected(index: int) -> void:
 	match index:
@@ -149,3 +155,11 @@ func _on_erase_scale_pressed() -> void:
 func _on_erase_rotate_pressed() -> void:
 	model.rotation = 0
 	_update_transform(model.position, model.scale, model.rotation)
+
+func _on_input_parameter_popup_close_requested() -> void:
+	var prev = %InputParameterPopup.get_meta("previous_value", null)
+	parameter_selected.emit(prev)
+
+func _on_output_parameter_popup_close_requested() -> void:
+	var prev = %OutputParameterPopup.get_meta("previous_value", null)
+	parameter_selected.emit(prev)
