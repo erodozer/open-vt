@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://hpg52fgw7kdc"]
+
+[ext_resource type="Script" path="res://studio/ui/hotkey_panel/input_rec_popup.gd" id="1_px4rr"]
+
+[node name="InputRecPopup" type="Window"]
+auto_translate_mode = 1
+transparent_bg = true
+title = "Press Button"
+initial_position = 1
+size = Vector2i(480, 100)
+transient = true
+transient_to_focused = true
+exclusive = true
+unresizable = true
+transparent = true
+popup_window = true
+script = ExtResource("1_px4rr")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="PressedInput" type="LineEdit" parent="PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Waiting for Input..."
+
+[node name="Label2" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Press ESCAPE to clear binding"
+horizontal_alignment = 1
