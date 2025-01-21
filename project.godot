@@ -20,6 +20,10 @@ config/icon="res://icon.svg"
 
 driver/enable_input=true
 
+[autoload]
+
+GlobalInput="*res://addons/keylogger/keylogger.tscn"
+
 [display]
 
 window/size/viewport_width=1280
@@ -31,7 +35,7 @@ window/per_pixel_transparency/allowed=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/gd_cubism/plugin.cfg")
+enabled=PackedStringArray("res://addons/keylogger/plugin.cfg")
 
 [global_group]
 

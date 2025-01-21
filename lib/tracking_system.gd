@@ -26,6 +26,7 @@ func _ready():
 	for i in Tracker.Inputs:
 		var ord = Tracker.Inputs[i]
 		parameters[ord] = Tracker.Meta.get(ord, {}).get("default", 0)
+	parameters.erase(Tracker.Inputs.UNSET)
 	
 func activate_tracker(id: TrackerType) -> Tracker:
 	if has_node("FaceTracker"):

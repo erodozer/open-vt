@@ -132,9 +132,14 @@ func _on_tracker_system_parameters_updated(parameters: Dictionary) -> void:
 		if p.parameter == null:
 			continue
 		var input = parameters.get(p.parameter.input_parameter, 0)
-		var output = p.parameter.value(input)
+		var output = p.parameter.scale_value(input)
 		p.get_node("%InputLevel").value = input
-		p.get_node("%OutputLevel").value = output
+		
+func _process(delta: float) -> void:
+	for p in list.get_children():
+		if p.parameter.model_parameter == null:
+			continue
+		p.get_node("%OutputLevel").value = p.parameter.model_parameter.value
 
 func _on_texture_filter_item_selected(index: int) -> void:
 	match index:

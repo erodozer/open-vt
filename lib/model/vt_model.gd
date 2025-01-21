@@ -6,6 +6,7 @@ const utils = preload("res://lib/utils.gd")
 const ParameterSetting = preload("res://lib/tracking/parameter_setting.gd")
 const Draggable = preload("res://lib/draggable.gd")
 const ModelMeta = preload("./metadata.gd")
+const ModelExpression = preload("res://lib/model/expression.gd")
 const HotkeyBinding = preload("res://lib/hotkey/binding.gd")
 
 @onready var drag: Draggable = %Model
@@ -35,6 +36,11 @@ var parameters: Array :
 var hotkeys: Array :
 	get():
 		return %HotKeys.get_children()
+		
+var motions: Dictionary = {}
+
+var expressions: Dictionary = {}
+var active_expressions: Dictionary = {}
 
 func is_bound(parameter: GDCubismParameter) -> bool:
 	return has_node(parameter.id)
@@ -43,7 +49,10 @@ func _ready():
 	var placeholder = live2d_model
 	
 	live2d_model = GDCubismUserModel.new()
+	live2d_model.load_expressions = true
+	live2d_model.load_motions = true
 	live2d_model.assets = model.model
+	live2d_model.name = "GDCubismUserModel"
 	placeholder.replace_by(live2d_model)
 	placeholder.queue_free()
 	
@@ -83,7 +92,7 @@ func _ready():
 		match hotkey.Action:
 			"ToggleExpression":
 				binding.action = HotkeyBinding.Action.TOGGLE_EXPRESSION
-				binding.file = model.studio_parameters.get_base_dir().path_join(hotkey.File)
+				binding.file = hotkey.File
 			_:
 				continue
 
@@ -100,10 +109,48 @@ func _ready():
 		)
 		binding.duration = hotkey.FadeSecondsAmount
 		binding.deactivate_on_keyup = hotkey.DeactivateAfterKeyUp
+		binding.activate.connect(self.activate_hotkey.bind(binding))
+		binding.deactivate.connect(self.deactivate_hotkey.bind(binding))
 		%HotKeys.add_child(binding)
+	
+	for e in model.expressions:
+		expressions[e.name] = e;
+		active_expressions[e] = false
 	
 	await get_tree().process_frame
 	
 func add_parameter():
 	var p = preload("res://lib/tracking/parameter_setting.gd").new()
 	%Parameters.add_child(p)
+
+func activate_hotkey(binding: HotkeyBinding):
+	if binding.action == HotkeyBinding.Action.TOGGLE_EXPRESSION:
+		var exp = expressions[binding.file]
+		toggle_expression(exp, true, binding.duration)
+
+func deactivate_hotkey(binding: HotkeyBinding):
+	if binding.action == HotkeyBinding.Action.TOGGLE_EXPRESSION:
+		var exp = expressions[binding.file]
+		toggle_expression(exp, false, binding.duration)
+
+func toggle_expression(expression: ModelExpression, activate: bool = true, duration: float = 1.0):
+	if active_expressions[expression] == activate:
+		return
+	
+	if activate:
+		print("applying expression: %s" % expression.name)
+	else:
+		print("removing expression: %s" % expression.name)
+	
+	active_expressions[expression] = activate
+	
+	var t = create_tween()
+	for id in expression.parameters:
+		var mut = expression.parameters[id]
+		var p = %Parameters.get_node(id)
+		var pt = t.parallel().tween_property(
+			p, "value", mut.value if activate else -mut.value, duration
+		)
+		if mut.blend == ModelExpression.BlendMode.ADD:
+			pt.from_current()
+	

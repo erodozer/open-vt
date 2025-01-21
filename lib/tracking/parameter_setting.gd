@@ -32,6 +32,7 @@ var model_parameter: GDCubismParameter :
 		changed.emit("model_parameter", old, v)
 		if v != null:
 			self.output_parameter = model_parameter.id
+			self.value = model_parameter.default_value
 		else:
 			self.output_parameter = ""
 	
@@ -54,12 +55,11 @@ var blink: bool = false
 @export_range(0, 100) var smoothing: int = 15
 var minimized: bool = false
 
+var value: float = 0
+
 signal changed(field, old_value, new_value)
 
-func value(input: float) -> float:
-	if input_parameter == TrackingInput.UNSET:
-		return output_range.x
-	
+func scale_value(input: float) -> float:
 	return lerp(
 		output_range.x, output_range.y,
 		inverse_lerp(
@@ -72,12 +72,15 @@ func update(tracking_data: Dictionary):
 	if output_parameter == null or model_parameter == null:
 		return
 	# skip parameters that we do not yet support binding to
-	var raw_value = tracking_data.get(input_parameter, 0)
-	var adj_value = value(raw_value)
-	model_parameter.value = adj_value
+	if input_parameter in tracking_data:
+		var raw_value = tracking_data[input_parameter]
+		self.value = scale_value(raw_value)
 
 func serialize() -> Dictionary:
 	return {}
+	
+func _process(delta: float) -> void:
+	model_parameter.value = value
 
 func deserialize(data: Dictionary) -> bool:
 	display_name = data["Name"]

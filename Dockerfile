@@ -19,7 +19,8 @@ RUN apt install -y \
         libffi-dev \
         liblzma-dev \
         zip \
-        git 
+        git \
+        rust
 
 
 # install pyenv and poetry for building godot extensions

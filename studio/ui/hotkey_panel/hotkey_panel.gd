@@ -24,7 +24,13 @@ func _on_model_manager_model_changed(model: VtModel) -> void:
 		else:
 			panel.get_node("%InputBinding").text = ""
 		panel.get_node("%FadeDuration").value = binding.duration
+		panel.get_node("%FadeDuration").value_changed.connect(
+			func (value):
+				binding.duration = value
+		)
 		panel.get_node("%Rec").pressed.connect(record_input.bind(panel))
+		panel.get_node("%DeleteButton").pressed.connect(delete_hotkey.bind(panel))
+		
 		
 		list.add_child(panel)
 
@@ -54,3 +60,8 @@ func record_input(setting):
 		hotkey.button_3 = ""
 	
 	setting.get_node("%InputBinding").text = " + ".join(hotkey.input_as_list)
+
+func delete_hotkey(setting):
+	var hotkey = setting.get_meta("hotkey")
+	hotkey.queue_free()
+	setting.queue_free()

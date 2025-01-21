@@ -1,11 +1,19 @@
 extends RefCounted
+const ModelExpression = preload("res://lib/model/expression.gd")
 
 var name: String
+## unique model identifier
 var id: String
-var studio_parameters: String # path to vtube.json file
-var icon: String # path to icon image, as defined in vtube.json
-var model: String # path to the moc3.json file as defined in vtube.json
-var model_parameters: String # typically path to cdi3 file, as defined in moc3.json
+## path to vtube.json file
+var studio_parameters: String
+## path to icon image, as defined in vtube.json
+var icon: String
+## path to the moc3.json file as defined in vtube.json
+var model: String
+## typically the path to cdi3 file, as defined in moc3.json
+var model_parameters: String
+## vtube studio can create expressions that won't be directly tied to the model, we load these in dynamically
+var expressions: Array[ModelExpression] = []
 
 func get_icon_texture() -> Texture2D:
 	return null

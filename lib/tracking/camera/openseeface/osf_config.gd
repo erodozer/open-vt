@@ -34,7 +34,7 @@ func _process(delta: float) -> void:
 		%FpsCounter.text = "FPS: %d" % tracker.fps
 
 func _on_blink_sync_toggled(toggled_on: bool) -> void:
-	tracker.blink_sync = true
+	tracker.blink_sync = toggled_on
 
 func _on_connect_pressed() -> void:
 	tracker.camera = camera.get_item_id(camera.selected)

@@ -1,6 +1,7 @@
 extends Node
 
 const ModelMeta = preload("res://lib/model/metadata.gd")
+const ModelExpression = preload("res://lib/model/expression.gd")
 const VtModel = preload("res://lib/model/vt_model.gd")
 
 const MODEL_DIR = "user://Live2DModels"
@@ -46,6 +47,17 @@ func refresh_models():
 		meta.studio_parameters = vt_file
 		meta.model_parameters = vt_file.get_base_dir().path_join(model_data["FileReferences"]["DisplayInfo"])
 		meta.icon = vt_file.get_base_dir().path_join(vtube_data["FileReferences"]["Icon"])
+		
+		var expressions: Array[ModelExpression] = []
+		for file in DirAccess.get_files_at(vt_file.get_base_dir()):
+			if file.ends_with(".exp3.json"):
+				expressions.append(
+					ModelExpression.load_from_file(
+						vt_file.get_base_dir().path_join(file)
+					)
+				)
+		meta.expressions = expressions
+		
 		model_cache[meta.id] = meta
 	
 	list_updated.emit(model_cache.values())

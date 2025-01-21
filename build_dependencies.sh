@@ -17,12 +17,25 @@ build_gdcubism () {
 	rm sdk.zip
 	scons platform=linux arch=x86_64 target=template_debug
 	scons platform=linux arch=x86_64 target=template_release
-	cp -r demo/addons/gd_cubism $PROJ_ROOT/addons
+	cp -r $WORKDIR/demo/addons/gd_cubism $PROJ_ROOT/addons
+	rm -r $PROJ_ROOT/addons/gd_cubism/example
+	rm -r $PROJ_ROOT/addons/gd_cubism/cs
 	cp LICENSE.en.adoc $PROJ_ROOT/addons/gd_cubism/LICENSE.en.adoc
 	cp README.en.adoc $PROJ_ROOT/addons/gd_cubism/README.en.adoc
 	echo "*" > $PROJ_ROOT/addons/gd_cubism/.gitignore
 	
 	cd $PROJ_ROOT
+}
+
+build_keylogger() {
+	WORKDIR=$PROJ_ROOT/thirdparty/godot-keylogger
+
+	cd $WORKDIR
+
+	$WORKDIR/build.sh
+
+	cp -r $WORKDIR/godot/addons/keylogger $PROJ_ROOT/addons
+	echo "*" > $PROJ_ROOT/addons/keylogger/.gitignore
 }
 
 # build openseeface
@@ -45,4 +58,5 @@ openseeface () {
 git fetch --recurse-submodules
 
 build_gdcubism
-openseeface
+# openseeface
+build_keylogger

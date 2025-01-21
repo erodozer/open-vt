@@ -36,7 +36,7 @@ signal deactivate
 func _is_pressed(button: String) -> bool:
 	var keycode = OS.find_keycode_from_string(button)
 	if keycode != KEY_NONE:
-		return Input.is_key_pressed(OS.find_keycode_from_string(button))
+		return GlobalInput.is_key_pressed(OS.find_keycode_from_string(button))
 	if button.begins_with("MOUSE_"):
 		if button == "MOUSE_BUTTON_LEFT":
 			return Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
