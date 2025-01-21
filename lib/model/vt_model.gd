@@ -159,7 +159,7 @@ func parameters_updated(tracking_data: Dictionary):
 		# skip parameters that we do not yet support binding to
 		if parameter.input_parameter in tracking_data:
 			var raw_value = tracking_data[parameter.input_parameter]
-			parameter_values[parameter.model_parameter] = parameter.scale_value(raw_value)
+			parameter_values[parameter.output_parameter] = parameter.scale_value(raw_value)
 
 func _process(delta: float) -> void:
 	for id in model_parameters.keys():
