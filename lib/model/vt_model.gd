@@ -4,6 +4,7 @@ extends Node2D
 
 const utils = preload("res://lib/utils.gd")
 const ParameterSetting = preload("res://lib/tracking/parameter_setting.gd")
+const TrackingSystem = preload("res://lib/tracking_system.gd")
 const Draggable = preload("res://lib/draggable.gd")
 const ModelMeta = preload("./metadata.gd")
 const ModelExpression = preload("res://lib/model/expression.gd")
@@ -29,16 +30,14 @@ var filter: CanvasItem.TextureFilter :
 			live2d_model.shader_mix = preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_mix.gdshader")
 			live2d_model.shader_mul = preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_mul.gdshader")
 			
-var parameters: Array :
-	get():
-		return %Parameters.get_children()
+var studio_parameters: Array = []
+var parameter_values: Dictionary = {}
 		
 var hotkeys: Array :
 	get():
 		return %HotKeys.get_children()
 		
 var motions: Dictionary = {}
-
 var expressions: Dictionary = {}
 var active_expressions: Dictionary = {}
 
@@ -66,20 +65,19 @@ func _ready():
 	var display_data = JSON.parse_string(FileAccess.get_file_as_string(model.model_parameters))
 	
 	var output_parameters = display_data["Parameters"]
-	parameters_l2d = live2d_model.get_parameters()
-	for i in parameters_l2d:
+	for i in live2d_model.get_parameters():
 		model_parameters[i.id] = i
+		parameter_values[i.id] = i.default_value
 		
-	var tracking = get_tree().get_first_node_in_group("system:tracking")
+	var tracking: TrackingSystem = get_tree().get_first_node_in_group("system:tracking")
+	tracking.parameters_updated.connect(parameters_updated)
 
 	for parameter_data in vtube_data["ParameterSettings"]:
 		var p = preload("res://lib/tracking/parameter_setting.gd").new()
 		var ok = p.deserialize(parameter_data)
 		if ok:
 			p.model_parameter = model_parameters[p.output_parameter]
-			%Parameters.add_child(p)
-		if tracking != null:
-			tracking.parameters_updated.connect(p.update)
+			studio_parameters.append(p)
 			
 	var transform = vtube_data.get("SavedModelPosition", {})
 	position = utils.vts_to_world(Vector2(transform.get("Position", {}).get("x", 0.0), transform.get("Position", {}).get("y", 0.0)))
@@ -147,10 +145,23 @@ func toggle_expression(expression: ModelExpression, activate: bool = true, durat
 	var t = create_tween()
 	for id in expression.parameters:
 		var mut = expression.parameters[id]
-		var p = %Parameters.get_node(id)
 		var pt = t.parallel().tween_property(
-			p, "value", mut.value if activate else -mut.value, duration
+			self, "parameter_values:%s" % id, mut.value if activate else -mut.value, duration
 		)
 		if mut.blend == ModelExpression.BlendMode.ADD:
 			pt.from_current()
+	
+func parameters_updated(tracking_data: Dictionary):
+	for parameter in studio_parameters:
+		# skip paramters that haven't been fully configured
+		if parameter.output_parameter == null or parameter.model_parameter == null:
+			return
+		# skip parameters that we do not yet support binding to
+		if parameter.input_parameter in tracking_data:
+			var raw_value = tracking_data[parameter.input_parameter]
+			parameter_values[parameter.model_parameter] = parameter.scale_value(raw_value)
+
+func _process(delta: float) -> void:
+	for id in model_parameters.keys():
+		model_parameters[id].value = parameter_values[id]
 	

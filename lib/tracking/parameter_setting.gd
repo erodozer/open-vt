@@ -1,8 +1,9 @@
-extends Node
+extends RefCounted
 
 const TrackingInput = preload("./tracker.gd").Inputs
 const TrackingMeta = preload("./tracker.gd").Meta
 
+var name: String
 var display_name: String :
 	set(v):
 		var old = display_name
@@ -67,20 +68,8 @@ func scale_value(input: float) -> float:
 		)
 	)
 
-func update(tracking_data: Dictionary):
-	# skip paramters that haven't been fully configured
-	if output_parameter == null or model_parameter == null:
-		return
-	# skip parameters that we do not yet support binding to
-	if input_parameter in tracking_data:
-		var raw_value = tracking_data[input_parameter]
-		self.value = scale_value(raw_value)
-
 func serialize() -> Dictionary:
 	return {}
-	
-func _process(delta: float) -> void:
-	model_parameter.value = value
 
 func deserialize(data: Dictionary) -> bool:
 	display_name = data["Name"]

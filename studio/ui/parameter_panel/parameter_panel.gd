@@ -19,7 +19,7 @@ func _on_model_manager_model_changed(_model: VtModel) -> void:
 	for c in colors.get_children():
 		c.queue_free()
 
-	for parameter_data in _model.parameters:
+	for parameter_data in _model.studio_parameters:
 		var control = preload("./parameter_setting.tscn").instantiate()
 		control.parameter = parameter_data
 		control.model_parameters = _model.parameters_l2d
@@ -74,7 +74,7 @@ func _build_output_parameter_list(_model: VtModel):
 		btn.name = parameter.id
 		btn.text = parameter.id
 		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		btn.disabled = _model.parameters.any(
+		btn.disabled = _model.studio_parameters.any(
 			func (p):
 				return p.output_parameter == parameter.id
 		)

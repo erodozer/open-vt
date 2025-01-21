@@ -57,6 +57,6 @@ openseeface () {
 # fetch submodules if they haven't been already
 git fetch --recurse-submodules
 
-build_gdcubism
+# build_gdcubism
 # openseeface
 build_keylogger
