@@ -12,9 +12,11 @@ build_gdcubism () {
 	cd $WORKDIR
 	
 	## Fetch Cubism SDK
-	curl -o sdk.zip https://cubism.live2d.com/sdk-native/bin/CubismSdkForNative-5-r.1.zip
-	unzip -o sdk.zip -d thirdparty
-	rm sdk.zip
+	if [ ! -d "$WORKDIR/thirdparty/CubismSdkForNative-5-r.1"]; then
+		curl -o sdk.zip https://cubism.live2d.com/sdk-native/bin/CubismSdkForNative-5-r.1.zip
+		unzip -o sdk.zip -d thirdparty
+		rm sdk.zip
+	fi
 	scons platform=linux arch=x86_64 target=template_debug
 	scons platform=linux arch=x86_64 target=template_release
 	cp -r $WORKDIR/demo/addons/gd_cubism $PROJ_ROOT/addons
@@ -57,6 +59,6 @@ openseeface () {
 # fetch submodules if they haven't been already
 git fetch --recurse-submodules
 
-# build_gdcubism
-# openseeface
+build_gdcubism
+openseeface
 build_keylogger

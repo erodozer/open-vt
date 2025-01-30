@@ -1,12 +1,15 @@
 extends PanelContainer
 
 const ModelManager = preload("res://lib/model_manager.gd")
+const Stage = preload("res://lib/stage.gd")
+
+@export var manager: ModelManager
+@export var stage: Stage
 
 @onready var list = %ModelList
 
 func _refresh():
-	var mm = get_tree().get_first_node_in_group("system:model") as ModelManager
-	mm.refresh_models()
+	manager.refresh_models()
 	
 func _on_model_manager_list_updated(models: Array) -> void:
 	for f in list.get_children():
@@ -24,9 +27,8 @@ func _on_model_manager_list_updated(models: Array) -> void:
 		btn.custom_minimum_size = Vector2(128, 128)
 		btn.pressed.connect(
 			func ():
-				var manager = get_tree().get_first_node_in_group("system:model")
-				if manager != null:
-					manager.activate_model(i.id)
+				var model = manager.make_model(i.id)
+				stage.spawn_model(model)
 		)
 		list.add_child(btn)
 

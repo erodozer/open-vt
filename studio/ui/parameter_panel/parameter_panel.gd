@@ -3,31 +3,32 @@ extends PanelContainer
 const VtModel = preload("res://lib/model/vt_model.gd")
 const TrackingInput = preload("res://lib/tracking/tracker.gd").Inputs
 const ParameterSetting = preload("res://lib/tracking/parameter_setting.gd")
+const Stage = preload("res://lib/stage.gd")
 
 @onready var list = get_node("%ParameterList")
 @onready var colors = get_node("%Color Settings")
-var model: VtModel
+@onready var model = get_tree().get_first_node_in_group("vtmodel")
 
 signal parameter_selected(value)
 
 func _ready():
 	_build_input_parameter_list()
 
-func _on_model_manager_model_changed(_model: VtModel) -> void:
+func _on_stage_model_changed(model) -> void:
 	for c in list.get_children():
 		c.queue_free()
 	for c in colors.get_children():
 		c.queue_free()
 
-	for parameter_data in _model.studio_parameters:
+	for parameter_data in model.studio_parameters:
 		var control = preload("./parameter_setting.tscn").instantiate()
 		control.parameter = parameter_data
-		control.model_parameters = _model.parameters_l2d
+		control.model_parameters = model.parameters_l2d
 		control.get_node("%InputSelect").pressed.connect(_popup_input_select.bind(parameter_data))
 		control.get_node("%OutputSelect").pressed.connect(_popup_output_select.bind(parameter_data))
 		list.add_child(control)
 		
-	for mesh in _model.live2d_model.get_meshes().values():
+	for mesh in model.live2d_model.get_meshes().values():
 		var control = preload("./color_setting.tscn").instantiate()
 		control.get_node("%PartName").text = mesh.name
 		control.get_node("%Color").color = mesh.modulate
@@ -38,8 +39,9 @@ func _on_model_manager_model_changed(_model: VtModel) -> void:
 		colors.add_child(control)
 	# _model.renderer.transform_updated.connect(_update_transform)
 		
-	_build_output_parameter_list(_model)
+	_build_output_parameter_list(model)
 	_update_transform(model.position, model.scale, model.rotation)
+	self.model = model
 	
 func _update_transform(pos, scl, rot):
 	%Position/XValue.min_value = int(-get_viewport_rect().size.x)
@@ -88,8 +90,6 @@ func _build_output_parameter_list(_model: VtModel):
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	%OutputParameterList.add_child(btn)
 	%OutputParameterList.move_child(btn, 0)
-		
-	model = _model
 
 func _popup_output_select(parameter: ParameterSetting):
 	%Modal.show()
@@ -147,7 +147,6 @@ func _on_texture_filter_item_selected(index: int) -> void:
 			model.filter = CanvasItem.TextureFilter.TEXTURE_FILTER_NEAREST
 		_:
 			model.filter = CanvasItem.TextureFilter.TEXTURE_FILTER_LINEAR
-
 
 func _on_erase_position_pressed() -> void:
 	model.position = Vector2.ZERO

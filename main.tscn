@@ -1,19 +1,22 @@
-[gd_scene load_steps=18 format=3 uid="uid://bbh7pj5wq0sii"]
+[gd_scene load_steps=21 format=3 uid="uid://bbh7pj5wq0sii"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_g562h"]
-[ext_resource type="Theme" uid="uid://bwesfr5en0lxv" path="res://studio/ui/ui_theme.tres" id="4_vl1ux"]
+[ext_resource type="Script" path="res://lib/item_manager.gd" id="4_4ht51"]
 [ext_resource type="Script" path="res://studio/hud.gd" id="5_pr18m"]
+[ext_resource type="Script" path="res://lib/stage.gd" id="5_uhpo7"]
 [ext_resource type="Texture2D" uid="uid://ddqu1ma3rgo08" path="res://studio/ui/icons/aperture.svg" id="6_pyns6"]
 [ext_resource type="Texture2D" uid="uid://jqiaeaslelbe" path="res://studio/ui/icons/person.svg" id="7_e0oav"]
 [ext_resource type="Script" path="res://lib/tracking_system.gd" id="8_dv8e1"]
 [ext_resource type="Texture2D" uid="uid://blil5brl4i0qh" path="res://studio/ui/icons/gear.svg" id="8_jn2ra"]
 [ext_resource type="PackedScene" uid="uid://dpw8au0ueatrg" path="res://studio/ui/parameter_panel/parameter_panel.tscn" id="8_sw6px"]
 [ext_resource type="Texture2D" uid="uid://0yh01fnusj7i" path="res://studio/ui/icons/square-t.svg" id="9_v852m"]
+[ext_resource type="Texture2D" uid="uid://csg8x01sho2ej" path="res://studio/ui/icons/cube.svg" id="10_jf06x"]
 [ext_resource type="PackedScene" uid="uid://dijec4c8prced" path="res://studio/ui/model_panel/model_panel.tscn" id="10_tc0r5"]
 [ext_resource type="PackedScene" uid="uid://crwh7f50woqgu" path="res://studio/ui/camera_panel/camera_panel.tscn" id="11_3ft6e"]
 [ext_resource type="Script" path="res://lib/model_manager.gd" id="12_ufyfb"]
 [ext_resource type="PackedScene" uid="uid://scglt3qchj3j" path="res://studio/ui/hotkey_panel/hotkey_panel.tscn" id="13_f05v4"]
-[ext_resource type="Script" path="res://lib/vts_camera.gd" id="13_qhk4g"]
+[ext_resource type="PackedScene" uid="uid://bcxs7fe1yqc6o" path="res://studio/ui/item_panel/item_panel.tscn" id="13_jdf84"]
+[ext_resource type="PackedScene" uid="uid://bkm4lgw38g4di" path="res://lib/model/vt_model.tscn" id="15_wg2gf"]
 
 [sub_resource type="Gradient" id="Gradient_joccq"]
 colors = PackedColorArray(1.68458e-07, 0.184621, 0.229052, 1, 0, 0.313239, 0.313239, 1)
@@ -25,20 +28,17 @@ fill_from = Vector2(0, 1)
 [sub_resource type="ButtonGroup" id="ButtonGroup_42qc0"]
 allow_unpress = true
 
-[node name="Studio" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Studio" type="Node"]
 script = ExtResource("1_g562h")
 
 [node name="TrackerSystem" type="Node" parent="." groups=["system:tracking"]]
 script = ExtResource("8_dv8e1")
 
-[node name="ModelManager" type="Node" parent="." groups=["persist", "system:model"]]
+[node name="ModelManager" type="Node" parent="." groups=["system:model"]]
 script = ExtResource("12_ufyfb")
+
+[node name="ItemManager" type="Node" parent="." groups=["system:items"]]
+script = ExtResource("4_4ht51")
 
 [node name="Bg" type="CanvasLayer" parent="."]
 layer = -1
@@ -52,9 +52,14 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_kr4px")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="Stage" type="CanvasLayer" parent="." groups=["persist"]]
+script = ExtResource("5_uhpo7")
 
-[node name="HUD" type="Control" parent="CanvasLayer"]
+[node name="VtModel" parent="Stage" instance=ExtResource("15_wg2gf")]
+
+[node name="Interface" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="Control" parent="Interface"]
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
@@ -63,10 +68,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme = ExtResource("4_vl1ux")
 script = ExtResource("5_pr18m")
 
-[node name="Menu" type="PanelContainer" parent="CanvasLayer/HUD"]
+[node name="Menu" type="PanelContainer" parent="Interface/HUD"]
 unique_name_in_owner = true
 layout_mode = 1
 offset_left = 16.0
@@ -75,11 +79,11 @@ offset_right = 80.0
 offset_bottom = 254.0
 mouse_filter = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HUD/Menu"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Interface/HUD/Menu"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="CameraBtn" type="Button" parent="CanvasLayer/HUD/Menu/VBoxContainer"]
+[node name="CameraBtn" type="Button" parent="Interface/HUD/Menu/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
@@ -92,7 +96,7 @@ icon_alignment = 1
 expand_icon = true
 metadata/panel = NodePath("../../../CameraPanel")
 
-[node name="ModelBtn" type="Button" parent="CanvasLayer/HUD/Menu/VBoxContainer"]
+[node name="ModelBtn" type="Button" parent="Interface/HUD/Menu/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
@@ -105,7 +109,20 @@ icon_alignment = 1
 expand_icon = true
 metadata/panel = NodePath("../../../ModelPanel")
 
-[node name="ParameterBtn" type="Button" parent="CanvasLayer/HUD/Menu/VBoxContainer"]
+[node name="ItemBtn" type="Button" parent="Interface/HUD/Menu/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_42qc0")
+icon = ExtResource("10_jf06x")
+icon_alignment = 1
+expand_icon = true
+metadata/panel = NodePath("../../../ItemPanel")
+
+[node name="ParameterBtn" type="Button" parent="Interface/HUD/Menu/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
@@ -118,7 +135,7 @@ icon_alignment = 1
 expand_icon = true
 metadata/panel = NodePath("../../../ParameterPanel")
 
-[node name="HotkeysBtn" type="Button" parent="CanvasLayer/HUD/Menu/VBoxContainer"]
+[node name="HotkeysBtn" type="Button" parent="Interface/HUD/Menu/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
@@ -131,7 +148,7 @@ icon_alignment = 1
 expand_icon = true
 metadata/panel = NodePath("../../../HotkeyPanel")
 
-[node name="ParameterPanel" parent="CanvasLayer/HUD" instance=ExtResource("8_sw6px")]
+[node name="ParameterPanel" parent="Interface/HUD" instance=ExtResource("8_sw6px")]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 11
@@ -141,19 +158,29 @@ offset_left = 301.0
 offset_right = 781.0
 grow_horizontal = 0
 
-[node name="ModelPanel" parent="CanvasLayer/HUD" instance=ExtResource("10_tc0r5")]
+[node name="ModelPanel" parent="Interface/HUD" node_paths=PackedStringArray("manager", "stage") instance=ExtResource("10_tc0r5")]
 unique_name_in_owner = true
 layout_mode = 1
 offset_left = 308.0
 offset_right = 788.0
+manager = NodePath("../../../ModelManager")
+stage = NodePath("../../../Stage")
 
-[node name="CameraPanel" parent="CanvasLayer/HUD" instance=ExtResource("11_3ft6e")]
+[node name="ItemPanel" parent="Interface/HUD" node_paths=PackedStringArray("manager", "stage") instance=ExtResource("13_jdf84")]
+unique_name_in_owner = true
+layout_mode = 1
+offset_left = 309.0
+offset_right = 789.0
+manager = NodePath("../../../ItemManager")
+stage = NodePath("../../../Stage")
+
+[node name="CameraPanel" parent="Interface/HUD" instance=ExtResource("11_3ft6e")]
 unique_name_in_owner = true
 layout_mode = 1
 offset_left = 310.0
 offset_right = 790.0
 
-[node name="HotkeyPanel" parent="CanvasLayer/HUD" instance=ExtResource("13_f05v4")]
+[node name="HotkeyPanel" parent="Interface/HUD" instance=ExtResource("13_f05v4")]
 layout_mode = 1
 anchors_preset = 11
 anchor_left = 1.0
@@ -162,16 +189,14 @@ offset_left = 302.0
 offset_right = 782.0
 grow_horizontal = 0
 
-[node name="Camera2D" type="Camera2D" parent="."]
-script = ExtResource("13_qhk4g")
-
 [connection signal="parameters_updated" from="TrackerSystem" to="ModelManager" method="_on_tracker_system_parameters_updated"]
-[connection signal="parameters_updated" from="TrackerSystem" to="CanvasLayer/HUD/ParameterPanel" method="_on_tracker_system_parameters_updated"]
-[connection signal="parameters_updated" from="TrackerSystem" to="CanvasLayer/HUD/CameraPanel" method="_on_tracker_system_parameters_updated"]
-[connection signal="tracker_changed" from="TrackerSystem" to="CanvasLayer/HUD/CameraPanel" method="_on_tracker_system_tracker_changed"]
-[connection signal="list_updated" from="ModelManager" to="CanvasLayer/HUD/ModelPanel" method="_on_model_manager_list_updated"]
-[connection signal="model_changed" from="ModelManager" to="." method="_on_model_changed"]
-[connection signal="model_changed" from="ModelManager" to="CanvasLayer/HUD" method="_on_model_manager_model_changed"]
-[connection signal="model_changed" from="ModelManager" to="CanvasLayer/HUD/ParameterPanel" method="_on_model_manager_model_changed"]
-[connection signal="model_changed" from="ModelManager" to="CanvasLayer/HUD/HotkeyPanel" method="_on_model_manager_model_changed"]
-[connection signal="toggle_bg_transparency" from="CanvasLayer/HUD/CameraPanel" to="." method="_on_camera_panel_toggle_bg_transparency"]
+[connection signal="parameters_updated" from="TrackerSystem" to="Interface/HUD/ParameterPanel" method="_on_tracker_system_parameters_updated"]
+[connection signal="parameters_updated" from="TrackerSystem" to="Interface/HUD/CameraPanel" method="_on_tracker_system_parameters_updated"]
+[connection signal="tracker_changed" from="TrackerSystem" to="Interface/HUD/CameraPanel" method="_on_tracker_system_tracker_changed"]
+[connection signal="list_updated" from="ModelManager" to="Interface/HUD/ModelPanel" method="_on_model_manager_list_updated"]
+[connection signal="list_updated" from="ItemManager" to="Interface/HUD/ItemPanel" method="_on_item_manager_list_updated"]
+[connection signal="model_changed" from="Stage" to="." method="_on_model_changed"]
+[connection signal="model_changed" from="Stage" to="Interface/HUD" method="_on_model_changed"]
+[connection signal="model_changed" from="Stage" to="Interface/HUD/ParameterPanel" method="_on_stage_model_changed"]
+[connection signal="model_changed" from="Stage" to="Interface/HUD/HotkeyPanel" method="_on_stage_model_changed"]
+[connection signal="toggle_bg_transparency" from="Interface/HUD/CameraPanel" to="." method="_on_camera_panel_toggle_bg_transparency"]

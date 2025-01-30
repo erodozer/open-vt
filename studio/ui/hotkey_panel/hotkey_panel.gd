@@ -8,7 +8,7 @@ const HotkeyBinding = preload("res://lib/hotkey/binding.gd")
 func _ready() -> void:
 	set_process_input(true)
 
-func _on_model_manager_model_changed(model: VtModel) -> void:
+func _on_stage_model_changed(model: VtModel) -> void:
 	for c in list.get_children():
 		c.queue_free()
 		

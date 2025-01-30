@@ -40,7 +40,7 @@ func _open_panel(panel):
 func _on_transparency_toggled(toggled_on: bool) -> void:
 	%BgFill.visible = !toggled_on
 
-func _on_model_manager_model_changed(_model: Node) -> void:
+func _on_model_changed(_model: Node) -> void:
 	%ModelBtn.button_pressed = false
 	_close_panel()
 	

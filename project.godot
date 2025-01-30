@@ -43,6 +43,12 @@ system:tracking=""
 system:model=""
 persist="Accesses and Stores state within application config"
 system:hotkey=""
+vtmodel=""
+system:items=""
+
+[gui]
+
+theme/custom="res://studio/ui/ui_theme.tres"
 
 [importer_defaults]
 

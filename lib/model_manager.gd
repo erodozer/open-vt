@@ -7,9 +7,6 @@ const VtModel = preload("res://lib/model/vt_model.gd")
 const MODEL_DIR = "user://Live2DModels"
 
 var model_cache: Dictionary = {}
-var active_model: VtModel
-
-signal model_changed(model: VtModel)
 signal list_updated(models: Array)
 
 func _ready() -> void:
@@ -62,7 +59,7 @@ func refresh_models():
 	
 	list_updated.emit(model_cache.values())
 
-func activate_model(model):
+func make_model(model):
 	if model not in model_cache:
 		return
 	
@@ -71,21 +68,5 @@ func activate_model(model):
 	var new_model: VtModel = preload("res://lib/model/vt_model.tscn").instantiate()
 	new_model.model = data
 	
-	if active_model != null:
-		active_model.queue_free()
-		
-	new_model.ready.connect(
-		func ():
-			active_model = new_model
-			model_changed.emit(active_model),
-		CONNECT_ONE_SHOT
-	)
-	add_child(new_model)
-	
-func load_settings(data):
-	if "active_model" in data:
-		activate_model(data["active_model"])
-	
-func save_settings(data):
-	data["active_model"] = active_model.model.id
+	return new_model
 	

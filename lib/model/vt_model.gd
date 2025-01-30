@@ -20,15 +20,17 @@ var model_parameters: Dictionary
 var filter: CanvasItem.TextureFilter :
 	set(v):
 		filter = v
-		live2d_model.texture_filter = filter
+		drag.texture_filter = filter
 		if filter == CanvasItem.TextureFilter.TEXTURE_FILTER_NEAREST:
-			live2d_model.shader_add = preload("res://addons/gd_cubism/res/nearest_shader/2d_cubism_norm_add.gdshader")
-			live2d_model.shader_mix = preload("res://addons/gd_cubism/res/nearest_shader/2d_cubism_norm_mix.gdshader")
-			live2d_model.shader_mul = preload("res://addons/gd_cubism/res/nearest_shader/2d_cubism_norm_mul.gdshader")
+			live2d_model.shader_add = preload("res://lib/model/shaders/nearest/2d_cubism_norm_add.gdshader")
+			live2d_model.shader_mix = preload("res://lib/model/shaders/nearest/2d_cubism_norm_mix.gdshader")
+			live2d_model.shader_mul = preload("res://lib/model/shaders/nearest/2d_cubism_norm_mul.gdshader")
 		else:
 			live2d_model.shader_add = preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_add.gdshader")
-			live2d_model.shader_mix = preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_mix.gdshader")
+			live2d_model.shader_mix = preload("res://lib/model/shaders/linear/2d_cubism_norm_mix.gdshader")
 			live2d_model.shader_mul = preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_mul.gdshader")
+		for m in live2d_model.get_meshes().values():
+			m.texture_filter = filter
 			
 var studio_parameters: Array = []
 var parameter_values: Dictionary = {}
@@ -45,20 +47,15 @@ func is_bound(parameter: GDCubismParameter) -> bool:
 	return has_node(parameter.id)
 
 func _ready():
-	var placeholder = live2d_model
+	if model:
+		_load_model(model)
 	
-	live2d_model = GDCubismUserModel.new()
-	live2d_model.load_expressions = true
-	live2d_model.load_motions = true
+func _load_model(model: ModelMeta):
 	live2d_model.assets = model.model
-	live2d_model.name = "GDCubismUserModel"
-	placeholder.replace_by(live2d_model)
-	placeholder.queue_free()
 	
 	var canvas_info = live2d_model.get_canvas_info()
-	# drag.size = live2d_model.get_canvas_info().size_in_pixels
 	%Model.position = -live2d_model.get_canvas_info().origin_in_pixels
-	%Model.texture = live2d_model.get_texture()
+	live2d_model.size = live2d_model.get_canvas_info().size_in_pixels
 	
 	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(model.studio_parameters))
 	var model_data = JSON.parse_string(FileAccess.get_file_as_string(model.model))

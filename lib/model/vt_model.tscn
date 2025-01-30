@@ -1,12 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://bkm4lgw38g4di"]
+[gd_scene load_steps=4 format=3 uid="uid://bkm4lgw38g4di"]
 
 [ext_resource type="Script" path="res://lib/model/vt_model.gd" id="1_bvpwh"]
 [ext_resource type="Script" path="res://lib/draggable.gd" id="2_ribot"]
 
-[node name="VtModel" type="Node2D"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_iumio"]
+viewport_path = NodePath("GDCubismUserModel")
+
+[node name="VtModel" type="Node2D" groups=["vtmodel"]]
 script = ExtResource("1_bvpwh")
 
-[node name="GDCubismUserModel" type="SubViewport" parent="."]
+[node name="GDCubismUserModel" type="GDCubismUserModel" parent="."]
 unique_name_in_owner = true
 disable_3d = true
 transparent_bg = true
@@ -21,4 +24,5 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 offset_right = 512.0
 offset_bottom = 512.0
+texture = SubResource("ViewportTexture_iumio")
 script = ExtResource("2_ribot")

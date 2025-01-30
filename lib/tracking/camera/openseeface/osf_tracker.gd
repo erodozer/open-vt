@@ -16,6 +16,11 @@ func _ready():
 	super._ready()
 	port = OSF_PORT
 	
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		if osf_pid > 0:
+			OS.kill(osf_pid)
+
 func create_config() -> Node:
 	var panel = preload("./osf_config.tscn").instantiate()
 	panel.tracker = self

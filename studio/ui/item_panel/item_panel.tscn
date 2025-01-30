@@ -1,0 +1,180 @@
+[gd_scene load_steps=4 format=3 uid="uid://bcxs7fe1yqc6o"]
+
+[ext_resource type="Script" path="res://studio/ui/item_panel/item_panel.gd" id="1_uiugv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ghokm"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.144063, 0.144063, 0.144062, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7cbrn"]
+bg_color = Color(0.637843, 0.637843, 0.637843, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="ItemPanel" type="PanelContainer"]
+custom_minimum_size = Vector2(480, 0)
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 308.0
+offset_right = 788.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ghokm")
+script = ExtResource("1_uiugv")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"SubPanelContainer"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="DirectoryButton" type="Button" parent="VBoxContainer/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "Open Item Directory"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="List" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Modal" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+layer = 2
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="Modal"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.392157)
+
+[node name="ItemPopup" type="Window" parent="Modal"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+transparent_bg = true
+title = "Configure Animated Item"
+initial_position = 1
+size = Vector2i(480, 600)
+visible = false
+transient = true
+transient_to_focused = true
+exclusive = true
+unresizable = true
+transparent = true
+popup_window = true
+
+[node name="PanelContainer" type="PanelContainer" parent="Modal/ItemPopup"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/ItemPopup/PanelContainer"]
+layout_mode = 2
+
+[node name="Preview" type="VBoxContainer" parent="Modal/ItemPopup/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Modal/ItemPopup/PanelContainer/VBoxContainer/Preview"]
+layout_mode = 2
+text = "Preview"
+
+[node name="Image" type="TextureRect" parent="Modal/ItemPopup/PanelContainer/VBoxContainer/Preview"]
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Panel" type="Panel" parent="Modal/ItemPopup/PanelContainer/VBoxContainer/Preview/Image"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7cbrn")
+
+[node name="FrameRate" type="HBoxContainer" parent="Modal/ItemPopup/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Modal/ItemPopup/PanelContainer/VBoxContainer/FrameRate"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Animation Frame Rate"
+
+[node name="Value" type="SpinBox" parent="Modal/ItemPopup/PanelContainer/VBoxContainer/FrameRate"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+min_value = 1.0
+value = 1.0
+alignment = 2
+suffix = "FPS"
+
+[node name="ZIndex" type="HBoxContainer" parent="Modal/ItemPopup/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Modal/ItemPopup/PanelContainer/VBoxContainer/ZIndex"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Layer"
+
+[node name="Value" type="SpinBox" parent="Modal/ItemPopup/PanelContainer/VBoxContainer/ZIndex"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+min_value = -30.0
+max_value = 30.0
+alignment = 2
+suffix = "Z"
+
+[node name="Pin" type="HBoxContainer" parent="Modal/ItemPopup/PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Modal/ItemPopup/PanelContainer/VBoxContainer/Pin"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Pin to Model"
+
+[node name="Value" type="CheckButton" parent="Modal/ItemPopup/PanelContainer/VBoxContainer/Pin"]
+layout_mode = 2
+alignment = 2
+
+[node name="SpawnBtn" type="Button" parent="Modal/ItemPopup/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+text = "Add Item"
+
+[connection signal="pressed" from="VBoxContainer/PanelContainer/VBoxContainer/DirectoryButton" to="." method="_on_directory_button_pressed"]
+[connection signal="close_requested" from="Modal/ItemPopup" to="." method="_on_item_popup_close_requested"]
+[connection signal="value_changed" from="Modal/ItemPopup/PanelContainer/VBoxContainer/FrameRate/Value" to="." method="_on_framerate_value_changed"]
+[connection signal="pressed" from="Modal/ItemPopup/PanelContainer/VBoxContainer/SpawnBtn" to="." method="_on_spawn_btn_pressed"]

@@ -1,4 +1,4 @@
-extends Control
+extends Node
 
 const UserSettings = "user://settings.json"
 
@@ -6,7 +6,7 @@ func _ready() -> void:
 	_load_preferences.call_deferred()
 
 func _on_model_changed(model: Node) -> void:
-	model.reparent(self)
+	# model.reparent(self)
 	_save_preferences()
 
 func _on_camera_panel_toggle_bg_transparency(enabled: bool) -> void:
@@ -24,7 +24,9 @@ func _load_preferences():
 		f.close()
 	
 	var preferences = JSON.parse_string(FileAccess.get_file_as_string(UserSettings))
-	
+	if preferences == null:
+		return
+		
 	for n in get_tree().get_nodes_in_group("persist"):
 		n.load_settings(preferences)
 		

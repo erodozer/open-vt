@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://dpw8au0ueatrg"]
+[gd_scene load_steps=5 format=3 uid="uid://dpw8au0ueatrg"]
 
 [ext_resource type="Script" path="res://studio/ui/parameter_panel/parameter_panel.gd" id="1_5864b"]
 [ext_resource type="Texture2D" uid="uid://d1kej52kqrg0g" path="res://studio/ui/icons/eraser.svg" id="2_4qkrp"]
 [ext_resource type="Script" path="res://studio/ui/accordion/accordion.gd" id="2_57r6x"]
 [ext_resource type="Texture2D" uid="uid://d0oc7kwqufoqr" path="res://studio/ui/icons/circle-plus.svg" id="3_6caqy"]
-[ext_resource type="Theme" uid="uid://bwesfr5en0lxv" path="res://studio/ui/ui_theme.tres" id="4_5l1qi"]
 
 [node name="ParameterPanel" type="PanelContainer"]
 custom_minimum_size = Vector2(480, 0)
@@ -260,17 +259,7 @@ unique_name_in_owner = true
 layer = 2
 visible = false
 
-[node name="Theme" type="Control" parent="Modal"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("4_5l1qi")
-
-[node name="ColorRect" type="ColorRect" parent="Modal/Theme"]
-layout_mode = 1
+[node name="ColorRect" type="ColorRect" parent="Modal"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -278,7 +267,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.392157)
 
-[node name="OutputParameterPopup" type="Window" parent="Modal/Theme"]
+[node name="OutputParameterPopup" type="Window" parent="Modal"]
 unique_name_in_owner = true
 transparent_bg = true
 title = "Select Output Parameter"
@@ -292,39 +281,39 @@ unresizable = true
 transparent = true
 popup_window = true
 
-[node name="PanelContainer" type="PanelContainer" parent="Modal/Theme/OutputParameterPopup"]
+[node name="PanelContainer" type="PanelContainer" parent="Modal/OutputParameterPopup"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Modal/Theme/OutputParameterPopup/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/OutputParameterPopup/PanelContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Modal/Theme/OutputParameterPopup/PanelContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="Modal/OutputParameterPopup/PanelContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
 text = "Select Parameter"
 horizontal_alignment = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Modal/Theme/OutputParameterPopup/PanelContainer/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Modal/OutputParameterPopup/PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="Modal/Theme/OutputParameterPopup/PanelContainer/VBoxContainer/ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Modal/OutputParameterPopup/PanelContainer/VBoxContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="OutputParameterList" type="VBoxContainer" parent="Modal/Theme/OutputParameterPopup/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer"]
+[node name="OutputParameterList" type="VBoxContainer" parent="Modal/OutputParameterPopup/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_type_variation = &"VBoxList"
 
-[node name="InputParameterPopup" type="Window" parent="Modal/Theme"]
+[node name="InputParameterPopup" type="Window" parent="Modal"]
 unique_name_in_owner = true
 auto_translate_mode = 1
 transparent_bg = true
@@ -339,32 +328,32 @@ unresizable = true
 transparent = true
 popup_window = true
 
-[node name="PanelContainer" type="PanelContainer" parent="Modal/Theme/InputParameterPopup"]
+[node name="PanelContainer" type="PanelContainer" parent="Modal/InputParameterPopup"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Modal/Theme/InputParameterPopup/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/InputParameterPopup/PanelContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Modal/Theme/InputParameterPopup/PanelContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="Modal/InputParameterPopup/PanelContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
 text = "Select Parameter"
 horizontal_alignment = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Modal/Theme/InputParameterPopup/PanelContainer/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Modal/InputParameterPopup/PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="Modal/Theme/InputParameterPopup/PanelContainer/VBoxContainer/ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Modal/InputParameterPopup/PanelContainer/VBoxContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="InputParameterList" type="VBoxContainer" parent="Modal/Theme/InputParameterPopup/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer"]
+[node name="InputParameterList" type="VBoxContainer" parent="Modal/InputParameterPopup/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -375,6 +364,6 @@ theme_type_variation = &"VBoxList"
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position/Erase" to="." method="_on_erase_position_pressed"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale/Erase" to="." method="_on_erase_scale_pressed"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation/Erase" to="." method="_on_erase_rotate_pressed"]
-[connection signal="close_requested" from="Modal/Theme/OutputParameterPopup" to="." method="_on_popup_close_requested"]
-[connection signal="close_requested" from="Modal/Theme/OutputParameterPopup" to="." method="_on_output_parameter_popup_close_requested"]
-[connection signal="close_requested" from="Modal/Theme/InputParameterPopup" to="." method="_on_input_parameter_popup_close_requested"]
+[connection signal="close_requested" from="Modal/OutputParameterPopup" to="." method="_on_output_parameter_popup_close_requested"]
+[connection signal="close_requested" from="Modal/OutputParameterPopup" to="." method="_on_popup_close_requested"]
+[connection signal="close_requested" from="Modal/InputParameterPopup" to="." method="_on_input_parameter_popup_close_requested"]
