@@ -234,7 +234,7 @@ max_value = 10.0
 layout_mode = 2
 text = "Activate"
 
-[node name="Color Settings" type="VBoxContainer" parent="ScrollContainer/MarginContainer/Accordion"]
+[node name="Mesh Settings" type="VBoxContainer" parent="ScrollContainer/MarginContainer/Accordion"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2

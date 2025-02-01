@@ -60,9 +60,8 @@ func create_item(path: String) -> VtItem:
 	if path not in item_cache:
 		return
 	
-	var item = TextureRect.new()
-	item.set_script(preload("res://lib/draggable.gd"))
-	item.name = "Image"
+	var vtitem = preload("res://lib/items/vt_item.tscn").instantiate()
+	var item = vtitem.get_node("%Image")
 	
 	if path in png_items:
 		item.texture = ImageTexture.create_from_image(Image.load_from_file(path))
@@ -88,9 +87,7 @@ func create_item(path: String) -> VtItem:
 	else:
 		return
 	
-	var vtitem = preload("res://lib/items/vt_item.tscn").instantiate()
 	vtitem.name = path.get_file()
-	vtitem.add_child(item)
 	item.pivot_offset = -item.size / 2
 	item.position = -item.size / 2
 	

@@ -37,6 +37,9 @@ func _show_configuration(item: VtItem) -> void:
 	var tex = item.get_node("Image").texture
 	%Preview/Image.texture = tex
 	
+	%ZIndex/Value.value = 0
+	%FrameRate/Value.value = 10
+	
 	%Modal.show()
 	%ItemPopup.show()
 	
@@ -53,6 +56,7 @@ func _show_configuration(item: VtItem) -> void:
 		tex.speed_scale = %FrameRate/Value.value
 	
 	item.sort_order = int(%ZIndex/Value.value)
+	item.pinnable = %Pin/Value.button_pressed
 			
 	stage.spawn_item(item)
 	
@@ -65,3 +69,31 @@ func _on_spawn_btn_pressed() -> void:
 func _on_framerate_value_changed(value: float) -> void:
 	if %Preview/Image.texture is AnimatedTexture:
 		%Preview/Image.texture.speed_scale = value
+
+func _on_stage_item_added(item: Node2D) -> void:
+	var row = preload("./item_row.tscn").instantiate()
+	row.item = item
+	
+	%StageItems.add_child(row)
+
+func _on_stage_model_changed(model: Node2D) -> void:
+	var row = preload("./item_row.tscn").instantiate()
+	row.item = model
+	
+	%StageItems.add_child(row)
+
+func _on_stage_update_order(objects: Array[Node]) -> void:
+	for i in range(len(objects)):
+		var o = objects[i]
+		for c in %StageItems.get_children():
+			if c.item == o:
+				%StageItems.move_child(c, i)
+
+func _on_add_button_pressed() -> void:
+	%Modal.show()
+	%ItemSelectPopup.show()
+	
+	await item_configured
+	
+	%ItemSelectPopup.hide()
+	%Modal.hide()

@@ -10,27 +10,18 @@ const ModelMeta = preload("./metadata.gd")
 const ModelExpression = preload("res://lib/model/expression.gd")
 const HotkeyBinding = preload("res://lib/hotkey/binding.gd")
 
-@onready var drag: Draggable = %Model
+@onready var render: Draggable = %Model
 @onready var live2d_model = %GDCubismUserModel
 var model: ModelMeta
 
 var parameters_l2d: Array
 var model_parameters: Dictionary
 
-var filter: CanvasItem.TextureFilter :
+var filter: CanvasItem.TextureFilter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS :
 	set(v):
 		filter = v
-		drag.texture_filter = filter
-		if filter == CanvasItem.TextureFilter.TEXTURE_FILTER_NEAREST:
-			live2d_model.shader_add = preload("res://lib/model/shaders/nearest/2d_cubism_norm_add.gdshader")
-			live2d_model.shader_mix = preload("res://lib/model/shaders/nearest/2d_cubism_norm_mix.gdshader")
-			live2d_model.shader_mul = preload("res://lib/model/shaders/nearest/2d_cubism_norm_mul.gdshader")
-		else:
-			live2d_model.shader_add = preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_add.gdshader")
-			live2d_model.shader_mix = preload("res://lib/model/shaders/linear/2d_cubism_norm_mix.gdshader")
-			live2d_model.shader_mul = preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_mul.gdshader")
-		for m in live2d_model.get_meshes().values():
-			m.texture_filter = filter
+		update_shaders()
+		_rebuild_l2d(model)
 			
 var studio_parameters: Array = []
 var parameter_values: Dictionary = {}
@@ -43,19 +34,31 @@ var motions: Dictionary = {}
 var expressions: Dictionary = {}
 var active_expressions: Dictionary = {}
 
+# item pinning
+var pinnable: Dictionary = {}
+var rest_anchors: Dictionary = {}
+
+func get_meshes() -> Array:
+	if not live2d_model.assets.is_empty():
+		return live2d_model.get_meshes().values()
+	return []
+
 func is_bound(parameter: GDCubismParameter) -> bool:
 	return has_node(parameter.id)
 
 func _ready():
 	if model:
+		update_shaders()
 		_load_model(model)
 	
-func _load_model(model: ModelMeta):
+func _rebuild_l2d(model: ModelMeta):
 	live2d_model.assets = model.model
-	
 	var canvas_info = live2d_model.get_canvas_info()
 	%Model.position = -live2d_model.get_canvas_info().origin_in_pixels
 	live2d_model.size = live2d_model.get_canvas_info().size_in_pixels
+	
+func _load_model(model: ModelMeta):
+	_rebuild_l2d(model)
 	
 	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(model.studio_parameters))
 	var model_data = JSON.parse_string(FileAccess.get_file_as_string(model.model))
@@ -112,6 +115,11 @@ func _load_model(model: ModelMeta):
 		expressions[e.name] = e;
 		active_expressions[e] = false
 	
+	var mesh_details = vtube_data.get("ArtMeshDetails", {})
+	for m in get_meshes():
+		pinnable[m.name] = m.name not in mesh_details.get("ArtMeshesExcludedFromPinning", [])
+		m.set_meta("centroid", utils.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
+		
 	await get_tree().process_frame
 	
 func add_parameter():
@@ -157,6 +165,20 @@ func parameters_updated(tracking_data: Dictionary):
 		if parameter.input_parameter in tracking_data:
 			var raw_value = tracking_data[parameter.input_parameter]
 			parameter_values[parameter.output_parameter] = parameter.scale_value(raw_value)
+
+func update_shaders():
+	render.texture_filter = filter
+	match filter:
+		CanvasItem.TextureFilter.TEXTURE_FILTER_NEAREST, CanvasItem.TEXTURE_FILTER_NEAREST_WITH_MIPMAPS, CanvasItem.TEXTURE_FILTER_NEAREST_WITH_MIPMAPS_ANISOTROPIC:
+			live2d_model.shader_add = preload("res://lib/model/shaders/nearest/2d_cubism_norm_add.gdshader")
+			live2d_model.shader_mix = preload("res://lib/model/shaders/nearest/2d_cubism_norm_mix.gdshader")
+			live2d_model.shader_mul = preload("res://lib/model/shaders/nearest/2d_cubism_norm_mul.gdshader")
+		_:
+			live2d_model.shader_add = preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_add.gdshader")
+			live2d_model.shader_mix = preload("res://lib/model/shaders/linear/2d_cubism_norm_mix.gdshader")
+			live2d_model.shader_mul = preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_mul.gdshader")
+	for m in get_meshes():
+		m.texture_filter = filter
 
 func _process(delta: float) -> void:
 	for id in model_parameters.keys():

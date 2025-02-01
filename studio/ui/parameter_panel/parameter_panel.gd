@@ -6,7 +6,7 @@ const ParameterSetting = preload("res://lib/tracking/parameter_setting.gd")
 const Stage = preload("res://lib/stage.gd")
 
 @onready var list = get_node("%ParameterList")
-@onready var colors = get_node("%Color Settings")
+@onready var meshes = get_node("%Mesh Settings")
 @onready var model = get_tree().get_first_node_in_group("vtmodel")
 
 signal parameter_selected(value)
@@ -17,7 +17,7 @@ func _ready():
 func _on_stage_model_changed(model) -> void:
 	for c in list.get_children():
 		c.queue_free()
-	for c in colors.get_children():
+	for c in meshes.get_children():
 		c.queue_free()
 
 	for parameter_data in model.studio_parameters:
@@ -28,15 +28,11 @@ func _on_stage_model_changed(model) -> void:
 		control.get_node("%OutputSelect").pressed.connect(_popup_output_select.bind(parameter_data))
 		list.add_child(control)
 		
-	for mesh in model.live2d_model.get_meshes().values():
-		var control = preload("./color_setting.tscn").instantiate()
-		control.get_node("%PartName").text = mesh.name
-		control.get_node("%Color").color = mesh.modulate
-		control.get_node("%Color").color_changed.connect(
-			func (color):
-				mesh.modulate = color
-		)
-		colors.add_child(control)
+	for mesh in model.get_meshes():
+		var control = preload("./mesh_setting.tscn").instantiate()
+		control.model = model
+		control.mesh = mesh
+		meshes.add_child(control)
 	# _model.renderer.transform_updated.connect(_update_transform)
 		
 	_build_output_parameter_list(model)

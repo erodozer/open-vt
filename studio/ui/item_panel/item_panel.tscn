@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://bcxs7fe1yqc6o"]
+[gd_scene load_steps=5 format=3 uid="uid://bcxs7fe1yqc6o"]
 
 [ext_resource type="Script" path="res://studio/ui/item_panel/item_panel.gd" id="1_uiugv"]
+[ext_resource type="Texture2D" uid="uid://d0oc7kwqufoqr" path="res://studio/ui/icons/circle-plus.svg" id="2_8x6lw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ghokm"]
 content_margin_left = 8.0
@@ -49,16 +50,33 @@ custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "Open Item Directory"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-horizontal_scroll_mode = 0
-vertical_scroll_mode = 2
+theme_type_variation = &"SubPanelContainer"
 
-[node name="List" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer2"]
+layout_mode = 2
+
+[node name="AddButton" type="Button" parent="VBoxContainer/PanelContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "Add Item"
+icon = ExtResource("2_8x6lw")
+icon_alignment = 2
+expand_icon = true
+
+[node name="Label" type="Label" parent="VBoxContainer/PanelContainer2/VBoxContainer"]
+layout_mode = 2
+text = "Items order is sorted background to foreground"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="StageItems" type="VBoxContainer" parent="VBoxContainer/PanelContainer2/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 24
 
 [node name="Modal" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
@@ -72,6 +90,37 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.392157)
+
+[node name="ItemSelectPopup" type="Window" parent="Modal"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+transparent_bg = true
+title = "Configure Animated Item"
+initial_position = 1
+size = Vector2i(480, 600)
+visible = false
+transient = true
+transient_to_focused = true
+exclusive = true
+unresizable = true
+transparent = true
+popup_window = true
+
+[node name="PanelContainer" type="PanelContainer" parent="Modal/ItemSelectPopup"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Modal/ItemSelectPopup/PanelContainer"]
+layout_mode = 2
+
+[node name="List" type="VBoxContainer" parent="Modal/ItemSelectPopup/PanelContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
 
 [node name="ItemPopup" type="Window" parent="Modal"]
 unique_name_in_owner = true
@@ -175,6 +224,8 @@ size_flags_vertical = 10
 text = "Add Item"
 
 [connection signal="pressed" from="VBoxContainer/PanelContainer/VBoxContainer/DirectoryButton" to="." method="_on_directory_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/PanelContainer2/VBoxContainer/AddButton" to="." method="_on_add_button_pressed"]
+[connection signal="close_requested" from="Modal/ItemSelectPopup" to="." method="_on_item_popup_close_requested"]
 [connection signal="close_requested" from="Modal/ItemPopup" to="." method="_on_item_popup_close_requested"]
 [connection signal="value_changed" from="Modal/ItemPopup/PanelContainer/VBoxContainer/FrameRate/Value" to="." method="_on_framerate_value_changed"]
 [connection signal="pressed" from="Modal/ItemPopup/PanelContainer/VBoxContainer/SpawnBtn" to="." method="_on_spawn_btn_pressed"]

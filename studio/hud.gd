@@ -49,3 +49,8 @@ func _input(event: InputEvent) -> void:
 		if Input.is_key_pressed(KEY_CTRL) and Input.is_key_pressed(KEY_H):
 			visible = not visible
 			accept_event()
+
+func _on_stage_item_added(item: Node2D) -> void:
+	%ItemBtn.button_pressed = false
+	_close_panel()
+	
