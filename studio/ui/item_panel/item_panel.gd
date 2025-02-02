@@ -2,6 +2,7 @@ extends PanelContainer
 
 const ItemManager = preload("res://lib/item_manager.gd")
 const VtItem = preload("res://lib/items/vt_item.gd")
+const VtModel = preload("res://lib/model/vt_model.gd")
 const Stage = preload("res://lib/stage.gd")
 
 @export var manager: ItemManager
@@ -17,7 +18,10 @@ func _on_item_manager_list_updated(models: Array) -> void:
 	for i in models:
 		var btn = Button.new()
 		btn.set_meta("model", i)
-		btn.text = i.get_file()
+		var name = i.get_file().substr(0, i.find("."))
+		btn.name = name
+		btn.text = name
+		btn.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		btn.focus_mode = Control.FOCUS_NONE
 		# btn.expand_icon = true
@@ -39,6 +43,7 @@ func _show_configuration(item: VtItem) -> void:
 	
 	%ZIndex/Value.value = 0
 	%FrameRate/Value.value = 10
+	%Pin/Value.button_pressed = false
 	
 	%Modal.show()
 	%ItemPopup.show()
@@ -77,6 +82,10 @@ func _on_stage_item_added(item: Node2D) -> void:
 	%StageItems.add_child(row)
 
 func _on_stage_model_changed(model: Node2D) -> void:
+	for i in %StageItems.get_children():
+		if i.item is VtModel:
+			i.queue_free()
+
 	var row = preload("./item_row.tscn").instantiate()
 	row.item = model
 	
@@ -90,6 +99,7 @@ func _on_stage_update_order(objects: Array[Node]) -> void:
 				%StageItems.move_child(c, i)
 
 func _on_add_button_pressed() -> void:
+	%ItemSearch.text = ""
 	%Modal.show()
 	%ItemSelectPopup.show()
 	
@@ -97,3 +107,14 @@ func _on_add_button_pressed() -> void:
 	
 	%ItemSelectPopup.hide()
 	%Modal.hide()
+
+func _on_item_search_text_changed(new_text: String) -> void:
+	for i in %List.get_children():
+		i.visible = i.name.contains(new_text) if not new_text.is_empty() else true
+
+func _on_clear_button_pressed() -> void:
+	for i in %StageItems.get_children():
+		if i.item is VtItem:
+			i.item.queue_free()
+			i.queue_free()
+		

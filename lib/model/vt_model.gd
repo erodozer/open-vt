@@ -54,7 +54,12 @@ func _rebuild_l2d(model: ModelMeta):
 	var canvas_info = live2d_model.get_canvas_info()
 	render.position = -live2d_model.get_canvas_info().origin_in_pixels
 	live2d_model.size = live2d_model.get_canvas_info().size_in_pixels
-	
+	for m in get_meshes():
+		var center = utils.v32xy(utils.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
+		m.set_meta("centroid", center)
+		m.set_meta("start_centroid", center)
+		m.set_meta("global_centroid", render.global_position + center)
+		
 func _load_model(model: ModelMeta):
 	_rebuild_l2d(model)
 	

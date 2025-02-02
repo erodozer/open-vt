@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://hpg52fgw7kdc"]
 
-[ext_resource type="Script" path="res://studio/ui/hotkey_panel/input_rec_popup.gd" id="1_px4rr"]
+[ext_resource type="Script" path="res://studio/ui/parameter_panel/input_rec_popup.gd" id="1_px4rr"]
 
 [node name="InputRecPopup" type="Window"]
 auto_translate_mode = 1

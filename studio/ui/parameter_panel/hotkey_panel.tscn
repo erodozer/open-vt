@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://scglt3qchj3j"]
+[gd_scene load_steps=3 format=3 uid="uid://scglt3qchj3j"]
 
 [ext_resource type="Script" path="res://studio/ui/hotkey_panel/hotkey_panel.gd" id="1_ntnou"]
-[ext_resource type="Theme" uid="uid://bwesfr5en0lxv" path="res://studio/ui/ui_theme.tres" id="2_tupr2"]
-[ext_resource type="PackedScene" uid="uid://hpg52fgw7kdc" path="res://studio/ui/hotkey_panel/input_rec_popup.tscn" id="3_mmr4k"]
+[ext_resource type="PackedScene" uid="uid://hpg52fgw7kdc" path="res://studio/ui/parameter_panel/input_rec_popup.tscn" id="3_mmr4k"]
 
 [node name="HotkeyPanel" type="PanelContainer"]
 custom_minimum_size = Vector2(480, 0)
@@ -16,17 +15,7 @@ script = ExtResource("1_ntnou")
 unique_name_in_owner = true
 visible = false
 
-[node name="Theme" type="Control" parent="Modal"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("2_tupr2")
-
-[node name="ColorRect" type="ColorRect" parent="Modal/Theme"]
-layout_mode = 1
+[node name="ColorRect" type="ColorRect" parent="Modal"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -35,7 +24,7 @@ grow_vertical = 2
 mouse_force_pass_scroll_events = false
 color = Color(0, 0, 0, 0.258824)
 
-[node name="ActionPopup" type="Window" parent="Modal/Theme"]
+[node name="ActionPopup" type="Window" parent="Modal"]
 unique_name_in_owner = true
 auto_translate_mode = 1
 transparent_bg = true
@@ -51,33 +40,33 @@ borderless = true
 transparent = true
 popup_window = true
 
-[node name="PanelContainer" type="PanelContainer" parent="Modal/Theme/ActionPopup"]
+[node name="PanelContainer" type="PanelContainer" parent="Modal/ActionPopup"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Modal/Theme/ActionPopup/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/ActionPopup/PanelContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Modal/Theme/ActionPopup/PanelContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="Modal/ActionPopup/PanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Select Action"
 horizontal_alignment = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Modal/Theme/ActionPopup/PanelContainer/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Modal/ActionPopup/PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ActionList" type="VBoxContainer" parent="Modal/Theme/ActionPopup/PanelContainer/VBoxContainer/ScrollContainer"]
+[node name="ActionList" type="VBoxContainer" parent="Modal/ActionPopup/PanelContainer/VBoxContainer/ScrollContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_type_variation = &"VBoxList"
 
-[node name="InputRecPopup" parent="Modal/Theme" instance=ExtResource("3_mmr4k")]
+[node name="InputRecPopup" parent="Modal" instance=ExtResource("3_mmr4k")]
 unique_name_in_owner = true
 visible = false
 

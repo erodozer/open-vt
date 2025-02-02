@@ -1,7 +1,8 @@
-[gd_scene load_steps=21 format=3 uid="uid://bbh7pj5wq0sii"]
+[gd_scene load_steps=20 format=3 uid="uid://bbh7pj5wq0sii"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_g562h"]
 [ext_resource type="Script" path="res://lib/item_manager.gd" id="4_4ht51"]
+[ext_resource type="Texture2D" uid="uid://b401bri37hvvq" path="res://studio/grid.png" id="5_2pxyu"]
 [ext_resource type="Script" path="res://studio/hud.gd" id="5_pr18m"]
 [ext_resource type="Script" path="res://lib/stage.gd" id="5_uhpo7"]
 [ext_resource type="Texture2D" uid="uid://ddqu1ma3rgo08" path="res://studio/ui/icons/aperture.svg" id="6_pyns6"]
@@ -9,17 +10,15 @@
 [ext_resource type="Script" path="res://lib/tracking_system.gd" id="8_dv8e1"]
 [ext_resource type="Texture2D" uid="uid://blil5brl4i0qh" path="res://studio/ui/icons/gear.svg" id="8_jn2ra"]
 [ext_resource type="PackedScene" uid="uid://dpw8au0ueatrg" path="res://studio/ui/parameter_panel/parameter_panel.tscn" id="8_sw6px"]
-[ext_resource type="Texture2D" uid="uid://0yh01fnusj7i" path="res://studio/ui/icons/square-t.svg" id="9_v852m"]
 [ext_resource type="Texture2D" uid="uid://csg8x01sho2ej" path="res://studio/ui/icons/cube.svg" id="10_jf06x"]
 [ext_resource type="PackedScene" uid="uid://dijec4c8prced" path="res://studio/ui/model_panel/model_panel.tscn" id="10_tc0r5"]
 [ext_resource type="PackedScene" uid="uid://crwh7f50woqgu" path="res://studio/ui/camera_panel/camera_panel.tscn" id="11_3ft6e"]
 [ext_resource type="Script" path="res://lib/model_manager.gd" id="12_ufyfb"]
-[ext_resource type="PackedScene" uid="uid://scglt3qchj3j" path="res://studio/ui/hotkey_panel/hotkey_panel.tscn" id="13_f05v4"]
 [ext_resource type="PackedScene" uid="uid://bcxs7fe1yqc6o" path="res://studio/ui/item_panel/item_panel.tscn" id="13_jdf84"]
 [ext_resource type="PackedScene" uid="uid://bkm4lgw38g4di" path="res://lib/model/vt_model.tscn" id="15_wg2gf"]
 
 [sub_resource type="Gradient" id="Gradient_joccq"]
-colors = PackedColorArray(1.68458e-07, 0.184621, 0.229052, 1, 0, 0.313239, 0.313239, 1)
+colors = PackedColorArray(0.298039, 0.282353, 0.239216, 1, 0.67451, 0.654902, 0.580392, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_kr4px"]
 gradient = SubResource("Gradient_joccq")
@@ -52,6 +51,16 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_kr4px")
 
+[node name="BgFill2" type="TextureRect" parent="Bg"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_2pxyu")
+stretch_mode = 1
+
 [node name="Stage" type="CanvasLayer" parent="." groups=["persist"]]
 script = ExtResource("5_uhpo7")
 
@@ -78,6 +87,7 @@ offset_top = 16.0
 offset_right = 80.0
 offset_bottom = 254.0
 mouse_filter = 1
+theme_type_variation = &"ButtonPanel"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Interface/HUD/Menu"]
 layout_mode = 2
@@ -135,19 +145,6 @@ icon_alignment = 1
 expand_icon = true
 metadata/panel = NodePath("../../../ParameterPanel")
 
-[node name="HotkeysBtn" type="Button" parent="Interface/HUD/Menu/VBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-focus_mode = 0
-mouse_default_cursor_shape = 2
-toggle_mode = true
-button_group = SubResource("ButtonGroup_42qc0")
-icon = ExtResource("9_v852m")
-icon_alignment = 1
-expand_icon = true
-metadata/panel = NodePath("../../../HotkeyPanel")
-
 [node name="ParameterPanel" parent="Interface/HUD" instance=ExtResource("8_sw6px")]
 unique_name_in_owner = true
 layout_mode = 1
@@ -180,15 +177,6 @@ layout_mode = 1
 offset_left = 310.0
 offset_right = 790.0
 
-[node name="HotkeyPanel" parent="Interface/HUD" instance=ExtResource("13_f05v4")]
-layout_mode = 1
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = 302.0
-offset_right = 782.0
-grow_horizontal = 0
-
 [connection signal="parameters_updated" from="TrackerSystem" to="ModelManager" method="_on_tracker_system_parameters_updated"]
 [connection signal="parameters_updated" from="TrackerSystem" to="Interface/HUD/ParameterPanel" method="_on_tracker_system_parameters_updated"]
 [connection signal="parameters_updated" from="TrackerSystem" to="Interface/HUD/CameraPanel" method="_on_tracker_system_parameters_updated"]
@@ -201,6 +189,5 @@ grow_horizontal = 0
 [connection signal="model_changed" from="Stage" to="Interface/HUD" method="_on_model_changed"]
 [connection signal="model_changed" from="Stage" to="Interface/HUD/ParameterPanel" method="_on_stage_model_changed"]
 [connection signal="model_changed" from="Stage" to="Interface/HUD/ItemPanel" method="_on_stage_model_changed"]
-[connection signal="model_changed" from="Stage" to="Interface/HUD/HotkeyPanel" method="_on_stage_model_changed"]
 [connection signal="update_order" from="Stage" to="Interface/HUD/ItemPanel" method="_on_stage_update_order"]
 [connection signal="toggle_bg_transparency" from="Interface/HUD/CameraPanel" to="." method="_on_camera_panel_toggle_bg_transparency"]

@@ -18,6 +18,7 @@ func _ready() -> void:
 		var btn = Button.new()
 		btn.text = i.name
 		btn.toggle_mode = true
+		btn.focus_mode = Control.FOCUS_NONE
 		if select_mode == Mode.MULTI:
 			btn.button_group = button_group
 		add_child(btn)

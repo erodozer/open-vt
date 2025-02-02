@@ -1,5 +1,10 @@
 extends Control
 
+enum SampleMode {
+	BOUNDS,
+	ALPHA
+}
+
 @onready var anchor: Node2D = get_parent()
 
 signal transform_updated(position: Vector2, scale: Vector2, rotation: float)
@@ -7,6 +12,7 @@ signal drag_pressed
 signal drag_released
 
 @export var locked = false
+@export var sample_mode = SampleMode.BOUNDS
 var dragging = false
 
 func _handle_mouse_button_down(event: InputEventMouseButton):
@@ -62,7 +68,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			if not (p_xy.x >= 0 and p_xy.x < self.size.x and p_xy.y >= 0 and p_xy.y < self.size.y):
 				return
 			# sample for alpha if control has texture
-			if "texture" in self:
+			if "texture" in self and sample_mode == SampleMode.ALPHA:
 				var px = self.texture.get_image().get_pixelv(p_xy)
 				var opaque = px.a > 0.0
 				if not opaque:

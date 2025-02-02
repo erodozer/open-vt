@@ -9,7 +9,7 @@
 size_flags_horizontal = 3
 script = ExtResource("1_l2brn")
 
-[node name="PointPreview" type="Control" parent="."]
+[node name="PointPreview" type="Panel" parent="."]
 unique_name_in_owner = true
 clip_contents = true
 custom_minimum_size = Vector2(0, 256)
@@ -17,23 +17,15 @@ layout_mode = 2
 script = ExtResource("1_a10jp")
 mirror = true
 
-[node name="ColorRect" type="ColorRect" parent="PointPreview"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.389287, 0.389287, 0.389287, 1)
-
 [node name="FpsCounter" type="Label" parent="PointPreview"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 45.0
 offset_bottom = 23.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_type_variation = &"ValueLabel"
 text = "FPS: 0"
 
 [node name="FaceMesh" type="MeshInstance2D" parent="PointPreview"]
@@ -53,8 +45,9 @@ offset_top = 8.0
 offset_right = -8.0
 offset_bottom = 31.0
 grow_horizontal = 0
+theme_type_variation = &"ValueLabel"
 text = "Off"
-horizontal_alignment = 2
+horizontal_alignment = 1
 
 [node name="BlinkSync" type="CheckButton" parent="."]
 unique_name_in_owner = true

@@ -21,6 +21,7 @@ func _on_model_manager_list_updated(models: Array) -> void:
 		btn.icon = ImageTexture.create_from_image(
 			Image.load_from_file(i.icon)
 		)
+		btn.theme_type_variation = "ImageButton"
 		btn.focus_mode = Control.FOCUS_NONE
 		btn.tooltip_text = i.name
 		btn.expand_icon = true

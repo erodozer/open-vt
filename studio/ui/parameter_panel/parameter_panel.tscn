@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://dpw8au0ueatrg"]
+[gd_scene load_steps=7 format=3 uid="uid://dpw8au0ueatrg"]
 
 [ext_resource type="Script" path="res://studio/ui/parameter_panel/parameter_panel.gd" id="1_5864b"]
 [ext_resource type="Texture2D" uid="uid://d1kej52kqrg0g" path="res://studio/ui/icons/eraser.svg" id="2_4qkrp"]
 [ext_resource type="Script" path="res://studio/ui/accordion/accordion.gd" id="2_57r6x"]
 [ext_resource type="Texture2D" uid="uid://d0oc7kwqufoqr" path="res://studio/ui/icons/circle-plus.svg" id="3_6caqy"]
+[ext_resource type="Texture2D" uid="uid://pd4vy1npck5p" path="res://studio/ui/icons/lock.svg" id="3_ng4r4"]
+[ext_resource type="PackedScene" uid="uid://hpg52fgw7kdc" path="res://studio/ui/parameter_panel/input_rec_popup.tscn" id="6_nqfbe"]
 
 [node name="ParameterPanel" type="PanelContainer"]
 custom_minimum_size = Vector2(480, 0)
@@ -11,10 +13,13 @@ anchors_preset = 9
 anchor_bottom = 1.0
 offset_right = 352.0
 grow_vertical = 2
+mouse_force_pass_scroll_events = false
 script = ExtResource("1_5864b")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 2
+mouse_filter = 0
+mouse_force_pass_scroll_events = false
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 
@@ -68,6 +73,16 @@ layout_mode = 2
 [node name="Label" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Transformation"
+
+[node name="LockButton" type="Button" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+tooltip_text = "Lock transform"
+toggle_mode = true
+icon = ExtResource("3_ng4r4")
+icon_alignment = 1
+expand_icon = true
 
 [node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -247,12 +262,32 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TextureButton" type="TextureButton" parent="ScrollContainer/MarginContainer/Accordion/Parameters"]
+[node name="AddParameterButton" type="Button" parent="ScrollContainer/MarginContainer/Accordion/Parameters"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
-texture_normal = ExtResource("3_6caqy")
-ignore_texture_size = true
-stretch_mode = 5
+icon = ExtResource("3_6caqy")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="HotKeys" type="VBoxContainer" parent="ScrollContainer/MarginContainer/Accordion"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HotkeyList" type="VBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/HotKeys"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="AddHotkeyButton" type="Button" parent="ScrollContainer/MarginContainer/Accordion/HotKeys"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+icon = ExtResource("3_6caqy")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="Modal" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
@@ -360,7 +395,54 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_type_variation = &"VBoxList"
 
+[node name="ActionPopup" type="Window" parent="Modal"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+transparent_bg = true
+title = "Select Output Parameter"
+initial_position = 1
+size = Vector2i(480, 600)
+visible = false
+transient = true
+transient_to_focused = true
+exclusive = true
+unresizable = true
+borderless = true
+transparent = true
+popup_window = true
+
+[node name="PanelContainer" type="PanelContainer" parent="Modal/ActionPopup"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/ActionPopup/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Modal/ActionPopup/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Select Action"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Modal/ActionPopup/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ActionList" type="VBoxContainer" parent="Modal/ActionPopup/PanelContainer/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_type_variation = &"VBoxList"
+
+[node name="InputRecPopup" parent="Modal" instance=ExtResource("6_nqfbe")]
+unique_name_in_owner = true
+visible = false
+
 [connection signal="item_selected" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer/TextureFilter" to="." method="_on_texture_filter_item_selected"]
+[connection signal="toggled" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/HBoxContainer/LockButton" to="." method="_on_lock_button_toggled"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position/Erase" to="." method="_on_erase_position_pressed"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale/Erase" to="." method="_on_erase_scale_pressed"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation/Erase" to="." method="_on_erase_rotate_pressed"]

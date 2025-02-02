@@ -9,6 +9,7 @@ func _ready() -> void:
 	%ItemName.text = item.name
 	
 	if item is not VtItem:
+		%LockButton.hide()
 		%PinControls.hide()
 		%ZControls.hide()
 		%DeleteButton.hide()

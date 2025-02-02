@@ -2,17 +2,7 @@
 
 [ext_resource type="Script" path="res://studio/ui/item_panel/item_panel.gd" id="1_uiugv"]
 [ext_resource type="Texture2D" uid="uid://d0oc7kwqufoqr" path="res://studio/ui/icons/circle-plus.svg" id="2_8x6lw"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ghokm"]
-content_margin_left = 8.0
-content_margin_top = 8.0
-content_margin_right = 8.0
-content_margin_bottom = 8.0
-bg_color = Color(0.144063, 0.144063, 0.144062, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+[ext_resource type="Texture2D" uid="uid://clbvp8v3ryv4q" path="res://studio/ui/icons/magnifying-glass.svg" id="3_jl0uw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7cbrn"]
 bg_color = Color(0.637843, 0.637843, 0.637843, 1)
@@ -31,52 +21,100 @@ offset_left = 308.0
 offset_right = 788.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ghokm")
+mouse_force_pass_scroll_events = false
 script = ExtResource("1_uiugv")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"SubPanelContainer"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer"]
 layout_mode = 2
 
-[node name="DirectoryButton" type="Button" parent="VBoxContainer/PanelContainer/VBoxContainer"]
+[node name="DirectoryButton" type="Button" parent="ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
+focus_mode = 0
 text = "Open Item Directory"
 
-[node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SaveButton" type="Button" parent="ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Save Scene"
+
+[node name="LoadButton" type="Button" parent="ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Load Scene
+"
+
+[node name="PanelContainer2" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"SubPanelContainer"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer2"]
 layout_mode = 2
 
-[node name="AddButton" type="Button" parent="VBoxContainer/PanelContainer2/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="LockAllButton" type="Button" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-text = "Add Item"
-icon = ExtResource("2_8x6lw")
-icon_alignment = 2
-expand_icon = true
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Toggle Lock All Items"
 
-[node name="Label" type="Label" parent="VBoxContainer/PanelContainer2/VBoxContainer"]
+[node name="ClearButton" type="Button" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-text = "Items order is sorted background to foreground"
+size_flags_horizontal = 3
+focus_mode = 0
+text = "Clear"
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer"]
+layout_mode = 2
+text = "Item are ordered background to foreground"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="StageItems" type="VBoxContainer" parent="VBoxContainer/PanelContainer2/VBoxContainer"]
+[node name="StageItems" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_constants/separation = 24
+
+[node name="AddButton" type="Button" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+focus_mode = 0
+icon = ExtResource("2_8x6lw")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="Modal" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
@@ -113,10 +151,39 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Modal/ItemSelectPopup/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/ItemSelectPopup/PanelContainer"]
 layout_mode = 2
 
-[node name="List" type="VBoxContainer" parent="Modal/ItemSelectPopup/PanelContainer/ScrollContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Modal/ItemSelectPopup/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ItemSearch" type="LineEdit" parent="Modal/ItemSelectPopup/PanelContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Search..."
+
+[node name="TextureRect" type="TextureRect" parent="Modal/ItemSelectPopup/PanelContainer/VBoxContainer/HBoxContainer"]
+modulate = Color(0.298039, 0.282353, 0.239216, 1)
+texture_filter = 2
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("3_jl0uw")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Modal/ItemSelectPopup/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+vertical_scroll_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Modal/ItemSelectPopup/PanelContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_right = 4
+
+[node name="List" type="VBoxContainer" parent="Modal/ItemSelectPopup/PanelContainer/VBoxContainer/ScrollContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -223,9 +290,11 @@ layout_mode = 2
 size_flags_vertical = 10
 text = "Add Item"
 
-[connection signal="pressed" from="VBoxContainer/PanelContainer/VBoxContainer/DirectoryButton" to="." method="_on_directory_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/PanelContainer2/VBoxContainer/AddButton" to="." method="_on_add_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer/DirectoryButton" to="." method="_on_directory_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer/ClearButton" to="." method="_on_clear_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/AddButton" to="." method="_on_add_button_pressed"]
 [connection signal="close_requested" from="Modal/ItemSelectPopup" to="." method="_on_item_popup_close_requested"]
+[connection signal="text_changed" from="Modal/ItemSelectPopup/PanelContainer/VBoxContainer/HBoxContainer/ItemSearch" to="." method="_on_item_search_text_changed"]
 [connection signal="close_requested" from="Modal/ItemPopup" to="." method="_on_item_popup_close_requested"]
 [connection signal="value_changed" from="Modal/ItemPopup/PanelContainer/VBoxContainer/FrameRate/Value" to="." method="_on_framerate_value_changed"]
 [connection signal="pressed" from="Modal/ItemPopup/PanelContainer/VBoxContainer/SpawnBtn" to="." method="_on_spawn_btn_pressed"]

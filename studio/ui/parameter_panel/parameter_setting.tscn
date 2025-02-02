@@ -1,17 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://btuev1y2eb6se"]
+[gd_scene load_steps=3 format=3 uid="uid://btuev1y2eb6se"]
 
 [ext_resource type="Script" path="res://studio/ui/parameter_panel/parameter_setting.gd" id="1_cjyog"]
 [ext_resource type="Texture2D" uid="uid://ce5log3qg4jho" path="res://studio/ui/icons/delete-right.svg" id="2_ucxf0"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sy070"]
-content_margin_left = 8.0
-content_margin_top = 4.0
-content_margin_right = 8.0
-content_margin_bottom = 4.0
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
 
 [node name="Control" type="PanelContainer"]
 size_flags_horizontal = 3
@@ -34,6 +24,7 @@ text = "Parameter Name"
 [node name="Button" type="Button" parent="VBoxContainer/HBoxContainer5"]
 custom_minimum_size = Vector2(48, 24)
 layout_mode = 2
+focus_mode = 0
 icon = ExtResource("2_ucxf0")
 flat = true
 icon_alignment = 1
@@ -42,6 +33,7 @@ expand_icon = true
 [node name="InputSelect" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_mode = 0
 text = "Input"
 
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
@@ -70,6 +62,7 @@ layout_mode = 2
 min_value = -1000.0
 max_value = 1000.0
 step = 0.01
+alignment = 2
 
 [node name="InputRangeUpper" type="SpinBox" parent="VBoxContainer/PanelContainer/Input/HBoxContainer"]
 unique_name_in_owner = true
@@ -78,13 +71,12 @@ layout_mode = 2
 min_value = -1000.0
 max_value = 1000.0
 step = 0.01
+alignment = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer/Input/HBoxContainer"]
-layout_mode = 2
-
-[node name="InputRangeClamp" type="CheckButton" parent="VBoxContainer/PanelContainer/Input/HBoxContainer/VBoxContainer"]
+[node name="InputRangeClamp" type="CheckButton" parent="VBoxContainer/PanelContainer/Input/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 10
 text = "clamp"
 
 [node name="InputLevel" type="ProgressBar" parent="VBoxContainer/PanelContainer/Input"]
@@ -98,6 +90,7 @@ allow_lesser = true
 [node name="OutputSelect" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_mode = 0
 text = "Output"
 
 [node name="PanelContainer2" type="PanelContainer" parent="VBoxContainer"]
@@ -126,6 +119,7 @@ layout_mode = 2
 min_value = -1000.0
 max_value = 1000.0
 step = 0.01
+alignment = 2
 
 [node name="OutputRangeUpper" type="SpinBox" parent="VBoxContainer/PanelContainer2/Output/HBoxContainer"]
 unique_name_in_owner = true
@@ -134,10 +128,13 @@ layout_mode = 2
 min_value = -1000.0
 max_value = 1000.0
 step = 0.01
+alignment = 2
 
 [node name="OutputRangeClamp" type="CheckButton" parent="VBoxContainer/PanelContainer2/Output/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 10
+focus_mode = 0
 text = "clamp"
 
 [node name="OutputLevel" type="ProgressBar" parent="VBoxContainer/PanelContainer2/Output"]
@@ -166,8 +163,8 @@ size_flags_vertical = 4
 
 [node name="SmoothingLabel" type="Label" parent="VBoxContainer/PanelContainer2/Output/VBoxContainer/HBoxContainer4"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(96, 0)
+custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_sy070")
+theme_type_variation = &"ValueLabel"
 text = "50"
 horizontal_alignment = 1

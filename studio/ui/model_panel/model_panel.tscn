@@ -1,17 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dijec4c8prced"]
+[gd_scene load_steps=2 format=3 uid="uid://dijec4c8prced"]
 
 [ext_resource type="Script" path="res://studio/ui/model_panel/model_panel.gd" id="1_4axdi"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ghokm"]
-content_margin_left = 8.0
-content_margin_top = 8.0
-content_margin_right = 8.0
-content_margin_bottom = 8.0
-bg_color = Color(0.144063, 0.144063, 0.144062, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
 
 [node name="ModelPanel" type="PanelContainer"]
 custom_minimum_size = Vector2(480, 0)
@@ -22,7 +11,7 @@ anchor_bottom = 1.0
 offset_left = -24.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ghokm")
+mouse_force_pass_scroll_events = false
 script = ExtResource("1_4axdi")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -50,7 +39,7 @@ vertical_scroll_mode = 2
 [node name="ModelList" type="GridContainer" parent="VBoxContainer/ScrollContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 6
 columns = 3
 
 [connection signal="pressed" from="VBoxContainer/PanelContainer/VBoxContainer/DirectoryButton" to="." method="_on_directory_button_pressed"]
