@@ -1,16 +1,14 @@
 # System for loading models from VTubeStudio's format
 # and spawning them into the scene to be managed
-extends Node2D
+extends "res://lib/vtobject.gd"
 
 const utils = preload("res://lib/utils.gd")
 const ParameterSetting = preload("res://lib/tracking/parameter_setting.gd")
 const TrackingSystem = preload("res://lib/tracking_system.gd")
-const Draggable = preload("res://lib/draggable.gd")
 const ModelMeta = preload("./metadata.gd")
 const ModelExpression = preload("res://lib/model/expression.gd")
 const HotkeyBinding = preload("res://lib/hotkey/binding.gd")
 
-@onready var render: Draggable = %Model
 @onready var live2d_model = %GDCubismUserModel
 var model: ModelMeta
 
@@ -54,7 +52,7 @@ func _ready():
 func _rebuild_l2d(model: ModelMeta):
 	live2d_model.assets = model.model
 	var canvas_info = live2d_model.get_canvas_info()
-	%Model.position = -live2d_model.get_canvas_info().origin_in_pixels
+	render.position = -live2d_model.get_canvas_info().origin_in_pixels
 	live2d_model.size = live2d_model.get_canvas_info().size_in_pixels
 	
 func _load_model(model: ModelMeta):
@@ -118,7 +116,10 @@ func _load_model(model: ModelMeta):
 	var mesh_details = vtube_data.get("ArtMeshDetails", {})
 	for m in get_meshes():
 		pinnable[m.name] = m.name not in mesh_details.get("ArtMeshesExcludedFromPinning", [])
-		m.set_meta("centroid", utils.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
+		var center = utils.v32xy(utils.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
+		m.set_meta("centroid", center)
+		m.set_meta("start_centroid", center)
+		m.set_meta("global_centroid", render.global_position + center)
 		
 	await get_tree().process_frame
 	
@@ -183,4 +184,8 @@ func update_shaders():
 func _process(delta: float) -> void:
 	for id in model_parameters.keys():
 		model_parameters[id].value = parameter_values[id]
-	
+	for m in get_meshes():
+		var center = utils.v32xy(utils.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
+		m.set_meta("centroid", center)
+		m.set_meta("global_centroid", render.global_position + center)
+		m.set_meta("angle", center.angle_to(m.get_meta("start_centroid")))

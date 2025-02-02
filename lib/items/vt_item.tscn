@@ -14,7 +14,7 @@ offset_bottom = 40.0
 script = ExtResource("1_168ec")
 
 [node name="Debug" type="Node2D" parent="Image"]
-visible = false
 script = ExtResource("3_wpqse")
 
+[connection signal="drag_pressed" from="Image" to="." method="_on_image_drag_pressed"]
 [connection signal="drag_released" from="Image" to="." method="_on_draggable_drag_released"]

@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bmpqgbccg71l2"]
+[gd_scene load_steps=5 format=3 uid="uid://bmpqgbccg71l2"]
 
 [ext_resource type="Script" path="res://studio/ui/item_panel/item_row.gd" id="1_31mjc"]
 [ext_resource type="Texture2D" uid="uid://dvoxi8gjlmu1m" path="res://studio/ui/icons/trash-can.svg" id="2_88c2d"]
+[ext_resource type="Texture2D" uid="uid://pd4vy1npck5p" path="res://studio/ui/icons/lock.svg" id="2_145ox"]
 [ext_resource type="Texture2D" uid="uid://qky5l021m1dt" path="res://studio/ui/icons/thumbtack.svg" id="2_bacbn"]
 
 [node name="ItemRow" type="PanelContainer"]
@@ -14,6 +15,16 @@ layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
+
+[node name="LockButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+tooltip_text = "Lock transform"
+toggle_mode = true
+icon = ExtResource("2_145ox")
+icon_alignment = 1
+expand_icon = true
 
 [node name="ItemName" type="Label" parent="VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
@@ -68,6 +79,7 @@ icon = ExtResource("2_bacbn")
 icon_alignment = 1
 expand_icon = true
 
+[connection signal="toggled" from="VBoxContainer/HBoxContainer/LockButton" to="." method="_on_lock_button_toggled"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/ZControls/UpButton" to="." method="_on_up_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/ZControls/DownButton" to="." method="_on_down_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/DeleteButton" to="." method="_on_delete_button_pressed"]

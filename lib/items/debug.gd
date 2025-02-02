@@ -11,4 +11,4 @@ func _process(delta: float) -> void:
 	
 func _draw() -> void:
 	var centroid = get_parent().size / 2
-	draw_circle(centroid, 2, Color.RED, true, 1.0, true)
+	draw_circle(centroid, 2, Color.RED, true, -1.0, true)

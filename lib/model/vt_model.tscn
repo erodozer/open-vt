@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://lib/model/vt_model.gd" id="1_bvpwh"]
 [ext_resource type="Script" path="res://lib/draggable.gd" id="2_ribot"]
-[ext_resource type="Script" path="res://lib/model/debug_renderer.gd" id="3_nwsty"]
+[ext_resource type="Script" path="res://lib/model/debug.gd" id="3_nwsty"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_iumio"]
 viewport_path = NodePath("GDCubismUserModel")
@@ -21,7 +21,7 @@ render_target_update_mode = 4
 [node name="HotKeys" type="Node" parent="."]
 unique_name_in_owner = true
 
-[node name="Model" type="TextureRect" parent="."]
+[node name="Image" type="TextureRect" parent="."]
 unique_name_in_owner = true
 offset_right = 512.0
 offset_bottom = 512.0
@@ -29,7 +29,7 @@ mouse_filter = 2
 texture = SubResource("ViewportTexture_iumio")
 script = ExtResource("2_ribot")
 
-[node name="Debug" type="Node2D" parent="Model" node_paths=PackedStringArray("model")]
+[node name="Debug" type="Node2D" parent="Image" node_paths=PackedStringArray("model")]
 unique_name_in_owner = true
 visible = false
 script = ExtResource("3_nwsty")

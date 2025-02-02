@@ -3,8 +3,10 @@ extends Control
 @onready var anchor: Node2D = get_parent()
 
 signal transform_updated(position: Vector2, scale: Vector2, rotation: float)
+signal drag_pressed
 signal drag_released
 
+@export var locked = false
 var dragging = false
 
 func _handle_mouse_button_down(event: InputEventMouseButton):
@@ -33,6 +35,7 @@ func _handle_mouse_button_down(event: InputEventMouseButton):
 		
 	if event.button_index == MOUSE_BUTTON_LEFT:
 		dragging = true
+		drag_pressed.emit()
 	
 	return dirty
 
@@ -47,6 +50,10 @@ func _handle_mouse_motion(event: InputEventMouseMotion) -> bool:
 # this behavior conflicts with the ability to handle mouse input relative to sampled pixels
 # so that we can ignore clicking on transparent parts
 func _unhandled_input(event: InputEvent) -> void:
+	# prevent transformations
+	if locked:
+		return
+	
 	var dirty = false
 	if event is InputEventMouseButton:
 		if event.pressed:

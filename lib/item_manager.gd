@@ -88,7 +88,5 @@ func create_item(path: String) -> VtItem:
 		return
 	
 	vtitem.name = path.get_file()
-	item.pivot_offset = -item.size / 2
-	item.position = -item.size / 2
 	
 	return vtitem
