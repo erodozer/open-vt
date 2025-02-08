@@ -45,6 +45,7 @@ persist="Accesses and Stores state within application config"
 system:hotkey=""
 vtmodel=""
 system:items=""
+system:stage=""
 
 [gui]
 

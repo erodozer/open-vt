@@ -1,8 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://bkm4lgw38g4di"]
+[gd_scene load_steps=7 format=3 uid="uid://bkm4lgw38g4di"]
 
 [ext_resource type="Script" path="res://lib/model/vt_model.gd" id="1_bvpwh"]
 [ext_resource type="Script" path="res://lib/draggable.gd" id="2_ribot"]
 [ext_resource type="Script" path="res://lib/model/debug.gd" id="3_nwsty"]
+[ext_resource type="Shader" path="res://lib/model/shaders/linear/2d_cubism_norm_mix.gdshader" id="9_bo15r"]
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4687o"]
+resource_local_to_scene = true
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_iumio"]
 viewport_path = NodePath("GDCubismUserModel")
@@ -10,7 +14,18 @@ viewport_path = NodePath("GDCubismUserModel")
 [node name="VtModel" type="Node2D" groups=["vtmodel"]]
 script = ExtResource("1_bvpwh")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+deterministic = true
+root_node = NodePath("../GDCubismUserModel")
+libraries = {
+"": SubResource("AnimationLibrary_4687o")
+}
+
 [node name="GDCubismUserModel" type="GDCubismUserModel" parent="."]
+load_motions = false
+parameter_mode = 1
+shader_mix = ExtResource("9_bo15r")
 unique_name_in_owner = true
 disable_3d = true
 transparent_bg = true

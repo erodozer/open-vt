@@ -29,6 +29,17 @@ static func v23xz(v: Vector2) -> Vector3:
 	return Vector3(
 		v.x, 0, v.y
 	)
+	
+static func walk_files(dir: String, extension: String) -> Array[String]:
+	var files: Array[String] = []
+	for f in DirAccess.get_files_at(dir):
+		if f.ends_with(extension):
+			files.append(dir.path_join(f))
+		
+	for d in DirAccess.get_directories_at(dir):
+		files.append_array(walk_files(dir.path_join(d), extension))
+	
+	return files
 
 ## Naive centroid calculation by looking for the average position of all vertices
 ## If you want an actual weighted centroid that considers the surface area and shape of a convex hull

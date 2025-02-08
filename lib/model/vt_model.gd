@@ -11,6 +11,7 @@ const HotkeyBinding = preload("res://lib/hotkey/binding.gd")
 
 @onready var live2d_model = %GDCubismUserModel
 var model: ModelMeta
+var motions: AnimationLibrary
 
 var parameters_l2d: Array
 var model_parameters: Dictionary
@@ -28,7 +29,6 @@ var hotkeys: Array :
 	get():
 		return %HotKeys.get_children()
 		
-var motions: Dictionary = {}
 var expressions: Dictionary = {}
 var active_expressions: Dictionary = {}
 
@@ -52,14 +52,14 @@ func _ready():
 func _rebuild_l2d(model: ModelMeta):
 	live2d_model.assets = model.model
 	var canvas_info = live2d_model.get_canvas_info()
-	render.position = -live2d_model.get_canvas_info().origin_in_pixels
-	live2d_model.size = live2d_model.get_canvas_info().size_in_pixels
+	# render.position = -live2d_model.get_canvas_info().origin_in_pixels
+	live2d_model.size = Vector2(1024,1024)
 	for m in get_meshes():
 		var center = utils.v32xy(utils.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
 		m.set_meta("centroid", center)
 		m.set_meta("start_centroid", center)
 		m.set_meta("global_centroid", render.global_position + center)
-		
+
 func _load_model(model: ModelMeta):
 	_rebuild_l2d(model)
 	
@@ -83,15 +83,38 @@ func _load_model(model: ModelMeta):
 			studio_parameters.append(p)
 			
 	var transform = vtube_data.get("SavedModelPosition", {})
-	position = utils.vts_to_world(Vector2(transform.get("Position", {}).get("x", 0.0), transform.get("Position", {}).get("y", 0.0)))
+	# position = utils.vts_to_world(Vector2(transform.get("Position", {}).get("x", 0.0), transform.get("Position", {}).get("y", 0.0)))
+	position = get_viewport().size / 2
 	scale = Vector2(transform.get("Scale", {}).get("x", 0.0), transform.get("Scale", {}).get("y", 0.0))
 	rotation = transform.get("Rotation", {}).get("z", 0.0)
+	
+	for e in model.expressions:
+		expressions[e.name] = e;
+		active_expressions[e] = false
+	
+	# load motions as godot animations
+	var anim_player: AnimationPlayer = %AnimationPlayer
+	motions = anim_player.get_animation_library("")
+	for motion in utils.walk_files(model.model.get_base_dir(), "motion3.json"):
+		var anim = GDCubismMotionImporter.parse_motion(motion)
+		motions.add_animation(motion.get_file(), anim)
+	# generate reset animation
+	var reset = Animation.new()
+	for p in live2d_model.get_parameters():
+		var t = reset.add_track(Animation.TYPE_VALUE)
+		reset.track_insert_key(t, 0, p.value)
+	motions.add_animation("RESET", reset)
+	
+	if len(motions.get_animation_list()) > 0:
+		anim_player.play(motions.get_animation_list()[0])
 	
 	for hotkey in vtube_data.get("Hotkeys", []):
 		var binding = HotkeyBinding.new()
 
 		match hotkey.Action:
 			"ToggleExpression":
+				if hotkey.File not in expressions:
+					continue
 				binding.action = HotkeyBinding.Action.TOGGLE_EXPRESSION
 				binding.file = hotkey.File
 			_:
@@ -114,10 +137,6 @@ func _load_model(model: ModelMeta):
 		binding.deactivate.connect(self.deactivate_hotkey.bind(binding))
 		%HotKeys.add_child(binding)
 	
-	for e in model.expressions:
-		expressions[e.name] = e;
-		active_expressions[e] = false
-	
 	var mesh_details = vtube_data.get("ArtMeshDetails", {})
 	for m in get_meshes():
 		pinnable[m.name] = m.name not in mesh_details.get("ArtMeshesExcludedFromPinning", [])
@@ -131,7 +150,7 @@ func _load_model(model: ModelMeta):
 func add_parameter():
 	var p = preload("res://lib/tracking/parameter_setting.gd").new()
 	%Parameters.add_child(p)
-
+		
 func activate_hotkey(binding: HotkeyBinding):
 	if binding.action == HotkeyBinding.Action.TOGGLE_EXPRESSION:
 		var exp = expressions[binding.file]
@@ -171,7 +190,8 @@ func parameters_updated(tracking_data: Dictionary):
 		if parameter.input_parameter in tracking_data:
 			var raw_value = tracking_data[parameter.input_parameter]
 			parameter_values[parameter.output_parameter] = parameter.scale_value(raw_value)
-
+			model_parameters[parameter.output_parameter].value = parameter_values[parameter.output_parameter]
+		
 func update_shaders():
 	render.texture_filter = filter
 	match filter:
@@ -187,10 +207,9 @@ func update_shaders():
 		m.texture_filter = filter
 
 func _process(delta: float) -> void:
-	for id in model_parameters.keys():
-		model_parameters[id].value = parameter_values[id]
-	for m in get_meshes():
-		var center = utils.v32xy(utils.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
-		m.set_meta("centroid", center)
-		m.set_meta("global_centroid", render.global_position + center)
-		m.set_meta("angle", center.angle_to(m.get_meta("start_centroid")))
+	pass
+#	for m in get_meshes():
+#		var center = utils.v32xy(utils.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
+#		m.set_meta("centroid", center)
+#		m.set_meta("global_centroid", render.global_position + center)
+#		m.set_meta("angle", center.angle_to(m.get_meta("start_centroid")))
