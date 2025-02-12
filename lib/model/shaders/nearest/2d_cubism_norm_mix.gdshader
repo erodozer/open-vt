@@ -8,7 +8,7 @@ uniform vec4 color_base;
 uniform vec4 color_screen;
 uniform vec4 color_multiply;
 uniform vec4 channel;
-uniform sampler2D tex_main : filter_nearest;
+uniform sampler2D tex_main : filter_linear_mipmap;
 
 void vertex() {
     UV.y = 1.0 - UV.y;
@@ -21,5 +21,5 @@ void fragment() {
     // premul alpha
     color_tex.rgb = (color_tex.rgb + color_screen.rgb) - (color_tex.rgb * color_screen.rgb);
     vec4 color = color_tex * color_base;
-    COLOR *= vec4(color.rgb * color.a, color.a);
+    COLOR = vec4(color.rgb * color.a, color.a);
 }

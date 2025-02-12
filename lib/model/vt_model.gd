@@ -52,8 +52,8 @@ func _ready():
 func _rebuild_l2d(model: ModelMeta):
 	live2d_model.assets = model.model
 	var canvas_info = live2d_model.get_canvas_info()
-	# render.position = -live2d_model.get_canvas_info().origin_in_pixels
-	live2d_model.size = Vector2(1024,1024)
+	render.size = canvas_info.size_in_pixels
+	render.position = -canvas_info.origin_in_pixels
 	for m in get_meshes():
 		var center = utils.v32xy(utils.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
 		m.set_meta("centroid", center)
@@ -83,9 +83,9 @@ func _load_model(model: ModelMeta):
 			studio_parameters.append(p)
 			
 	var transform = vtube_data.get("SavedModelPosition", {})
-	# position = utils.vts_to_world(Vector2(transform.get("Position", {}).get("x", 0.0), transform.get("Position", {}).get("y", 0.0)))
-	position = get_viewport().size / 2
-	scale = Vector2(transform.get("Scale", {}).get("x", 0.0), transform.get("Scale", {}).get("y", 0.0))
+	position = utils.vts_to_world(Vector2(transform.get("Position", {}).get("x", 0.0), transform.get("Position", {}).get("y", 0.0)))
+	# position = get_viewport().size / 2
+	scale = Vector2(transform.get("Scale", {}).get("x", 1.0), transform.get("Scale", {}).get("y", 1.0))
 	rotation = transform.get("Rotation", {}).get("z", 0.0)
 	
 	for e in model.expressions:
@@ -102,6 +102,7 @@ func _load_model(model: ModelMeta):
 	var reset = Animation.new()
 	for p in live2d_model.get_parameters():
 		var t = reset.add_track(Animation.TYPE_VALUE)
+		reset.track_set_path(t, ".:%s" % p.id)
 		reset.track_insert_key(t, 0, p.value)
 	motions.add_animation("RESET", reset)
 	
