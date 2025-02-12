@@ -211,6 +211,11 @@ grow_horizontal = 0
 scroll_offset = Vector2(-40, 0)
 
 [node name="ActionController" parent="Interface/HUD" instance=ExtResource("19_q05bf")]
+layout_mode = 0
+offset_left = 965.0
+offset_top = 543.0
+offset_right = 1255.0
+offset_bottom = 695.0
 
 [connection signal="parameters_updated" from="TrackerSystem" to="ModelManager" method="_on_tracker_system_parameters_updated"]
 [connection signal="parameters_updated" from="TrackerSystem" to="Interface/HUD/ParameterPanel" method="_on_tracker_system_parameters_updated"]

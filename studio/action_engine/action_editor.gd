@@ -109,7 +109,7 @@ func _load_from_vts(model: VtModel):
 				for i in range(len(animations)):
 					var a = animations[i]
 					if a == name:
-						output.get_node("%Expression").select(i + 1)
+						output.get_node("%Expression").select(i)
 				output.get_node("%Fade/Value").value = duration
 				output.position_offset = Vector2(x + 280, y)
 				

@@ -2,62 +2,70 @@
 
 [ext_resource type="Script" path="res://studio/action_engine/action_controller.gd" id="1_kkpfd"]
 
-[node name="ActionController" type="Window" groups=["system:hotkey"]]
-auto_translate_mode = 1
-title = "Action Controller"
-position = Vector2i(0, 36)
-size = Vector2i(290, 152)
-transient = true
-unresizable = true
-script = ExtResource("1_kkpfd")
-
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="ActionController" type="PanelContainer" groups=["system:hotkey"]]
 offset_right = 288.0
 offset_bottom = 150.0
+script = ExtResource("1_kkpfd")
 
-[node name="Buttons" type="GridContainer" parent="PanelContainer"]
+[node name="Buttons" type="GridContainer" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/h_separation = 6
 theme_override_constants/v_separation = 8
 columns = 4
 
-[node name="Button" type="Button" parent="PanelContainer/Buttons"]
+[node name="Button" type="Button" parent="Buttons"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 focus_mode = 0
+mouse_filter = 1
+action_mode = 0
 
-[node name="Button2" type="Button" parent="PanelContainer/Buttons"]
+[node name="Button2" type="Button" parent="Buttons"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 focus_mode = 0
+mouse_filter = 1
+action_mode = 0
 
-[node name="Button3" type="Button" parent="PanelContainer/Buttons"]
+[node name="Button3" type="Button" parent="Buttons"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 focus_mode = 0
+mouse_filter = 1
+action_mode = 0
 
-[node name="Button4" type="Button" parent="PanelContainer/Buttons"]
+[node name="Button4" type="Button" parent="Buttons"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 focus_mode = 0
+mouse_filter = 1
+action_mode = 0
 
-[node name="Button5" type="Button" parent="PanelContainer/Buttons"]
+[node name="Button5" type="Button" parent="Buttons"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 focus_mode = 0
+mouse_filter = 1
+action_mode = 0
 
-[node name="Button6" type="Button" parent="PanelContainer/Buttons"]
+[node name="Button6" type="Button" parent="Buttons"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 focus_mode = 0
+mouse_filter = 1
+action_mode = 0
 
-[node name="Button7" type="Button" parent="PanelContainer/Buttons"]
+[node name="Button7" type="Button" parent="Buttons"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 focus_mode = 0
+mouse_filter = 1
+action_mode = 0
 
-[node name="Button8" type="Button" parent="PanelContainer/Buttons"]
+[node name="Button8" type="Button" parent="Buttons"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 focus_mode = 0
+mouse_filter = 1
+action_mode = 0
