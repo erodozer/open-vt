@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dcqnjvju4erad"]
 
-[ext_resource type="Script" path="res://studio/action_engine/graph/outputs/anim_action.gd" id="1_pxx3x"]
+[ext_resource type="Script" path="res://studio/action_engine/graph/outputs/play_animation.gd" id="1_qs8q2"]
 
 [node name="PlayAnimation" type="GraphNode"]
 custom_minimum_size = Vector2(180, 0)
@@ -8,7 +8,7 @@ offset_left = -1.0
 offset_top = 5.0
 offset_right = 179.0
 offset_bottom = 187.0
-title = "Toggle Animation"
+title = "Animation"
 slot/0/left_enabled = false
 slot/0/left_type = 0
 slot/0/left_color = Color(1, 1, 1, 1)
@@ -63,15 +63,13 @@ slot/5/right_type = 0
 slot/5/right_color = Color(1, 1, 1, 1)
 slot/5/right_icon = null
 slot/5/draw_stylebox = true
-script = ExtResource("1_pxx3x")
+script = ExtResource("1_qs8q2")
 
 [node name="Animation" type="OptionButton" parent="."]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 selected = 0
-item_count = 1
-popup/item_0/text = "Unset"
 
 [node name="Delay" type="HBoxContainer" parent="."]
 unique_name_in_owner = true

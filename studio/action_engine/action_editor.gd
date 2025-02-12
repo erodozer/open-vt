@@ -9,6 +9,8 @@ static var OUTPUTS_DIR = GRAPH_NODES_DIR.path_join("outputs")
 
 var graph_elements: Array[GraphNode] = []
 
+@onready var screen_controller = get_tree().get_first_node_in_group("system:hotkey")
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	for f in DirAccess.get_files_at(INPUTS_DIR):
@@ -40,21 +42,36 @@ func _on_stage_model_changed(model: VtModel) -> void:
 		
 	graph_elements.clear()
 	
+	_load_from_vts(model)
+	
+func _load_from_vts(model: VtModel):
+	const spacing = 30
 	# load vts hotkey settings
 	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(model.model.studio_parameters))
 	var y = 0
 	var x = 0
 	for hotkey in vtube_data.get("Hotkeys", []):
-		var input = _on_add_hotkey_pressed(preload("./graph/inputs/hotkey_action.tscn"))
-		var binding = input.get_node("%Handler")
-		binding.load_from_vts(hotkey)
-		input.position_offset = Vector2(x, y)
-		input.get_node("%Input").text = " + ".join(binding.input_as_list)
+		var keybind: GraphNode
+		var btnbind: GraphNode
+		var has_input = false
+		if "" not in [hotkey.Triggers.Trigger1, hotkey.Triggers.Trigger2, hotkey.Triggers.Trigger3]:
+			keybind = _on_add_hotkey_pressed(preload("./graph/inputs/hotkey_action.tscn"))
+			var binding = keybind.get_node("%Handler")
+			binding.load_from_vts(hotkey)
+			keybind.get_node("%Input").text = " + ".join(binding.input_as_list)
+			keybind.position_offset = Vector2(x, y)
+		if hotkey.Triggers.get("ScreenButton", 0) > 0:
+			btnbind = _on_add_hotkey_pressed(preload("./graph/inputs/screen_button.tscn"))
+			btnbind.get_node("%Mapping").get_child(hotkey.Triggers.ScreenButton - 1).button_pressed = true
+			if keybind != null:
+				btnbind.position_offset = Vector2(x, y + keybind.size.y + spacing)
+			else:
+				btnbind.position_offset = Vector2(x, y)
 		
 		var output: GraphNode
 		match hotkey.Action:
 			"TriggerAnimation":
-				output = _on_add_hotkey_pressed(preload("./graph/outputs/anim_action.tscn"))
+				output = _on_add_hotkey_pressed(preload("./graph/outputs/play_animation.tscn"))
 				
 				var anim_name = hotkey.File
 				var duration = hotkey.FadeSecondsAmount * 1000.0				
@@ -67,22 +84,64 @@ func _on_stage_model_changed(model: VtModel) -> void:
 				output.position_offset = Vector2(x + 280, y)
 				
 				# pressed
-				_on_connection_request(
-					input.name, 0, output.name, 2
-				)
-				
-				# released
-				if hotkey.DeactivateAfterKeyUp:
+				if keybind != null:
 					_on_connection_request(
-						input.name, 1, output.name, 3
+						keybind.name, 0, keybind.name, 2
+					)
+					
+					# released
+					if hotkey.DeactivateAfterKeyUp:
+						_on_connection_request(
+							keybind.name, 1, keybind.name, 3
+						)
+				
+				if btnbind != null:
+					_on_connection_request(
+						keybind.name, 0, keybind.name, 2
+					)
+					
+			"ToggleExpression":
+				output = _on_add_hotkey_pressed(preload("./graph/outputs/toggle_expression.tscn"))
+				
+				var name = hotkey.File
+				var duration = hotkey.FadeSecondsAmount * 1000.0
+				var animations = model.expressions.keys()
+				for i in range(len(animations)):
+					var a = animations[i]
+					if a == name:
+						output.get_node("%Expression").select(i + 1)
+				output.get_node("%Fade/Value").value = duration
+				output.position_offset = Vector2(x + 280, y)
+				
+				if keybind != null:
+					if hotkey.DeactivateAfterKeyUp:
+						_on_connection_request(
+							keybind.name, 0, output.name, 2
+						)
+						_on_connection_request(
+							keybind.name, 1, output.name, 3
+						)
+					else:
+						_on_connection_request(
+							keybind.name, 0, output.name, 1
+						)
+				if btnbind != null:
+					_on_connection_request(
+						btnbind.name, 0, output.name, 1
 					)
 		
-		if output:
-			y += max(output.size.y, input.size.y) + 30
-		else:
-			y += input.size.y + 30
+		if output and btnbind:
+			y += max(output.size.y, btnbind.position_offset.y - y + btnbind.size.y) + spacing
+		elif output and keybind:
+			y += max(output.size.y, keybind.size.y) + spacing
+		elif output:
+			y += output.size.y + spacing
+		elif btnbind:
+			y = btnbind.position_offset.y + btnbind.size.y + spacing
+		elif keybind:
+			y += keybind.size.y + spacing
 			
-		if y > 2500:
+		if y > 2000:
 			x += 800
 			y = 0
 

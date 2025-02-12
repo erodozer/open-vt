@@ -84,7 +84,7 @@ func _load_model(model: ModelMeta):
 	
 	for e in model.expressions:
 		expressions[e.name] = e;
-		active_expressions[e] = false
+		active_expressions[e.name] = false
 	
 	# load motions as godot animations
 	var anim_player: AnimationPlayer = %AnimationPlayer
@@ -117,22 +117,23 @@ func add_parameter():
 	var p = preload("res://lib/tracking/parameter_setting.gd").new()
 	%Parameters.add_child(p)
 		
-func toggle_expression(expression: ModelExpression, activate: bool = true, duration: float = 1.0):
-	if active_expressions[expression] == activate:
+func toggle_expression(expression_name: String, activate: bool = true, duration: float = 1.0):
+	if active_expressions[expression_name] == activate:
 		return
 	
 	if activate:
-		print("applying expression: %s" % expression.name)
+		print("applying expression: %s" % expression_name)
 	else:
-		print("removing expression: %s" % expression.name)
+		print("removing expression: %s" % expression_name)
 	
-	active_expressions[expression] = activate
+	active_expressions[expression_name] = activate
 	
+	var expression = expressions[expression_name]
 	var t = create_tween()
 	for id in expression.parameters:
 		var mut = expression.parameters[id]
 		var pt = t.parallel().tween_property(
-			self, "parameter_values:%s" % id, mut.value if activate else -mut.value, duration
+			live2d_model, id, mut.value if activate else -mut.value, duration
 		)
 		if mut.blend == ModelExpression.BlendMode.ADD:
 			pt.from_current()

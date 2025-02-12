@@ -24,6 +24,7 @@ func _reorder():
 	var sorted = get_children().duplicate()
 	sorted.sort_custom(_item_sorter)
 	for i in range(len(sorted)):
+		sorted[i].z_index = 1000 * i
 		move_child(sorted[i], i)
 	update_order.emit(sorted)
 
