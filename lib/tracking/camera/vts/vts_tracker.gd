@@ -2,9 +2,9 @@ extends "res://lib/tracking/net/tcp_tracker.gd"
 
 const TrackingInput = preload("res://lib/tracking/tracker.gd").Inputs
 const VtModel = preload("res://lib/model/vt_model.gd")
-const ModelManager = preload("res://lib/model_manager.gd")
+const Stage = preload("res://lib/stage.gd")
 
-@onready var modelManager: ModelManager = get_tree().get_first_node_in_group("system:model")
+@onready var stage: Stage = get_tree().get_first_node_in_group("system:stage")
 
 func _ready():
 	super._ready()
@@ -25,10 +25,10 @@ func _packet_received(packet: PackedByteArray):
 		_update_data(msg.Data)
 
 func _update(delta: float) -> void:
-	if modelManager == null:
+	if stage == null:
 		return
 
-	var model: VtModel = modelManager.active_model
+	var model: VtModel = stage.active_model
 	if model == null:
 		return
 	
