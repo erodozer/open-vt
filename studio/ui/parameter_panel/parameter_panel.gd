@@ -1,13 +1,11 @@
 extends PanelContainer
 
 const VtModel = preload("res://lib/model/vt_model.gd")
-const HotkeyBinding = preload("res://lib/hotkey/binding.gd")
 const TrackingInput = preload("res://lib/tracking/tracker.gd").Inputs
 const ParameterSetting = preload("res://lib/tracking/parameter_setting.gd")
 const Stage = preload("res://lib/stage.gd")
 
 @onready var list = get_node("%ParameterList")
-@onready var hotkeys = get_node("%HotkeyList")
 @onready var meshes = get_node("%Mesh Settings")
 @onready var model = get_tree().get_first_node_in_group("vtmodel")
 
@@ -20,8 +18,6 @@ func _on_stage_model_changed(model) -> void:
 	for c in list.get_children():
 		c.queue_free()
 	for c in meshes.get_children():
-		c.queue_free()
-	for c in hotkeys.get_children():
 		c.queue_free()
 		
 	for parameter_data in model.studio_parameters:
@@ -41,28 +37,7 @@ func _on_stage_model_changed(model) -> void:
 		
 	_build_output_parameter_list(model)
 	_update_transform(model.position, model.scale, model.rotation)
-		
-	for binding in model.hotkeys:
-		var panel = preload("./hotkey_setting.tscn").instantiate()
-		panel.set_meta("hotkey", binding)
-		panel.get_node("%HotkeyName").text = binding.name
-		match binding.action:
-			HotkeyBinding.Action.TOGGLE_EXPRESSION:
-				panel.get_node("%ActionSelect").text = "Toggle Expression (%s)" % binding.file.get_file()
-		if binding.listen_to_input:
-			panel.get_node("%InputBinding").text = " + ".join(binding.input_as_list)
-		else:
-			panel.get_node("%InputBinding").text = ""
-		panel.get_node("%FadeDuration").value = binding.duration
-		panel.get_node("%FadeDuration").value_changed.connect(
-			func (value):
-				binding.duration = value
-		)
-		panel.get_node("%Rec").pressed.connect(record_input.bind(panel))
-		panel.get_node("%DeleteButton").pressed.connect(delete_hotkey.bind(panel))
-		
-		hotkeys.add_child(panel)
-		
+	
 	self.model = model
 	
 func _update_transform(pos, scl, rot):
@@ -192,35 +167,3 @@ func _on_output_parameter_popup_close_requested() -> void:
 
 func _on_lock_button_toggled(toggled_on: bool) -> void:
 	model.render.locked = toggled_on
-
-func record_input(setting):
-	var hotkey = setting.get_meta("hotkey")
-	
-	%Modal.visible = true
-	%InputRecPopup.show()
-	%InputRecPopup.grab_focus()
-	
-	var pressed: Array = await %InputRecPopup.input_recorded
-	
-	%InputRecPopup.hide()
-	%Modal.visible = false
-	
-	if len(pressed) > 0:
-		hotkey.button_1 = OS.get_keycode_string(pressed[0])
-	else:
-		hotkey.button_1 = ""
-	if len(pressed) > 1:
-		hotkey.button_2 = OS.get_keycode_string(pressed[1])
-	else:
-		hotkey.button_2 = ""
-	if len(pressed) > 2:
-		hotkey.button_3 = OS.get_keycode_string(pressed[2])
-	else:
-		hotkey.button_3 = ""
-	
-	setting.get_node("%InputBinding").text = " + ".join(hotkey.input_as_list)
-
-func delete_hotkey(setting):
-	var hotkey = setting.get_meta("hotkey")
-	hotkey.queue_free()
-	setting.queue_free()

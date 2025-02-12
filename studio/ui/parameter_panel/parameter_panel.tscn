@@ -1,11 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dpw8au0ueatrg"]
+[gd_scene load_steps=6 format=3 uid="uid://dpw8au0ueatrg"]
 
 [ext_resource type="Script" path="res://studio/ui/parameter_panel/parameter_panel.gd" id="1_5864b"]
 [ext_resource type="Texture2D" uid="uid://d1kej52kqrg0g" path="res://studio/ui/icons/eraser.svg" id="2_4qkrp"]
 [ext_resource type="Script" path="res://studio/ui/accordion/accordion.gd" id="2_57r6x"]
 [ext_resource type="Texture2D" uid="uid://d0oc7kwqufoqr" path="res://studio/ui/icons/circle-plus.svg" id="3_6caqy"]
 [ext_resource type="Texture2D" uid="uid://pd4vy1npck5p" path="res://studio/ui/icons/lock.svg" id="3_ng4r4"]
-[ext_resource type="PackedScene" uid="uid://hpg52fgw7kdc" path="res://studio/ui/parameter_panel/input_rec_popup.tscn" id="6_nqfbe"]
 
 [node name="ParameterPanel" type="PanelContainer"]
 custom_minimum_size = Vector2(480, 0)
@@ -271,24 +270,6 @@ flat = true
 icon_alignment = 1
 expand_icon = true
 
-[node name="HotKeys" type="VBoxContainer" parent="ScrollContainer/MarginContainer/Accordion"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="HotkeyList" type="VBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/HotKeys"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="AddHotkeyButton" type="Button" parent="ScrollContainer/MarginContainer/Accordion/HotKeys"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-icon = ExtResource("3_6caqy")
-flat = true
-icon_alignment = 1
-expand_icon = true
-
 [node name="Modal" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 layer = 2
@@ -436,10 +417,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_type_variation = &"VBoxList"
-
-[node name="InputRecPopup" parent="Modal" instance=ExtResource("6_nqfbe")]
-unique_name_in_owner = true
-visible = false
 
 [connection signal="item_selected" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer/TextureFilter" to="." method="_on_texture_filter_item_selected"]
 [connection signal="toggled" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/HBoxContainer/LockButton" to="." method="_on_lock_button_toggled"]

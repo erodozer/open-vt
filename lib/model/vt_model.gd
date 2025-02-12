@@ -7,7 +7,6 @@ const ParameterSetting = preload("res://lib/tracking/parameter_setting.gd")
 const TrackingSystem = preload("res://lib/tracking_system.gd")
 const ModelMeta = preload("./metadata.gd")
 const ModelExpression = preload("res://lib/model/expression.gd")
-const HotkeyBinding = preload("res://lib/hotkey/binding.gd")
 
 @onready var live2d_model = %GDCubismUserModel
 var model: ModelMeta
@@ -24,11 +23,6 @@ var filter: CanvasItem.TextureFilter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIP
 			
 var studio_parameters: Array = []
 var parameter_values: Dictionary = {}
-		
-var hotkeys: Array :
-	get():
-		return %HotKeys.get_children()
-		
 var expressions: Dictionary = {}
 var active_expressions: Dictionary = {}
 
@@ -109,35 +103,6 @@ func _load_model(model: ModelMeta):
 	if len(motions.get_animation_list()) > 0:
 		anim_player.play(motions.get_animation_list()[0])
 	
-	for hotkey in vtube_data.get("Hotkeys", []):
-		var binding = HotkeyBinding.new()
-
-		match hotkey.Action:
-			"ToggleExpression":
-				if hotkey.File not in expressions:
-					continue
-				binding.action = HotkeyBinding.Action.TOGGLE_EXPRESSION
-				binding.file = hotkey.File
-			_:
-				continue
-
-		binding.name = hotkey.Name
-		binding.button_1 = hotkey.Triggers.Trigger1
-		binding.button_2 = hotkey.Triggers.Trigger2
-		binding.button_3 = hotkey.Triggers.Trigger3
-		binding.screen_button = hotkey.Triggers.ScreenButton
-		binding.screen_button_color = Color(
-			hotkey.OnScreenHotkeyColor.r,
-			hotkey.OnScreenHotkeyColor.g,
-			hotkey.OnScreenHotkeyColor.b,
-			hotkey.OnScreenHotkeyColor.a
-		)
-		binding.duration = hotkey.FadeSecondsAmount
-		binding.deactivate_on_keyup = hotkey.DeactivateAfterKeyUp
-		binding.activate.connect(self.activate_hotkey.bind(binding))
-		binding.deactivate.connect(self.deactivate_hotkey.bind(binding))
-		%HotKeys.add_child(binding)
-	
 	var mesh_details = vtube_data.get("ArtMeshDetails", {})
 	for m in get_meshes():
 		pinnable[m.name] = m.name not in mesh_details.get("ArtMeshesExcludedFromPinning", [])
@@ -152,16 +117,6 @@ func add_parameter():
 	var p = preload("res://lib/tracking/parameter_setting.gd").new()
 	%Parameters.add_child(p)
 		
-func activate_hotkey(binding: HotkeyBinding):
-	if binding.action == HotkeyBinding.Action.TOGGLE_EXPRESSION:
-		var exp = expressions[binding.file]
-		toggle_expression(exp, true, binding.duration)
-
-func deactivate_hotkey(binding: HotkeyBinding):
-	if binding.action == HotkeyBinding.Action.TOGGLE_EXPRESSION:
-		var exp = expressions[binding.file]
-		toggle_expression(exp, false, binding.duration)
-
 func toggle_expression(expression: ModelExpression, activate: bool = true, duration: float = 1.0):
 	if active_expressions[expression] == activate:
 		return

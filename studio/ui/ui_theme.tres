@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=47 format=3 uid="uid://bwesfr5en0lxv"]
+[gd_resource type="Theme" load_steps=53 format=3 uid="uid://bwesfr5en0lxv"]
 
 [ext_resource type="Texture2D" uid="uid://dv7o0g2fot3n3" path="res://studio/ui/icons/toggle-on.svg" id="1_jmxgr"]
 [ext_resource type="Texture2D" uid="uid://58ua5of8kuir" path="res://studio/ui/icons/toggle-off.svg" id="2_3w1p0"]
@@ -105,6 +105,52 @@ content_margin_top = 4.0
 content_margin_right = 4.0
 content_margin_bottom = 4.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gk3qa"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.788235, 0.764706, 0.670588, 1)
+shadow_size = 2
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l1t76"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.788235, 0.764706, 0.670588, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pyljb"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.788235, 0.764706, 0.670588, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q6t2m"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.788235, 0.764706, 0.670588, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_color = Color(1, 1, 1, 1)
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ihwh1"]
 bg_color = Color(0.298039, 0.282353, 0.239216, 1)
 border_width_right = 2
@@ -176,6 +222,16 @@ border_color = Color(0.298039, 0.282353, 0.239216, 1)
 bg_color = Color(0.67451, 0.654902, 0.580392, 0)
 border_width_bottom = 3
 border_color = Color(0.67451, 0.654902, 0.580392, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_443q7"]
+bg_color = Color(0.788235, 0.764706, 0.670588, 1)
+border_width_bottom = 4
+border_color = Color(0.298039, 0.282353, 0.239216, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wg0cd"]
+bg_color = Color(0.298039, 0.282353, 0.239216, 1)
+border_width_bottom = 4
+border_color = Color(0.298039, 0.282353, 0.239216, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3k4yb"]
 bg_color = Color(0.298039, 0.282353, 0.239216, 1)
@@ -338,6 +394,10 @@ CheckButton/styles/hover = SubResource("StyleBoxEmpty_uf5kg")
 CheckButton/styles/hover_pressed = SubResource("StyleBoxEmpty_egow3")
 CheckButton/styles/normal = SubResource("StyleBoxEmpty_b5jbl")
 CheckButton/styles/pressed = SubResource("StyleBoxEmpty_ssym2")
+GraphNode/styles/panel = SubResource("StyleBoxFlat_gk3qa")
+GraphNode/styles/panel_selected = SubResource("StyleBoxFlat_l1t76")
+GraphNode/styles/titlebar = SubResource("StyleBoxFlat_pyljb")
+GraphNode/styles/titlebar_selected = SubResource("StyleBoxFlat_q6t2m")
 HScrollBar/styles/grabber = SubResource("StyleBoxFlat_ihwh1")
 HScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_4cmnx")
 HScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_ar787")
@@ -369,6 +429,10 @@ LineEdit/styles/focus = SubResource("StyleBoxFlat_omxgr")
 LineEdit/styles/normal = SubResource("StyleBoxFlat_atrvy")
 LineEdit/styles/read_only = SubResource("StyleBoxFlat_f6wte")
 MarginContainer/constants/margin_right = 8
+OptionButton/colors/font_color = Color(0.298039, 0.282353, 0.239216, 1)
+OptionButton/colors/font_pressed_color = Color(0.847059, 0.823529, 0.729412, 1)
+OptionButton/styles/normal = SubResource("StyleBoxFlat_443q7")
+OptionButton/styles/pressed = SubResource("StyleBoxFlat_wg0cd")
 Panel/styles/panel = SubResource("StyleBoxFlat_3k4yb")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_vl7lj")
 PopupMenu/colors/font_color = Color(0.788235, 0.764706, 0.670588, 1)

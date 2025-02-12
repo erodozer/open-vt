@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://d2a67yxp08esv"]
+
+[node name="Modal" type="CanvasLayer"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.392157)
