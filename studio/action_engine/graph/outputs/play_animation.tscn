@@ -69,7 +69,6 @@ script = ExtResource("1_qs8q2")
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
-selected = 0
 
 [node name="Delay" type="HBoxContainer" parent="."]
 unique_name_in_owner = true

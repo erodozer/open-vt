@@ -73,6 +73,6 @@ func _update_output(parameter):
 		%OutputLevel.min_value = 0
 		%OutputLevel.max_value = 1
 	else:
-		%OutputTarget.text = parameter.id
+		%OutputTarget.text = parameter.name
 		%OutputLevel.min_value = parameter.minimum_value
 		%OutputLevel.max_value = parameter.maximum_value

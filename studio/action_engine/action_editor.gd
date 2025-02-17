@@ -38,7 +38,8 @@ func _on_add_hotkey_pressed(node: PackedScene) -> GraphNode:
 
 func _on_stage_model_changed(model: VtModel) -> void:
 	for i in graph_elements:
-		i.queue_free()
+		if i != null:
+			i.queue_free()
 		
 	graph_elements.clear()
 	
@@ -54,7 +55,7 @@ func _load_from_vts(model: VtModel):
 		var keybind: GraphNode
 		var btnbind: GraphNode
 		var has_input = false
-		if "" not in [hotkey.Triggers.Trigger1, hotkey.Triggers.Trigger2, hotkey.Triggers.Trigger3]:
+		if ["","",""] != [hotkey.Triggers.Trigger1, hotkey.Triggers.Trigger2, hotkey.Triggers.Trigger3]:
 			keybind = _on_add_hotkey_pressed(preload("./graph/inputs/hotkey_action.tscn"))
 			var binding = keybind.get_node("%Handler")
 			binding.load_from_vts(hotkey)
@@ -74,38 +75,38 @@ func _load_from_vts(model: VtModel):
 				output = _on_add_hotkey_pressed(preload("./graph/outputs/play_animation.tscn"))
 				
 				var anim_name = hotkey.File
-				var duration = hotkey.FadeSecondsAmount * 1000.0				
-				var animations = model.motions.get_animation_list()
+				var duration = hotkey.FadeSecondsAmount * 1000.0
+				var animations = model.motions
 				for i in range(len(animations)):
 					var a = animations[i]
 					if a == anim_name:
-						output.get_node("%Animation").select(i + 1)
+						output.get_node("%Animation").select(i)
 				output.get_node("%Delay/Value").value = duration
 				output.position_offset = Vector2(x + 280, y)
 				
 				# pressed
 				if keybind != null:
 					_on_connection_request(
-						keybind.name, 0, keybind.name, 2
+						keybind.name, 0, output.name, 2
 					)
 					
 					# released
 					if hotkey.DeactivateAfterKeyUp:
 						_on_connection_request(
-							keybind.name, 1, keybind.name, 3
+							keybind.name, 1, output.name, 3
 						)
 				
 				if btnbind != null:
 					_on_connection_request(
-						keybind.name, 0, keybind.name, 2
+						btnbind.name, 0, output.name, 2
 					)
 					
 			"ToggleExpression":
 				output = _on_add_hotkey_pressed(preload("./graph/outputs/toggle_expression.tscn"))
 				
-				var name = hotkey.File
+				var name: String = hotkey.File.to_lower().left(-10).replace(" ", "_")
 				var duration = hotkey.FadeSecondsAmount * 1000.0
-				var animations = model.expressions.keys()
+				var animations = model.expressions
 				for i in range(len(animations)):
 					var a = animations[i]
 					if a == name:

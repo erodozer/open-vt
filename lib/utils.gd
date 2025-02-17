@@ -78,7 +78,7 @@ class RingBuffer extends RefCounted:
 
 const VTS_VIEWPORT = Vector2(1280, 720)
 const VTS_ASPECT = VTS_VIEWPORT.y / VTS_VIEWPORT.x
-const VTS_WORLD = Vector2(100, -100) # vts appears to have a world that's 100 wide in each direction, unity's coordinates are Y flipped
+const VTS_WORLD = Vector2(100, 100) # vts appears to have a world that's 100 wide in each direction
 
 static func world_to_vts(v: Vector2):
 	pass
@@ -86,4 +86,8 @@ static func world_to_vts(v: Vector2):
 static func vts_to_world(v: Vector2):
 	var xy = v / VTS_WORLD - Vector2(0.5, 0.5)
 	
-	return Vector2(xy)
+	return Vector2(
+		lerp(0.0, VTS_VIEWPORT.x, inverse_lerp(-VTS_WORLD.x, VTS_WORLD.x, v.x)),
+		# unity's y coord are flipped
+		lerp(0.0, VTS_VIEWPORT.y, inverse_lerp(-VTS_WORLD.y, VTS_WORLD.y, -v.y))
+	)

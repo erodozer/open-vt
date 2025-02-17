@@ -8,18 +8,19 @@ const Stage = preload("res://lib/stage.gd")
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	var expressions = stage.active_model.expressions
-	for m in expressions.keys():
+	for m in expressions:
 		input.add_item(m)
 		input.set_item_metadata(input.item_count - 1, m)
-		%Toggle/CheckButton.button_pressed = stage.active_model.active_expressions[m]
+		%Toggle/CheckButton.button_pressed = stage.active_model.live2d_model.get_expression_controller().is_activated(m)
 
 func invoke_trigger(slot: int) -> void:
+	if input.get_selected_metadata() == null:
+		return
+		
 	var expressions = stage.active_model.expressions
 	var activate: bool
 	if slot == 1:
-		activate = not stage.active_model.active_expressions[
-			input.get_selected_metadata()
-		]
+		activate = not stage.active_model.live2d_model.get_expression_controller().is_activated(input.get_selected_metadata())
 	elif slot == 2:
 		activate = true
 	elif slot == 3:

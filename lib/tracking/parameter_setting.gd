@@ -32,7 +32,7 @@ var model_parameter: GDCubismParameter :
 		model_parameter = v
 		changed.emit("model_parameter", old, v)
 		if v != null:
-			self.output_parameter = model_parameter.id
+			self.output_parameter = model_parameter.name
 			self.value = model_parameter.default_value
 		else:
 			self.output_parameter = ""

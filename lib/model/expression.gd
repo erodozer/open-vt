@@ -2,7 +2,8 @@ extends RefCounted
 
 enum BlendMode {
 	ADD,
-	MIX
+	MULTIPLY,
+	OVERWRITE
 }
 
 class ParameterMutation:
@@ -23,8 +24,10 @@ static func load_from_file(path: String):
 		mut.parameter = effect.Id
 		mut.value = effect.Value
 		match effect.Blend:
-			"Mix":
-				mut.blend = BlendMode.MIX
+			"Overwrite":
+				mut.blend = BlendMode.OVERWRITE
+			"Multiply":
+				mut.blend = BlendMode.MULTIPLY
 			_:
 				mut.blend = BlendMode.ADD
 		exp.parameters[effect.Id] = mut

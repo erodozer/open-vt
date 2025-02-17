@@ -8,6 +8,8 @@ const TrackingSystem = preload("res://lib/tracking_system.gd")
 var parameter
 var value
 
+var a: TrackingInput = TrackingInput.UNSET
+
 func _ready() -> void:
 	for i in TrackingInput:
 		input.add_item(i)

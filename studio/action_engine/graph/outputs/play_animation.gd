@@ -7,9 +7,12 @@ const Stage = preload("res://lib/stage.gd")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:	
-	for m in stage.active_model.motions.get_animation_list():
+	for m in stage.active_model.motions:
 		input.add_item(m)
-		input.set_item_metadata(input.item_count, m)
+		input.set_item_metadata(input.item_count - 1, m)
+
+	if input.get_item_count() == 0:
+		queue_free()
 	
 func on_animation_completed():
 	pass
@@ -17,8 +20,11 @@ func on_animation_completed():
 func invoke_trigger(slot: int) -> void:
 	var model = stage.active_model
 	
-	var animation: String = input.get_selected_metadata()
-	var player: AnimationPlayer = model.get_node("%AnimationPlayer")
+	var animation = input.get_selected_metadata()
+	if animation == null:
+		return
+	
+	var player: AnimationPlayer = model.live2d_model.get_animation_player()
 
 	if slot == 2: #play
 		if %Delay/Value.value > 0:

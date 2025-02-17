@@ -36,6 +36,7 @@ func spawn_model(model: VtModel):
 	active_model = model
 	add_child(model)
 	_reorder()
+	await active_model.initialized
 	
 	# TODO if model had items pinned to it, load them in as well
 	
@@ -63,5 +64,6 @@ func load_settings(data):
 		spawn_model(model)
 	
 func save_settings(data):
-	data["active_model"] = active_model.model.id
+	if active_model != null:
+		data["active_model"] = active_model.model.id
 	

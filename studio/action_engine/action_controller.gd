@@ -17,6 +17,7 @@ func _gui_input(event: InputEvent) -> void:
 
 func popout() -> void:
 	var parent = self.get_parent()
+	var index = self.get_index()
 	var position = self.position
 	var window = Window.new()
 	window.size = self.size
@@ -30,6 +31,7 @@ func popout() -> void:
 	window.close_requested.connect(
 		func ():
 			self.reparent(parent)
+			parent.move_child(self, index)
 			self.position = position
 			window.queue_free()
 	)
