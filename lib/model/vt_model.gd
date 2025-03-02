@@ -72,9 +72,10 @@ func _rebuild_l2d(model: ModelMeta):
 	var loaded_model: GDCubismUserModel
 	var model_resource: PackedScene = ResourceLoader.load(model.model, "PackedScene")
 	if model_resource == null:
-		loaded_model = GDCubismModelImporter.load_model(model.model, true, true, linear_shaders)
+		loaded_model = GDCubismModelLoader.load_model(model.model, true, true, linear_shaders)
 		var p = PackedScene.new()
-		p.pack(loaded_model)
+		if p.pack(loaded_model) != OK:
+			return false
 		p.take_over_path(model.model)
 	else:
 		loaded_model = model_resource.instantiate()
@@ -97,9 +98,13 @@ func _rebuild_l2d(model: ModelMeta):
 		m.set_meta("global_centroid", render.global_position + center)
 		
 	live2d_model = loaded_model
+	
+	return true
 
 func _load_model(model: ModelMeta):
-	_rebuild_l2d(model)
+	if not _rebuild_l2d(model):
+		queue_free()
+		return
 	
 	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(model.studio_parameters))
 	var model_data = JSON.parse_string(FileAccess.get_file_as_string(model.model))

@@ -11,8 +11,6 @@ script = ExtResource("1_bvpwh")
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 0
-offset_right = 512.0
-offset_bottom = 512.0
 mouse_filter = 2
 script = ExtResource("2_ribot")
 
