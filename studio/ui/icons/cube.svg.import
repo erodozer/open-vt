@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/cube.svg-8a60e124b5fd1b64dcfedae7244a43ec.cte
 
 [params]
 
-compress/mode=0
+compress/mode=4
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1

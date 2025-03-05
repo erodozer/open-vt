@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bnjqry5p851qa"]
 
-[ext_resource type="Script" path="res://lib/tracking/camera/vts/vts_config.gd" id="1_ahnfl"]
+[ext_resource type="Script" uid="uid://cc8x0bh5hk0sv" path="res://lib/tracking/camera/vts/vts_config.gd" id="1_ahnfl"]
 
 [node name="VtsConfig" type="PanelContainer"]
 script = ExtResource("1_ahnfl")

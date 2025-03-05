@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://btuev1y2eb6se"]
 
-[ext_resource type="Script" path="res://studio/ui/parameter_panel/parameter_setting.gd" id="1_cjyog"]
+[ext_resource type="Script" uid="uid://bkjj04i1dy58a" path="res://studio/ui/parameter_panel/parameter_setting.gd" id="1_cjyog"]
 [ext_resource type="Texture2D" uid="uid://ce5log3qg4jho" path="res://studio/ui/icons/delete-right.svg" id="2_ucxf0"]
 
 [node name="Control" type="PanelContainer"]

@@ -16,7 +16,7 @@ dest_files=["res://.godot/imported/square-t.svg-8feb1997e66d91b0da1b9934a8af9550
 
 [params]
 
-compress/mode=0
+compress/mode=4
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1

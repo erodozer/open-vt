@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/circle-plus.svg-2693ccbf19e32778373b738ddaf85
 
 [params]
 
-compress/mode=0
+compress/mode=4
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1

@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/thumbtack.svg-798b072ff09590835313a43089444f9
 
 [params]
 
-compress/mode=0
+compress/mode=4
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1

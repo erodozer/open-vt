@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://bkm4lgw38g4di"]
 
-[ext_resource type="Script" path="res://lib/model/vt_model.gd" id="1_bvpwh"]
-[ext_resource type="Script" path="res://lib/draggable.gd" id="2_ribot"]
-[ext_resource type="Script" path="res://lib/model/debug.gd" id="3_nwsty"]
+[ext_resource type="Script" uid="uid://bxp75jugxppgv" path="res://lib/model/vt_model.gd" id="1_bvpwh"]
+[ext_resource type="Script" uid="uid://cni8uvg0bjde" path="res://lib/draggable.gd" id="2_ribot"]
+[ext_resource type="Script" uid="uid://d10aurevaucml" path="res://lib/model/debug.gd" id="3_nwsty"]
 
 [node name="VtModel" type="Node2D" groups=["vtmodel"]]
 script = ExtResource("1_bvpwh")

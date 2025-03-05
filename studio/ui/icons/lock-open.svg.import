@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/lock-open.svg-b1a820621c9b1d3f026ad092a6cb422
 
 [params]
 
-compress/mode=0
+compress/mode=4
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1

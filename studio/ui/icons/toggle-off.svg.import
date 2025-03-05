@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/toggle-off.svg-eaae7730c1efb15fcc7a8edd30235e
 
 [params]
 
-compress/mode=0
+compress/mode=4
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1

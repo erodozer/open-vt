@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://dl4qsr0b30vwp"]
 
-[ext_resource type="Script" path="res://lib/draggable.gd" id="1_168ec"]
-[ext_resource type="Script" path="res://lib/items/vt_item.gd" id="1_pu6sx"]
-[ext_resource type="Script" path="res://lib/items/debug.gd" id="3_wpqse"]
+[ext_resource type="Script" uid="uid://cni8uvg0bjde" path="res://lib/draggable.gd" id="1_168ec"]
+[ext_resource type="Script" uid="uid://vasgewecltts" path="res://lib/items/vt_item.gd" id="1_pu6sx"]
+[ext_resource type="Script" uid="uid://bmmiyww6t4reo" path="res://lib/items/debug.gd" id="3_wpqse"]
 
 [node name="VtItem" type="Node2D"]
 script = ExtResource("1_pu6sx")

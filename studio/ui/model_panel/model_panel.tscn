@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dijec4c8prced"]
 
-[ext_resource type="Script" path="res://studio/ui/model_panel/model_panel.gd" id="1_4axdi"]
+[ext_resource type="Script" uid="uid://783uu10u2fy6" path="res://studio/ui/model_panel/model_panel.gd" id="1_4axdi"]
 
 [node name="ModelPanel" type="PanelContainer"]
 custom_minimum_size = Vector2(480, 0)

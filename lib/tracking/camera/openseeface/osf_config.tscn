@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://c3g40vlt2ne32"]
 
-[ext_resource type="Script" path="res://lib/tracking/camera/openseeface/osf_debug.gd" id="1_a10jp"]
-[ext_resource type="Script" path="res://lib/tracking/camera/openseeface/osf_config.gd" id="1_l2brn"]
+[ext_resource type="Script" uid="uid://chwlfxhy87aae" path="res://lib/tracking/camera/openseeface/osf_debug.gd" id="1_a10jp"]
+[ext_resource type="Script" uid="uid://crd8sp7fnpfdy" path="res://lib/tracking/camera/openseeface/osf_config.gd" id="1_l2brn"]
 
 [sub_resource type="PlaceholderMesh" id="PlaceholderMesh_w8rkj"]
 

@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/xmark.svg-4a671b7d95af6b14740420aeadc91937.ct
 
 [params]
 
-compress/mode=0
+compress/mode=4
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1

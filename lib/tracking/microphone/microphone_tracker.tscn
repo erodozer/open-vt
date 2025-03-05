@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://15kl1t37lo3j"]
 
-[ext_resource type="Script" path="res://lib/tracking/microphone/microphone_tracker.gd" id="1_01a2e"]
+[ext_resource type="Script" uid="uid://dmmrjskyp1ehq" path="res://lib/tracking/microphone/microphone_tracker.gd" id="1_01a2e"]
 
 [sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_y3nw3"]
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dwyu5dbc3akkx"]
 
-[ext_resource type="Script" path="res://studio/action_engine/graph/inputs/screen_button.gd" id="1_gusss"]
+[ext_resource type="Script" uid="uid://d0fk3ki15n3pf" path="res://studio/action_engine/graph/inputs/screen_button.gd" id="1_gusss"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_abhho"]
 allow_unpress = true

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c7vk0klv5gfev"]
 
-[ext_resource type="Script" path="res://studio/ui/parameter_panel/mesh_setting.gd" id="1_fq7df"]
+[ext_resource type="Script" uid="uid://ic6qqciq8f18" path="res://studio/ui/parameter_panel/mesh_setting.gd" id="1_fq7df"]
 [ext_resource type="Texture2D" uid="uid://qky5l021m1dt" path="res://studio/ui/icons/thumbtack.svg" id="2_yeggh"]
 
 [node name="PanelContainer" type="PanelContainer"]

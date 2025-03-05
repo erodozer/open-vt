@@ -3,10 +3,15 @@ extends PanelContainer
 const ModelManager = preload("res://lib/model_manager.gd")
 const Stage = preload("res://lib/stage.gd")
 
-@export var manager: ModelManager
-@export var stage: Stage
+var manager: ModelManager
+var stage: Stage
 
 @onready var list = %ModelList
+
+func _ready() -> void:
+	manager = get_tree().get_first_node_in_group("system:model")
+	
+	stage = get_tree().get_first_node_in_group("system:stage")
 
 func _refresh():
 	manager.refresh_models()

@@ -1,19 +1,19 @@
 [gd_scene load_steps=24 format=3 uid="uid://bbh7pj5wq0sii"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_g562h"]
-[ext_resource type="Script" path="res://lib/item_manager.gd" id="4_4ht51"]
+[ext_resource type="Script" uid="uid://bq0aow0vnq1i6" path="res://main.gd" id="1_g562h"]
+[ext_resource type="Script" uid="uid://ds0i7bdpr6wsy" path="res://lib/item_manager.gd" id="4_4ht51"]
 [ext_resource type="Texture2D" uid="uid://b401bri37hvvq" path="res://studio/grid.png" id="5_2pxyu"]
-[ext_resource type="Script" path="res://studio/hud.gd" id="5_pr18m"]
-[ext_resource type="Script" path="res://lib/stage.gd" id="5_uhpo7"]
+[ext_resource type="Script" uid="uid://pso4m0hd1wo3" path="res://studio/hud.gd" id="5_pr18m"]
+[ext_resource type="Script" uid="uid://17187ovs368q" path="res://lib/stage.gd" id="5_uhpo7"]
 [ext_resource type="Texture2D" uid="uid://ddqu1ma3rgo08" path="res://studio/ui/icons/aperture.svg" id="6_pyns6"]
 [ext_resource type="Texture2D" uid="uid://jqiaeaslelbe" path="res://studio/ui/icons/person.svg" id="7_e0oav"]
-[ext_resource type="Script" path="res://lib/tracking_system.gd" id="8_dv8e1"]
+[ext_resource type="Script" uid="uid://c3dhmb2w6nvr0" path="res://lib/tracking_system.gd" id="8_dv8e1"]
 [ext_resource type="Texture2D" uid="uid://blil5brl4i0qh" path="res://studio/ui/icons/gear.svg" id="8_jn2ra"]
 [ext_resource type="PackedScene" uid="uid://dpw8au0ueatrg" path="res://studio/ui/parameter_panel/parameter_panel.tscn" id="8_sw6px"]
 [ext_resource type="Texture2D" uid="uid://csg8x01sho2ej" path="res://studio/ui/icons/cube.svg" id="10_jf06x"]
 [ext_resource type="PackedScene" uid="uid://dijec4c8prced" path="res://studio/ui/model_panel/model_panel.tscn" id="10_tc0r5"]
 [ext_resource type="PackedScene" uid="uid://crwh7f50woqgu" path="res://studio/ui/camera_panel/camera_panel.tscn" id="11_3ft6e"]
-[ext_resource type="Script" path="res://lib/model_manager.gd" id="12_ufyfb"]
+[ext_resource type="Script" uid="uid://cwcgdtduxw584" path="res://lib/model_manager.gd" id="12_ufyfb"]
 [ext_resource type="PackedScene" uid="uid://bcxs7fe1yqc6o" path="res://studio/ui/item_panel/item_panel.tscn" id="13_jdf84"]
 [ext_resource type="Texture2D" uid="uid://0yh01fnusj7i" path="res://studio/ui/icons/square-t.svg" id="13_w86gw"]
 [ext_resource type="PackedScene" uid="uid://bkm4lgw38g4di" path="res://lib/model/vt_model.tscn" id="15_wg2gf"]
@@ -49,10 +49,10 @@ script = ExtResource("12_ufyfb")
 script = ExtResource("4_4ht51")
 
 [node name="Bg" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
 layer = -1
 
 [node name="BgFill" type="TextureRect" parent="Bg"]
-unique_name_in_owner = true
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -61,7 +61,6 @@ grow_vertical = 2
 texture = SubResource("GradientTexture2D_kr4px")
 
 [node name="BgFill2" type="TextureRect" parent="Bg"]
-unique_name_in_owner = true
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -185,13 +184,11 @@ offset_left = 301.0
 offset_right = 781.0
 grow_horizontal = 0
 
-[node name="ModelPanel" parent="Interface/HUD" node_paths=PackedStringArray("manager", "stage") instance=ExtResource("10_tc0r5")]
+[node name="ModelPanel" parent="Interface/HUD" instance=ExtResource("10_tc0r5")]
 unique_name_in_owner = true
 layout_mode = 1
 offset_left = 308.0
 offset_right = 788.0
-manager = NodePath("../../../ModelManager")
-stage = NodePath("../../../Stage")
 
 [node name="ItemPanel" parent="Interface/HUD" node_paths=PackedStringArray("manager", "stage") instance=ExtResource("13_jdf84")]
 unique_name_in_owner = true

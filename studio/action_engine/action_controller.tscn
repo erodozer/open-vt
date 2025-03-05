@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bbpykopqsj46s"]
 
-[ext_resource type="Script" path="res://studio/action_engine/action_controller.gd" id="1_kkpfd"]
+[ext_resource type="Script" uid="uid://7m7d6kwossfv" path="res://studio/action_engine/action_controller.gd" id="1_kkpfd"]
 
 [node name="ActionController" type="PanelContainer" groups=["system:hotkey"]]
 offset_right = 288.0

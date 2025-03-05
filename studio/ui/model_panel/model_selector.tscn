@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cwsoe8pnralgm"]
 
-[ext_resource type="Script" path="res://studio/ui/model_panel/model_selector.gd" id="1_qkfd4"]
+[ext_resource type="Script" uid="uid://dt34nat7sttl2" path="res://studio/ui/model_panel/model_selector.gd" id="1_qkfd4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2xlpb"]
 content_margin_left = 8.0

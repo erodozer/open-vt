@@ -24,7 +24,7 @@ func _ready() -> void:
 			var trackingSystem: TrackingSystem = get_tree().get_first_node_in_group("system:tracking")
 			trackingSystem.activate_tracker(idx)
 	)
-
+	
 func _on_tracker_system_tracker_changed(tracker: Tracker) -> void:
 	var config = Control.new()
 	if tracker != null:

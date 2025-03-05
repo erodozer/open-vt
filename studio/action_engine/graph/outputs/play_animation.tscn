@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dcqnjvju4erad"]
 
-[ext_resource type="Script" path="res://studio/action_engine/graph/outputs/play_animation.gd" id="1_qs8q2"]
+[ext_resource type="Script" uid="uid://cfh0yy8wrqoab" path="res://studio/action_engine/graph/outputs/play_animation.gd" id="1_qs8q2"]
 
 [node name="PlayAnimation" type="GraphNode"]
 custom_minimum_size = Vector2(180, 0)

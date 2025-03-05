@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bgc5frfweklsv"]
 
-[ext_resource type="Script" path="res://studio/action_engine/graph/inputs/tracking_parameter.gd" id="1_fhsw5"]
+[ext_resource type="Script" uid="uid://i6jx5wudxlhx" path="res://studio/action_engine/graph/inputs/tracking_parameter.gd" id="1_fhsw5"]
 
 [node name="Tracking" type="GraphNode"]
 custom_minimum_size = Vector2(180, 0)

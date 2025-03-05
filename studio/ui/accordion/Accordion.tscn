@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bsopq25303nfn"]
 
-[ext_resource type="Script" path="res://studio/ui/accordion/accordion.gd" id="1_wt3ka"]
+[ext_resource type="Script" uid="uid://08yyvfky7ack" path="res://studio/ui/accordion/accordion.gd" id="1_wt3ka"]
 
 [node name="Accordion" type="VBoxContainer"]
 anchors_preset = 15

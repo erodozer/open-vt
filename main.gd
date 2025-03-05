@@ -11,7 +11,7 @@ func _on_model_changed(model: Node) -> void:
 
 func _on_camera_panel_toggle_bg_transparency(enabled: bool) -> void:
 	get_tree().root.transparent_bg = enabled
-	%BgFill.visible = not enabled
+	%Bg.visible = not enabled
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:

@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://dpw8au0ueatrg"]
 
-[ext_resource type="Script" path="res://studio/ui/parameter_panel/parameter_panel.gd" id="1_5864b"]
+[ext_resource type="Script" uid="uid://ctgn3ir4rc6ap" path="res://studio/ui/parameter_panel/parameter_panel.gd" id="1_5864b"]
 [ext_resource type="Texture2D" uid="uid://d1kej52kqrg0g" path="res://studio/ui/icons/eraser.svg" id="2_4qkrp"]
-[ext_resource type="Script" path="res://studio/ui/accordion/accordion.gd" id="2_57r6x"]
+[ext_resource type="Script" uid="uid://08yyvfky7ack" path="res://studio/ui/accordion/accordion.gd" id="2_57r6x"]
 [ext_resource type="Texture2D" uid="uid://d0oc7kwqufoqr" path="res://studio/ui/icons/circle-plus.svg" id="3_6caqy"]
 [ext_resource type="Texture2D" uid="uid://pd4vy1npck5p" path="res://studio/ui/icons/lock.svg" id="3_ng4r4"]
 
@@ -55,6 +55,7 @@ layout_mode = 2
 selected = 0
 item_count = 2
 popup/item_0/text = "Nearest Neighbor"
+popup/item_0/id = 0
 popup/item_1/text = "Bilinear"
 popup/item_1/id = 1
 
@@ -423,6 +424,6 @@ theme_type_variation = &"VBoxList"
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position/Erase" to="." method="_on_erase_position_pressed"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale/Erase" to="." method="_on_erase_scale_pressed"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation/Erase" to="." method="_on_erase_rotate_pressed"]
-[connection signal="close_requested" from="Modal/OutputParameterPopup" to="." method="_on_output_parameter_popup_close_requested"]
 [connection signal="close_requested" from="Modal/OutputParameterPopup" to="." method="_on_popup_close_requested"]
+[connection signal="close_requested" from="Modal/OutputParameterPopup" to="." method="_on_output_parameter_popup_close_requested"]
 [connection signal="close_requested" from="Modal/InputParameterPopup" to="." method="_on_input_parameter_popup_close_requested"]
