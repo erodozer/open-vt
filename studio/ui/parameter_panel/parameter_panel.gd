@@ -1,4 +1,4 @@
-extends PanelContainer
+extends "res://lib/popout_panel.gd"
 
 const VtModel = preload("res://lib/model/vt_model.gd")
 const TrackingInput = preload("res://lib/tracking/tracker.gd").Inputs

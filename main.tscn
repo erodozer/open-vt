@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bbh7pj5wq0sii"]
+[gd_scene load_steps=25 format=3 uid="uid://bbh7pj5wq0sii"]
 
 [ext_resource type="Script" uid="uid://bq0aow0vnq1i6" path="res://main.gd" id="1_g562h"]
 [ext_resource type="Script" uid="uid://ds0i7bdpr6wsy" path="res://lib/item_manager.gd" id="4_4ht51"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://cwcgdtduxw584" path="res://lib/model_manager.gd" id="12_ufyfb"]
 [ext_resource type="PackedScene" uid="uid://bcxs7fe1yqc6o" path="res://studio/ui/item_panel/item_panel.tscn" id="13_jdf84"]
 [ext_resource type="Texture2D" uid="uid://0yh01fnusj7i" path="res://studio/ui/icons/square-t.svg" id="13_w86gw"]
+[ext_resource type="Texture2D" uid="uid://b3m3xj1ms8rss" path="res://studio/ui/icons/square-arrow-up-left.svg" id="14_82xsv"]
 [ext_resource type="PackedScene" uid="uid://bkm4lgw38g4di" path="res://lib/model/vt_model.tscn" id="15_wg2gf"]
 [ext_resource type="PackedScene" uid="uid://toss8jnrs7a8" path="res://studio/action_engine/action_editor.tscn" id="18_684pa"]
 [ext_resource type="PackedScene" uid="uid://bbpykopqsj46s" path="res://studio/action_engine/action_controller.tscn" id="19_q05bf"]
@@ -86,14 +87,15 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("5_pr18m")
+title = "open-vt (Controls)"
 
 [node name="Menu" type="PanelContainer" parent="Interface/HUD"]
 unique_name_in_owner = true
 layout_mode = 1
-offset_left = 16.0
-offset_top = 16.0
-offset_right = 80.0
-offset_bottom = 254.0
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 64.0
+grow_vertical = 2
 mouse_filter = 1
 theme_type_variation = &"ButtonPanel"
 theme_override_styles/panel = SubResource("StyleBoxEmpty_goisu")
@@ -113,7 +115,7 @@ button_group = SubResource("ButtonGroup_42qc0")
 icon = ExtResource("6_pyns6")
 icon_alignment = 1
 expand_icon = true
-metadata/panel = NodePath("../../../CameraPanel")
+metadata/panel = NodePath("../../../Panels/Control/CameraPanel")
 
 [node name="ModelBtn" type="Button" parent="Interface/HUD/Menu/VBoxContainer"]
 unique_name_in_owner = true
@@ -126,7 +128,7 @@ button_group = SubResource("ButtonGroup_42qc0")
 icon = ExtResource("7_e0oav")
 icon_alignment = 1
 expand_icon = true
-metadata/panel = NodePath("../../../ModelPanel")
+metadata/panel = NodePath("../../../Panels/Control/ModelPanel")
 
 [node name="ItemBtn" type="Button" parent="Interface/HUD/Menu/VBoxContainer"]
 unique_name_in_owner = true
@@ -139,7 +141,7 @@ button_group = SubResource("ButtonGroup_42qc0")
 icon = ExtResource("10_jf06x")
 icon_alignment = 1
 expand_icon = true
-metadata/panel = NodePath("../../../ItemPanel")
+metadata/panel = NodePath("../../../Panels/Control/ItemPanel")
 
 [node name="ParameterBtn" type="Button" parent="Interface/HUD/Menu/VBoxContainer"]
 unique_name_in_owner = true
@@ -152,7 +154,7 @@ button_group = SubResource("ButtonGroup_42qc0")
 icon = ExtResource("8_jn2ra")
 icon_alignment = 1
 expand_icon = true
-metadata/panel = NodePath("../../../ParameterPanel")
+metadata/panel = NodePath("../../../Panels/Control/ParameterPanel")
 
 [node name="ActionBtn" type="Button" parent="Interface/HUD/Menu/VBoxContainer"]
 unique_name_in_owner = true
@@ -165,46 +167,83 @@ button_group = SubResource("ButtonGroup_42qc0")
 icon = ExtResource("13_w86gw")
 icon_alignment = 1
 expand_icon = true
-metadata/panel = NodePath("../../../ActionEditor")
+metadata/panel = NodePath("../../../Panels/Control/ActionEditor")
 
-[node name="ActionController" parent="Interface/HUD" instance=ExtResource("19_q05bf")]
-layout_mode = 0
-offset_left = 965.0
-offset_top = 543.0
-offset_right = 1255.0
-offset_bottom = 695.0
+[node name="PopoutBtn" type="Button" parent="Interface/HUD/Menu/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_vertical = 10
+icon = ExtResource("14_82xsv")
+expand_icon = true
 
-[node name="ParameterPanel" parent="Interface/HUD" instance=ExtResource("8_sw6px")]
+[node name="Bg" type="CanvasLayer" parent="Interface/HUD"]
+layer = -1
+visible = false
+
+[node name="BgFill" type="TextureRect" parent="Interface/HUD/Bg"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_kr4px")
+
+[node name="BgFill2" type="TextureRect" parent="Interface/HUD/Bg"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_2pxyu")
+stretch_mode = 1
+
+[node name="Panels" type="CanvasLayer" parent="Interface/HUD"]
+unique_name_in_owner = true
+layer = 5
+
+[node name="Control" type="Control" parent="Interface/HUD/Panels"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ParameterPanel" parent="Interface/HUD/Panels/Control" instance=ExtResource("8_sw6px")]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = 301.0
-offset_right = 781.0
+offset_left = 1541.0
+offset_right = 2021.0
 grow_horizontal = 0
 
-[node name="ModelPanel" parent="Interface/HUD" instance=ExtResource("10_tc0r5")]
+[node name="ModelPanel" parent="Interface/HUD/Panels/Control" instance=ExtResource("10_tc0r5")]
 unique_name_in_owner = true
 layout_mode = 1
-offset_left = 308.0
-offset_right = 788.0
+offset_left = 1548.0
+offset_right = 2028.0
+offset_bottom = 72.0
 
-[node name="ItemPanel" parent="Interface/HUD" node_paths=PackedStringArray("manager", "stage") instance=ExtResource("13_jdf84")]
+[node name="ItemPanel" parent="Interface/HUD/Panels/Control" node_paths=PackedStringArray("manager", "stage") instance=ExtResource("13_jdf84")]
 unique_name_in_owner = true
 layout_mode = 1
-offset_left = 309.0
-offset_right = 789.0
-manager = NodePath("../../../ItemManager")
-stage = NodePath("../../../Stage")
+offset_left = 1549.0
+offset_right = 2029.0
+manager = NodePath("../../../../../ItemManager")
+stage = NodePath("../../../../../Stage")
 
-[node name="CameraPanel" parent="Interface/HUD" instance=ExtResource("11_3ft6e")]
+[node name="CameraPanel" parent="Interface/HUD/Panels/Control" instance=ExtResource("11_3ft6e")]
 unique_name_in_owner = true
 layout_mode = 1
-offset_left = 310.0
-offset_right = 790.0
+offset_left = 1550.0
+offset_right = 2030.0
 
-[node name="ActionEditor" parent="Interface/HUD" instance=ExtResource("18_684pa")]
+[node name="ActionEditor" parent="Interface/HUD/Panels/Control" instance=ExtResource("18_684pa")]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(1180, 0)
 layout_mode = 1
 anchors_preset = 11
@@ -212,19 +251,38 @@ anchor_left = 1.0
 offset_left = 28.0
 offset_right = 1208.0
 grow_horizontal = 0
-scroll_offset = Vector2(-40, 0)
+title = "Action Editor"
+
+[node name="OnscreenControls" type="CanvasLayer" parent="Interface/HUD"]
+layer = 4
+
+[node name="ActionController" parent="Interface/HUD/OnscreenControls" instance=ExtResource("19_q05bf")]
+unique_name_in_owner = true
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 10
+size_flags_vertical = 10
+title = "Action Palette"
 
 [connection signal="parameters_updated" from="TrackerSystem" to="ModelManager" method="_on_tracker_system_parameters_updated"]
-[connection signal="parameters_updated" from="TrackerSystem" to="Interface/HUD/ParameterPanel" method="_on_tracker_system_parameters_updated"]
-[connection signal="parameters_updated" from="TrackerSystem" to="Interface/HUD/CameraPanel" method="_on_tracker_system_parameters_updated"]
-[connection signal="tracker_changed" from="TrackerSystem" to="Interface/HUD/CameraPanel" method="_on_tracker_system_tracker_changed"]
-[connection signal="list_updated" from="ModelManager" to="Interface/HUD/ModelPanel" method="_on_model_manager_list_updated"]
+[connection signal="parameters_updated" from="TrackerSystem" to="Interface/HUD/Panels/Control/ParameterPanel" method="_on_tracker_system_parameters_updated"]
+[connection signal="parameters_updated" from="TrackerSystem" to="Interface/HUD/Panels/Control/CameraPanel" method="_on_tracker_system_parameters_updated"]
+[connection signal="tracker_changed" from="TrackerSystem" to="Interface/HUD/Panels/Control/CameraPanel" method="_on_tracker_system_tracker_changed"]
+[connection signal="list_updated" from="ModelManager" to="Interface/HUD/Panels/Control/ModelPanel" method="_on_model_manager_list_updated"]
 [connection signal="item_added" from="Stage" to="Interface/HUD" method="_on_stage_item_added"]
-[connection signal="item_added" from="Stage" to="Interface/HUD/ItemPanel" method="_on_stage_item_added"]
+[connection signal="item_added" from="Stage" to="Interface/HUD/Panels/Control/ItemPanel" method="_on_stage_item_added"]
 [connection signal="model_changed" from="Stage" to="." method="_on_model_changed"]
 [connection signal="model_changed" from="Stage" to="Interface/HUD" method="_on_model_changed"]
-[connection signal="model_changed" from="Stage" to="Interface/HUD/ParameterPanel" method="_on_stage_model_changed"]
-[connection signal="model_changed" from="Stage" to="Interface/HUD/ItemPanel" method="_on_stage_model_changed"]
-[connection signal="model_changed" from="Stage" to="Interface/HUD/ActionEditor" method="_on_stage_model_changed"]
-[connection signal="update_order" from="Stage" to="Interface/HUD/ItemPanel" method="_on_stage_update_order"]
-[connection signal="toggle_bg_transparency" from="Interface/HUD/CameraPanel" to="." method="_on_camera_panel_toggle_bg_transparency"]
+[connection signal="model_changed" from="Stage" to="Interface/HUD/Panels/Control/ParameterPanel" method="_on_stage_model_changed"]
+[connection signal="model_changed" from="Stage" to="Interface/HUD/Panels/Control/ItemPanel" method="_on_stage_model_changed"]
+[connection signal="model_changed" from="Stage" to="Interface/HUD/Panels/Control/ActionEditor" method="_on_stage_model_changed"]
+[connection signal="update_order" from="Stage" to="Interface/HUD/Panels/Control/ItemPanel" method="_on_stage_update_order"]
+[connection signal="pressed" from="Interface/HUD/Menu/VBoxContainer/PopoutBtn" to="Interface/HUD" method="popout"]
+[connection signal="toggle_bg_transparency" from="Interface/HUD/Panels/Control/CameraPanel" to="." method="_on_camera_panel_toggle_bg_transparency"]

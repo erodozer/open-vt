@@ -14,6 +14,7 @@ offset_right = 352.0
 grow_vertical = 2
 mouse_force_pass_scroll_events = false
 script = ExtResource("1_5864b")
+title = "Parameter Settings"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 2

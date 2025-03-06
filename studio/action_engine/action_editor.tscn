@@ -1,9 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://toss8jnrs7a8"]
+[gd_scene load_steps=4 format=3 uid="uid://toss8jnrs7a8"]
 
 [ext_resource type="Script" uid="uid://db42rl050i8ey" path="res://studio/action_engine/action_editor.gd" id="1_i8a08"]
+[ext_resource type="Script" uid="uid://7btvccswpke3" path="res://lib/popout_panel.gd" id="1_rtgi8"]
 [ext_resource type="Script" uid="uid://08yyvfky7ack" path="res://studio/ui/accordion/accordion.gd" id="2_mofut"]
 
-[node name="ActionEditor" type="GraphEdit"]
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rtgi8")
+
+[node name="ActionEditor" type="GraphEdit" parent="."]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -17,7 +28,7 @@ zoom_max = 1.5
 show_minimap_button = false
 script = ExtResource("1_i8a08")
 
-[node name="Palette" type="PanelContainer" parent="."]
+[node name="Palette" type="PanelContainer" parent="ActionEditor"]
 z_index = 1
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 1
@@ -28,27 +39,27 @@ offset_top = 16.0
 offset_right = -24.0
 grow_horizontal = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Palette"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ActionEditor/Palette"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Palette/VBoxContainer"]
+[node name="Label" type="Label" parent="ActionEditor/Palette/VBoxContainer"]
 layout_mode = 2
 text = "Palette"
 
-[node name="Accordion" type="VBoxContainer" parent="Palette/VBoxContainer"]
+[node name="Accordion" type="VBoxContainer" parent="ActionEditor/Palette/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("2_mofut")
 
-[node name="Inputs" type="VBoxContainer" parent="Palette/VBoxContainer/Accordion"]
+[node name="Inputs" type="VBoxContainer" parent="ActionEditor/Palette/VBoxContainer/Accordion"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Outputs" type="VBoxContainer" parent="Palette/VBoxContainer/Accordion"]
+[node name="Outputs" type="VBoxContainer" parent="ActionEditor/Palette/VBoxContainer/Accordion"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
-[connection signal="connection_request" from="." to="." method="_on_connection_request"]
-[connection signal="delete_nodes_request" from="." to="." method="_on_delete_nodes_request"]
-[connection signal="disconnection_request" from="." to="." method="_on_disconnection_request"]
+[connection signal="child_entered_tree" from="ActionEditor" to="ActionEditor" method="_on_child_entered_tree"]
+[connection signal="connection_request" from="ActionEditor" to="ActionEditor" method="_on_connection_request"]
+[connection signal="delete_nodes_request" from="ActionEditor" to="ActionEditor" method="_on_delete_nodes_request"]
+[connection signal="disconnection_request" from="ActionEditor" to="ActionEditor" method="_on_disconnection_request"]
