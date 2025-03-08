@@ -1,6 +1,7 @@
-# Open-vt
-
-OpenVT is software for Vtubing with 2D Avatars, focused on stable, cross platform availability and compatibility with commercial alternatives. 
+<p align="center">
+  <img src="icon.svg" width="180" />
+</p>
+<p align="center">OpenVT is software for Vtubing with 2D Avatars<br>Focused on stable, cross platform availability and compatibility with commercial alternatives</p>
 
 ## Why should I care?
 
@@ -65,4 +66,4 @@ The script will moving the files into the appropriate locations.
 UI Icons from
 https://github.com/free-icons/free-icons
 
-OpenVT Mascot () Icon by @erodozer
+OpenVT Mascot by @erodozer
