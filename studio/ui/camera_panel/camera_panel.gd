@@ -4,8 +4,9 @@ const Tracker = preload("res://lib/tracking/tracker.gd")
 const TrackingSystem = preload("res://lib/tracking_system.gd")
 const TrackingInputs = preload("res://lib/tracking/tracker.gd").Inputs
 
-signal toggle_bg_transparency(enabled: bool)
 signal update_bg_color(color: Color)
+
+@onready var transparency_toggle: CheckButton = %TransparencyToggle
 
 func _get_title():
 	return "Settings"
@@ -51,4 +52,12 @@ func _on_preview_background_color_color_changed(color: Color) -> void:
 	update_bg_color.emit(color)
 
 func _on_transparency_toggle_toggled(toggled_on: bool) -> void:
-	toggle_bg_transparency.emit(toggled_on)
+	get_tree().get_first_node_in_group("system:stage").toggle_bg(toggled_on)
+
+func load_settings(data: Dictionary):
+	transparency_toggle.button_pressed = data.get("window", {}).get("transparent", false)
+	
+func save_settings(data: Dictionary):
+	var w = data.get("window", {})
+	w["transparent"] = transparency_toggle.button_pressed
+	data["window"] = w

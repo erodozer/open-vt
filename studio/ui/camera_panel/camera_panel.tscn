@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ckj4kaun5h87" path="res://studio/ui/camera_panel/camera_panel.gd" id="1_qt06k"]
 
-[node name="CameraPanel" type="PanelContainer"]
+[node name="CameraPanel" type="PanelContainer" groups=["persist"]]
 custom_minimum_size = Vector2(480, 0)
 anchors_preset = 11
 anchor_left = 1.0
@@ -39,6 +39,7 @@ size_flags_vertical = 0
 text = "Transparent Background"
 
 [node name="TransparencyToggle" type="CheckButton" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer"]

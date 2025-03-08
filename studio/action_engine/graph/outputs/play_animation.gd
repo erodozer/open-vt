@@ -33,6 +33,8 @@ func invoke_trigger(slot: int) -> void:
 		if not player.has_animation(animation):
 			return
 			
+		player.play(&"RESET")
+		player.advance(0)
 		player.play(
 			animation, 0, %Speed/Value.value / 100.0
 		)

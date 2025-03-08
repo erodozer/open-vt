@@ -102,3 +102,17 @@ func _clear_buttons():
 	for b in group.get_buttons():
 		b.button_pressed = false
 	_close_panel()
+
+func load_settings(settings: Dictionary):
+	super.load_settings(settings)
+	
+	var do_popup = settings.get("popout_controls", false)
+	if do_popup:
+		await get_tree().process_frame
+		self.popout()
+	
+func save_settings(settings: Dictionary):
+	super.save_settings(settings)
+	
+	settings["popout_controls"] = self.is_floating
+	

@@ -184,7 +184,7 @@ func _process(delta: float) -> void:
 #		m.set_meta("global_centroid", render.global_position + center)
 #		m.set_meta("angle", center.angle_to(m.get_meta("start_centroid")))
 
-func _hydrate(settings: Dictionary):
+func hydrate(settings: Dictionary):
 	if model == null:
 		return
 	

@@ -46,9 +46,9 @@ signal deactivate
 
 func load_from_vts(hotkey: Dictionary):
 	name = hotkey.Name
-	self.button_1 = hotkey.Triggers.Trigger1
-	self.button_2 = hotkey.Triggers.Trigger2
-	self.button_3 = hotkey.Triggers.Trigger3
+	self.button_1 = ut_to_gd(hotkey.Triggers.Trigger1)
+	self.button_2 = ut_to_gd(hotkey.Triggers.Trigger2)
+	self.button_3 = ut_to_gd(hotkey.Triggers.Trigger3)
 	screen_button = hotkey.Triggers.ScreenButton
 	screen_button_color = Color(
 		hotkey.OnScreenHotkeyColor.r,
@@ -56,6 +56,24 @@ func load_from_vts(hotkey: Dictionary):
 		hotkey.OnScreenHotkeyColor.b,
 		hotkey.OnScreenHotkeyColor.a
 	)
+	
+func ut_to_gd(input_name: String):
+	match input_name:
+		"LeftShift": return "Shift"
+		"RightShift": return "Shift"
+		"LeftControl": return "Ctrl"
+		"RightControl": return "Ctrl"
+		"Numpad0", "N0": return "Kp 0"
+		"Numpad1", "N1": return "Kp 1"
+		"Numpad2", "N2": return "Kp 2"
+		"Numpad3", "N3": return "Kp 3"
+		"Numpad4", "N4": return "Kp 4"
+		"Numpad5", "N5": return "Kp 5"
+		"Numpad6", "N6": return "Kp 6"
+		"Numpad7", "N7": return "Kp 7"
+		"Numpad8", "N8": return "Kp 8"
+		"Numpad9", "N9": return "Kp 9"
+		_: return input_name
 	
 func _map_input(button: String) -> Callable:
 	var keycode = OS.find_keycode_from_string(button)

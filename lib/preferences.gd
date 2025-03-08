@@ -7,8 +7,8 @@ var _data = {}
 func _ready() -> void:
 	get_tree().node_added.connect(
 		func (n: Node):
-			if n.has_method("_hydrate"):
-				n._hydrate(_data)
+			if n.has_method("hydrate"):
+				n.hydrate(_data)
 	)
 
 func load_data():

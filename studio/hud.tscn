@@ -31,7 +31,7 @@ content_margin_bottom = 8.0
 [sub_resource type="ButtonGroup" id="ButtonGroup_42qc0"]
 allow_unpress = true
 
-[node name="HUD" type="Control"]
+[node name="HUD" type="Control" groups=["persist"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

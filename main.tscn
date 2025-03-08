@@ -32,11 +32,14 @@ script = ExtResource("12_ufyfb")
 [node name="ItemManager" type="Node" parent="." groups=["system:items"]]
 script = ExtResource("4_4ht51")
 
-[node name="Bg" type="CanvasLayer" parent="."]
+[node name="Stage" type="Node" parent="." groups=["persist", "system:stage"]]
+script = ExtResource("5_uhpo7")
+
+[node name="Bg" type="CanvasLayer" parent="Stage"]
 unique_name_in_owner = true
 layer = -1
 
-[node name="BgFill" type="TextureRect" parent="Bg"]
+[node name="BgFill" type="TextureRect" parent="Stage/Bg"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -44,7 +47,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_kr4px")
 
-[node name="BgFill2" type="TextureRect" parent="Bg"]
+[node name="BgFill2" type="TextureRect" parent="Stage/Bg"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -53,10 +56,10 @@ grow_vertical = 2
 texture = ExtResource("5_2pxyu")
 stretch_mode = 1
 
-[node name="Stage" type="CanvasLayer" parent="." groups=["persist", "system:stage"]]
-script = ExtResource("5_uhpo7")
+[node name="CanvasLayer" type="CanvasLayer" parent="Stage"]
+unique_name_in_owner = true
 
-[node name="VtModel" parent="Stage" instance=ExtResource("15_wg2gf")]
+[node name="VtModel" parent="Stage/CanvasLayer" instance=ExtResource("15_wg2gf")]
 
 [node name="Interface" type="CanvasLayer" parent="."]
 

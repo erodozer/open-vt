@@ -2,6 +2,8 @@ extends "../vt_action.gd"
 
 const HotkeyBinding = preload("./hotkey_binding.gd")
 
+@onready var hotkey = %Handler
+
 func _on_input_pressed() -> void:
 	%Modal.show()
 	%InputRecPopup.show()
@@ -15,7 +17,6 @@ func _on_input_pressed() -> void:
 	%InputRecPopup.hide()
 	%Modal.visible = false
 	
-	var hotkey: HotkeyBinding = %Handler
 	if len(pressed) > 0:
 		hotkey.button_1 = OS.get_keycode_string(pressed[0])
 	else:

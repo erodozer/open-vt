@@ -9,19 +9,15 @@ func _ready() -> void:
 func _on_model_changed(model: Node) -> void:
 	preferences.save_data()
 
-func _on_camera_panel_toggle_bg_transparency(enabled: bool) -> void:
-	get_tree().root.transparent_bg = enabled
-	%Bg.visible = not enabled
-
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		preferences.save_data()
 
 func save_settings(settings: Dictionary):
-	settings["window"] = {
-		"position": get_window().position,
-		"size": get_window().size
-	}
+	var window_settings = settings.get("window", {})
+	window_settings["position"] = get_window().position
+	window_settings["size"] = get_window().size
+	settings["window"] = window_settings
 	
 func load_settings(settings: Dictionary):
 	var window_prefs = settings.get("window", {})
