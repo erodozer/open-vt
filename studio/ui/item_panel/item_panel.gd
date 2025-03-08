@@ -5,12 +5,21 @@ const VtItem = preload("res://lib/items/vt_item.gd")
 const VtModel = preload("res://lib/model/vt_model.gd")
 const Stage = preload("res://lib/stage.gd")
 
-@export var manager: ItemManager
-@export var stage: Stage
+@onready var manager: ItemManager = get_tree().get_first_node_in_group("system:items")
+@onready var stage: Stage = get_tree().get_first_node_in_group("system:stage")
 @onready var list = %List
 
 signal item_configured(add_item: bool)
 
+func _ready():
+	if manager:
+		manager.list_updated.connect(_on_item_manager_list_updated)
+	
+	if stage:
+		stage.model_changed.connect(_on_stage_model_changed)
+		stage.item_added.connect(_on_stage_item_added)
+		stage.update_order.connect(_on_stage_update_order)
+		
 func _on_item_manager_list_updated(models: Array) -> void:
 	for f in list.get_children():
 		f.queue_free()

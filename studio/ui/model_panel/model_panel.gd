@@ -3,15 +3,13 @@ extends PanelContainer
 const ModelManager = preload("res://lib/model_manager.gd")
 const Stage = preload("res://lib/stage.gd")
 
-var manager: ModelManager
-var stage: Stage
-
+@onready var manager: ModelManager = get_tree().get_first_node_in_group("system:model")
+@onready var stage: Stage = get_tree().get_first_node_in_group("system:stage")
 @onready var list = %ModelList
 
 func _ready() -> void:
-	manager = get_tree().get_first_node_in_group("system:model")
-	
-	stage = get_tree().get_first_node_in_group("system:stage")
+	if manager:
+		manager.list_updated.connect(_on_model_manager_list_updated)
 
 func _refresh():
 	manager.refresh_models()

@@ -10,7 +10,7 @@ const ModelExpression = preload("res://lib/model/expression.gd")
 
 var linear_shaders = [
 	preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_add.gdshader"),
-	preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_mix.gdshader"),
+	preload("res://lib/model/shaders/linear/2d_cubism_norm_mix.gdshader"),
 	preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_mul.gdshader"),
 
 	preload("res://addons/gd_cubism/res/shader/2d_cubism_mask.gdshader"),
@@ -22,6 +22,22 @@ var linear_shaders = [
 	preload("res://addons/gd_cubism/res/shader/2d_cubism_mask_mul.gdshader"),
 	preload("res://addons/gd_cubism/res/shader/2d_cubism_mask_mul_inv.gdshader")
 ]
+
+var nearest_shaders = [
+	preload("res://lib/model/shaders/nearest/2d_cubism_norm_add.gdshader"),
+	preload("res://lib/model/shaders/nearest/2d_cubism_norm_mix.gdshader"),
+	preload("res://lib/model/shaders/nearest/2d_cubism_norm_mul.gdshader"),
+
+	preload("res://lib/model/shaders/nearest/2d_cubism_mask.gdshader"),
+
+	preload("res://lib/model/shaders/nearest/2d_cubism_mask_add.gdshader"),
+	preload("res://lib/model/shaders/nearest/2d_cubism_mask_add_inv.gdshader"),
+	preload("res://lib/model/shaders/nearest/2d_cubism_mask_mix.gdshader"),
+	preload("res://lib/model/shaders/nearest/2d_cubism_mask_mix_inv.gdshader"),
+	preload("res://lib/model/shaders/nearest/2d_cubism_mask_mul.gdshader"),
+	preload("res://lib/model/shaders/nearest/2d_cubism_mask_mul_inv.gdshader")
+]
+
 
 var live2d_model: GDCubismUserModel
 var model: ModelMeta
@@ -39,8 +55,8 @@ var model_parameters: Dictionary
 var filter: CanvasItem.TextureFilter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS :
 	set(v):
 		filter = v
-		update_shaders()
-		_rebuild_l2d(model)
+		if render:
+			_load_model(model)
 			
 var studio_parameters: Array = []
 var parameter_values: Dictionary = {}
@@ -65,20 +81,20 @@ func is_bound(parameter: GDCubismParameter) -> bool:
 
 func _ready():
 	if model:
-		update_shaders()
 		await _load_model(model)
+		
+	var tracking: TrackingSystem = get_tree().get_first_node_in_group("system:tracking")
+	tracking.parameters_updated.connect(parameters_updated)
 	
 func _rebuild_l2d(model: ModelMeta):
 	var loaded_model: GDCubismUserModel
-	var model_resource: PackedScene = ResourceLoader.load(model.model, "PackedScene")
-	if model_resource == null:
-		loaded_model = GDCubismModelLoader.load_model(model.model, true, true, linear_shaders)
-		var p = PackedScene.new()
-		if p.pack(loaded_model) != OK:
-			return false
-		p.take_over_path(model.model)
-	else:
-		loaded_model = model_resource.instantiate()
+	loaded_model = GDCubismModelLoader.load_model(model.model, true, true,
+		nearest_shaders if filter == TEXTURE_FILTER_NEAREST else linear_shaders
+	)
+	var p = PackedScene.new()
+	if p.pack(loaded_model) != OK:
+		return false
+	p.take_over_path(model.model)
 	
 	render.add_child(loaded_model)
 	
@@ -96,8 +112,6 @@ func _rebuild_l2d(model: ModelMeta):
 		m.set_meta("centroid", center)
 		m.set_meta("start_centroid", center)
 		m.set_meta("global_centroid", render.global_position + center)
-		
-	live2d_model = loaded_model
 	
 	return true
 
@@ -114,10 +128,8 @@ func _load_model(model: ModelMeta):
 	for i in live2d_model.get_parameters():
 		model_parameters[i.name] = i
 		parameter_values[i.name] = i.default_value
-		
-	var tracking: TrackingSystem = get_tree().get_first_node_in_group("system:tracking")
-	tracking.parameters_updated.connect(parameters_updated)
-
+	
+	studio_parameters.clear()
 	for parameter_data in vtube_data["ParameterSettings"]:
 		var p = preload("res://lib/tracking/parameter_setting.gd").new()
 		var ok = p.deserialize(parameter_data)
@@ -138,7 +150,7 @@ func _load_model(model: ModelMeta):
 		m.set_meta("centroid", center)
 		m.set_meta("start_centroid", center)
 		m.set_meta("global_centroid", render.global_position + center)
-		
+	
 	await get_tree().process_frame
 	
 	initialized.emit()
@@ -163,9 +175,6 @@ func parameters_updated(tracking_data: Dictionary):
 			var raw_value = tracking_data[parameter.input_parameter]
 			parameter_values[parameter.output_parameter] = parameter.scale_value(raw_value)
 			model_parameters[parameter.output_parameter].value = parameter_values[parameter.output_parameter]
-		
-func update_shaders():
-	render.texture_filter = filter
 
 func _process(delta: float) -> void:
 	pass
@@ -174,3 +183,17 @@ func _process(delta: float) -> void:
 #		m.set_meta("centroid", center)
 #		m.set_meta("global_centroid", render.global_position + center)
 #		m.set_meta("angle", center.angle_to(m.get_meta("start_centroid")))
+
+func _hydrate(settings: Dictionary):
+	if model == null:
+		return
+	
+	var model_preferences = settings.get("model_preferences", {}).get(model.id, {})
+	self.filter = model_preferences.get("filter", TEXTURE_FILTER_LINEAR_WITH_MIPMAPS)
+
+func save_settings(settings: Dictionary):
+	var p = settings.get("model_preferences", {})
+	p[model.id] = {
+		"filter": self.filter
+	}
+	settings["model_preferences"] = p

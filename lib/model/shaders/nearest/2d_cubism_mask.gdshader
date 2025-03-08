@@ -4,12 +4,8 @@
 shader_type canvas_item;
 render_mode blend_mix, unshaded;
 
-uniform vec4 channel;
-uniform sampler2D tex_main : filter_linear_mipmap;
-
-void vertex() {
-    UV.y = 1.0 - UV.y;
-}
+uniform vec4 channel : source_color;
+uniform sampler2D tex_main : filter_nearest_mipmap;
 
 void fragment() {
     COLOR = channel * texture(tex_main, UV).a;

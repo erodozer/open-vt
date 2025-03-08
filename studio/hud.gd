@@ -3,7 +3,8 @@ extends "res://lib/popout_panel.gd"
 var open
 var group: ButtonGroup
 
-@onready var panels = %Panels/Control
+@onready var popup_bg = %Bg
+@onready var panels = %Panels
 @onready var action_controller = %ActionController
 @onready var action_editor = %ActionEditor
 @onready var popup_btn = %PopoutBtn
@@ -24,7 +25,7 @@ func _ready() -> void:
 			get_window().unresizable = true
 			self.size = Vector2i(580, 720)
 			group.allow_unpress = false
-			$Bg.show()
+			popup_bg.show()
 			popup_btn.hide()
 			action_controller.popout(true)
 			_close_panel()
@@ -44,7 +45,7 @@ func _ready() -> void:
 		func ():
 			self.size = get_parent_area_size()
 			group.allow_unpress = true
-			$Bg.hide()
+			popup_bg.hide()
 			for p in panels.get_children():
 				p.offset_right = p.size.x
 			action_controller.restore()
@@ -53,6 +54,17 @@ func _ready() -> void:
 			popup_btn.show()
 			get_window().unresizable = false
 	)
+	
+	var stage = get_tree().get_first_node_in_group("system:stage")
+	if stage:
+		stage.item_added.connect(
+			func (_item):
+				_clear_buttons()
+		)
+		stage.model_changed.connect(
+			func (_model):
+				_clear_buttons()
+		)
 
 func _close_panel():
 	if open != null:
@@ -90,10 +102,3 @@ func _clear_buttons():
 	for b in group.get_buttons():
 		b.button_pressed = false
 	_close_panel()
-
-func _on_model_changed(_model: Node) -> void:
-	_clear_buttons()
-	
-func _on_stage_item_added(item: Node2D) -> void:
-	_clear_buttons()
-	

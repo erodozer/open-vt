@@ -22,11 +22,14 @@ func _ready() -> void:
 		box.add_child(v)
 		%ParameterList.add_child(box)
 		
-	%TrackingSource.item_selected.connect(
-		func (idx):
-			var trackingSystem: TrackingSystem = get_tree().get_first_node_in_group("system:tracking")
-			trackingSystem.activate_tracker(idx)
-	)
+	var tracking_system: TrackingSystem = get_tree().get_first_node_in_group("system:tracking")
+	if tracking_system:
+		tracking_system.tracker_changed.connect(_on_tracker_system_tracker_changed)
+			
+		%TrackingSource.item_selected.connect(
+			func (idx):
+				tracking_system.activate_tracker(idx)
+		)
 	
 func _on_tracker_system_tracker_changed(tracker: Tracker) -> void:
 	var config = Control.new()

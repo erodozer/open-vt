@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://jjw7ty6tyxmy"]
+[gd_scene load_steps=4 format=3 uid="uid://jjw7ty6tyxmy"]
 
 [ext_resource type="Script" uid="uid://cni8uvg0bjde" path="res://lib/draggable.gd" id="1_vkdkm"]
+[ext_resource type="PackedScene" uid="uid://cxxk7qs88utco" path="res://Live2DModels/pixel_ero/ero_px.model3.json" id="2_kuk3y"]
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dctc5"]
 
@@ -38,5 +39,8 @@ script = ExtResource("1_vkdkm")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_dctc5")
+&"": SubResource("AnimationLibrary_dctc5")
 }
+
+[node name="ero_px_model3_json" parent="." instance=ExtResource("2_kuk3y")]
+position = Vector2(916, 350)

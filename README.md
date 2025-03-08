@@ -22,6 +22,8 @@ By contrast, OpenVT is built in Godot, leveraging much of the same open-source s
 - open development allowing for transparent feature delivery
 - transparent window support to simplify alpha based capture in OBS without the need for virtual camera or spout in all supported operating systems
 - adjustable filtering settings, allowing for sharper scaling of pixel art models
+- popout controls
+- generally lower system requirements
 
 ## Building
 
@@ -37,7 +39,7 @@ Please follow the readmes and build instructions of any git submodules to know o
 Git submodules are not expected to change frequently.  Building the dependencies for most will only need to be done once.
 
 #### Requirements
-- Godot >= 4.3
+- Godot >= 4.4
 - Git
 - Docker (for ease of setup)
 
@@ -60,5 +62,7 @@ The script will moving the files into the appropriate locations.
 - https://github.com/MizunagiKB/gd_cubism
 - https://github.com/Live2D/CubismNativeFramework
 
-Icons from
+UI Icons from
 https://github.com/free-icons/free-icons
+
+OpenVT Mascot () Icon by @erodozer

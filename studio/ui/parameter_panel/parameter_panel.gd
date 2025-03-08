@@ -13,6 +13,9 @@ signal parameter_selected(value)
 
 func _ready():
 	_build_input_parameter_list()
+	var stage = get_tree().get_first_node_in_group("system:stage")
+	if stage:
+		stage.model_changed.connect(_on_stage_model_changed)
 
 func _on_stage_model_changed(model) -> void:
 	for c in list.get_children():

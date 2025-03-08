@@ -39,7 +39,6 @@ func spawn_model(model: VtModel):
 	await active_model.initialized
 	
 	# TODO if model had items pinned to it, load them in as well
-	
 	model_changed.emit(active_model)
 
 func spawn_item(item: VtItem):
@@ -64,6 +63,6 @@ func load_settings(data):
 		spawn_model(model)
 	
 func save_settings(data):
-	if active_model != null:
+	if active_model != null and active_model.model != null:
 		data["active_model"] = active_model.model.id
 	

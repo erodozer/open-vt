@@ -1,4 +1,4 @@
-extends GraphEdit
+extends "res://lib/popout_panel.gd"
 
 const VtModel = preload("res://lib/model/vt_model.gd")
 const VtAction = preload("./graph/vt_action.gd")
@@ -9,30 +9,24 @@ static var OUTPUTS_DIR = GRAPH_NODES_DIR.path_join("outputs")
 
 var graph_elements: Array[GraphNode] = []
 
+@onready var graph: GraphEdit = %ActionGraph
+
 @onready var screen_controller = get_tree().get_first_node_in_group("system:hotkey")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	for f in DirAccess.get_files_at(INPUTS_DIR):
-		if f.get_extension() == "tscn":
-			var p: PackedScene = load(INPUTS_DIR.path_join(f))
-			var b = Button.new()
-			b.text = "Add %s" % [p._bundled["names"][0]]
-			b.pressed.connect(_on_add_hotkey_pressed.bind(p))
-			%Inputs.add_child(b)
+	for btn in %Inputs.get_children():
+		btn.pressed.connect(_on_add_hotkey_pressed.bind(btn.get_meta("action")))
 			
-	for f in DirAccess.get_files_at(OUTPUTS_DIR):
-		if f.get_extension() == "tscn":
-			var p: PackedScene = load(OUTPUTS_DIR.path_join(f))
-			var b = Button.new()
-			b.text = "Add %s" % [p._bundled["names"][0]]
-			b.pressed.connect(_on_add_hotkey_pressed.bind(p))
-			%Outputs.add_child(b)
+	for btn in %Outputs.get_children():
+		btn.pressed.connect(_on_add_hotkey_pressed.bind(btn.get_meta("action")))
+			
+	get_tree().get_first_node_in_group("system:stage").model_changed.connect(_on_stage_model_changed)
 
 func _on_add_hotkey_pressed(node: PackedScene) -> GraphNode:
 	var input = node.instantiate()
 	input.position_offset = size / 2
-	add_child(input)
+	graph.add_child(input)
 	graph_elements.append(input)
 	return input
 
@@ -147,24 +141,24 @@ func _load_from_vts(model: VtModel):
 			y = 0
 
 func _on_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
-	var from_action: GraphNode = get_node(NodePath(from_node))
-	var to_action: GraphNode = get_node(NodePath(to_node))
+	var from_action: GraphNode = graph.get_node(NodePath(from_node))
+	var to_action: GraphNode = graph.get_node(NodePath(to_node))
 	
-	connect_node(from_node, from_port, to_node, to_port)
+	graph.connect_node(from_node, from_port, to_node, to_port)
 
 func _on_disconnection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
-	disconnect_node(from_node, from_port, to_node, to_port)
+	graph.disconnect_node(from_node, from_port, to_node, to_port)
 
 func _on_child_entered_tree(node: Node) -> void:
 	if node is GraphNode:
 		node.slot_updated.connect(_on_action.bind(node))
 		
 func _on_action(slot: int, node: GraphNode):
-	for conn in get_connection_list():
+	for conn in graph.get_connection_list():
 		if not (conn.from_node == node.name and conn.from_port == slot):
 			continue
 			
-		var target = get_node(NodePath(conn.to_node))
+		var target = graph.get_node(NodePath(conn.to_node))
 			
 		match node.get_output_port_type(slot):
 			VtAction.SlotType.TRIGGER:
@@ -188,7 +182,7 @@ func _on_action(slot: int, node: GraphNode):
 
 func _on_delete_nodes_request(nodes: Array[StringName]) -> void:
 	for i in nodes:
-		var n = get_node(NodePath(i))
+		var n = graph.get_node(NodePath(i))
 		var x = graph_elements.find(n)
 		
 		if x > -1:

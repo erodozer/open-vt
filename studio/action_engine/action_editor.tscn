@@ -1,19 +1,28 @@
-[gd_scene load_steps=4 format=3 uid="uid://toss8jnrs7a8"]
+[gd_scene load_steps=12 format=3 uid="uid://toss8jnrs7a8"]
 
 [ext_resource type="Script" uid="uid://db42rl050i8ey" path="res://studio/action_engine/action_editor.gd" id="1_i8a08"]
-[ext_resource type="Script" uid="uid://7btvccswpke3" path="res://lib/popout_panel.gd" id="1_rtgi8"]
-[ext_resource type="Script" uid="uid://08yyvfky7ack" path="res://studio/ui/accordion/accordion.gd" id="2_mofut"]
+[ext_resource type="Texture2D" uid="uid://degtf3o1bgig0" path="res://studio/action_engine/graph/inputs/keyboard.svg" id="3_cu0p7"]
+[ext_resource type="Texture2D" uid="uid://cbriovdwq4va0" path="res://studio/action_engine/graph/outputs/face-laugh-wink.svg" id="3_w3k0o"]
+[ext_resource type="PackedScene" uid="uid://uagdego7pt02" path="res://studio/action_engine/graph/inputs/hotkey_action.tscn" id="4_cclj7"]
+[ext_resource type="PackedScene" uid="uid://cow7c85xiw0xr" path="res://studio/action_engine/graph/outputs/toggle_expression.tscn" id="4_v7se5"]
+[ext_resource type="Texture2D" uid="uid://cwws2r8ygckrj" path="res://studio/action_engine/graph/inputs/sidebar-flip.svg" id="5_idygo"]
+[ext_resource type="Texture2D" uid="uid://deu302jii4nsk" path="res://studio/action_engine/graph/outputs/film-simple.svg" id="5_vml2o"]
+[ext_resource type="PackedScene" uid="uid://dcqnjvju4erad" path="res://studio/action_engine/graph/outputs/play_animation.tscn" id="6_io8o0"]
+[ext_resource type="PackedScene" uid="uid://dwyu5dbc3akkx" path="res://studio/action_engine/graph/inputs/screen_button.tscn" id="6_y4h4g"]
+[ext_resource type="Texture2D" uid="uid://bi47la4lgog0c" path="res://studio/action_engine/graph/inputs/face-viewfinder.svg" id="7_whefd"]
+[ext_resource type="PackedScene" uid="uid://bgc5frfweklsv" path="res://studio/action_engine/graph/inputs/tracking_parameter.tscn" id="8_r85br"]
 
-[node name="Control" type="Control"]
+[node name="ActionEditor" type="Control" groups=["persist"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_rtgi8")
+script = ExtResource("1_i8a08")
 
-[node name="ActionEditor" type="GraphEdit" parent="."]
+[node name="ActionGraph" type="GraphEdit" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,9 +35,8 @@ right_disconnects = true
 zoom_min = 0.25
 zoom_max = 1.5
 show_minimap_button = false
-script = ExtResource("1_i8a08")
 
-[node name="Palette" type="PanelContainer" parent="ActionEditor"]
+[node name="Palette" type="PanelContainer" parent="ActionGraph"]
 z_index = 1
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 1
@@ -39,27 +47,76 @@ offset_top = 16.0
 offset_right = -24.0
 grow_horizontal = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ActionEditor/Palette"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="ActionEditor/Palette/VBoxContainer"]
-layout_mode = 2
-text = "Palette"
-
-[node name="Accordion" type="VBoxContainer" parent="ActionEditor/Palette/VBoxContainer"]
+[node name="Accordion" type="HBoxContainer" parent="ActionGraph/Palette"]
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("2_mofut")
 
-[node name="Inputs" type="VBoxContainer" parent="ActionEditor/Palette/VBoxContainer/Accordion"]
+[node name="Inputs" type="HBoxContainer" parent="ActionGraph/Palette/Accordion"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Outputs" type="VBoxContainer" parent="ActionEditor/Palette/VBoxContainer/Accordion"]
+[node name="Hotkey" type="Button" parent="ActionGraph/Palette/Accordion/Inputs"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+tooltip_text = "Add Hotkey Binding"
+icon = ExtResource("3_cu0p7")
+icon_alignment = 1
+expand_icon = true
+metadata/action = ExtResource("4_cclj7")
+
+[node name="ScreenButton" type="Button" parent="ActionGraph/Palette/Accordion/Inputs"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+tooltip_text = "Add Onscreen Button Binding"
+icon = ExtResource("5_idygo")
+icon_alignment = 1
+expand_icon = true
+metadata/action = ExtResource("6_y4h4g")
+
+[node name="TrackingParameter" type="Button" parent="ActionGraph/Palette/Accordion/Inputs"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+tooltip_text = "Add Onscreen Button Binding"
+icon = ExtResource("7_whefd")
+icon_alignment = 1
+expand_icon = true
+metadata/action = ExtResource("8_r85br")
+
+[node name="Control" type="Control" parent="ActionGraph/Palette/Accordion"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Outputs" type="HBoxContainer" parent="ActionGraph/Palette/Accordion"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[connection signal="child_entered_tree" from="ActionEditor" to="ActionEditor" method="_on_child_entered_tree"]
-[connection signal="connection_request" from="ActionEditor" to="ActionEditor" method="_on_connection_request"]
-[connection signal="delete_nodes_request" from="ActionEditor" to="ActionEditor" method="_on_delete_nodes_request"]
-[connection signal="disconnection_request" from="ActionEditor" to="ActionEditor" method="_on_disconnection_request"]
+[node name="SetExpression" type="Button" parent="ActionGraph/Palette/Accordion/Outputs"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+icon = ExtResource("3_w3k0o")
+icon_alignment = 1
+expand_icon = true
+metadata/action = ExtResource("4_v7se5")
+
+[node name="PlayAnimation" type="Button" parent="ActionGraph/Palette/Accordion/Outputs"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+icon = ExtResource("5_vml2o")
+icon_alignment = 1
+expand_icon = true
+metadata/action = ExtResource("6_io8o0")
+
+[connection signal="child_entered_tree" from="ActionGraph" to="." method="_on_child_entered_tree"]
+[connection signal="connection_request" from="ActionGraph" to="." method="_on_connection_request"]
+[connection signal="delete_nodes_request" from="ActionGraph" to="." method="_on_delete_nodes_request"]
+[connection signal="disconnection_request" from="ActionGraph" to="." method="_on_disconnection_request"]

@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://cni8uvg0bjde" path="res://lib/draggable.gd" id="2_ribot"]
 [ext_resource type="Script" uid="uid://d10aurevaucml" path="res://lib/model/debug.gd" id="3_nwsty"]
 
-[node name="VtModel" type="Node2D" groups=["vtmodel"]]
+[node name="VtModel" type="Node2D" groups=["persist", "vtmodel"]]
 script = ExtResource("1_bvpwh")
 
 [node name="Image" type="Control" parent="."]

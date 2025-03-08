@@ -1,0 +1,212 @@
+[gd_scene load_steps=19 format=3 uid="uid://cmd2d6iiryvk4"]
+
+[ext_resource type="Script" uid="uid://pso4m0hd1wo3" path="res://studio/hud.gd" id="1_t0mli"]
+[ext_resource type="Texture2D" uid="uid://ddqu1ma3rgo08" path="res://studio/ui/icons/aperture.svg" id="2_vysue"]
+[ext_resource type="Texture2D" uid="uid://jqiaeaslelbe" path="res://studio/ui/icons/person.svg" id="3_buab2"]
+[ext_resource type="Texture2D" uid="uid://csg8x01sho2ej" path="res://studio/ui/icons/cube.svg" id="4_0k8c4"]
+[ext_resource type="Texture2D" uid="uid://blil5brl4i0qh" path="res://studio/ui/icons/gear.svg" id="5_1vcj3"]
+[ext_resource type="Texture2D" uid="uid://0yh01fnusj7i" path="res://studio/ui/icons/square-t.svg" id="6_8qqt6"]
+[ext_resource type="Texture2D" uid="uid://b3m3xj1ms8rss" path="res://studio/ui/icons/square-arrow-up-left.svg" id="7_wochk"]
+[ext_resource type="Texture2D" uid="uid://b401bri37hvvq" path="res://studio/grid.png" id="8_i4b50"]
+[ext_resource type="PackedScene" uid="uid://dpw8au0ueatrg" path="res://studio/ui/parameter_panel/parameter_panel.tscn" id="9_p03m3"]
+[ext_resource type="PackedScene" uid="uid://dijec4c8prced" path="res://studio/ui/model_panel/model_panel.tscn" id="10_6xy5i"]
+[ext_resource type="PackedScene" uid="uid://bcxs7fe1yqc6o" path="res://studio/ui/item_panel/item_panel.tscn" id="11_juv7g"]
+[ext_resource type="PackedScene" uid="uid://crwh7f50woqgu" path="res://studio/ui/camera_panel/camera_panel.tscn" id="12_blrl1"]
+[ext_resource type="PackedScene" uid="uid://toss8jnrs7a8" path="res://studio/action_engine/action_editor.tscn" id="13_wqkyb"]
+[ext_resource type="PackedScene" uid="uid://bbpykopqsj46s" path="res://studio/action_engine/action_controller.tscn" id="14_67g5m"]
+
+[sub_resource type="Gradient" id="Gradient_joccq"]
+colors = PackedColorArray(0.298039, 0.282353, 0.239216, 1, 0.67451, 0.654902, 0.580392, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kr4px"]
+gradient = SubResource("Gradient_joccq")
+fill_from = Vector2(0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_goisu"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_42qc0"]
+allow_unpress = true
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_t0mli")
+title = "open-vt (Controls)"
+
+[node name="Bg" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+layer = -1
+visible = false
+
+[node name="BgFill" type="TextureRect" parent="Bg"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_kr4px")
+
+[node name="BgFill2" type="TextureRect" parent="Bg"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_i4b50")
+stretch_mode = 1
+
+[node name="Menu" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 64.0
+grow_vertical = 2
+mouse_filter = 1
+theme_type_variation = &"ButtonPanel"
+theme_override_styles/panel = SubResource("StyleBoxEmpty_goisu")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="CameraBtn" type="Button" parent="Menu/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_42qc0")
+icon = ExtResource("2_vysue")
+icon_alignment = 1
+expand_icon = true
+metadata/panel = NodePath("../../../Panels/CameraPanel")
+
+[node name="ModelBtn" type="Button" parent="Menu/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_42qc0")
+icon = ExtResource("3_buab2")
+icon_alignment = 1
+expand_icon = true
+metadata/panel = NodePath("../../../Panels/ModelPanel")
+
+[node name="ItemBtn" type="Button" parent="Menu/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_42qc0")
+icon = ExtResource("4_0k8c4")
+icon_alignment = 1
+expand_icon = true
+metadata/panel = NodePath("../../../Panels/ItemPanel")
+
+[node name="ParameterBtn" type="Button" parent="Menu/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_42qc0")
+icon = ExtResource("5_1vcj3")
+icon_alignment = 1
+expand_icon = true
+metadata/panel = NodePath("../../../Panels/ParameterPanel")
+
+[node name="ActionBtn" type="Button" parent="Menu/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_42qc0")
+icon = ExtResource("6_8qqt6")
+icon_alignment = 1
+expand_icon = true
+metadata/panel = NodePath("../../../Panels/ActionEditor")
+
+[node name="PopoutBtn" type="Button" parent="Menu/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_vertical = 10
+icon = ExtResource("7_wochk")
+expand_icon = true
+
+[node name="Panels" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+layer = 5
+
+[node name="ParameterPanel" parent="Panels" instance=ExtResource("9_p03m3")]
+unique_name_in_owner = true
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 1541.0
+offset_right = 2021.0
+grow_horizontal = 0
+
+[node name="ModelPanel" parent="Panels" instance=ExtResource("10_6xy5i")]
+unique_name_in_owner = true
+offset_left = 1548.0
+offset_right = 2028.0
+offset_bottom = 72.0
+
+[node name="ItemPanel" parent="Panels" instance=ExtResource("11_juv7g")]
+unique_name_in_owner = true
+offset_left = 1549.0
+offset_right = 2029.0
+
+[node name="CameraPanel" parent="Panels" instance=ExtResource("12_blrl1")]
+unique_name_in_owner = true
+offset_left = 1550.0
+offset_right = 2030.0
+
+[node name="ActionEditor" parent="Panels" instance=ExtResource("13_wqkyb")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(1180, 0)
+anchors_preset = 11
+anchor_left = 1.0
+offset_left = 28.0
+offset_right = 1208.0
+grow_horizontal = 0
+title = "Action Editor"
+
+[node name="OnscreenControls" type="CanvasLayer" parent="."]
+layer = 4
+
+[node name="ActionController" parent="OnscreenControls" instance=ExtResource("14_67g5m")]
+unique_name_in_owner = true
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 10
+size_flags_vertical = 10
+title = "Action Palette"
+
+[connection signal="pressed" from="Menu/VBoxContainer/PopoutBtn" to="." method="popout"]

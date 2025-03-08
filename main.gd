@@ -1,13 +1,13 @@
 extends Node
 
-const UserSettings = "user://settings.json"
+@onready var preferences = get_tree().get_first_node_in_group("system:settings")
 
 func _ready() -> void:
-	_load_preferences.call_deferred()
-
+	preferences.load_data.call_deferred()
+	get_window().borderless = false
+	
 func _on_model_changed(model: Node) -> void:
-	# model.reparent(self)
-	_save_preferences()
+	preferences.save_data()
 
 func _on_camera_panel_toggle_bg_transparency(enabled: bool) -> void:
 	get_tree().root.transparent_bg = enabled
@@ -15,27 +15,22 @@ func _on_camera_panel_toggle_bg_transparency(enabled: bool) -> void:
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		_save_preferences()
+		preferences.save_data()
 
-func _load_preferences():
-	if not FileAccess.file_exists(UserSettings):
-		var f = FileAccess.open(UserSettings, FileAccess.WRITE_READ)
-		f.store_string("{}")
-		f.close()
+func save_settings(settings: Dictionary):
+	settings["window"] = {
+		"position": get_window().position,
+		"size": get_window().size
+	}
 	
-	var preferences = JSON.parse_string(FileAccess.get_file_as_string(UserSettings))
-	if preferences == null:
-		return
-		
-	for n in get_tree().get_nodes_in_group("persist"):
-		n.load_settings(preferences)
-		
-func _save_preferences():
-	var f = FileAccess.open(UserSettings, FileAccess.WRITE_READ)
+func load_settings(settings: Dictionary):
+	var window_prefs = settings.get("window", {})
 	
-	var data = {}
-	for n in get_tree().get_nodes_in_group("persist"):
-		n.save_settings(data)
-		
-	f.store_string(JSON.stringify(data))
-	f.close()
+	var size = Vector2i(window_prefs.get("size", Vector2i(
+		ProjectSettings.get_setting("display/window/size/viewport_width"),
+		ProjectSettings.get_setting("display/window/size/viewport_height")
+	)))
+	#get_window().size = size
+	#await get_tree().process_frame
+	#get_window().move_to_center()
+	
