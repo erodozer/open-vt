@@ -33,8 +33,8 @@ signal pin_changed(mesh: MeshInstance2D)
 
 func _ready():
 	# center the item image
-	render.pivot_offset = render.size / 2
-	render.position = -render.size / 2
+	pivot_offset = size / 2
+	position = -size / 2
 
 func _process(delta: float) -> void:
 	if pinned_to == null:
@@ -47,7 +47,7 @@ func _process(delta: float) -> void:
 		var pin: Vector2 = pinned_to.get_meta("centroid")
 		var angle: float = pinned_to.get_meta("angle")
 		global_position = model.to_global(pin + pin_offset - model.render.size / 2)
-		render.rotation = model.rotation + angle
+		rotation = model.rotation + angle
 	else:
 		# calculate the angle from the vertices
 		var vertices = pinned_to.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]
@@ -56,8 +56,8 @@ func _process(delta: float) -> void:
 			rot += vertices[id].normalized()
 			rot /= 2
 		
-		render.rotation = model.rotation + rot.angle()
-	render.scale = model.scale
+		rotation = model.rotation + rot.angle()
+	scale = model.scale
 	
 	# rotation = -mtx.get_angle()
 

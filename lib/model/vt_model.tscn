@@ -1,24 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://bkm4lgw38g4di"]
+[gd_scene load_steps=3 format=3 uid="uid://bkm4lgw38g4di"]
 
 [ext_resource type="Script" uid="uid://bxp75jugxppgv" path="res://lib/model/vt_model.gd" id="1_bvpwh"]
-[ext_resource type="Script" uid="uid://cni8uvg0bjde" path="res://lib/draggable.gd" id="2_ribot"]
 [ext_resource type="Script" uid="uid://d10aurevaucml" path="res://lib/model/debug.gd" id="3_nwsty"]
 
-[node name="VtModel" type="Node2D" groups=["persist", "vtmodel"]]
-script = ExtResource("1_bvpwh")
-
-[node name="Image" type="Control" parent="."]
-unique_name_in_owner = true
+[node name="VtModel" type="Control" groups=["persist", "vtmodel"]]
+texture_filter = 2
 layout_mode = 3
 anchors_preset = 0
 mouse_filter = 2
-script = ExtResource("2_ribot")
+script = ExtResource("1_bvpwh")
 
-[node name="Debug" type="Node2D" parent="Image" node_paths=PackedStringArray("model")]
+[node name="Debug" type="Node2D" parent="."]
 unique_name_in_owner = true
 visible = false
 script = ExtResource("3_nwsty")
-model = NodePath("../..")
 
 [node name="HotKeys" type="Node" parent="."]
 unique_name_in_owner = true

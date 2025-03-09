@@ -38,8 +38,8 @@ var nearest_shaders = [
 	preload("res://lib/model/shaders/nearest/2d_cubism_mask_mul_inv.gdshader")
 ]
 
-
 var live2d_model: GDCubismUserModel
+var render: CanvasItem
 var model: ModelMeta
 var motions: Array :
 	get():
@@ -55,6 +55,11 @@ var model_parameters: Dictionary
 var filter: CanvasItem.TextureFilter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS :
 	set(v):
 		filter = v
+		if render:
+			_load_model(model)
+var smoothing: bool = false :
+	set(v):
+		smoothing = v
 		if render:
 			_load_model(model)
 			
@@ -96,17 +101,28 @@ func _rebuild_l2d(model: ModelMeta):
 		return false
 	p.take_over_path(model.model)
 	
-	render.add_child(loaded_model)
-	
-	if live2d_model != null:
-		live2d_model.queue_free()
+	if render != null:
+		render.queue_free()
 		
 	live2d_model = loaded_model
 	
-	var canvas_info = loaded_model.get_canvas_info()
-	live2d_model.position = canvas_info.origin_in_pixels
-	render.size = canvas_info.size_in_pixels
-	render.position = -canvas_info.origin_in_pixels
+	if smoothing and filter == TEXTURE_FILTER_NEAREST:
+		var container = preload("./pixel_subviewport.tscn").instantiate()
+		container.model = live2d_model
+		render = container
+	else:
+		render = live2d_model
+		
+	add_child(render)
+	
+	var canvas_info = live2d_model.get_canvas_info()
+	# adjust anchor to be top-left to match godot's control coordinate system
+	live2d_model.position = live2d_model.get_canvas_info().origin_in_pixels
+	size = live2d_model.get_canvas_info().size_in_pixels
+	scale = Vector2.ONE
+	rotation_degrees = 0
+	pivot_offset = size / 2
+	
 	for m in loaded_model.get_meshes():
 		var center = utils.v32xy(utils.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
 		m.set_meta("centroid", center)
@@ -177,7 +193,10 @@ func parameters_updated(tracking_data: Dictionary):
 			model_parameters[parameter.output_parameter].value = parameter_values[parameter.output_parameter]
 
 func _process(delta: float) -> void:
-	pass
+	if model == null:
+		return
+
+	
 #	for m in get_meshes():
 #		var center = utils.v32xy(utils.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
 #		m.set_meta("centroid", center)

@@ -90,7 +90,7 @@ func _on_stage_item_added(item: Node2D) -> void:
 	
 	%StageItems.add_child(row)
 
-func _on_stage_model_changed(model: Node2D) -> void:
+func _on_stage_model_changed(model: VtModel) -> void:
 	for i in %StageItems.get_children():
 		if i.item != null and i.item is VtModel:
 			i.queue_free()

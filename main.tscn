@@ -62,8 +62,9 @@ unique_name_in_owner = true
 [node name="VtModel" parent="Stage/CanvasLayer" instance=ExtResource("15_wg2gf")]
 
 [node name="Interface" type="CanvasLayer" parent="."]
+layer = 2
 
-[node name="HUD" parent="Interface" groups=["persist"] instance=ExtResource("8_5vw27")]
+[node name="HUD" parent="Interface" instance=ExtResource("8_5vw27")]
 unique_name_in_owner = true
 
 [connection signal="parameters_updated" from="TrackerSystem" to="ModelManager" method="_on_tracker_system_parameters_updated"]

@@ -170,3 +170,6 @@ func _on_output_parameter_popup_close_requested() -> void:
 
 func _on_lock_button_toggled(toggled_on: bool) -> void:
 	model.render.locked = toggled_on
+
+func _on_smooth_scaling_toggled(toggled_on: bool) -> void:
+	model.smoothing = toggled_on

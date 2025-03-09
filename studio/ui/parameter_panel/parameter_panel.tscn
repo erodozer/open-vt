@@ -60,6 +60,12 @@ popup/item_0/id = 0
 popup/item_1/text = "Bilinear"
 popup/item_1/id = 1
 
+[node name="SmoothScaling" type="CheckButton" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Renders the model within a SubViewport.  Improves scaling quality when using Nearest Neighbor filtering, however it requires more VRAM.  Recommended when using Pixel Models"
+text = "Smooth Scaling"
+
 [node name="PreserveTransform" type="CheckButton" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -427,10 +433,11 @@ size_flags_vertical = 3
 theme_type_variation = &"VBoxList"
 
 [connection signal="item_selected" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer/TextureFilter" to="." method="_on_texture_filter_item_selected"]
+[connection signal="toggled" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/SmoothScaling" to="." method="_on_smooth_scaling_toggled"]
 [connection signal="toggled" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/HBoxContainer/LockButton" to="." method="_on_lock_button_toggled"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position/Erase" to="." method="_on_erase_position_pressed"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale/Erase" to="." method="_on_erase_scale_pressed"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation/Erase" to="." method="_on_erase_rotate_pressed"]
-[connection signal="close_requested" from="Modal/OutputParameterPopup" to="." method="_on_popup_close_requested"]
 [connection signal="close_requested" from="Modal/OutputParameterPopup" to="." method="_on_output_parameter_popup_close_requested"]
+[connection signal="close_requested" from="Modal/OutputParameterPopup" to="." method="_on_popup_close_requested"]
 [connection signal="close_requested" from="Modal/InputParameterPopup" to="." method="_on_input_parameter_popup_close_requested"]
