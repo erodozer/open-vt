@@ -5,6 +5,7 @@ const VtItem = preload("res://lib/items/vt_item.gd")
 
 const INDEX_RANGE = 30
 
+@onready var preferences = get_tree().get_first_node_in_group("system:settings")
 @onready var active_model: VtModel = get_tree().get_first_node_in_group("vtmodel")
 @onready var canvas = %CanvasLayer
 
@@ -37,6 +38,11 @@ func _reorder():
 
 func spawn_model(model: VtModel):
 	if active_model != null:
+		preferences.save_data.call_deferred()
+		var t = create_tween().tween_property(
+			active_model, "position", Vector2(0, (active_model.size.y * active_model.scale.y) + active_model.get_viewport_rect().size.y), 0.5
+		).as_relative().set_trans(Tween.TRANS_CUBIC)
+		await t.finished
 		canvas.remove_child(active_model)
 		active_model.queue_free()
 		

@@ -42,6 +42,7 @@ func _on_stage_model_changed(model) -> void:
 	_update_transform(model.position, model.scale, model.rotation)
 	
 	self.model = model
+	model.transform_updated.connect(_update_transform)
 	
 func _update_transform(pos, scl, rot):
 	%Position/XValue.min_value = int(-get_viewport_rect().size.x)
@@ -49,11 +50,10 @@ func _update_transform(pos, scl, rot):
 	%Position/YValue.min_value = int(-get_viewport_rect().size.y)
 	%Position/YValue.max_value = int(get_viewport_rect().size.y * 2)
 	
-	%Position/XValue.value = pos.x
-	%Position/YValue.value = pos.y
-	%Scale/XValue.value = scl.x
-	%Scale/YValue.value = scl.y
-	%Rotation/Value.value = rot
+	%Position/XValue.set_value_no_signal(pos.x)
+	%Position/YValue.set_value_no_signal(pos.y)
+	%Scale/Value.set_value_no_signal(scl.x * 100.0)
+	%Rotation/Value.set_value_no_signal(rot)
 			
 func _build_input_parameter_list():
 	for c in %InputParameterList.get_children():
@@ -145,11 +145,13 @@ func _on_texture_filter_item_selected(index: int) -> void:
 	match index:
 		0:
 			model.filter = CanvasItem.TextureFilter.TEXTURE_FILTER_NEAREST
+			%SmoothScaling.show()
 		_:
 			model.filter = CanvasItem.TextureFilter.TEXTURE_FILTER_LINEAR
+			%SmoothScaling.hide()
 
 func _on_erase_position_pressed() -> void:
-	model.position = Vector2.ZERO
+	model.position = get_viewport_rect().get_center() - model.size / 2
 	_update_transform(model.position, model.scale, model.rotation)
 	
 func _on_erase_scale_pressed() -> void:
@@ -169,7 +171,12 @@ func _on_output_parameter_popup_close_requested() -> void:
 	parameter_selected.emit(prev)
 
 func _on_lock_button_toggled(toggled_on: bool) -> void:
-	model.render.locked = toggled_on
+	model.locked = toggled_on
+	
+	%Position/XValue.editable = !toggled_on
+	%Position/YValue.editable = !toggled_on
+	%Scale/Value.editable = !toggled_on
+	%Rotation/Value.editable = !toggled_on
 
 func _on_smooth_scaling_toggled(toggled_on: bool) -> void:
 	model.smoothing = toggled_on

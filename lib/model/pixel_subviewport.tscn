@@ -19,3 +19,4 @@ snap_2d_vertices_to_pixel = true
 msaa_2d = 2
 screen_space_aa = 1
 canvas_item_default_texture_filter = 0
+render_target_update_mode = 4

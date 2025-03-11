@@ -39,6 +39,7 @@ func start():
 		executable = ProjectSettings.globalize_path("res://bin/openseeface/facetracker")
 	elif OS.has_feature("windows"):
 		executable = ProjectSettings.globalize_path("res://bin/openseeface/facetracker.exe")
+		camera = 1
 	else:
 		push_error("OpenSeeFace is unsupported on this platform")
 		return

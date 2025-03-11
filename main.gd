@@ -4,10 +4,8 @@ extends Node
 
 func _ready() -> void:
 	preferences.load_data.call_deferred()
-	get_window().borderless = false
-	
-func _on_model_changed(model: Node) -> void:
-	preferences.save_data()
+	if not Engine.is_embedded_in_editor():
+		get_window().borderless = false
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:

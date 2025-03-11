@@ -17,6 +17,13 @@ func _ready() -> void:
 			if "(" in l:
 				%Camera.add_item(l, idx)
 				idx += 1
+	elif OS.has_feature("windows"):
+		var lines = []
+		OS.execute("powershell", ["""Get-CimInstance Win32_PnPEntity | ? { $_.service -eq "usbvideo" } | Select-Object -Property PNPDeviceID, Name"""], lines)
+		var idx = 1
+		for l in lines[0].split("\r\n"):
+			pass
+			
 	#for i in range(CameraServer.get_feed_count()):
 	#	var feed = CameraServer.get_feed(i)
 	#	%Camera.add_item(feed.get_name(), feed.get_id())

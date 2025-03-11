@@ -86,7 +86,7 @@ func is_bound(parameter: GDCubismParameter) -> bool:
 
 func _ready():
 	if model:
-		await _load_model(model)
+		_load_model(model)
 		
 	var tracking: TrackingSystem = get_tree().get_first_node_in_group("system:tracking")
 	tracking.parameters_updated.connect(parameters_updated)
@@ -119,9 +119,11 @@ func _rebuild_l2d(model: ModelMeta):
 	# adjust anchor to be top-left to match godot's control coordinate system
 	live2d_model.position = live2d_model.get_canvas_info().origin_in_pixels
 	size = live2d_model.get_canvas_info().size_in_pixels
-	scale = Vector2.ONE
+	scale = Vector2.ONE * clamp(get_viewport_rect().size.y / size.y, 0.001, 2.0)
 	rotation_degrees = 0
 	pivot_offset = size / 2
+	# spawn off screen
+	position = -size 
 	
 	for m in loaded_model.get_meshes():
 		var center = utils.v32xy(utils.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
@@ -154,10 +156,10 @@ func _load_model(model: ModelMeta):
 			studio_parameters.append(p)
 			
 	var transform = vtube_data.get("SavedModelPosition", {})
-	position = utils.vts_to_world(Vector2(transform.get("Position", {}).get("x", 0.0), transform.get("Position", {}).get("y", 0.0)))
+	# position = utils.vts_to_world(Vector2(transform.get("Position", {}).get("x", 0.0), transform.get("Position", {}).get("y", 0.0)))
 	# position = get_viewport().size / 2
-	scale = Vector2(transform.get("Scale", {}).get("x", 1.0), transform.get("Scale", {}).get("y", 1.0))
-	rotation = transform.get("Rotation", {}).get("z", 0.0)
+	# scale = Vector2(transform.get("Scale", {}).get("x", 1.0), transform.get("Scale", {}).get("y", 1.0))
+	# rotation = transform.get("Rotation", {}).get("z", 0.0)
 	
 	var mesh_details = vtube_data.get("ArtMeshDetails", {})
 	for m in get_meshes():
@@ -207,12 +209,32 @@ func hydrate(settings: Dictionary):
 	if model == null:
 		return
 	
+	await self.initialized
 	var model_preferences = settings.get("model_preferences", {}).get(model.id, {})
 	self.filter = model_preferences.get("filter", TEXTURE_FILTER_LINEAR_WITH_MIPMAPS)
+	self.scale = model_preferences.get("transform", {}).get("scale", self.scale)
+	self.rotation_degrees = model_preferences.get("transform", {}).get("rotation", 0)
+	
+	var p = model_preferences.get("transform", {}).get("position", get_viewport_rect().get_center() - self.size / 2)
+	create_tween().tween_property(
+		self, "position", 
+		p,
+		0.5
+	).from(
+		p + Vector2(0, get_viewport_rect().size.y)
+	).set_trans(Tween.TRANS_CUBIC)
 
 func save_settings(settings: Dictionary):
+	if model == null:
+		return
+		
 	var p = settings.get("model_preferences", {})
 	p[model.id] = {
-		"filter": self.filter
+		"filter": self.filter,
+		"transform": {
+			"position": self.position,
+			"scale": self.scale,
+			"rotation": self.rotation_degrees
+		}
 	}
 	settings["model_preferences"] = p

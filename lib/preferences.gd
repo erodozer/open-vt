@@ -8,8 +8,14 @@ func _ready() -> void:
 	get_tree().node_added.connect(
 		func (n: Node):
 			if n.has_method("hydrate"):
-				n.hydrate(_data)
+				n.ready.connect(
+					n.hydrate.bind(_data),
+					CONNECT_ONE_SHOT
+				)
 	)
+
+func get_state():
+	return _data.duplicate(true)
 
 func load_data():
 	if not FileAccess.file_exists(UserSettings):
@@ -29,11 +35,9 @@ func load_data():
 func save_data():
 	var f = FileAccess.open(UserSettings, FileAccess.WRITE_READ)
 	
-	var data = {}
 	for n in get_tree().get_nodes_in_group("persist"):
 		if n.has_method("save_settings"):
-			n.save_settings(data)
+			n.save_settings(_data)
 	
-	_data = data
-	f.store_string(JSON.stringify(JSON.from_native(data)))
+	f.store_string(JSON.stringify(JSON.from_native(_data)))
 	f.close()

@@ -43,7 +43,6 @@ func activate_tracker(id: TrackerType) -> Tracker:
 		_:
 			tracker = null
 	
-	await Engine.get_main_loop().process_frame
 	if tracker:
 		tracker.name = "FaceTracker"
 		add_child(tracker)

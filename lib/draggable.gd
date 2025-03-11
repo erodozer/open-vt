@@ -35,7 +35,7 @@ func _handle_mouse_button_down(event: InputEventMouseButton):
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			scale -= Vector2(0.01, 0.01)
 			dirty = true
-		scale = clamp(scale, Vector2(0.1, 0.1), Vector2(5, 5))
+		scale = clamp(scale, Vector2(0.01, 0.01), Vector2(5, 5))
 		
 	if event.button_index == MOUSE_BUTTON_LEFT:
 		dragging = true

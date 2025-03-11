@@ -6,7 +6,9 @@ const TrackingInputs = preload("res://lib/tracking/tracker.gd").Inputs
 
 signal update_bg_color(color: Color)
 
+@onready var tracking_system = get_tree().get_first_node_in_group("system:tracking")
 @onready var transparency_toggle: CheckButton = %TransparencyToggle
+@onready var tracker: OptionButton = %TrackingSource
 
 func _get_title():
 	return "Settings"
@@ -23,11 +25,10 @@ func _ready() -> void:
 		box.add_child(v)
 		%ParameterList.add_child(box)
 		
-	var tracking_system: TrackingSystem = get_tree().get_first_node_in_group("system:tracking")
 	if tracking_system:
 		tracking_system.tracker_changed.connect(_on_tracker_system_tracker_changed)
 			
-		%TrackingSource.item_selected.connect(
+		tracker.item_selected.connect(
 			func (idx):
 				tracking_system.activate_tracker(idx)
 		)
@@ -56,8 +57,14 @@ func _on_transparency_toggle_toggled(toggled_on: bool) -> void:
 
 func load_settings(data: Dictionary):
 	transparency_toggle.button_pressed = data.get("window", {}).get("transparent", false)
+	tracker.select(data.get("camera", {}).get("tracking", 0))
+	if tracking_system:
+		tracking_system.activate_tracker(tracker.get_selected_id())
 	
 func save_settings(data: Dictionary):
 	var w = data.get("window", {})
 	w["transparent"] = transparency_toggle.button_pressed
+	var c = data.get("camera", {})
+	c["tracking"] = tracker.get_selected_id()
 	data["window"] = w
+	data["camera"] = c

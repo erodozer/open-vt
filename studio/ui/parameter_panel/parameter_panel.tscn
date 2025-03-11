@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://dpw8au0ueatrg"]
+[gd_scene load_steps=8 format=3 uid="uid://dpw8au0ueatrg"]
 
 [ext_resource type="Script" uid="uid://ctgn3ir4rc6ap" path="res://studio/ui/parameter_panel/parameter_panel.gd" id="1_5864b"]
 [ext_resource type="Texture2D" uid="uid://d1kej52kqrg0g" path="res://studio/ui/icons/eraser.svg" id="2_4qkrp"]
 [ext_resource type="Script" uid="uid://08yyvfky7ack" path="res://studio/ui/accordion/accordion.gd" id="2_57r6x"]
 [ext_resource type="Texture2D" uid="uid://d0oc7kwqufoqr" path="res://studio/ui/icons/circle-plus.svg" id="3_6caqy"]
 [ext_resource type="Texture2D" uid="uid://pd4vy1npck5p" path="res://studio/ui/icons/lock.svg" id="3_ng4r4"]
+[ext_resource type="Texture2D" uid="uid://dy1nnckb883g" path="res://studio/ui/icons/arrows-to-dot.svg" id="4_regdq"]
+[ext_resource type="Texture2D" uid="uid://dy2yryqb16rbw" path="res://studio/ui/icons/arrows-to-circle.svg" id="6_evig7"]
 
 [node name="ParameterPanel" type="PanelContainer"]
 custom_minimum_size = Vector2(480, 0)
@@ -53,6 +55,7 @@ text = "Filter Mode"
 [node name="TextureFilter" type="OptionButton" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_mode = 0
 selected = 0
 item_count = 2
 popup/item_0/text = "Nearest Neighbor"
@@ -64,11 +67,14 @@ popup/item_1/id = 1
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Renders the model within a SubViewport.  Improves scaling quality when using Nearest Neighbor filtering, however it requires more VRAM.  Recommended when using Pixel Models"
+focus_mode = 0
 text = "Smooth Scaling"
 
 [node name="PreserveTransform" type="CheckButton" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
+focus_mode = 0
 text = "Save Transform"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer"]
@@ -86,6 +92,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 tooltip_text = "Lock transform"
+focus_mode = 0
 toggle_mode = true
 icon = ExtResource("3_ng4r4")
 icon_alignment = 1
@@ -109,30 +116,20 @@ text = "Position"
 
 [node name="XValue" type="SpinBox" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position"]
 layout_mode = 2
-step = 0.01
 alignment = 2
-editable = false
-
-[node name="Label2" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position"]
-custom_minimum_size = Vector2(16, 0)
-layout_mode = 2
-text = "X"
+suffix = "X"
 
 [node name="YValue" type="SpinBox" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position"]
 layout_mode = 2
-step = 0.01
 alignment = 2
-editable = false
-
-[node name="Label3" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position"]
-custom_minimum_size = Vector2(16, 0)
-layout_mode = 2
-text = "Y"
+suffix = "Y"
 
 [node name="Erase" type="Button" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
-icon = ExtResource("2_4qkrp")
+focus_mode = 0
+icon = ExtResource("4_regdq")
+icon_alignment = 1
 expand_icon = true
 
 [node name="Scale" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
@@ -142,36 +139,24 @@ layout_mode = 2
 [node name="Label" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Scale
-"
+text = "Scale"
 vertical_alignment = 1
 
-[node name="XValue" type="SpinBox" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale"]
+[node name="Value" type="SpinBox" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale"]
 layout_mode = 2
-step = 0.01
+min_value = 1.0
+max_value = 400.0
+value = 1.0
 alignment = 2
-editable = false
-
-[node name="Label2" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale"]
-custom_minimum_size = Vector2(16, 0)
-layout_mode = 2
-text = "X"
-
-[node name="YValue" type="SpinBox" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale"]
-layout_mode = 2
-step = 0.01
-alignment = 2
-editable = false
-
-[node name="Label3" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale"]
-custom_minimum_size = Vector2(16, 0)
-layout_mode = 2
-text = "Y"
+suffix = "%"
 
 [node name="Erase" type="Button" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
-icon = ExtResource("2_4qkrp")
+tooltip_text = "Reset Model to Fit in Screen"
+focus_mode = 0
+icon = ExtResource("6_evig7")
+icon_alignment = 1
 expand_icon = true
 
 [node name="Rotation" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
@@ -187,25 +172,23 @@ text = "Rotation"
 layout_mode = 2
 step = 0.01
 alignment = 2
-editable = false
-
-[node name="Label2" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation"]
-custom_minimum_size = Vector2(16, 0)
-layout_mode = 2
-text = "°"
+suffix = "°"
 
 [node name="Erase" type="Button" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
+focus_mode = 0
 icon = ExtResource("2_4qkrp")
+icon_alignment = 1
 expand_icon = true
 
-[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer"]
+[node name="MovementControls" type="VBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/MovementControls"]
 layout_mode = 2
 text = "Movement Controls"
-
-[node name="MovementControls" type="VBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer"]
-layout_mode = 2
 
 [node name="AxisX" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/MovementControls"]
 layout_mode = 2
@@ -221,8 +204,10 @@ text = "X"
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+focus_mode = 0
 min_value = -10.0
 max_value = 10.0
+scrollable = false
 
 [node name="AxisY" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/MovementControls"]
 layout_mode = 2
@@ -238,8 +223,10 @@ text = "Y"
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+focus_mode = 0
 min_value = -10.0
 max_value = 10.0
+scrollable = false
 
 [node name="AxisZ" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/MovementControls"]
 layout_mode = 2
@@ -255,11 +242,14 @@ text = "Z"
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+focus_mode = 0
 min_value = -10.0
 max_value = 10.0
+scrollable = false
 
 [node name="CheckButton" type="CheckButton" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/MovementControls"]
 layout_mode = 2
+focus_mode = 0
 text = "Activate"
 
 [node name="Mesh Settings" type="VBoxContainer" parent="ScrollContainer/MarginContainer/Accordion"]
@@ -279,6 +269,7 @@ size_flags_horizontal = 3
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
+focus_mode = 0
 icon = ExtResource("3_6caqy")
 flat = true
 icon_alignment = 1
@@ -438,6 +429,6 @@ theme_type_variation = &"VBoxList"
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position/Erase" to="." method="_on_erase_position_pressed"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale/Erase" to="." method="_on_erase_scale_pressed"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation/Erase" to="." method="_on_erase_rotate_pressed"]
-[connection signal="close_requested" from="Modal/OutputParameterPopup" to="." method="_on_output_parameter_popup_close_requested"]
 [connection signal="close_requested" from="Modal/OutputParameterPopup" to="." method="_on_popup_close_requested"]
+[connection signal="close_requested" from="Modal/OutputParameterPopup" to="." method="_on_output_parameter_popup_close_requested"]
 [connection signal="close_requested" from="Modal/InputParameterPopup" to="." method="_on_input_parameter_popup_close_requested"]
