@@ -155,7 +155,7 @@ func _on_erase_position_pressed() -> void:
 	_update_transform(model.position, model.scale, model.rotation)
 	
 func _on_erase_scale_pressed() -> void:
-	model.scale = Vector2.ONE
+	model.scale = Vector2.ONE * min(1.0, get_viewport_rect().size.y / model.size.y)
 	_update_transform(model.position, model.scale, model.rotation)
 
 func _on_erase_rotate_pressed() -> void:

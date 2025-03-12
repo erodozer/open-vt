@@ -33,7 +33,7 @@ func _on_delete_button_pressed() -> void:
 	item.queue_free()
 	
 func _on_lock_button_toggled(toggled_on: bool) -> void:
-	item.render.locked = toggled_on
+	item.locked = toggled_on
 
 func _reorder(idx: int, relative: bool = true) -> void:
 	var current = get_index()

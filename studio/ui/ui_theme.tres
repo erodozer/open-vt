@@ -1,10 +1,11 @@
-[gd_resource type="Theme" load_steps=53 format=3 uid="uid://bwesfr5en0lxv"]
+[gd_resource type="Theme" load_steps=54 format=3 uid="uid://bwesfr5en0lxv"]
 
 [ext_resource type="Texture2D" uid="uid://dv7o0g2fot3n3" path="res://studio/ui/icons/toggle-on.svg" id="1_jmxgr"]
 [ext_resource type="Texture2D" uid="uid://58ua5of8kuir" path="res://studio/ui/icons/toggle-off.svg" id="2_3w1p0"]
 [ext_resource type="Texture2D" uid="uid://1x62fhgcc5t6" path="res://studio/ui/icons/slider grabber.svg" id="3_7fevj"]
-[ext_resource type="Texture2D" uid="uid://dpvvx0ihpcd02" path="res://studio/ui/icons/angles-up-down.svg" id="3_efux1"]
+[ext_resource type="Texture2D" uid="uid://caxe2m44hrqj1" path="res://studio/ui/icons/angle-down.svg" id="4_o3o4d"]
 [ext_resource type="Texture2D" uid="uid://fge15v8vmf64" path="res://studio/ui/icons/xmark.svg" id="5_43xc2"]
+[ext_resource type="Texture2D" uid="uid://bjxnq0slsgn8o" path="res://studio/ui/icons/angle-up.svg" id="5_b7yax"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qnykt"]
 content_margin_left = 4.0
@@ -447,7 +448,21 @@ ProgressBar/styles/background = SubResource("StyleBoxFlat_qy448")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_dpfky")
 Section/base_type = &"PanelContainer"
 Section/styles/panel = SubResource("StyleBoxFlat_nttvt")
-SpinBox/icons/updown = ExtResource("3_efux1")
+SpinBox/colors/down_disabled_icon_modulate = Color(0.811765, 0.788235, 0.698039, 1)
+SpinBox/colors/down_icon_modulate = Color(0.298039, 0.282353, 0.239216, 1)
+SpinBox/colors/down_pressed_icon_modulate = Color(0.298039, 0.282353, 0.239216, 1)
+SpinBox/colors/up_disabled_icon_modulate = Color(0.811765, 0.788235, 0.698039, 1)
+SpinBox/colors/up_icon_modulate = Color(0.298039, 0.282353, 0.239216, 1)
+SpinBox/colors/up_pressed_icon_modulate = Color(0.298039, 0.282353, 0.239216, 1)
+SpinBox/icons/down = ExtResource("4_o3o4d")
+SpinBox/icons/down_disabled = ExtResource("4_o3o4d")
+SpinBox/icons/down_hover = ExtResource("4_o3o4d")
+SpinBox/icons/down_pressed = ExtResource("4_o3o4d")
+SpinBox/icons/up = ExtResource("5_b7yax")
+SpinBox/icons/up_disabled = ExtResource("5_b7yax")
+SpinBox/icons/up_hover = ExtResource("5_b7yax")
+SpinBox/icons/up_pressed = ExtResource("5_b7yax")
+SpinBox/icons/updown = null
 SubPanelContainer/base_type = &"PanelContainer"
 SubPanelContainer/styles/panel = SubResource("StyleBoxFlat_piqja")
 VBoxContainer/constants/separation = 16

@@ -8,7 +8,7 @@ const TrackingSystem = preload("res://lib/tracking_system.gd")
 const ModelMeta = preload("./metadata.gd")
 const ModelExpression = preload("res://lib/model/expression.gd")
 
-var linear_shaders = [
+static var linear_shaders = [
 	preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_add.gdshader"),
 	preload("res://lib/model/shaders/linear/2d_cubism_norm_mix.gdshader"),
 	preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_mul.gdshader"),
@@ -23,7 +23,7 @@ var linear_shaders = [
 	preload("res://addons/gd_cubism/res/shader/2d_cubism_mask_mul_inv.gdshader")
 ]
 
-var nearest_shaders = [
+static var nearest_shaders = [
 	preload("res://lib/model/shaders/nearest/2d_cubism_norm_add.gdshader"),
 	preload("res://lib/model/shaders/nearest/2d_cubism_norm_mix.gdshader"),
 	preload("res://lib/model/shaders/nearest/2d_cubism_norm_mul.gdshader"),
@@ -77,7 +77,7 @@ var rest_anchors: Dictionary = {}
 signal initialized
 
 func get_meshes() -> Array:
-	if live2d_model == null:
+	if live2d_model != null:
 		return live2d_model.get_meshes()
 	return []
 

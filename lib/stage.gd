@@ -37,22 +37,24 @@ func _reorder():
 	update_order.emit(sorted)
 
 func spawn_model(model: VtModel):
+	var prev_model
 	if active_model != null:
+		prev_model = active_model
 		preferences.save_data.call_deferred()
 		var t = create_tween().tween_property(
 			active_model, "position", Vector2(0, (active_model.size.y * active_model.scale.y) + active_model.get_viewport_rect().size.y), 0.5
 		).as_relative().set_trans(Tween.TRANS_CUBIC)
 		await t.finished
 		canvas.remove_child(active_model)
-		active_model.queue_free()
 		
 	active_model = model
 	canvas.add_child(model)
 	_reorder()
 	await active_model.initialized
-	
 	# TODO if model had items pinned to it, load them in as well
 	model_changed.emit(active_model)
+	if prev_model != null:
+		prev_model.queue_free()
 
 func spawn_item(item: VtItem):
 	item.position = get_viewport().get_texture().get_size() / 2
@@ -62,6 +64,7 @@ func spawn_item(item: VtItem):
 	canvas.add_child(item)
 	_reorder()
 	item_added.emit(item)
+	preferences.save_data.call_deferred()
 
 func remove_item(item: VtItem):
 	pass

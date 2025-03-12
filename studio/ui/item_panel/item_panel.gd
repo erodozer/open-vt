@@ -47,7 +47,7 @@ func _on_directory_button_pressed() -> void:
 	OS.shell_open(ProjectSettings.globalize_path(ItemManager.FILE_DIR))
 
 func _show_configuration(item: VtItem) -> void:
-	var tex = item.get_node("Image").texture
+	var tex = item.texture
 	%Preview/Image.texture = tex
 	
 	%ZIndex/Value.value = 0
@@ -84,7 +84,7 @@ func _on_framerate_value_changed(value: float) -> void:
 	if %Preview/Image.texture is AnimatedTexture:
 		%Preview/Image.texture.speed_scale = value
 
-func _on_stage_item_added(item: Node2D) -> void:
+func _on_stage_item_added(item: VtItem) -> void:
 	var row = preload("./item_row.tscn").instantiate()
 	row.item = item
 	
