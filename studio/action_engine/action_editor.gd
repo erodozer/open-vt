@@ -48,7 +48,6 @@ func _load_from_vts(model: VtModel):
 	for hotkey in vtube_data.get("Hotkeys", []):
 		var keybind: GraphNode
 		var btnbind: GraphNode
-		var has_input = false
 		if ["","",""] != [hotkey.Triggers.Trigger1, hotkey.Triggers.Trigger2, hotkey.Triggers.Trigger3]:
 			keybind = _on_add_hotkey_pressed(preload("./graph/inputs/hotkey_action.tscn"))
 			var binding = keybind.get_node("%Handler")
@@ -97,13 +96,13 @@ func _load_from_vts(model: VtModel):
 			"ToggleExpression", "RemoveAllExpressions":
 				output = _on_add_hotkey_pressed(preload("./graph/outputs/toggle_expression.tscn"))
 				
-				var name: String = hotkey.File.to_lower().left(-10).replace(" ", "_")
+				var e_name: String = hotkey.File.to_lower().left(-10).replace(" ", "_")
 				var duration = hotkey.FadeSecondsAmount * 1000.0
 				if hotkey.Action == "ToggleExpression":
 					var animations = model.expressions
 					for i in range(len(animations)):
 						var a = animations[i]
-						if a == name:
+						if a == e_name:
 							output.get_node("%Expression").select(i + 1)
 				output.get_node("%Fade/Value").value = duration
 				output.position_offset = Vector2(x + 280, y)
@@ -140,10 +139,7 @@ func _load_from_vts(model: VtModel):
 			x += 800
 			y = 0
 
-func _on_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
-	var from_action: GraphNode = graph.get_node(NodePath(from_node))
-	var to_action: GraphNode = graph.get_node(NodePath(to_node))
-	
+func _on_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:	
 	graph.connect_node(from_node, from_port, to_node, to_port)
 
 func _on_disconnection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:

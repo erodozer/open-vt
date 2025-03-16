@@ -1,7 +1,7 @@
 extends "res://lib/tracking/tracker.gd"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var mouse = DisplayServer.mouse_get_position()
 	var size = DisplayServer.screen_get_size()
 	var center = size / 2

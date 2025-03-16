@@ -135,7 +135,7 @@ func _on_tracker_system_parameters_updated(parameters: Dictionary) -> void:
 		var output = p.parameter.scale_value(input)
 		p.get_node("%InputLevel").value = input
 		
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	for p in list.get_children():
 		if p.parameter.model_parameter == null:
 			continue

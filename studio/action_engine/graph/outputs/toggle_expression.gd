@@ -14,7 +14,6 @@ func _ready() -> void:
 		%Toggle/CheckButton.button_pressed = stage.active_model.expression_controller.is_activated(m)
 
 func invoke_trigger(slot: int) -> void:
-	var expressions = stage.active_model.expressions
 	var activate: bool
 	var expression = input.get_selected_metadata()
 	if expression == null:

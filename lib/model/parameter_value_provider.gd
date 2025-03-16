@@ -45,7 +45,7 @@ func _get_property_list():
 		
 	return properties
 
-func apply(values: Dictionary):
+func apply(inputs: Dictionary):
 	if weight == 0.0:
 		return
 
@@ -54,9 +54,9 @@ func apply(values: Dictionary):
 		var param: Dictionary = parameters[p_name]
 		var default_value: float = param["default"]
 
-		var from_v = values.get(p_name, default_value)
+		var from_v = inputs.get(p_name, default_value)
 		var to_v = self.values[p_name]
-		values[p_name] = lerp(
+		inputs[p_name] = lerp(
 			from_v,
 			to_v,
 			weight

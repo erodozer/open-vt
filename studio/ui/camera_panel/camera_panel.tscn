@@ -73,12 +73,6 @@ text = "Face Tracking Source"
 [node name="TrackingSource" type="OptionButton" parent="ScrollContainer/VBoxContainer/PanelContainer/Tracking"]
 unique_name_in_owner = true
 layout_mode = 2
-selected = 0
-item_count = 2
-popup/item_0/text = "OpenSeeFace"
-popup/item_0/id = 0
-popup/item_1/text = "VTubeStudio (iOS/Android)"
-popup/item_1/id = 1
 
 [node name="Config" type="Control" parent="ScrollContainer/VBoxContainer/PanelContainer/Tracking"]
 layout_mode = 2

@@ -27,9 +27,9 @@ func _on_item_manager_list_updated(models: Array) -> void:
 	for i in models:
 		var btn = Button.new()
 		btn.set_meta("model", i)
-		var name = i.get_file().substr(0, i.find("."))
-		btn.name = name
-		btn.text = name
+		var i_name = i.get_file().substr(0, i.find("."))
+		btn.name = i_name
+		btn.text = i_name
 		btn.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		btn.focus_mode = Control.FOCUS_NONE

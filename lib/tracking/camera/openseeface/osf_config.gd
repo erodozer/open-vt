@@ -17,12 +17,12 @@ func _ready() -> void:
 			if "(" in l:
 				%Camera.add_item(l, idx)
 				idx += 1
-	elif OS.has_feature("windows"):
-		var lines = []
-		OS.execute("powershell", ["""Get-CimInstance Win32_PnPEntity | ? { $_.service -eq "usbvideo" } | Select-Object -Property PNPDeviceID, Name"""], lines)
-		var idx = 1
-		for l in lines[0].split("\r\n"):
-			pass
+	#elif OS.has_feature("windows"):
+	#	var lines = []
+	#	OS.execute("powershell", ["""Get-CimInstance Win32_PnPEntity | ? { $_.service -eq "usbvideo" } | Select-Object -Property PNPDeviceID, Name"""], lines)
+	#	var idx = 1
+	#	for l in lines[0].split("\r\n"):
+	#		pass
 			
 	#for i in range(CameraServer.get_feed_count()):
 	#	var feed = CameraServer.get_feed(i)
@@ -36,7 +36,7 @@ func _ready() -> void:
 			%ActiveIndicator.modulate = Color.RED if status == OsfTracker.ConnectionStatus.ON else Color.WHITE
 	)
 	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if tracker != null:
 		%FpsCounter.text = "FPS: %d" % tracker.fps
 

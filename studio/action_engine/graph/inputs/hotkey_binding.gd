@@ -33,7 +33,6 @@ var screen_button_color: Color
 var duration: float
 
 var _active: bool = false
-var _hold: bool = false
 
 var input_bindings: Array[Callable] = [
 	NO_BINDING,
@@ -86,7 +85,7 @@ func _map_input(button: String) -> Callable:
 			return Input.is_mouse_button_pressed.bind(MOUSE_BUTTON_RIGHT)
 	return NO_BINDING
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not self.listen_to_input:
 		return
 	

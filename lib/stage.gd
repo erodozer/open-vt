@@ -66,7 +66,7 @@ func spawn_item(item: VtItem):
 	item_added.emit(item)
 	preferences.save_data.call_deferred()
 
-func remove_item(item: VtItem):
+func remove_item(_item: VtItem):
 	pass
 	
 func clear_items():

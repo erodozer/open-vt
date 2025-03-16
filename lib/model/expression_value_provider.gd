@@ -2,7 +2,7 @@ extends "./parameter_value_provider.gd"
 
 var expression_library: Dictionary[StringName, GDCubismExpression]
 var weights: Dictionary[StringName, float]
-var fade: Dictionary = {}
+var fades: Dictionary = {}
 var order: Array[StringName] = []
 
 func queue_expression(expression_name: StringName, fade: float, reverse: bool):
@@ -17,7 +17,7 @@ func queue_expression(expression_name: StringName, fade: float, reverse: bool):
 	fade_time["start"] = start;
 	fade_time["end"] = end;
 	fade_time["reverse"] = reverse;
-	self.fade[expression_name] = fade_time
+	fades[expression_name] = fade_time
 
 func clear(fade: float):
 	for i in self.order:
@@ -25,8 +25,8 @@ func clear(fade: float):
 
 func is_activated(expression_name: StringName):
 	if expression_name.is_empty():
-		return self.order.is_empty()
-	return self.order.find(expression_name) > -1
+		return order.is_empty()
+	return order.find(expression_name) > -1
 
 func set_expression(expression_name: StringName, fade: float):
 	var expression: GDCubismExpression = expression_library.get(expression_name)
@@ -36,8 +36,8 @@ func set_expression(expression_name: StringName, fade: float):
 	if is_activated(expression_name):
 		return
 	
-	self.order.clear()
-	self.fade.clear()
+	order.clear()
+	fades.clear()
 	
 	activate_expression(expression_name, fade)
 
@@ -89,33 +89,33 @@ func _get_property_list() -> Array[Dictionary]:
 	properties.append(super._get_property_list())
 	return properties
 
-func update(values: Dictionary):
+func update(inputs: Dictionary):
 	var now: float = Time.get_unix_time_from_system()
 	
 	#apply expressions to parameters, with the parameter value being the set by the most recently activated expression
 	var modified = {}
-	var order = order.duplicate()
+	var _order = order.duplicate()
 	
 	var n = 0
-	for i in range(len(order)):
-		var exp_name: StringName = order[i]
-		var exp: GDCubismExpression = expression_library[exp_name]
+	for i in range(len(_order)):
+		var exp_name: StringName = _order[i]
+		var expression: GDCubismExpression = expression_library[exp_name]
 		
-		var fade: Dictionary = self.fade[exp_name]
+		var fade: Dictionary = fades[exp_name]
 		var progress = clamp(inverse_lerp(fade["start"], fade["end"], now), 0.0, 1.0)
 		if fade["reverse"] == true:
 			progress = 1.0 - progress
 			
 		weights[exp_name] = progress
 
-		var ary_parameters = exp.get_parameters()
+		var ary_parameters = expression.get_parameters()
 		for e in ary_parameters:
 			var p_name: String = e["Id"]
 			var blend: String = e["Blend"]
 			var amount: float = e["Value"]
 			var param: Dictionary = parameters[p_name];
 			
-			var v: float = values.get(p_name, param["default"])
+			var v: float = inputs.get(p_name, param["default"])
 			var to_v: float = v;
 
 			match blend:
@@ -139,17 +139,17 @@ func update(values: Dictionary):
 
 		# dequeue after reversal complete
 		if fade["reverse"] && progress <= 0.0:
-			self.order.pop_at(n)
+			order.pop_at(n)
 		else:
 			n += 1
 	
-	values.merge(modified, true)
+	inputs.merge(modified, true)
 
-func apply(values: Dictionary):
+func apply(inputs: Dictionary):
 	if weight == 0.0:
 		return
 	
-	var modified = values.duplicate()
+	var modified = inputs.duplicate()
 	update(modified)
 	
 	var ary_parameters = modified.keys()
@@ -157,13 +157,11 @@ func apply(values: Dictionary):
 		var param: Dictionary = self.parameters[String(p_name)]
 		var default_value: float = param["default"]
 
-		var from_v = values.get(p_name, default_value)
+		var from_v = inputs.get(p_name, default_value)
 		var to_v = modified[p_name]
 		self.values[p_name] = lerp(
 			from_v,
 			to_v,
 			weight
 		)
-	
-	values.merge(self.values, true)
-	
+		inputs[p_name] = self.values[p_name]

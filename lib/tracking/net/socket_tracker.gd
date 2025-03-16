@@ -44,10 +44,10 @@ func _process(delta: float) -> void:
 	
 	_update(delta)
 	
-func _update(delta: float) -> void:
+func _update(_delta: float) -> void:
 	pass
 	
-func _packet_received(data: PackedByteArray):
+func _packet_received(_data: PackedByteArray):
 	pass
 	
 func _update_data(data):

@@ -60,19 +60,19 @@ func _ready() -> void:
 	_update_input(parameter.input_parameter)
 	_update_output(parameter.model_parameter)
 
-func _update_input(parameter: TrackingInput):
-	var meta = TrackingMeta.get(parameter, {})
-	var range = meta.get("range", Vector2(0, 1))
-	%InputSource.text = meta.get("name", TrackingInput.keys()[parameter].to_pascal_case())
-	%InputLevel.min_value = range.x
-	%InputLevel.max_value = range.y
+func _update_input(input_parameter: TrackingInput):
+	var meta = TrackingMeta.get(input_parameter, {})
+	var value_range = meta.get("range", Vector2(0, 1))
+	%InputSource.text = meta.get("name", TrackingInput.keys()[input_parameter].to_pascal_case())
+	%InputLevel.min_value = value_range.x
+	%InputLevel.max_value = value_range.y
 	
-func _update_output(parameter):
+func _update_output(parameter_definition: Dictionary):
 	if parameter == null:
 		%OutputTarget.text = ""
 		%OutputLevel.min_value = 0
 		%OutputLevel.max_value = 1
 	else:
-		%OutputTarget.text = parameter.name
-		%OutputLevel.min_value = parameter.min
-		%OutputLevel.max_value = parameter.max
+		%OutputTarget.text = parameter_definition.name
+		%OutputLevel.min_value = parameter_definition.min
+		%OutputLevel.max_value = parameter_definition.max

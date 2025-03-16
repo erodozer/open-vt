@@ -39,7 +39,7 @@ func _ready():
 	# center the item image
 	pivot_offset = size / 2
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if pinned_to == null:
 		return
 		
@@ -80,7 +80,6 @@ func _on_drag_released() -> void:
 		return
 		
 	var model: VtModel = stage.active_model
-	var closest: MeshInstance2D
 	# sample meshes in reverse front to back order
 	# whichever we first intersect with becomes the pin target
 	var meshes = model.get_meshes()
@@ -108,7 +107,6 @@ func _on_drag_released() -> void:
 				pin_angle = tri2d[0].angle_to_point(tri2d[1])
 				pin_indicies = vtx
 				pinned = mesh
-				print("pinned %s to %s" % [name, mesh.name])
 				break
 	
 	pin_mode = PinMode.VERTICES if pin_vertices != Vector3.ZERO else PinMode.CENTROID

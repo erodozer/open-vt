@@ -185,13 +185,13 @@ func _rebuild_l2d(model: ModelMeta):
 	
 	return true
 
-func _load_model(model: ModelMeta):
-	if not await _rebuild_l2d(model):
+func _load_model(meta: ModelMeta):
+	if not await _rebuild_l2d(meta):
 		queue_free()
 		return
 	
-	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(model.studio_parameters))
-	var model_data = JSON.parse_string(FileAccess.get_file_as_string(model.model))
+	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(meta.studio_parameters))
+	var model_data = JSON.parse_string(FileAccess.get_file_as_string(meta.model))
 	
 	var idle_animation = vtube_data["FileReferences"]["IdleAnimation"]
 	if idle_animation:

@@ -24,7 +24,7 @@ func _packet_received(packet: PackedByteArray):
 		var msg = JSON.parse_string(content)
 		_update_data(msg.Data)
 
-func _update(delta: float) -> void:
+func _update(_delta: float) -> void:
 	if stage == null:
 		return
 

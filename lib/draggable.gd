@@ -27,7 +27,7 @@ func _handle_mouse_button_down(event: InputEventMouseButton):
 		elif event.button_index == MOUSE_BUTTON_MIDDLE:
 			rotation_degrees = 0
 			dirty = true
-		rotation_degrees = wrapi(rotation_degrees, 0, 359)
+		rotation_degrees = wrapi(int(ceil(rotation_degrees)), 0, 359)
 	else:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			scale += Vector2(0.01, 0.01)

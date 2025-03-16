@@ -14,6 +14,13 @@ func _get_title():
 	return "Settings"
 
 func _ready() -> void:
+	if OS.has_feature("openseeface") or OS.is_debug_build():
+		tracker.add_item("OpenSeeFace (Webcam)")
+		tracker.set_item_metadata(tracker.item_count - 1, preload("res://lib/tracking/camera/openseeface/osf_tracker.gd").new())
+	
+	tracker.add_item("VTubeStudio (iOS/Android)")
+	tracker.set_item_metadata(tracker.item_count - 1, preload("res://lib/tracking/camera/vts/vts_tracker.gd").new())
+	
 	for i in TrackingInputs:
 		var box = HBoxContainer.new()
 		var l = Label.new()
@@ -33,10 +40,10 @@ func _ready() -> void:
 				tracking_system.activate_tracker(idx)
 		)
 	
-func _on_tracker_system_tracker_changed(tracker: Tracker) -> void:
+func _on_tracker_system_tracker_changed(new_tracker: Tracker) -> void:
 	var config = Control.new()
-	if tracker != null:
-		config = tracker.create_config()
+	if new_tracker != null:
+		config = new_tracker.create_config()
 	config.name = "Config"
 	
 	%Tracking/Config.queue_free()
@@ -59,7 +66,9 @@ func load_settings(data: Dictionary):
 	transparency_toggle.button_pressed = data.get("window", {}).get("transparent", false)
 	tracker.select(data.get("camera", {}).get("tracking", 0))
 	if tracking_system:
-		tracking_system.activate_tracker(tracker.get_selected_id())
+		tracking_system.activate_tracker(
+			tracker.get_selected_metadata()
+		)
 	
 func save_settings(data: Dictionary):
 	var w = data.get("window", {})
