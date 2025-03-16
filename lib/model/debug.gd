@@ -5,7 +5,7 @@ const VtModel = preload("res://lib/model/vt_model.gd")
 
 @export var model: VtModel
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not visible:
 		return
 		

@@ -94,17 +94,17 @@ func _load_from_vts(model: VtModel):
 					_on_connection_request(
 						btnbind.name, 0, output.name, 2
 					)
-					
-			"ToggleExpression":
+			"ToggleExpression", "RemoveAllExpressions":
 				output = _on_add_hotkey_pressed(preload("./graph/outputs/toggle_expression.tscn"))
 				
 				var name: String = hotkey.File.to_lower().left(-10).replace(" ", "_")
 				var duration = hotkey.FadeSecondsAmount * 1000.0
-				var animations = model.expressions
-				for i in range(len(animations)):
-					var a = animations[i]
-					if a == name:
-						output.get_node("%Expression").select(i)
+				if hotkey.Action == "ToggleExpression":
+					var animations = model.expressions
+					for i in range(len(animations)):
+						var a = animations[i]
+						if a == name:
+							output.get_node("%Expression").select(i + 1)
 				output.get_node("%Fade/Value").value = duration
 				output.position_offset = Vector2(x + 280, y)
 				

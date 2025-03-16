@@ -26,7 +26,7 @@ func _on_stage_model_changed(model) -> void:
 	for parameter_data in model.studio_parameters:
 		var control = preload("./parameter_setting.tscn").instantiate()
 		control.parameter = parameter_data
-		control.model_parameters = model.parameters_l2d
+		control.model_parameters = model.live2d_model.parameters.keys()
 		control.get_node("%InputSelect").pressed.connect(_popup_input_select.bind(parameter_data))
 		control.get_node("%OutputSelect").pressed.connect(_popup_output_select.bind(parameter_data))
 		list.add_child(control)
@@ -71,14 +71,14 @@ func _build_output_parameter_list(_model: VtModel):
 	for c in %OutputParameterList.get_children():
 		c.queue_free()
 		
-	for parameter in _model.parameters_l2d:
+	for parameter in _model.live2d_model.parameters:
 		var btn = Button.new()
-		btn.name = parameter.id
-		btn.text = parameter.id
+		btn.name = parameter
+		btn.text = parameter
 		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		btn.disabled = _model.studio_parameters.any(
 			func (p):
-				return p.output_parameter == parameter.id
+				return p.output_parameter == parameter
 		)
 		btn.pressed.connect(parameter_selected.emit.bind(parameter))
 		%OutputParameterList.add_child(btn)
@@ -107,7 +107,7 @@ func _popup_output_select(parameter: ParameterSetting):
 	if model_parameter == null:
 		parameter.model_parameter = {}
 	else:
-		parameter.model_parameter = model_parameter
+		parameter.model_parameter = model.live2d_model.parameters[model_parameter]
 		%OutputParameterList.get_node(parameter.output_parameter).disabled = true
 
 func _popup_input_select(parameter: ParameterSetting):

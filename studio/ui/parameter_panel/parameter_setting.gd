@@ -45,7 +45,7 @@ func _ready() -> void:
 	%Smoothing.value = parameter.smoothing
 	
 	for idx in range(len(model_parameters)):
-		if model_parameters[idx].id == parameter.output_parameter:
+		if model_parameters[idx] == parameter.output_parameter:
 			%OutputTarget.select(idx)
 
 	parameter.changed.connect(

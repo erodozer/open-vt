@@ -7,7 +7,7 @@ var parameters : Dictionary :
 		var model: GDCubismUserModel = get_parent().live2d_model
 		return model.parameters
 	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var model: GDCubismUserModel = get_parent().live2d_model
 	if model == null:
 		return

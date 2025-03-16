@@ -5,6 +5,7 @@ extends "res://lib/vtobject.gd"
 const utils = preload("res://lib/utils.gd")
 const ParameterSetting = preload("res://lib/tracking/parameter_setting.gd")
 const ParameterProvider = preload("./parameter_value_provider.gd")
+const ExpressionController = preload("./expression_value_provider.gd")
 const TrackingSystem = preload("res://lib/tracking_system.gd")
 const ModelMeta = preload("./metadata.gd")
 
@@ -50,9 +51,6 @@ var motions: Array :
 			return []
 		return live2d_model.get_animations().get_animation_list()
 
-var parameters_l2d: Array
-var model_parameters: Dictionary
-
 func get_animation_player():
 	return live2d_model.get_node("OneShotMotion")
 
@@ -68,11 +66,13 @@ var smoothing: bool = false :
 			_load_model(model)
 			
 var studio_parameters: Array = []
-var parameter_values: Dictionary = {}
 var expressions: Array :
 	get():
 		if live2d_model == null: return []
-		return live2d_model.get_expressions()
+		return live2d_model.get_expressions().keys()
+var expression_controller: ExpressionController :
+	get():
+		return mixer.get_node("Expression")
 
 # item pinning
 var pinnable: Dictionary = {}
@@ -156,12 +156,10 @@ func _rebuild_l2d(model: ModelMeta):
 	tracking.name = "Tracking"
 	
 	# emotion controller
-	var emotions = preload("res://lib/model/expression_value_provider.gd").new()
+	var emotions = ExpressionController.new()
 	emotions.name = "Expression"
+	emotions.expression_library = live2d_model.expressions
 	mixer.add_child(emotions)
-	var emotion_controller = live2d_model.get_expression_controller()
-	emotion_controller.set_process(false)
-	emotions.expression_controller = emotion_controller
 	
 	# add ONE_SHOT animation player
 	var os_lib = AnimationLibrary.new()
@@ -180,7 +178,7 @@ func _rebuild_l2d(model: ModelMeta):
 	os_provider.name = "OneShotMotion"
 	os_ap.set_root(os_ap.get_path_to(os_provider))
 	os_ap.animation_finished.connect(
-		func ():
+		func (_name):
 			os_provider.reset()
 	)
 	os_provider.weight = 0
@@ -194,21 +192,17 @@ func _load_model(model: ModelMeta):
 	
 	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(model.studio_parameters))
 	var model_data = JSON.parse_string(FileAccess.get_file_as_string(model.model))
-	var display_data = JSON.parse_string(FileAccess.get_file_as_string(model.model_parameters))
 	
 	var idle_animation = vtube_data["FileReferences"]["IdleAnimation"]
 	if idle_animation:
 		live2d_model.get_animation_player().play(idle_animation)
-	
-	for i in live2d_model.get_parameters():
-		model_parameters[i] = live2d_model.get_parameters()[i]
 	
 	studio_parameters.clear()
 	for parameter_data in vtube_data["ParameterSettings"]:
 		var p = preload("res://lib/tracking/parameter_setting.gd").new()
 		var ok = p.deserialize(parameter_data)
 		if ok:
-			p.model_parameter = model_parameters[p.output_parameter]
+			p.model_parameter = live2d_model.parameters[p.output_parameter]
 			studio_parameters.append(p)
 			
 	var transform = vtube_data.get("SavedModelPosition", {})
@@ -234,10 +228,12 @@ func add_parameter():
 	%Parameters.add_child(p)
 		
 func toggle_expression(expression_name: String, activate: bool = true, duration: float = 1.0):
-	if activate:
-		live2d_model.get_expression_controller().activate_expression(expression_name, duration)
+	if expression_name.is_empty():
+		expression_controller.clear(duration)
+	elif activate:
+		expression_controller.activate_expression(expression_name, duration)
 	else:
-		live2d_model.get_expression_controller().deactivate_expression(expression_name, duration)
+		expression_controller.deactivate_expression(expression_name, duration)
 	
 func parameters_updated(tracking_data: Dictionary):
 	if not mixer.has_node("Tracking"):

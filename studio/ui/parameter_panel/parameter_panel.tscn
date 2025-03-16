@@ -429,6 +429,6 @@ theme_type_variation = &"VBoxList"
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position/Erase" to="." method="_on_erase_position_pressed"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale/Erase" to="." method="_on_erase_scale_pressed"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation/Erase" to="." method="_on_erase_rotate_pressed"]
-[connection signal="close_requested" from="Modal/OutputParameterPopup" to="." method="_on_output_parameter_popup_close_requested"]
 [connection signal="close_requested" from="Modal/OutputParameterPopup" to="." method="_on_popup_close_requested"]
+[connection signal="close_requested" from="Modal/OutputParameterPopup" to="." method="_on_output_parameter_popup_close_requested"]
 [connection signal="close_requested" from="Modal/InputParameterPopup" to="." method="_on_input_parameter_popup_close_requested"]

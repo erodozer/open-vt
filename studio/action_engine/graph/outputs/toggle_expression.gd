@@ -11,23 +11,24 @@ func _ready() -> void:
 	for m in expressions:
 		input.add_item(m)
 		input.set_item_metadata(input.item_count - 1, m)
-		%Toggle/CheckButton.button_pressed = stage.active_model.live2d_model.get_expression_controller().is_activated(m)
+		%Toggle/CheckButton.button_pressed = stage.active_model.expression_controller.is_activated(m)
 
 func invoke_trigger(slot: int) -> void:
-	if input.get_selected_metadata() == null:
-		return
-		
 	var expressions = stage.active_model.expressions
 	var activate: bool
-	if slot == 1:
-		activate = not stage.active_model.live2d_model.get_expression_controller().is_activated(input.get_selected_metadata())
+	var expression = input.get_selected_metadata()
+	if expression == null:
+		expression = ""
+		activate = false
+	elif slot == 1:
+		activate = not stage.active_model.expression_controller.is_activated(input.get_selected_metadata())
 	elif slot == 2:
 		activate = true
 	elif slot == 3:
 		activate = false
 		
 	stage.active_model.toggle_expression(
-		input.get_selected_metadata(),
+		expression,
 		activate,
 		%Fade/Value.value / 1000.0
 	)
