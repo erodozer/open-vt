@@ -63,6 +63,7 @@ unique_name_in_owner = true
 
 [node name="Interface" type="CanvasLayer" parent="."]
 layer = 2
+follow_viewport_enabled = true
 
 [node name="HUD" parent="Interface" instance=ExtResource("8_5vw27")]
 unique_name_in_owner = true

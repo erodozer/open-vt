@@ -26,14 +26,14 @@ var output_parameter: String :
 			name = v
 		changed.emit("output_parameter", old, v)
 		
-var model_parameter: GDCubismParameter :
+var model_parameter: Dictionary :
 	set(v):
 		var old = model_parameter
 		model_parameter = v
 		changed.emit("model_parameter", old, v)
 		if v != null:
 			self.output_parameter = model_parameter.name
-			self.value = model_parameter.default_value
+			self.value = model_parameter.default
 		else:
 			self.output_parameter = ""
 	

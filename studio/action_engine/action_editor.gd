@@ -75,8 +75,8 @@ func _load_from_vts(model: VtModel):
 					var a = animations[i]
 					if a == anim_name:
 						output.get_node("%Animation").select(i)
-				output.get_node("%Delay/Value").value = duration
 				output.position_offset = Vector2(x + 280, y)
+				output.get_node("%Fade/Value").value = duration
 				
 				# pressed
 				if keybind != null:

@@ -193,6 +193,7 @@ title = "Action Editor"
 
 [node name="OnscreenControls" type="CanvasLayer" parent="."]
 layer = 4
+follow_viewport_enabled = true
 
 [node name="ActionController" parent="OnscreenControls" instance=ExtResource("14_67g5m")]
 unique_name_in_owner = true
@@ -205,8 +206,6 @@ offset_right = -8.0
 offset_bottom = -8.0
 grow_horizontal = 0
 grow_vertical = 0
-size_flags_horizontal = 10
-size_flags_vertical = 10
 title = "Action Palette"
 
 [connection signal="pressed" from="Menu/VBoxContainer/PopoutBtn" to="." method="popout"]

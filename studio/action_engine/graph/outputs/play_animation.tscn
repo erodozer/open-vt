@@ -70,22 +70,6 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 
-[node name="Delay" type="HBoxContainer" parent="."]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Delay"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Delay"
-
-[node name="Value" type="SpinBox" parent="Delay"]
-layout_mode = 2
-size_flags_horizontal = 3
-max_value = 10000.0
-suffix = "ms"
-
 [node name="Speed" type="HBoxContainer" parent="."]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
@@ -97,6 +81,24 @@ size_flags_horizontal = 3
 text = "Speed"
 
 [node name="Value" type="SpinBox" parent="Speed"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 250.0
+value = 100.0
+suffix = "%"
+
+[node name="Fade" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Fade"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Fade"
+
+[node name="Value" type="SpinBox" parent="Fade"]
 layout_mode = 2
 size_flags_horizontal = 3
 min_value = 1.0

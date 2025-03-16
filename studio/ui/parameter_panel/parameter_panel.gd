@@ -105,7 +105,7 @@ func _popup_output_select(parameter: ParameterSetting):
 		%OutputParameterList.get_node(parameter.output_parameter).disabled = false
 	
 	if model_parameter == null:
-		parameter.model_parameter = null
+		parameter.model_parameter = {}
 	else:
 		parameter.model_parameter = model_parameter
 		%OutputParameterList.get_node(parameter.output_parameter).disabled = true
@@ -139,7 +139,7 @@ func _process(delta: float) -> void:
 	for p in list.get_children():
 		if p.parameter.model_parameter == null:
 			continue
-		p.get_node("%OutputLevel").value = p.parameter.model_parameter.value
+		p.get_node("%OutputLevel").value = p.parameter.value
 
 func _on_texture_filter_item_selected(index: int) -> void:
 	match index:

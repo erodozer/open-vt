@@ -13,7 +13,6 @@ config_version=5
 config/name="open-vt"
 run/main_scene="res://main.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
-run/max_fps=60
 run/low_processor_mode=true
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/fullsize=false
@@ -38,7 +37,6 @@ window/size/transparent=true
 window/subwindows/embed_subwindows=false
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
-window/stretch/scale_mode="integer"
 window/per_pixel_transparency/allowed=true
 
 [editor_plugins]
