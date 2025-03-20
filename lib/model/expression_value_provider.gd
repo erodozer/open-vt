@@ -1,7 +1,7 @@
 extends "./parameter_value_provider.gd"
 
-var expression_library: Dictionary[StringName, GDCubismExpression]
-var weights: Dictionary[StringName, float]
+var expression_library: Dictionary
+var weights: Dictionary
 var fades: Dictionary = {}
 var order: Array[StringName] = []
 

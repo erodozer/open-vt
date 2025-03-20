@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=54 format=3 uid="uid://bwesfr5en0lxv"]
+[gd_resource type="Theme" load_steps=56 format=3 uid="uid://bwesfr5en0lxv"]
 
 [ext_resource type="Texture2D" uid="uid://dv7o0g2fot3n3" path="res://studio/ui/icons/toggle-on.svg" id="1_jmxgr"]
 [ext_resource type="Texture2D" uid="uid://58ua5of8kuir" path="res://studio/ui/icons/toggle-off.svg" id="2_3w1p0"]
@@ -269,6 +269,15 @@ shadow_offset = Vector2(0, 2)
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_honxw"]
 color = Color(0.847059, 0.823529, 0.729412, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b7yax"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.811765, 0.788235, 0.698039, 1)
+shadow_size = 4
+shadow_offset = Vector2(2, 2)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qy448"]
 bg_color = Color(0.67451, 0.654902, 0.580392, 1)
 
@@ -295,6 +304,11 @@ content_margin_right = 16.0
 content_margin_bottom = 16.0
 bg_color = Color(0.847059, 0.823529, 0.729412, 1)
 shadow_size = 2
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o3o4d"]
+bg_color = Color(0.811765, 0.788235, 0.698039, 1)
+shadow_size = 5
 shadow_offset = Vector2(2, 2)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h610x"]
@@ -441,6 +455,7 @@ PopupMenu/colors/font_hover_color = Color(0.298039, 0.282353, 0.239216, 1)
 PopupMenu/styles/hover = SubResource("StyleBoxFlat_5e0sc")
 PopupMenu/styles/panel = SubResource("StyleBoxFlat_vbyic")
 PopupMenu/styles/separator = SubResource("StyleBoxLine_honxw")
+PopupPanel/styles/panel = SubResource("StyleBoxFlat_b7yax")
 ProgressBar/colors/font_color = Color(0.847059, 0.823529, 0.729412, 1)
 ProgressBar/colors/font_outline_color = Color(0.298039, 0.282353, 0.239216, 1)
 ProgressBar/constants/outline_size = 4
@@ -465,6 +480,7 @@ SpinBox/icons/up_pressed = ExtResource("5_b7yax")
 SpinBox/icons/updown = null
 SubPanelContainer/base_type = &"PanelContainer"
 SubPanelContainer/styles/panel = SubResource("StyleBoxFlat_piqja")
+TooltipPanel/styles/panel = SubResource("StyleBoxFlat_o3o4d")
 VBoxContainer/constants/separation = 16
 VBoxList/base_type = &"VBoxContainer"
 VBoxList/constants/separation = 4

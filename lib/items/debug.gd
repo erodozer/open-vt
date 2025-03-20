@@ -17,21 +17,22 @@ func _draw() -> void:
 	draw_circle(centroid, 2, Color.RED, true, -1.0, true)
 
 	if item.pin_mode == VtItem.PinMode.VERTICES and item.pinned_to != null:
-		var f = item.pinned_to.mesh.get_faces()
+		var _ary = RenderingServer.mesh_surface_get_arrays(item.pinned_to.mesh, 0)
+		var f = _ary[Mesh.ARRAY_INDEX]
 		for i in range(0, len(f), 3):
 			var t = [
-				f[i],
-				f[i+1],
-				f[i+2],
-				f[i]
-			].map(utils.v32xy).map(item.pinned_to.to_global).map(self.to_local)
+				_ary[Mesh.ARRAY_VERTEX][f[i]],
+				_ary[Mesh.ARRAY_VERTEX][f[i+1]],
+				_ary[Mesh.ARRAY_VERTEX][f[i+2]],
+				_ary[Mesh.ARRAY_VERTEX][f[i]]
+			].map(item.pinned_to.to_global).map(self.to_local)
 			draw_polyline(t, Color.GREEN if not i == item.pin_indicies else Color.RED)
 
 		var i = item.pin_indicies
 		var t = [
-			f[i],
-			f[i+1],
-			f[i+2],
-			f[i]
-		].map(utils.v32xy).map(item.pinned_to.to_global).map(self.to_local)
+			_ary[Mesh.ARRAY_VERTEX][f[i]],
+			_ary[Mesh.ARRAY_VERTEX][f[i+1]],
+			_ary[Mesh.ARRAY_VERTEX][f[i+2]],
+			_ary[Mesh.ARRAY_VERTEX][f[i]]
+		].map(item.pinned_to.to_global).map(self.to_local)
 		draw_polyline(t, Color.RED)

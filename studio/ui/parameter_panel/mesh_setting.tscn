@@ -7,6 +7,7 @@
 offset_right = 53.0
 offset_bottom = 24.0
 size_flags_horizontal = 3
+mouse_filter = 2
 theme_type_variation = &"SubPanelContainer"
 script = ExtResource("1_fq7df")
 
@@ -22,6 +23,7 @@ size_flags_horizontal = 3
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
+focus_mode = 0
 toggle_mode = true
 icon = ExtResource("2_yeggh")
 icon_alignment = 1

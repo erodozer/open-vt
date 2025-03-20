@@ -9,7 +9,6 @@ offset_bottom = 40.0
 script = ExtResource("1_pu6sx")
 
 [node name="Debug" type="Node2D" parent="."]
-visible = false
 script = ExtResource("3_wpqse")
 
 [connection signal="drag_pressed" from="." to="." method="_on_drag_pressed"]

@@ -17,25 +17,26 @@ func _handle_mouse_button_down(event: InputEventMouseButton):
 	var dirty = false
 	
 	# check for simultaneous inputs to perform different actions
-	if Input.is_key_pressed(KEY_CTRL):
-		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			rotation_degrees += 1
-			dirty = true
-		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			rotation_degrees -= 1
-			dirty = true
-		elif event.button_index == MOUSE_BUTTON_MIDDLE:
-			rotation_degrees = 0
-			dirty = true
-		rotation_degrees = wrapi(int(ceil(rotation_degrees)), 0, 359)
-	else:
-		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			scale += Vector2(0.01, 0.01)
-			dirty = true
-		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			scale -= Vector2(0.01, 0.01)
-			dirty = true
-		scale = clamp(scale, Vector2(0.01, 0.01), Vector2(5, 5))
+	if dragging:
+		if Input.is_key_pressed(KEY_CTRL):
+			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+				rotation_degrees += 1
+				dirty = true
+			elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+				rotation_degrees -= 1
+				dirty = true
+			elif event.button_index == MOUSE_BUTTON_MIDDLE:
+				rotation_degrees = 0
+				dirty = true
+			rotation_degrees = wrapi(int(ceil(rotation_degrees)), 0, 359)
+		else:
+			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+				scale += Vector2(0.01, 0.01)
+				dirty = true
+			elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+				scale -= Vector2(0.01, 0.01)
+				dirty = true
+			scale = clamp(scale, Vector2(0.01, 0.01), Vector2(5, 5))
 		
 	if event.button_index == MOUSE_BUTTON_LEFT:
 		dragging = true
@@ -45,7 +46,7 @@ func _handle_mouse_button_down(event: InputEventMouseButton):
 
 func _handle_mouse_motion(event: InputEventMouseMotion) -> bool:
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-		position += event.screen_relative
+		global_position += event.relative
 		return true
 	return false
 
