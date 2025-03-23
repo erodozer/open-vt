@@ -1,0 +1,52 @@
+name: Build OpenSeeFace
+inputs:
+  platform:
+    description: "target platform to build for"
+    required: true
+    default: "linux"
+runs:
+  using: "composite"
+  steps:
+    - id: cache-key
+      shell: bash
+      run: |
+        echo "key=osf_$(git rev-parse HEAD:thirdparty/OpenSeeFace)_${{ inputs.platform }}" >> "$GITHUB_OUTPUT"
+    - id: cache
+      uses: actions/cache@v4
+      with:
+        key: ${{ steps.cache-key.outputs.key }}
+        path: |
+          ${{ github.workspace }}/bin/${{ inputs.platform }}/bin/openseeface
+    - name: Install poetry
+      if: steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: pipx install poetry
+    - uses: actions/setup-python@v5
+      if: steps.cache.outputs.cache-hit != 'true'
+      with:
+        python-version: ${{ env.python-version }}
+        cache: 'poetry'
+    - name: Setup MSVC
+      if: inputs.platform == 'windows' && steps.cache.outputs.cache-hit != 'true'
+      shell: cmd
+      run: |
+        choco install vcredist140
+
+        xcopy c:\Windows\System32\msvcp140.dll .
+        xcopy c:\Windows\System32\vcomp140.dll .
+        xcopy c:\Windows\System32\concrt140.dll .
+        xcopy c:\Windows\System32\vccorlib140.dll .
+    - name: Setup PyEnv
+      if: steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      working-directory: thirdparty/OpenSeeFace
+      run: |
+        poetry install
+    - name: Build
+      if: steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      working-directory: thirdparty/OpenSeeFace
+      run: |
+        poetry run pyinstaller --onedir --clean --noconfirm facetracker.py
+        cp -r models dist/facetracker/models
+        cp -r dist/facetracker ${{github.workspace}}/bin/${{ inputs.platform }}/bin/openseeface

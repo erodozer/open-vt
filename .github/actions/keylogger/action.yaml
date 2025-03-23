@@ -1,0 +1,54 @@
+name: Build Godot Keylogger
+inputs:
+  platform:
+    description: "target platform to build for"
+    required: true
+    default: "linux"
+runs:
+  using: "composite"
+  steps:
+    - id: cache-key
+      shell: bash
+      run: |
+        echo "key=keylogger_$(git rev-parse HEAD:thirdparty/godot-keylogger)" >> "$GITHUB_OUTPUT"
+    - id: cache
+      uses: actions/cache@v4
+      with:
+        key: ${{ steps.cache-key.outputs.key }}
+        path: |
+          ${{ github.workspace }}/addons/keylogger
+    - name: Setup Rust
+      if: steps.cache.outputs.cache-hit != 'true'
+      uses: actions-rust-lang/setup-rust-toolchain@v1.11.0
+    - name: Fetch dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        sudo apt install -y libudev-dev libinput-dev
+    - name: Build extension (Linux)
+      if: inputs.platform == 'linux' && steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      working-directory: thirdparty/godot-keylogger/rust
+      run: |
+        cargo build --target x86_64-unknown-linux-gnu
+        cargo build --release --target x86_64-unknown-linux-gnu
+        mv target/x86_64-unknown-linux-gnu/debug/libgodot_keylogger.so ../godot/addons/keylogger/lib/libgodot_keylogger.debug.so
+        mv target/x86_64-unknown-linux-gnu/release/libgodot_keylogger.so ../godot/addons/keylogger/lib/libgodot_keylogger.release.so
+    - name: Build extension (Windows)
+      if: inputs.platform == 'windows' && steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      working-directory: thirdparty/godot-keylogger/rust
+      run: |
+        cargo build --target x86_64-pc-windows-gnu  
+        cargo build --release --target x86_64-pc-windows-gnu  
+        mv target/x86_64-pc-windows-gnu/debug/godot_keylogger.dll ../godot/addons/keylogger/lib/libgodot_keylogger.debug.dll
+        mv target/x86_64-pc-windows-gnu/release/godot_keylogger.dll ../godot/addons/keylogger/lib/libgodot_keylogger.release.dll
+    - name: Package files
+      if: steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        mkdir ${{ github.workspace }}/addons/keylogger
+        cp -r thirdparty/godot-keylogger/godot/addons/keylogger ${{github.workspace}}/addons
+    - name: Log completion
+      shell: bash
+      run: ls ${{github.workspace}}/addons

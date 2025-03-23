@@ -1,0 +1,59 @@
+name: Build Project
+on:
+  push:
+env:
+  project: openvt
+  
+jobs:
+  build:
+    name: Builds executable for ${{ matrix.platform }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      matrix:
+        include:
+          #- identifier: windows-release
+          #  name: Windows Release
+          #  runner: windows-latest
+          #  target: template_release
+          #  platform: windows
+          #  arch: x86_64
+          - identifier: linux-release
+            name: Linux Release
+            runner: ubuntu-latest
+            target: template_release
+            platform: linux
+            arch: x86_64
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Prepare Output
+        run: |
+          mkdir -p bin/${{ matrix.platform }}/bin
+      - name: Build Godot Keylogger
+        uses: ./.github/actions/keylogger
+        with: 
+          platform: ${{ matrix.platform }}
+      - name: Build GDCubism
+        uses: ./.github/actions/gdcubism
+        with: 
+          platform: ${{ matrix.platform }}
+      - name: Build OpenSeeFace
+        uses: ./.github/actions/openseeface
+        with: 
+          platform: ${{ matrix.platform }}
+      - name: Setup Godot
+        uses: chickensoft-games/setup-godot@v2.1.1
+        with:
+          version: 4.4.0
+          use-dotnet: false
+          include-templates: true
+      - name: Generate Release
+        run: godot --headless --export-release "${{ matrix.platform }}" bin/${{ matrix.platform }}/${{ env.project }}
+      - name: Save artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.project }}.${{ matrix.platform }}
+          path: |
+            bin/${{matrix.platform}}/*
