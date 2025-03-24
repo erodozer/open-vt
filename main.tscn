@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bbh7pj5wq0sii"]
+[gd_scene load_steps=13 format=3 uid="uid://bbh7pj5wq0sii"]
 
 [ext_resource type="Script" uid="uid://bq0aow0vnq1i6" path="res://main.gd" id="1_g562h"]
 [ext_resource type="Script" uid="uid://bl1h5l0htvi3k" path="res://lib/preferences.gd" id="2_kek77"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://17187ovs368q" path="res://lib/stage.gd" id="5_uhpo7"]
 [ext_resource type="PackedScene" uid="uid://cmd2d6iiryvk4" path="res://studio/hud.tscn" id="8_5vw27"]
 [ext_resource type="Script" uid="uid://c3dhmb2w6nvr0" path="res://lib/tracking_system.gd" id="8_dv8e1"]
+[ext_resource type="Texture2D" uid="uid://bcqaflbakxadd" path="res://branding/splash.png" id="10_4c57u"]
 [ext_resource type="Script" uid="uid://cwcgdtduxw584" path="res://lib/model_manager.gd" id="12_ufyfb"]
 [ext_resource type="PackedScene" uid="uid://bkm4lgw38g4di" path="res://lib/model/vt_model.tscn" id="15_wg2gf"]
 
@@ -67,5 +68,25 @@ follow_viewport_enabled = true
 
 [node name="HUD" parent="Interface" instance=ExtResource("8_5vw27")]
 unique_name_in_owner = true
+
+[node name="Splash" type="TextureRect" parent="Interface"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_4c57u")
+stretch_mode = 3
+
+[node name="ColorRect" type="ColorRect" parent="Interface/Splash"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
 
 [connection signal="parameters_updated" from="TrackerSystem" to="ModelManager" method="_on_tracker_system_parameters_updated"]

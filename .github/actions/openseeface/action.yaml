@@ -10,13 +10,16 @@ runs:
     - id: cache-key
       shell: bash
       run: |
-        echo "key=osf_$(git rev-parse HEAD:thirdparty/OpenSeeFace)_${{ inputs.platform }}" >> "$GITHUB_OUTPUT"
+        echo "key=$(git rev-parse HEAD:thirdparty/OpenSeeFace)" >> "$GITHUB_OUTPUT"
     - id: cache
       uses: actions/cache@v4
       with:
-        key: ${{ steps.cache-key.outputs.key }}
+        key: osf_${{ steps.cache-key.outputs.key }}_${{ inputs.platform }}
         path: |
-          ${{ github.workspace }}/bin/${{ inputs.platform }}/bin/openseeface
+          addons/openseeface
+    - name: Prepare output directory
+      shell: bash
+      run: mkdir -p addons/openseeface
     - name: Install poetry
       if: steps.cache.outputs.cache-hit != 'true'
       shell: bash
@@ -49,4 +52,4 @@ runs:
       run: |
         poetry run pyinstaller --onedir --clean --noconfirm facetracker.py
         cp -r models dist/facetracker/models
-        cp -r dist/facetracker ${{github.workspace}}/bin/${{ inputs.platform }}/bin/openseeface
+        cp -r dist/facetracker/. ../../addons/openseeface

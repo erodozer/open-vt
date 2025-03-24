@@ -10,18 +10,18 @@ runs:
     - id: cache-key
       shell: bash
       run: |
-        echo "key=keylogger_$(git rev-parse HEAD:thirdparty/godot-keylogger)" >> "$GITHUB_OUTPUT"
+        echo "key=$(git rev-parse HEAD:thirdparty/godot-keylogger)" >> "$GITHUB_OUTPUT"
     - id: cache
       uses: actions/cache@v4
       with:
-        key: ${{ steps.cache-key.outputs.key }}
+        key: keylogger_${{ steps.cache-key.outputs.key }}_${{ inputs.platform }}
         path: |
-          ${{ github.workspace }}/addons/keylogger
+          addons/keylogger
     - name: Setup Rust
       if: steps.cache.outputs.cache-hit != 'true'
       uses: actions-rust-lang/setup-rust-toolchain@v1.11.0
-    - name: Fetch dependencies
-      if: steps.cache.outputs.cache-hit != 'true'
+    - name: Fetch Linux dependencies
+      if: inputs.platform == 'linux'
       shell: bash
       run: |
         sudo apt install -y libudev-dev libinput-dev
@@ -47,8 +47,8 @@ runs:
       if: steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
-        mkdir ${{ github.workspace }}/addons/keylogger
-        cp -r thirdparty/godot-keylogger/godot/addons/keylogger ${{github.workspace}}/addons
+        mkdir addons/keylogger
+        cp -r thirdparty/godot-keylogger/godot/addons/keylogger addons
     - name: Log completion
       shell: bash
-      run: ls ${{github.workspace}}/addons
+      run: find addons/keylogger -type f

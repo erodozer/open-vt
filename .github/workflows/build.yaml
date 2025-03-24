@@ -5,32 +5,29 @@ env:
   project: openvt
   
 jobs:
-  build:
-    name: Builds executable for ${{ matrix.platform }}
+  build-dependencies:
+    name: Builds extensions for ${{ matrix.platform }}
     runs-on: ${{ matrix.runner }}
     strategy:
+      fail-fast: false
       matrix:
         include:
-          #- identifier: windows-release
-          #  name: Windows Release
-          #  runner: windows-latest
-          #  target: template_release
-          #  platform: windows
-          #  arch: x86_64
-          - identifier: linux-release
-            name: Linux Release
-            runner: ubuntu-latest
-            target: template_release
+          - runner: windows-latest
+            platform: windows
+          - runner: ubuntu-latest
             platform: linux
-            arch: x86_64
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
-      - name: Prepare Output
-        run: |
-          mkdir -p bin/${{ matrix.platform }}/bin
+      - name: Prepare Addon Caches
+        id: cache
+        uses: actions/cache@v4
+        with:
+          key: addons_${{ github.sha }}_${{ matrix.platform }}
+          path: addons
+          enableCrossOsArchive: true
       - name: Build Godot Keylogger
         uses: ./.github/actions/keylogger
         with: 
@@ -40,17 +37,70 @@ jobs:
         with: 
           platform: ${{ matrix.platform }}
       - name: Build OpenSeeFace
+        if: matrix.platform != 'windows'
         uses: ./.github/actions/openseeface
         with: 
           platform: ${{ matrix.platform }}
+      
+  
+  build-release:
+    name: Builds executable for ${{ matrix.platform }}
+    runs-on: ubuntu-latest
+    needs: [build-dependencies]
+    defaults:
+      run:
+        # Use bash shells on all platforms.
+        shell: bash
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - identifier: windows-release
+            name: Windows Release
+            target: template_release
+            platform: windows
+            arch: x86_64
+            output_name: openvt.exe
+          - identifier: linux-release
+            name: Linux Release
+            target: template_release
+            platform: linux
+            arch: x86_64
+            output_name: openvt.x86_64
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Load Addon Caches
+        id: cache
+        uses: actions/cache@v4
+        with:
+          key: addons_${{ github.sha }}_${{ matrix.platform }}
+          path: addons
+          enableCrossOsArchive: true
       - name: Setup Godot
         uses: chickensoft-games/setup-godot@v2.1.1
         with:
           version: 4.4.0
           use-dotnet: false
           include-templates: true
+      - name: Verify Addons
+        run: find addons -type f
       - name: Generate Release
-        run: godot --headless --export-release "${{ matrix.platform }}" bin/${{ matrix.platform }}/${{ env.project }}
+        run: |
+          mkdir -p bin/${{ matrix.platform }}/bin
+          godot --headless --export-release "${{ matrix.platform }}" "bin/${{ matrix.platform }}/${{ matrix.output_name }}"
+      - name: Copy OpenSeeFace binary
+        if: matrix.platform != 'windows'
+        run: |
+          cp -r addons/openseeface bin/${{ matrix.platform }}/bin
+      - name: Copy extra resources
+        run: |
+          mkdir "bin/${{ matrix.platform }}/branding"
+          find branding/ ! -name "*.import" -type f | xargs cp -t "bin/${{ matrix.platform }}/branding"
+          cp LICENSE README.md "bin/${{ matrix.platform }}"
+      - name: Verify Output
+        run: |
+          find bin/${{ matrix.platform }} -type f
       - name: Save artifact
         uses: actions/upload-artifact@v4
         with:

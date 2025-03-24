@@ -19,12 +19,11 @@ runs:
       uses: actions/cache@v4
       with:
         key: ${{ steps.cache-key.outputs.key }}
-        path: |
-          ${{ github.workspace }}/addons/gd_cubism
+        path: addons/gd_cubism
     # skip everything if cache found
     - name: Install cmake
       if: steps.cache.outputs.cache-hit != 'true'
-      uses: lukka/get-cmake@fix-issue-123
+      uses: lukka/get-cmake@latest
     - name: Install Python
       if: steps.cache.outputs.cache-hit != 'true'
       uses: actions/setup-python@v5
@@ -53,7 +52,7 @@ runs:
       shell: bash
       run: |
         rm -r thirdparty/gd_cubism/demo/addons/gd_cubism/cs thirdparty/gd_cubism/demo/addons/gd_cubism/example
-        cp -r thirdparty/gd_cubism/demo/addons/gd_cubism ${{github.workspace}}/addons
+        cp -r thirdparty/gd_cubism/demo/addons/gd_cubism addons
     - name: Log completion
       shell: bash
-      run: ls ${{github.workspace}}/addons
+      run: find addons/gd_cubism -type f
