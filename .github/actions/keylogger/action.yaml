@@ -16,12 +16,12 @@ runs:
       with:
         key: ${{ steps.cache-key.outputs.key }}
         path: |
-          ${{ github.workspace }}/addons/keylogger
+          addons/keylogger
     - name: Setup Rust
       if: steps.cache.outputs.cache-hit != 'true'
       uses: actions-rust-lang/setup-rust-toolchain@v1.11.0
-    - name: Fetch dependencies
-      if: steps.cache.outputs.cache-hit != 'true'
+    - name: Fetch Linux dependencies
+      if: inputs.platform == 'linux'
       shell: bash
       run: |
         sudo apt install -y libudev-dev libinput-dev
@@ -34,6 +34,7 @@ runs:
         cargo build --release --target x86_64-unknown-linux-gnu
         mv target/x86_64-unknown-linux-gnu/debug/libgodot_keylogger.so ../godot/addons/keylogger/lib/libgodot_keylogger.debug.so
         mv target/x86_64-unknown-linux-gnu/release/libgodot_keylogger.so ../godot/addons/keylogger/lib/libgodot_keylogger.release.so
+        cp 
     - name: Build extension (Windows)
       if: inputs.platform == 'windows' && steps.cache.outputs.cache-hit != 'true'
       shell: bash
@@ -43,12 +44,13 @@ runs:
         cargo build --release --target x86_64-pc-windows-gnu  
         mv target/x86_64-pc-windows-gnu/debug/godot_keylogger.dll ../godot/addons/keylogger/lib/libgodot_keylogger.debug.dll
         mv target/x86_64-pc-windows-gnu/release/godot_keylogger.dll ../godot/addons/keylogger/lib/libgodot_keylogger.release.dll
+        cp /usr/lib/x86_64-linux-gnu/libinput.so
     - name: Package files
       if: steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
-        mkdir ${{ github.workspace }}/addons/keylogger
-        cp -r thirdparty/godot-keylogger/godot/addons/keylogger ${{github.workspace}}/addons
+        mkdir addons/keylogger
+        cp -r thirdparty/godot-keylogger/godot/addons/keylogger addons
     - name: Log completion
       shell: bash
-      run: ls ${{github.workspace}}/addons
+      run: find addons/keylogger -type f
