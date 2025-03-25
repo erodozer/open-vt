@@ -93,6 +93,10 @@ jobs:
         if: matrix.platform != 'windows'
         run: |
           cp -r addons/openseeface bin/${{ matrix.platform }}/bin
+      - name: Copy extra resources
+        run: |
+          mkdir "bin/${{ matrix.platform }}/branding"
+          find branding/ ! -name "*.import" -type f | xargs cp -t "bin/${{ matrix.platform }}/branding"
       - name: Verify Output
         run: |
           find bin/${{ matrix.platform }} -type f
