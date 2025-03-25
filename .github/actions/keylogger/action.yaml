@@ -10,11 +10,11 @@ runs:
     - id: cache-key
       shell: bash
       run: |
-        echo "key=keylogger_$(git rev-parse HEAD:thirdparty/godot-keylogger)" >> "$GITHUB_OUTPUT"
+        echo "key=$(git rev-parse HEAD:thirdparty/godot-keylogger)" >> "$GITHUB_OUTPUT"
     - id: cache
       uses: actions/cache@v4
       with:
-        key: ${{ steps.cache-key.outputs.key }}
+        key: keylogger_${{ steps.cache-key.outputs.key }}_${{ inputs.platform }}
         path: |
           addons/keylogger
     - name: Setup Rust
@@ -34,7 +34,6 @@ runs:
         cargo build --release --target x86_64-unknown-linux-gnu
         mv target/x86_64-unknown-linux-gnu/debug/libgodot_keylogger.so ../godot/addons/keylogger/lib/libgodot_keylogger.debug.so
         mv target/x86_64-unknown-linux-gnu/release/libgodot_keylogger.so ../godot/addons/keylogger/lib/libgodot_keylogger.release.so
-        cp 
     - name: Build extension (Windows)
       if: inputs.platform == 'windows' && steps.cache.outputs.cache-hit != 'true'
       shell: bash
@@ -44,7 +43,6 @@ runs:
         cargo build --release --target x86_64-pc-windows-gnu  
         mv target/x86_64-pc-windows-gnu/debug/godot_keylogger.dll ../godot/addons/keylogger/lib/libgodot_keylogger.debug.dll
         mv target/x86_64-pc-windows-gnu/release/godot_keylogger.dll ../godot/addons/keylogger/lib/libgodot_keylogger.release.dll
-        cp /usr/lib/x86_64-linux-gnu/libinput.so
     - name: Package files
       if: steps.cache.outputs.cache-hit != 'true'
       shell: bash
