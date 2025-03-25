@@ -11,7 +11,7 @@ const ModelMeta = preload("./metadata.gd")
 
 static var linear_shaders = [
 	preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_add.gdshader"),
-	preload("res://lib/model/shaders/linear/2d_cubism_norm_mix.gdshader"),
+	preload("res://addons/gd_cubism/res/shader//2d_cubism_norm_mix.gdshader"),
 	preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_mul.gdshader"),
 
 	preload("res://addons/gd_cubism/res/shader/2d_cubism_mask.gdshader"),
@@ -124,6 +124,9 @@ func _rebuild_l2d(model: ModelMeta):
 		render = live2d_model
 		
 	add_child(render)
+	
+	for m in loaded_model.get_meshes():
+		m.texture_filter = filter
 	
 	var canvas_info = live2d_model.get_canvas_info()
 	# adjust anchor to be top-left to match godot's control coordinate system

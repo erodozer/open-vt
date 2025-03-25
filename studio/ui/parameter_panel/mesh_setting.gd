@@ -12,8 +12,14 @@ func _ready():
 	%Color.color = m.modulate
 
 func _on_pin_toggle_toggled(toggled_on: bool) -> void:
-	var m = model.get_node(mesh)
+	var path = mesh
+	if model.smoothing and model.filter == TEXTURE_FILTER_NEAREST:
+		path = NodePath("PixelSubviewport/SubViewport/" + String(mesh))
+	var m = model.get_node(path)
 	model.pinnable[m.name] = toggled_on
 
 func _on_color_changed(color: Color) -> void:
-	model.get_node(mesh).modulate = %Color.color
+	var path = mesh
+	if model.smoothing and model.filter == TEXTURE_FILTER_NEAREST:
+		path = NodePath("PixelSubviewport/SubViewport/" + String(mesh))
+	model.get_node(path).modulate = %Color.color

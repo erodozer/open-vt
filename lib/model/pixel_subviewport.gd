@@ -13,8 +13,8 @@ func _process(_delta: float) -> void:
 	viewport.canvas_transform = Transform2D(0.0, s, 0, Vector2.ZERO)
 	viewport.size = clamp(model.get_canvas_info().size_in_pixels * s, Vector2(2,2), model.get_canvas_info().size_in_pixels)
 	# render.size = viewport.size
-	if _scale < Vector2.ONE:
-		self.scale = Vector2.ONE / _scale
-	else:
-		self.scale = Vector2.ONE
+	#if _scale < Vector2.ONE:
+	#	self.scale = Vector2.ONE / _scale
+	#else:
+	#	self.scale = Vector2.ONE
 	

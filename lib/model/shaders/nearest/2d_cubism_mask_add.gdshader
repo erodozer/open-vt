@@ -16,11 +16,14 @@ uniform vec2 canvas_size;
 uniform vec2 mesh_offset;
 
 varying vec2 MASK_UV;
+varying vec4 modulate;
 
 void vertex() {
     vec2 mask_size = vec2(textureSize(tex_mask, 0)) / mask_scale;
     vec2 mask_vtx = VERTEX - mesh_offset;
     MASK_UV = mask_vtx / mask_size;
+
+	modulate = COLOR;
 }
 
 void fragment() {
@@ -29,7 +32,7 @@ void fragment() {
 
     // premul alpha
     color_tex.rgb = color_tex.rgb + color_screen.rgb - (color_tex.rgb * color_screen.rgb);
-    vec4 color_for_mask = color_tex * color_base;
+    vec4 color_for_mask = color_tex * color_base * modulate;
     color_for_mask.rgb = color_for_mask.rgb * color_for_mask.a;
 
     vec4 clip_mask = texture(tex_mask, MASK_UV) * channel;
