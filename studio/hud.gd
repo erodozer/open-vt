@@ -78,23 +78,27 @@ func _close_panel():
 		open = null
 
 func _open_panel(panel):
-	if panel.has_method("_refresh"):
+	if panel != null and panel.has_method("_refresh"):
 		await panel._refresh()
 	
 	if panel == action_editor and is_floating:
 		action_editor.popout()
+		return
+	if action_editor.is_floating and panel == null:
+		action_editor.restore()
 		return
 	
 	if panel == open:
 		return
 	
 	_close_panel()
-	panel.create_tween().tween_property(
-		panel,
-		"offset_right",
-		0,
-		0.3
-	).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC).from(panel.size.x)
+	if panel != null:
+		panel.create_tween().tween_property(
+			panel,
+			"offset_right",
+			0,
+			0.3
+		).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC).from(panel.size.x)
 	
 	open = panel
 	
