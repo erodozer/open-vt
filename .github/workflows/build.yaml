@@ -60,11 +60,13 @@ jobs:
             target: template_release
             platform: windows
             arch: x86_64
+            output_name: openvt.exe
           - identifier: linux-release
             name: Linux Release
             target: template_release
             platform: linux
             arch: x86_64
+            output_name: openvt.x86_64
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -86,7 +88,7 @@ jobs:
       - name: Generate Release
         run: |
           mkdir -p bin/${{ matrix.platform }}/bin
-          godot --headless --export-release "${{ matrix.platform }}" "bin/${{ matrix.platform }}/${{ env.project }}"
+          godot --headless --export-release "${{ matrix.platform }}" "bin/${{ matrix.platform }}/${{ matrix.output_name }}"
       - name: Copy OpenSeeFace binary
         if: matrix.platform != 'windows'
         run: |
