@@ -211,14 +211,15 @@ title = "Action Palette"
 
 [node name="Debug" type="CanvasLayer" parent="."]
 layer = 99
+visible = false
 script = ExtResource("15_vysue")
 
 [node name="Label" type="Label" parent="Debug"]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_top = 4.0
-offset_right = -4.0
+offset_left = -45.0
+offset_bottom = 23.0
 grow_horizontal = 0
 text = "FPS: 0"
 horizontal_alignment = 2

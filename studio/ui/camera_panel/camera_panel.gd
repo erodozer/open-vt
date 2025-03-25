@@ -6,9 +6,10 @@ const TrackingInputs = preload("res://lib/tracking/tracker.gd").Inputs
 
 signal update_bg_color(color: Color)
 
-@onready var tracking_system = get_tree().get_first_node_in_group("system:tracking")
+@onready var tracking_system: TrackingSystem = get_tree().get_first_node_in_group("system:tracking")
 @onready var transparency_toggle: CheckButton = %TransparencyToggle
 @onready var tracker: OptionButton = %TrackingSource
+@onready var fps_option: OptionButton = %FPS
 
 func _get_title():
 	return "Settings"
@@ -16,10 +17,10 @@ func _get_title():
 func _ready() -> void:
 	if OS.has_feature("openseeface") or OS.is_debug_build():
 		tracker.add_item("OpenSeeFace (Webcam)")
-		tracker.set_item_metadata(tracker.item_count - 1, preload("res://lib/tracking/camera/openseeface/osf_tracker.gd").new())
+		tracker.set_item_metadata(tracker.item_count - 1, preload("res://lib/tracking/camera/openseeface/osf_tracker.gd"))
 	
 	tracker.add_item("VTubeStudio (iOS/Android)")
-	tracker.set_item_metadata(tracker.item_count - 1, preload("res://lib/tracking/camera/vts/vts_tracker.gd").new())
+	tracker.set_item_metadata(tracker.item_count - 1, preload("res://lib/tracking/camera/vts/vts_tracker.gd"))
 	
 	for i in TrackingInputs:
 		var box = HBoxContainer.new()
@@ -34,10 +35,11 @@ func _ready() -> void:
 		
 	if tracking_system:
 		tracking_system.tracker_changed.connect(_on_tracker_system_tracker_changed)
-			
+		tracking_system.parameters_updated.connect(_on_tracker_system_parameters_updated)
 		tracker.item_selected.connect(
 			func (idx):
-				tracking_system.activate_tracker(idx)
+				var tracker = tracker.get_item_metadata(idx)
+				tracking_system.activate_tracker(tracker.new())
 		)
 	
 func _on_tracker_system_tracker_changed(new_tracker: Tracker) -> void:
@@ -65,15 +67,27 @@ func _on_transparency_toggle_toggled(toggled_on: bool) -> void:
 func load_settings(data: Dictionary):
 	transparency_toggle.button_pressed = data.get("window", {}).get("transparent", false)
 	tracker.select(data.get("camera", {}).get("tracking", 0))
+	fps_option.select(data.get("window", {}).get("fps", 0))
+	_on_fps_value_item_selected(fps_option.get_selected_id())
 	if tracking_system:
 		tracking_system.activate_tracker(
-			tracker.get_selected_metadata()
+			tracker.get_selected_metadata().new()
 		)
 	
 func save_settings(data: Dictionary):
 	var w = data.get("window", {})
 	w["transparent"] = transparency_toggle.button_pressed
+	w["fps"] = fps_option.get_selected_id()
 	var c = data.get("camera", {})
 	c["tracking"] = tracker.get_selected_id()
 	data["window"] = w
 	data["camera"] = c
+
+func _on_fps_value_item_selected(index: int) -> void:
+	match index:
+		0: # 60 FPS
+			Engine.max_fps = 60
+		1: # 30 FPS
+			Engine.max_fps = 30
+		_: # Uncapped
+			Engine.max_fps = 0
