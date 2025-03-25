@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="icon.svg" width="180" />
+  <img src="branding/monochrome.svg" width="180" />
 </p>
 <p align="center">OpenVT is software for Vtubing with 2D Avatars<br>Focused on stable, cross platform availability and compatibility with commercial alternatives</p>
 
