@@ -20,10 +20,12 @@ func _ready() -> void:
 	%InputRangeLower.value_changed.connect(
 		func (value):
 			parameter.input_range.x = value
+			%InputLevel.min_value = value
 	)
 	%InputRangeUpper.value_changed.connect(
 		func (value):
 			parameter.input_range.y = value
+			%InputLevel.max_value = value
 	)
 	%OutputRangeLower.value = parameter.output_range.x
 	%OutputRangeUpper.value = parameter.output_range.y
@@ -33,10 +35,12 @@ func _ready() -> void:
 	%OutputRangeLower.value_changed.connect(
 		func (value):
 			parameter.output_range.x = value
+			%OutputLevel.min_value = value
 	)
 	%OutputRangeUpper.value_changed.connect(
 		func (value):
 			parameter.output_range.y = value
+			%OutputLevel.max_value = value
 	)
 	%Smoothing.value_changed.connect(
 		func (value):
@@ -64,8 +68,6 @@ func _update_input(input_parameter: TrackingInput):
 	var meta = TrackingMeta.get(input_parameter, {})
 	var value_range = meta.get("range", Vector2(0, 1))
 	%InputSource.text = meta.get("name", TrackingInput.keys()[input_parameter].to_pascal_case())
-	%InputLevel.min_value = value_range.x
-	%InputLevel.max_value = value_range.y
 	
 func _update_output(parameter_definition: Dictionary):
 	if parameter == null:

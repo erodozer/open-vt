@@ -16,6 +16,9 @@ func _ready():
 	var stage = get_tree().get_first_node_in_group("system:stage")
 	if stage:
 		stage.model_changed.connect(_on_stage_model_changed)
+	var tracking = get_tree().get_first_node_in_group("system:tracking")
+	if tracking:
+		tracking.parameters_updated.connect(_on_tracker_system_parameters_updated)
 
 func _on_stage_model_changed(model) -> void:
 	for c in list.get_children():
@@ -132,14 +135,19 @@ func _on_tracker_system_parameters_updated(parameters: Dictionary) -> void:
 		if p.parameter == null:
 			continue
 		var input = parameters.get(p.parameter.input_parameter, 0)
-		var output = p.parameter.scale_value(input)
 		p.get_node("%InputLevel").value = input
 		
 func _process(_delta: float) -> void:
+	if model.live2d_model == null:
+		return
+	var tracking = model.mixer.get_node("Tracking")
 	for p in list.get_children():
 		if p.parameter.model_parameter == null:
 			continue
-		p.get_node("%OutputLevel").value = p.parameter.value
+		var v = tracking.get(p.parameter.output_parameter)
+		if v == null:
+			v = p.parameter.value
+		p.get_node("%OutputLevel").value = v
 
 func _on_texture_filter_item_selected(index: int) -> void:
 	match index:

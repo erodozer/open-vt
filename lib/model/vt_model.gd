@@ -189,8 +189,12 @@ func _rebuild_l2d(model: ModelMeta):
 	return true
 
 func _load_model(meta: ModelMeta):
+	var previously_initialized = live2d_model != null
 	if not await _rebuild_l2d(meta):
 		queue_free()
+		return
+		
+	if model == meta and previously_initialized:
 		return
 	
 	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(meta.studio_parameters))
@@ -254,8 +258,7 @@ func parameters_updated(tracking_data: Dictionary):
 		# also skip parameters that we do not yet support binding to
 		elif parameter.input_parameter in tracking_data:
 			var raw_value = tracking_data[parameter.input_parameter]
-			parameter.value = parameter.scale_value(raw_value)
-			tracking.set(parameter.output_parameter, parameter.value)
+			tracking.set(parameter.output_parameter, parameter.scale_value(raw_value))
 
 func _process(delta: float) -> void:
 	if model == null:
