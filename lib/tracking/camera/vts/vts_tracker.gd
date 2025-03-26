@@ -35,5 +35,9 @@ func _update(_delta: float) -> void:
 	parameters = {}
 	for parameter in curr_data:
 		var input_parameter = parameter.p as TrackingInput
-		parameters[input_parameter] = parameter.v
+		# data from VTS mobile is already transformed by configured model parameters on the device
+		# as such it's important to be using the same model on the phone as you have loaded on open-vt
+		for binding in model.studio_parameters:
+			if binding.input_parameter == input_parameter:
+				parameters[binding.output_parameter] = parameter.v
 	

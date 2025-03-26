@@ -247,8 +247,12 @@ func parameters_updated(tracking_data: Dictionary):
 		# skip paramters that haven't been fully configured
 		if parameter.output_parameter == null or parameter.model_parameter == null:
 			return
-		# skip parameters that we do not yet support binding to
-		if parameter.input_parameter in tracking_data:
+		# allow tracking sources to provide prescaled/absolute values for parameters
+		if parameter.output_parameter in tracking_data:
+			var raw_value = tracking_data[parameter.output_parameter]
+			tracking.set(parameter.output_parameter, raw_value)
+		# also skip parameters that we do not yet support binding to
+		elif parameter.input_parameter in tracking_data:
 			var raw_value = tracking_data[parameter.input_parameter]
 			parameter.value = parameter.scale_value(raw_value)
 			tracking.set(parameter.output_parameter, parameter.value)
