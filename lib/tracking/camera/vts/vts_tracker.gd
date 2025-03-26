@@ -1,4 +1,4 @@
-extends "res://lib/tracking/net/udp_tracker.gd"
+extends "res://lib/tracking/net/tcp_tracker.gd"
 
 const TrackingInput = preload("res://lib/tracking/tracker.gd").Inputs
 const VtModel = preload("res://lib/model/vt_model.gd")

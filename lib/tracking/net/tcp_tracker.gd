@@ -8,7 +8,7 @@ func start():
 		return
 	
 	server = TCPServer.new()
-	var err = server.listen(port)
+	var err = server.listen(port, host)
 	if err != OK:
 		return
 	

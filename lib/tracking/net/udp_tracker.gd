@@ -8,7 +8,7 @@ func start():
 		return false
 	
 	server = UDPServer.new()
-	var err = server.listen(port)
+	var err = server.listen(port, self.host)
 	if err != OK:
 		push_error("could not open udp server")
 		return false

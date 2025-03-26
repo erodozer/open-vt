@@ -67,3 +67,4 @@ text = "Off"
 horizontal_alignment = 2
 
 [connection signal="pressed" from="VBoxContainer/Connect" to="." method="_on_connect_pressed"]
+[connection signal="pressed" from="VBoxContainer/Disconnect" to="." method="_on_disconnect_pressed"]

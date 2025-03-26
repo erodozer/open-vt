@@ -25,8 +25,9 @@ func _ready() -> void:
 	)
 	
 func _on_connect_pressed() -> void:
+	tracker.host = %Hostname.text
 	tracker.port = %Port.value
 	tracker.start()
 	
 func _on_disconnect_pressed() -> void:
-	tracker.close()
+	tracker.stop()
