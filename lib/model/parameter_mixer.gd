@@ -8,10 +8,10 @@ var parameters : Dictionary :
 		return model.parameters
 	
 func _process(_delta: float) -> void:
-	var model: GDCubismUserModel = get_parent().live2d_model
-	if model == null:
+	if get_parent() == null or not get_parent().is_initialized():
 		return
-	
+		
+	var model: GDCubismUserModel = get_parent().live2d_model
 	var values = {}
 	for i in model.parameters:
 		values[i] = model.parameters[i]["default"]

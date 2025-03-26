@@ -57,12 +57,18 @@ func get_animation_player():
 var filter: CanvasItem.TextureFilter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS :
 	set(v):
 		filter = v
-		if render:
+		if is_initialized():
 			_load_model(model)
 var smoothing: bool = false :
 	set(v):
 		smoothing = v
-		if render:
+		if is_initialized():
+			_load_model(model)
+			
+var mipmaps: bool = false :
+	set(v):
+		mipmaps = v
+		if is_initialized():
 			_load_model(model)
 			
 var studio_parameters: Array = []
@@ -80,6 +86,9 @@ var rest_anchors: Dictionary = {}
 
 signal initialized
 
+func is_initialized():
+	return render != null
+
 func get_meshes() -> Array:
 	if live2d_model != null:
 		return live2d_model.get_meshes()
@@ -89,30 +98,31 @@ func is_bound(parameter: Dictionary) -> bool:
 	return has_node(parameter.id)
 
 func _ready():
-	if model:
-		_load_model(model)
-		
 	var tracking: TrackingSystem = get_tree().get_first_node_in_group("system:tracking")
 	tracking.parameters_updated.connect(parameters_updated)
 	
-func _rebuild_l2d(model: ModelMeta):
+func _rebuild_l2d(meta: ModelMeta):
+	var reload = is_initialized()
+	if reload:
+		render.queue_free()
+		render = null
+		await get_tree().process_frame
+		
 	var loaded_model: GDCubismUserModel
-	loaded_model = GDCubismModelLoader.load_model(model.model, true, true,
+	loaded_model = GDCubismModelLoader.load_model(
+		meta.model, true, true, 
+		false if filter == TEXTURE_FILTER_NEAREST else mipmaps,
 		nearest_shaders if filter == TEXTURE_FILTER_NEAREST else linear_shaders
 	)
 	var p = PackedScene.new()
 	if p.pack(loaded_model) != OK:
 		return false
-	p.take_over_path(model.model)
+	p.take_over_path(meta.model)
 	
-	if render != null:
-		render.queue_free()
-		for c in mixer.get_children():
-			c.queue_free()
-		await get_tree().process_frame
+	await get_tree().process_frame
 		
 	if loaded_model == null:
-		push_error("could not load model %s" % model.model)
+		push_error("could not load model %s" % meta.model)
 	
 	live2d_model = loaded_model
 	
@@ -131,12 +141,15 @@ func _rebuild_l2d(model: ModelMeta):
 	var canvas_info = live2d_model.get_canvas_info()
 	# adjust anchor to be top-left to match godot's control coordinate system
 	live2d_model.position = live2d_model.get_canvas_info().origin_in_pixels
-	size = live2d_model.get_canvas_info().size_in_pixels
-	scale = Vector2.ONE * clamp(get_viewport_rect().size.y / size.y, 0.001, 2.0)
-	rotation_degrees = 0
-	pivot_offset = size / 2
-	# spawn off screen
-	position = -size 
+	
+	# adjust positioning when loading a new model
+	if not reload:
+		size = live2d_model.get_canvas_info().size_in_pixels
+		scale = Vector2.ONE * clamp(get_viewport_rect().size.y / size.y, 0.001, 2.0)
+		rotation_degrees = 0
+		pivot_offset = size / 2
+		# spawn off screen
+		position = -size 
 	
 	for m in loaded_model.get_meshes():
 		var center = utils.v32xy(utils.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
@@ -189,14 +202,13 @@ func _rebuild_l2d(model: ModelMeta):
 	return true
 
 func _load_model(meta: ModelMeta):
-	var previously_initialized = live2d_model != null
+	var previously_initialized = is_initialized()
+	var changed = model != meta
+
 	if not await _rebuild_l2d(meta):
 		queue_free()
 		return
 		
-	if model == meta and previously_initialized:
-		return
-	
 	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(meta.studio_parameters))
 	var model_data = JSON.parse_string(FileAccess.get_file_as_string(meta.model))
 	
@@ -204,14 +216,6 @@ func _load_model(meta: ModelMeta):
 	if idle_animation:
 		live2d_model.get_animation_player().play(idle_animation)
 	
-	studio_parameters.clear()
-	for parameter_data in vtube_data["ParameterSettings"]:
-		var p = preload("res://lib/tracking/parameter_setting.gd").new()
-		var ok = p.deserialize(parameter_data)
-		if ok:
-			p.model_parameter = live2d_model.parameters[p.output_parameter]
-			studio_parameters.append(p)
-			
 	var transform = vtube_data.get("SavedModelPosition", {})
 	# position = utils.vts_to_world(Vector2(transform.get("Position", {}).get("x", 0.0), transform.get("Position", {}).get("y", 0.0)))
 	# position = get_viewport().size / 2
@@ -226,6 +230,15 @@ func _load_model(meta: ModelMeta):
 		m.set_meta("start_centroid", center)
 		m.set_meta("global_centroid", render.global_position + center)
 	
+	if changed or not previously_initialized:
+		studio_parameters.clear()
+		for parameter_data in vtube_data["ParameterSettings"]:
+			var p = preload("res://lib/tracking/parameter_setting.gd").new()
+			var ok = p.deserialize(parameter_data)
+			if ok:
+				p.model_parameter = live2d_model.parameters[p.output_parameter]
+				studio_parameters.append(p)
+				
 	await get_tree().process_frame
 	
 	initialized.emit()
@@ -261,7 +274,7 @@ func parameters_updated(tracking_data: Dictionary):
 			tracking.set(parameter.output_parameter, parameter.scale_value(raw_value))
 
 func _process(delta: float) -> void:
-	if model == null:
+	if not is_initialized():
 		return
 	
 #	for m in get_meshes():
@@ -271,16 +284,17 @@ func _process(delta: float) -> void:
 #		m.set_meta("angle", center.angle_to(m.get_meta("start_centroid")))
 
 func hydrate(settings: Dictionary):
-	if model == null:
-		return
-	
-	await self.initialized
 	var model_preferences = settings.get("model_preferences", {}).get(model.id, {})
-	self.filter = model_preferences.get("filter", TEXTURE_FILTER_LINEAR_WITH_MIPMAPS)
-	self.scale = model_preferences.get("transform", {}).get("scale", self.scale)
-	self.rotation_degrees = model_preferences.get("transform", {}).get("rotation", 0)
+	filter = model_preferences.get("filter", TEXTURE_FILTER_LINEAR)
+	scale = model_preferences.get("transform", {}).get("scale", self.scale)
+	mipmaps = model_preferences.get("mipmaps", true)
+	rotation_degrees = model_preferences.get("transform", {}).get("rotation", 0)
 	
 	var p = model_preferences.get("transform", {}).get("position", get_viewport_rect().get_center() - self.size / 2)
+	
+	_load_model(model)
+	
+	await self.initialized
 	create_tween().tween_property(
 		self, "position", 
 		p,
@@ -290,7 +304,7 @@ func hydrate(settings: Dictionary):
 	).set_trans(Tween.TRANS_CUBIC)
 
 func save_settings(settings: Dictionary):
-	if model == null:
+	if not is_initialized():
 		return
 		
 	var p = settings.get("model_preferences", {})

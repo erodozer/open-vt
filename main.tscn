@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bbh7pj5wq0sii"]
+[gd_scene load_steps=16 format=3 uid="uid://bbh7pj5wq0sii"]
 
 [ext_resource type="Script" uid="uid://bq0aow0vnq1i6" path="res://main.gd" id="1_g562h"]
 [ext_resource type="Script" uid="uid://bl1h5l0htvi3k" path="res://lib/preferences.gd" id="2_kek77"]
@@ -17,6 +17,57 @@ colors = PackedColorArray(0.298039, 0.282353, 0.239216, 1, 0.67451, 0.654902, 0.
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_kr4px"]
 gradient = SubResource("Gradient_joccq")
 fill_from = Vector2(0, 1)
+
+[sub_resource type="Animation" id="Animation_4c57u"]
+resource_name = "clear"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasGroup:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(2, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_efxa6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasGroup/Logo:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dg77c"]
+_data = {
+&"RESET": SubResource("Animation_efxa6"),
+&"clear": SubResource("Animation_4c57u")
+}
 
 [node name="Studio" type="Node" groups=["persist"]]
 script = ExtResource("1_g562h")
@@ -69,17 +120,20 @@ follow_viewport_enabled = true
 [node name="HUD" parent="Interface" instance=ExtResource("8_5vw27")]
 unique_name_in_owner = true
 
-[node name="Splash" type="TextureRect" parent="Interface"]
-visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Splash" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="CanvasGroup" type="CanvasGroup" parent="Splash"]
+
+[node name="Logo" type="TextureRect" parent="Splash/CanvasGroup"]
+custom_minimum_size = Vector2(1280, 720)
+offset_right = 1280.0
+offset_bottom = 720.0
 texture = ExtResource("10_4c57u")
+expand_mode = 1
 stretch_mode = 3
 
-[node name="ColorRect" type="ColorRect" parent="Interface/Splash"]
+[node name="ColorRect" type="ColorRect" parent="Splash/CanvasGroup/Logo"]
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = 15
@@ -88,5 +142,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Splash"]
+libraries = {
+&"": SubResource("AnimationLibrary_dg77c")
+}
+autoplay = "clear"
 
 [connection signal="parameters_updated" from="TrackerSystem" to="ModelManager" method="_on_tracker_system_parameters_updated"]

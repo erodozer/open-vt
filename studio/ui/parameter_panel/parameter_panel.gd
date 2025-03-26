@@ -20,7 +20,7 @@ func _ready():
 	if tracking:
 		tracking.parameters_updated.connect(_on_tracker_system_parameters_updated)
 
-func _on_stage_model_changed(model) -> void:
+func _on_stage_model_changed(model: VtModel) -> void:
 	for c in list.get_children():
 		c.queue_free()
 	for c in meshes.get_children():
@@ -43,6 +43,9 @@ func _on_stage_model_changed(model) -> void:
 		
 	_build_output_parameter_list(model)
 	_update_transform(model.position, model.scale, model.rotation)
+	%TextureFilter.select(1 if model.filter == TEXTURE_FILTER_LINEAR else 0)
+	%SmoothScaling.set_pressed_no_signal(model.smoothing)
+	%GenerateMipmaps.set_pressed_no_signal(model.mipmaps)
 	
 	self.model = model
 	model.transform_updated.connect(_update_transform)
@@ -138,7 +141,7 @@ func _on_tracker_system_parameters_updated(parameters: Dictionary) -> void:
 		p.get_node("%InputLevel").value = input
 		
 func _process(_delta: float) -> void:
-	if model.live2d_model == null:
+	if not model.is_initialized():
 		return
 	var tracking = model.mixer.get_node("Tracking")
 	for p in list.get_children():
@@ -153,10 +156,12 @@ func _on_texture_filter_item_selected(index: int) -> void:
 	match index:
 		0:
 			model.filter = CanvasItem.TextureFilter.TEXTURE_FILTER_NEAREST
-			%SmoothScaling.show()
+			%SmoothScaling.disabled = false
+			%GenerateMipmaps.disabled = true
 		_:
 			model.filter = CanvasItem.TextureFilter.TEXTURE_FILTER_LINEAR
-			%SmoothScaling.hide()
+			%SmoothScaling.disabled = true
+			%GenerateMipmaps.disabled = false
 
 func _on_erase_position_pressed() -> void:
 	model.position = get_viewport_rect().get_center() - model.size / 2
@@ -179,6 +184,8 @@ func _on_output_parameter_popup_close_requested() -> void:
 	parameter_selected.emit(prev)
 
 func _on_lock_button_toggled(toggled_on: bool) -> void:
+	if model == null:
+		return
 	model.locked = toggled_on
 	
 	%Position/XValue.editable = !toggled_on
@@ -187,4 +194,11 @@ func _on_lock_button_toggled(toggled_on: bool) -> void:
 	%Rotation/Value.editable = !toggled_on
 
 func _on_smooth_scaling_toggled(toggled_on: bool) -> void:
+	if model == null:
+		return
 	model.smoothing = toggled_on
+
+func _on_generate_mipmaps_toggled(toggled_on: bool) -> void:
+	if model == null:
+		return
+	model.mipmaps = toggled_on
