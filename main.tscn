@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://b401bri37hvvq" path="res://studio/grid.png" id="5_2pxyu"]
 [ext_resource type="Script" uid="uid://17187ovs368q" path="res://lib/stage.gd" id="5_uhpo7"]
 [ext_resource type="PackedScene" uid="uid://cmd2d6iiryvk4" path="res://studio/hud.tscn" id="8_5vw27"]
-[ext_resource type="Script" uid="uid://c3dhmb2w6nvr0" path="res://lib/tracking_system.gd" id="8_dv8e1"]
+[ext_resource type="Script" uid="uid://c3dhmb2w6nvr0" path="res://lib/tracking/tracking_system.gd" id="8_dv8e1"]
 [ext_resource type="Texture2D" uid="uid://bcqaflbakxadd" path="res://branding/splash.png" id="10_4c57u"]
 [ext_resource type="Script" uid="uid://cwcgdtduxw584" path="res://lib/model_manager.gd" id="12_ufyfb"]
 [ext_resource type="PackedScene" uid="uid://bkm4lgw38g4di" path="res://lib/model/vt_model.tscn" id="15_wg2gf"]

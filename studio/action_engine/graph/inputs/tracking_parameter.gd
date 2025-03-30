@@ -1,7 +1,7 @@
 extends "../vt_action.gd"
 
 const TrackingInput = preload("res://lib/tracking/parameter_setting.gd").TrackingInput
-const TrackingSystem = preload("res://lib/tracking_system.gd")
+const TrackingSystem = preload("res://lib/tracking/tracking_system.gd")
 
 @onready var input: OptionButton = %Input
 

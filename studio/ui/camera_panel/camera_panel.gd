@@ -1,7 +1,7 @@
 extends "res://lib/popout_panel.gd"
 
 const Tracker = preload("res://lib/tracking/tracker.gd")
-const TrackingSystem = preload("res://lib/tracking_system.gd")
+const TrackingSystem = preload("res://lib/tracking/tracking_system.gd")
 const TrackingInputs = preload("res://lib/tracking/tracker.gd").Inputs
 
 signal update_bg_color(color: Color)

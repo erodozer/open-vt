@@ -12,8 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://bi47la4lgog0c" path="res://studio/action_engine/graph/inputs/face-viewfinder.svg" id="7_whefd"]
 [ext_resource type="PackedScene" uid="uid://bgc5frfweklsv" path="res://studio/action_engine/graph/inputs/tracking_parameter.tscn" id="8_r85br"]
 
-[node name="ActionEditor" type="Control" groups=["persist"]]
-layout_mode = 3
+[node name="ActionEditor" type="PanelContainer" groups=["persist"]]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -23,13 +22,9 @@ script = ExtResource("1_i8a08")
 
 [node name="ActionGraph" type="GraphEdit" parent="."]
 unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 mouse_force_pass_scroll_events = false
+scroll_offset = Vector2(-16, -16)
 snapping_distance = 25
 right_disconnects = true
 zoom_min = 0.25
@@ -38,7 +33,6 @@ show_minimap_button = false
 
 [node name="Palette" type="PanelContainer" parent="ActionGraph"]
 z_index = 1
-custom_minimum_size = Vector2(220, 0)
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
@@ -47,15 +41,16 @@ offset_top = 16.0
 offset_right = -24.0
 grow_horizontal = 0
 
-[node name="Accordion" type="HBoxContainer" parent="ActionGraph/Palette"]
+[node name="Buttons" type="HBoxContainer" parent="ActionGraph/Palette"]
 layout_mode = 2
 size_flags_horizontal = 3
+alignment = 2
 
-[node name="Inputs" type="HBoxContainer" parent="ActionGraph/Palette/Accordion"]
+[node name="Inputs" type="HBoxContainer" parent="ActionGraph/Palette/Buttons"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Hotkey" type="Button" parent="ActionGraph/Palette/Accordion/Inputs"]
+[node name="Hotkey" type="Button" parent="ActionGraph/Palette/Buttons/Inputs"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -66,7 +61,7 @@ icon_alignment = 1
 expand_icon = true
 metadata/action = ExtResource("4_cclj7")
 
-[node name="ScreenButton" type="Button" parent="ActionGraph/Palette/Accordion/Inputs"]
+[node name="ScreenButton" type="Button" parent="ActionGraph/Palette/Buttons/Inputs"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -77,26 +72,27 @@ icon_alignment = 1
 expand_icon = true
 metadata/action = ExtResource("6_y4h4g")
 
-[node name="TrackingParameter" type="Button" parent="ActionGraph/Palette/Accordion/Inputs"]
+[node name="TrackingParameter" type="Button" parent="ActionGraph/Palette/Buttons/Inputs"]
+visible = false
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6
-tooltip_text = "Add Onscreen Button Binding"
+tooltip_text = "Add Tracking Parameter"
 icon = ExtResource("7_whefd")
 icon_alignment = 1
 expand_icon = true
 metadata/action = ExtResource("8_r85br")
 
-[node name="Control" type="Control" parent="ActionGraph/Palette/Accordion"]
+[node name="Control" type="Control" parent="ActionGraph/Palette/Buttons"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 
-[node name="Outputs" type="HBoxContainer" parent="ActionGraph/Palette/Accordion"]
+[node name="Outputs" type="HBoxContainer" parent="ActionGraph/Palette/Buttons"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="SetExpression" type="Button" parent="ActionGraph/Palette/Accordion/Outputs"]
+[node name="SetExpression" type="Button" parent="ActionGraph/Palette/Buttons/Outputs"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -106,7 +102,7 @@ icon_alignment = 1
 expand_icon = true
 metadata/action = ExtResource("4_v7se5")
 
-[node name="PlayAnimation" type="Button" parent="ActionGraph/Palette/Accordion/Outputs"]
+[node name="PlayAnimation" type="Button" parent="ActionGraph/Palette/Buttons/Outputs"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4

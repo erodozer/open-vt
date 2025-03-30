@@ -6,7 +6,7 @@ const utils = preload("res://lib/utils.gd")
 const ParameterSetting = preload("res://lib/tracking/parameter_setting.gd")
 const ParameterProvider = preload("./parameter_value_provider.gd")
 const ExpressionController = preload("./expression_value_provider.gd")
-const TrackingSystem = preload("res://lib/tracking_system.gd")
+const TrackingSystem = preload("res://lib/tracking/tracking_system.gd")
 const ModelMeta = preload("./metadata.gd")
 
 static var linear_shaders = [
