@@ -47,12 +47,13 @@ var motions: Array :
 	get():
 		if live2d_model == null:
 			return []
-		if live2d_model.get_animations() == null:
-			return []
-		return live2d_model.get_animations().get_animation_list()
+		return get_animation_player().get_animation_list()
 
-func get_animation_player():
-	return live2d_model.get_node("OneShotMotion")
+func get_idle_animation_player() -> AnimationPlayer:
+	return mixer.get_node("IdleMotion/AnimationPlayer")
+
+func get_animation_player() -> AnimationPlayer:
+	return mixer.get_node("OneShotMotion/AnimationPlayer")
 
 var filter: CanvasItem.TextureFilter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS :
 	set(v):
@@ -75,7 +76,7 @@ var studio_parameters: Array = []
 var expressions: Array :
 	get():
 		if live2d_model == null: return []
-		return live2d_model.get_expressions().keys()
+		return expression_controller.expression_library.keys()
 var expression_controller: ExpressionController :
 	get():
 		return mixer.get_node("Expression")
@@ -110,9 +111,9 @@ func _rebuild_l2d(meta: ModelMeta):
 		
 	var loaded_model: GDCubismUserModel
 	loaded_model = GDCubismModelLoader.load_model(
-		meta.model, true, true, 
-		false if filter == TEXTURE_FILTER_NEAREST else mipmaps,
-		nearest_shaders if filter == TEXTURE_FILTER_NEAREST else linear_shaders
+		meta.model, 
+		nearest_shaders if filter == TEXTURE_FILTER_NEAREST else linear_shaders,
+		false if filter == TEXTURE_FILTER_NEAREST else mipmaps
 	)
 	var p = PackedScene.new()
 	if p.pack(loaded_model) != OK:
@@ -157,14 +158,16 @@ func _rebuild_l2d(meta: ModelMeta):
 		m.set_meta("start_centroid", center)
 		m.set_meta("global_centroid", render.global_position + center)
 	
-	# idle animation, ripped out from the model
-	var idle_player = live2d_model.get_animation_player()
-	var anim_lib = idle_player.get_animation_library("")
+	var idle_player = AnimationPlayer.new()
+	var anim_lib = GDCubismMotionLoader.load_motion_library(loaded_model)
+	idle_player.add_animation_library("", anim_lib)
 	
 	var idle_motion = ParameterProvider.new()
 	mixer.add_child(idle_motion)
+	idle_motion.add_child(idle_player)
 	idle_motion.name = "IdleMotion"
 	idle_player.root_node = idle_player.get_path_to(idle_motion)
+	idle_player.name = "AnimationPlayer"
 	idle_player.active = true
 	
 	var tracking = ParameterProvider.new()
@@ -172,9 +175,13 @@ func _rebuild_l2d(meta: ModelMeta):
 	tracking.name = "Tracking"
 	
 	# emotion controller
+	var expression_library = {}
+	for f in utils.walk_files(meta.model.get_base_dir(), "exp3.json"):
+		expression_library[f.get_file()] = JSON.parse_string(FileAccess.get_file_as_string(f))
+
 	var emotions = ExpressionController.new()
 	emotions.name = "Expression"
-	emotions.expression_library = live2d_model.expressions
+	emotions.expression_library = expression_library
 	mixer.add_child(emotions)
 	
 	# add ONE_SHOT animation player
@@ -185,19 +192,23 @@ func _rebuild_l2d(meta: ModelMeta):
 		os_a.loop_mode = Animation.LOOP_NONE
 		os_lib.add_animation(anim, os_a)
 	var os_ap = AnimationPlayer.new()
-	os_ap.name = "OneShotMotion"
+	os_ap.name = "AnimationPlayer"
 	os_ap.add_animation_library("", os_lib)
-	live2d_model.add_child(os_ap)
 	
 	var os_provider = ParameterProvider.new()
 	mixer.add_child(os_provider)
 	os_provider.name = "OneShotMotion"
+	os_provider.add_child(os_ap)
 	os_ap.set_root(os_ap.get_path_to(os_provider))
 	os_ap.animation_finished.connect(
 		func (_name):
 			os_provider.reset()
 	)
 	os_provider.weight = 0
+	
+	var physics = GDCubismEffectPhysics.new()
+	loaded_model.add_child(physics)
+	physics.name = "Physics"
 	
 	return true
 
@@ -214,7 +225,7 @@ func _load_model(meta: ModelMeta):
 	
 	var idle_animation = vtube_data["FileReferences"]["IdleAnimation"]
 	if idle_animation:
-		live2d_model.get_animation_player().play(idle_animation)
+		get_idle_animation_player().play(idle_animation)
 	
 	var transform = vtube_data.get("SavedModelPosition", {})
 	# position = utils.vts_to_world(Vector2(transform.get("Position", {}).get("x", 0.0), transform.get("Position", {}).get("y", 0.0)))

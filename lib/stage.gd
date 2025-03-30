@@ -60,7 +60,7 @@ func spawn_item(item: VtItem):
 	item.position = get_viewport().get_texture().get_size() / 2
 	
 	# simply setting z_index does not work for control nodes, as Input order is not affected by it
-	# instead we'll rely on child order in the stage to define the 
+	# instead we'll rely on child order in the stage to define the position
 	canvas.add_child(item)
 	_reorder()
 	item_added.emit(item)

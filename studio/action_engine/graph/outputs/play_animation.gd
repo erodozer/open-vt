@@ -24,7 +24,7 @@ func invoke_trigger(slot: int) -> void:
 	if animation == null:
 		return
 	
-	var idle_player: AnimationPlayer = model.live2d_model.get_animation_player()
+	var idle_player: AnimationPlayer = model.get_idle_animation_player()
 	var os_player: AnimationPlayer = model.get_animation_player()
 
 	if slot == 2: #play

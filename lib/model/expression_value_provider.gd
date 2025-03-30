@@ -1,5 +1,7 @@
 extends "./parameter_value_provider.gd"
 
+const utils = preload("res://lib/utils.gd")
+
 var expression_library: Dictionary
 var weights: Dictionary
 var fades: Dictionary = {}
@@ -29,7 +31,7 @@ func is_activated(expression_name: StringName):
 	return order.find(expression_name) > -1
 
 func set_expression(expression_name: StringName, fade: float):
-	var expression: GDCubismExpression = expression_library.get(expression_name)
+	var expression: Dictionary = expression_library.get(expression_name)
 	if expression == null:
 		return
 	
@@ -42,8 +44,8 @@ func set_expression(expression_name: StringName, fade: float):
 	activate_expression(expression_name, fade)
 
 func deactivate_expression(expression_name: String, fade: float):
-	var expression: GDCubismExpression = expression_library.get(expression_name)
-	if expression == null:
+	var expression: Dictionary = expression_library.get(expression_name)
+	if expression.is_empty():
 		return
 	if !is_activated(expression_name):
 		return
@@ -51,8 +53,8 @@ func deactivate_expression(expression_name: String, fade: float):
 	queue_expression(expression_name, fade, true)
 
 func activate_expression(expression_name: String, fade: float):
-	var expression: GDCubismExpression = expression_library.get(expression_name)
-	if expression == null:
+	var expression: Dictionary = expression_library.get(expression_name)
+	if expression.is_empty():
 		return
 	if is_activated(expression_name):
 		return
@@ -99,7 +101,7 @@ func update(inputs: Dictionary):
 	var n = 0
 	for i in range(len(_order)):
 		var exp_name: StringName = _order[i]
-		var expression: GDCubismExpression = expression_library[exp_name]
+		var expression: Dictionary = expression_library[exp_name]
 		
 		var fade: Dictionary = fades[exp_name]
 		var progress = clamp(inverse_lerp(fade["start"], fade["end"], now), 0.0, 1.0)
@@ -108,7 +110,7 @@ func update(inputs: Dictionary):
 			
 		weights[exp_name] = progress
 
-		var ary_parameters = expression.get_parameters()
+		var ary_parameters = expression.Parameters
 		for e in ary_parameters:
 			var p_name: String = e["Id"]
 			var blend: String = e["Blend"]

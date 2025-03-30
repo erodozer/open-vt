@@ -96,7 +96,7 @@ func _load_from_vts(model: VtModel):
 			"ToggleExpression", "RemoveAllExpressions":
 				output = _on_add_hotkey_pressed(preload("./graph/outputs/toggle_expression.tscn"))
 				
-				var e_name: String = hotkey.File.to_lower().left(-10).replace(" ", "_")
+				var e_name: String = hotkey.File
 				var duration = hotkey.FadeSecondsAmount * 1000.0
 				if hotkey.Action == "ToggleExpression":
 					var animations = model.expressions
