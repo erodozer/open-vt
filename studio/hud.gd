@@ -22,12 +22,12 @@ func _ready() -> void:
 	
 	on_popout_requested.connect(
 		func ():
-			get_window().unresizable = true
+			# get_window().unresizable = true
+			action_controller.popout(true)
 			self.size = Vector2i(580, 720)
 			group.allow_unpress = false
 			popup_bg.show()
 			popup_btn.hide()
-			action_controller.popout(true)
 			_close_panel()
 	)
 	
@@ -52,7 +52,7 @@ func _ready() -> void:
 			open == null
 			_clear_buttons()
 			popup_btn.show()
-			get_window().unresizable = false
+			# get_window().unresizable = false
 	)
 	
 	var stage = get_tree().get_first_node_in_group("system:stage")

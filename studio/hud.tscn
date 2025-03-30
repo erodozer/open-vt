@@ -32,8 +32,7 @@ content_margin_bottom = 8.0
 [sub_resource type="ButtonGroup" id="ButtonGroup_42qc0"]
 allow_unpress = true
 
-[node name="HUD" type="Control" groups=["persist"]]
-layout_mode = 3
+[node name="HUD" type="HBoxContainer" groups=["persist"]]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -67,11 +66,7 @@ stretch_mode = 1
 
 [node name="Menu" type="PanelContainer" parent="."]
 unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_right = 64.0
-grow_vertical = 2
+layout_mode = 2
 mouse_filter = 1
 theme_type_variation = &"ButtonPanel"
 theme_override_styles/panel = SubResource("StyleBoxEmpty_goisu")
@@ -153,6 +148,21 @@ size_flags_vertical = 10
 icon = ExtResource("7_wochk")
 expand_icon = true
 
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ActionController" parent="MarginContainer" instance=ExtResource("14_67g5m")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 8
+title = "Action Palette"
+
 [node name="Panels" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 layer = 5
@@ -191,23 +201,6 @@ offset_left = 28.0
 offset_right = 1208.0
 grow_horizontal = 0
 title = "Action Editor"
-
-[node name="OnscreenControls" type="CanvasLayer" parent="."]
-layer = 4
-follow_viewport_enabled = true
-
-[node name="ActionController" parent="OnscreenControls" instance=ExtResource("14_67g5m")]
-unique_name_in_owner = true
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -8.0
-offset_bottom = -8.0
-grow_horizontal = 0
-grow_vertical = 0
-title = "Action Palette"
 
 [node name="Debug" type="CanvasLayer" parent="."]
 layer = 99

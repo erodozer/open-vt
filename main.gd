@@ -6,6 +6,8 @@ func _ready() -> void:
 	preferences.load_data.call_deferred()
 	if not Engine.is_embedded_in_editor():
 		get_window().borderless = false
+		
+	DisplayServer.window_set_min_size(Vector2i(540,360), 0)
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
