@@ -46,6 +46,8 @@ func _on_stage_model_changed(model: VtModel) -> void:
 	%TextureFilter.select(1 if model.filter == TEXTURE_FILTER_LINEAR else 0)
 	%SmoothScaling.set_pressed_no_signal(model.smoothing)
 	%GenerateMipmaps.set_pressed_no_signal(model.mipmaps)
+	%SmoothScaling.disabled = model.filter == TEXTURE_FILTER_LINEAR
+	%GenerateMipmaps.disabled = model.filter != TEXTURE_FILTER_LINEAR
 	
 	self.model = model
 	model.transform_updated.connect(_update_transform)

@@ -107,6 +107,8 @@ func _rebuild_l2d(meta: ModelMeta):
 	if reload:
 		render.queue_free()
 		render = null
+		live2d_model.queue_free()
+		live2d_model = null
 		await get_tree().process_frame
 		
 	var loaded_model: GDCubismUserModel
