@@ -7,7 +7,7 @@ const Stage = preload("res://lib/stage.gd")
 
 @onready var list = get_node("%ParameterList")
 @onready var meshes = get_node("%Mesh Settings")
-@onready var model = get_tree().get_first_node_in_group("vtmodel")
+var model
 
 signal parameter_selected(value)
 
@@ -16,6 +16,7 @@ func _ready():
 	var stage = get_tree().get_first_node_in_group("system:stage")
 	if stage:
 		stage.model_changed.connect(_on_stage_model_changed)
+		model = stage.active_model
 	var tracking = get_tree().get_first_node_in_group("system:tracking")
 	if tracking:
 		tracking.parameters_updated.connect(_on_tracker_system_parameters_updated)
@@ -143,7 +144,7 @@ func _on_tracker_system_parameters_updated(parameters: Dictionary) -> void:
 		p.get_node("%InputLevel").value = input
 		
 func _process(_delta: float) -> void:
-	if not model.is_initialized():
+	if model != null and not model.is_initialized():
 		return
 	var tracking = model.mixer.get_node("Tracking")
 	for p in list.get_children():

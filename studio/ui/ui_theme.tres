@@ -461,6 +461,7 @@ ProgressBar/colors/font_outline_color = Color(0.298039, 0.282353, 0.239216, 1)
 ProgressBar/constants/outline_size = 4
 ProgressBar/styles/background = SubResource("StyleBoxFlat_qy448")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_dpfky")
+RichTextLabel/colors/default_color = Color(0.298039, 0.282353, 0.239216, 1)
 Section/base_type = &"PanelContainer"
 Section/styles/panel = SubResource("StyleBoxFlat_nttvt")
 SpinBox/colors/down_disabled_icon_modulate = Color(0.811765, 0.788235, 0.698039, 1)

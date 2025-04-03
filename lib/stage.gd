@@ -6,8 +6,8 @@ const VtItem = preload("res://lib/items/vt_item.gd")
 const INDEX_RANGE = 30
 
 @onready var preferences = get_tree().get_first_node_in_group("system:settings")
-@onready var active_model: VtModel = get_tree().get_first_node_in_group("vtmodel")
-@onready var canvas = %CanvasLayer
+@onready var active_model: VtModel = %VtModel
+@onready var canvas = %ModelLayer
 
 signal model_changed(model: VtModel)
 signal item_added(item: VtItem)

@@ -1,22 +1,16 @@
-[gd_scene load_steps=16 format=3 uid="uid://bbh7pj5wq0sii"]
+[gd_scene load_steps=15 format=3 uid="uid://bbh7pj5wq0sii"]
 
 [ext_resource type="Script" uid="uid://bq0aow0vnq1i6" path="res://main.gd" id="1_g562h"]
 [ext_resource type="Script" uid="uid://bl1h5l0htvi3k" path="res://lib/preferences.gd" id="2_kek77"]
 [ext_resource type="Script" uid="uid://ds0i7bdpr6wsy" path="res://lib/item_manager.gd" id="4_4ht51"]
-[ext_resource type="Texture2D" uid="uid://b401bri37hvvq" path="res://studio/grid.png" id="5_2pxyu"]
-[ext_resource type="Script" uid="uid://17187ovs368q" path="res://lib/stage.gd" id="5_uhpo7"]
+[ext_resource type="PackedScene" uid="uid://c773w6vc4nnrr" path="res://studio/stage.tscn" id="6_efxa6"]
 [ext_resource type="PackedScene" uid="uid://cmd2d6iiryvk4" path="res://studio/hud.tscn" id="8_5vw27"]
 [ext_resource type="Script" uid="uid://c3dhmb2w6nvr0" path="res://lib/tracking/tracking_system.gd" id="8_dv8e1"]
 [ext_resource type="Texture2D" uid="uid://bcqaflbakxadd" path="res://branding/splash.png" id="10_4c57u"]
+[ext_resource type="PackedScene" uid="uid://idtkx4rstmqq" path="res://studio/ui/terms/terms.tscn" id="11_dg77c"]
+[ext_resource type="Texture2D" uid="uid://dt0b6abqyy1jn" path="res://branding/Live2D logo rectangle white.png" id="11_efxa6"]
+[ext_resource type="Texture2D" uid="uid://d4mqdkit20d64" path="res://branding/godot_logo_large_monochrome_dark.svg" id="12_dg77c"]
 [ext_resource type="Script" uid="uid://cwcgdtduxw584" path="res://lib/model_manager.gd" id="12_ufyfb"]
-[ext_resource type="PackedScene" uid="uid://bkm4lgw38g4di" path="res://lib/model/vt_model.tscn" id="15_wg2gf"]
-
-[sub_resource type="Gradient" id="Gradient_joccq"]
-colors = PackedColorArray(0.298039, 0.282353, 0.239216, 1, 0.67451, 0.654902, 0.580392, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_kr4px"]
-gradient = SubResource("Gradient_joccq")
-fill_from = Vector2(0, 1)
 
 [sub_resource type="Animation" id="Animation_efxa6"]
 length = 0.001
@@ -32,10 +26,46 @@ tracks/0/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasGroup:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CanvasGroup/Logo/Live2D Logo:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CanvasGroup/Logo/Godot Logo:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_4c57u"]
 resource_name = "clear"
-length = 0.5
+length = 1.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -43,10 +73,10 @@ tracks/0/path = NodePath("CanvasGroup:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(2, 1),
+"times": PackedFloat32Array(0, 1.2, 1.5),
+"transitions": PackedFloat32Array(1, 2, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 tracks/1/type = "method"
 tracks/1/imported = false
@@ -55,12 +85,36 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.5),
+"times": PackedFloat32Array(1.5),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
 "method": &"queue_free"
 }]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CanvasGroup/Logo/Live2D Logo:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CanvasGroup/Logo/Godot Logo:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dg77c"]
@@ -84,34 +138,7 @@ script = ExtResource("12_ufyfb")
 [node name="ItemManager" type="Node" parent="." groups=["system:items"]]
 script = ExtResource("4_4ht51")
 
-[node name="Stage" type="Node" parent="." groups=["persist", "system:stage"]]
-script = ExtResource("5_uhpo7")
-
-[node name="Bg" type="CanvasLayer" parent="Stage"]
-unique_name_in_owner = true
-layer = -1
-
-[node name="BgFill" type="TextureRect" parent="Stage/Bg"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("GradientTexture2D_kr4px")
-
-[node name="BgFill2" type="TextureRect" parent="Stage/Bg"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("5_2pxyu")
-stretch_mode = 1
-
-[node name="CanvasLayer" type="CanvasLayer" parent="Stage"]
-unique_name_in_owner = true
-
-[node name="VtModel" parent="Stage/CanvasLayer" instance=ExtResource("15_wg2gf")]
+[node name="Stage" parent="." instance=ExtResource("6_efxa6")]
 
 [node name="Interface" type="CanvasLayer" parent="."]
 layer = 2
@@ -121,6 +148,7 @@ follow_viewport_enabled = true
 unique_name_in_owner = true
 
 [node name="Splash" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
 layer = 100
 
 [node name="CanvasGroup" type="CanvasGroup" parent="Splash"]
@@ -143,10 +171,40 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
+[node name="Live2D Logo" type="TextureRect" parent="Splash/CanvasGroup/Logo"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -72.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("11_efxa6")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Godot Logo" type="TextureRect" parent="Splash/CanvasGroup/Logo"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -72.0
+offset_right = 200.0
+grow_vertical = 0
+texture = ExtResource("12_dg77c")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Splash"]
 libraries = {
 &"": SubResource("AnimationLibrary_dg77c")
 }
-autoplay = "clear"
+
+[node name="Terms" parent="." instance=ExtResource("11_dg77c")]
 
 [connection signal="parameters_updated" from="TrackerSystem" to="ModelManager" method="_on_tracker_system_parameters_updated"]

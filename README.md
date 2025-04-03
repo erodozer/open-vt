@@ -15,18 +15,16 @@ By contrast, OpenVT is built in Godot, leveraging much of the same open-source s
 <img src="https://github.com/user-attachments/assets/1b473b34-d3a2-4ca8-aaba-4869706a4d8f" />
 <img src="https://github.com/user-attachments/assets/33037252-d183-49a2-8af0-e43e935797d6" />
 
-
-
 ### Supported Trackers
 
-- OpenSeeFace
-- VTubeStudio (TCP over Wi-fi)
+- OpenSeeFace (Linux)
+- VTubeStudio (TCP over Wi-fi) (Linux/Windows)
 
 ### Examples of Improvements over VTS
 
 - native Linux support
-- open development allowing for transparent feature delivery
-- transparent window support to simplify alpha based capture in OBS without the need for virtual camera or spout in all supported operating systems
+- open source development allowing for community driven feature delivery 
+- transparent window support to simplify alpha based capture in OBS in all supported operating systems
 - adjustable filtering settings, allowing for sharper scaling of pixel art models
 - popout controls
 - generally lower system requirements
@@ -63,7 +61,6 @@ The script will moving the files into the appropriate locations.
 
 - https://github.com/DenchiSoft/VTubeStudio
 - https://github.com/emilianavt/OpenSeeFace
-- https://github.com/Inochi2D/facetrack-d
 - https://www.live2d.com/en/
 - https://github.com/MizunagiKB/gd_cubism
 - https://github.com/Live2D/CubismNativeFramework
@@ -72,3 +69,11 @@ UI Icons from
 https://github.com/free-icons/free-icons
 
 OpenVT Mascot by @erodozer
+
+## Licensing
+
+This application contains the Live2D Cubism SDK, a copyrighted work developed by Live2D Inc
+
+Any forks and distributions of OpenVT by third parties are not directly covered, with developers requiring explicit permission as per the [license agreement](https://www.live2d.com/eula/live2d-proprietary-software-license-agreement_en.html) and qualify as an Expandable Application.
+
+OpenVT is distributed non-commercially.  Do not pay for your copy of OpenVT.

@@ -8,6 +8,9 @@ func _ready() -> void:
 		get_window().borderless = false
 		
 	DisplayServer.window_set_min_size(Vector2i(540,360), 0)
+	
+	await RenderingServer.frame_post_draw
+	%Splash/AnimationPlayer.play("clear")
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
@@ -21,7 +24,6 @@ func save_settings(settings: Dictionary):
 	
 func load_settings(_settings: Dictionary):
 	pass
-	
 	# var window_prefs = settings.get("window", {})
 	
 	#var size = Vector2i(window_prefs.get("size", Vector2i(

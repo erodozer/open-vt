@@ -141,13 +141,12 @@ func _rebuild_l2d(meta: ModelMeta):
 	for m in loaded_model.get_meshes():
 		m.texture_filter = filter
 	
-	var canvas_info = live2d_model.get_canvas_info()
 	# adjust anchor to be top-left to match godot's control coordinate system
-	live2d_model.position = live2d_model.get_canvas_info().origin_in_pixels
+	live2d_model.position = live2d_model.get_origin()
 	
 	# adjust positioning when loading a new model
 	if not reload:
-		size = live2d_model.get_canvas_info().size_in_pixels
+		size = live2d_model.get_size()
 		scale = Vector2.ONE * clamp(get_viewport_rect().size.y / size.y, 0.001, 2.0)
 		rotation_degrees = 0
 		pivot_offset = size / 2

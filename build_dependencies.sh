@@ -12,12 +12,12 @@ build_gdcubism () {
 	cd $WORKDIR
 	
 	## Fetch Cubism SDK
-	if [ ! -d "$WORKDIR/thirdparty/CubismSdkForNative-5-r.1" ]; then
-		curl -o sdk.zip https://cubism.live2d.com/sdk-native/bin/CubismSdkForNative-5-r.1.zip
+	if [ ! -d "$WORKDIR/thirdparty/CubismSdkForNative-5-r.3" ]; then
+		curl -o sdk.zip https://cubism.live2d.com/sdk-native/bin/CubismSdkForNative-5-r.3.zip
 		unzip -o sdk.zip -d thirdparty
 		rm sdk.zip
 	fi
-	scons platform=linux arch=x86_64 target=template_debug
+	scons platform=linux arch=x86_64 target=template_debug debug_symbols=yes
 	scons platform=linux arch=x86_64 target=template_release
 	cp -r $WORKDIR/demo/addons/gd_cubism $PROJ_ROOT/addons
 	rm -r $PROJ_ROOT/addons/gd_cubism/example

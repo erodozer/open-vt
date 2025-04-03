@@ -2,27 +2,27 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d0oc7kwqufoqr"
-path="res://.godot/imported/circle-plus.svg-2693ccbf19e32778373b738ddaf85981.ctex"
+uid="uid://d4mqdkit20d64"
+path="res://.godot/imported/godot_logo_large_monochrome_dark.svg-873df205771150fae8ac5ff1ea113336.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://studio/ui/icons/circle-plus.svg"
-dest_files=["res://.godot/imported/circle-plus.svg-2693ccbf19e32778373b738ddaf85981.ctex"]
+source_file="res://branding/godot_logo_large_monochrome_dark.svg"
+dest_files=["res://.godot/imported/godot_logo_large_monochrome_dark.svg-873df205771150fae8ac5ff1ea113336.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=4
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
-mipmaps/limit=1
+mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
 process/fix_alpha_border=true

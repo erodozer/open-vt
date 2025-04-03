@@ -24,7 +24,6 @@ script = ExtResource("1_i8a08")
 unique_name_in_owner = true
 layout_mode = 2
 mouse_force_pass_scroll_events = false
-scroll_offset = Vector2(-16, -16)
 snapping_distance = 25
 right_disconnects = true
 zoom_min = 0.25

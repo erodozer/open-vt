@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d0oc7kwqufoqr"
-path="res://.godot/imported/circle-plus.svg-2693ccbf19e32778373b738ddaf85981.ctex"
+uid="uid://dt0b6abqyy1jn"
+path="res://.godot/imported/Live2D logo rectangle white.png-1e9086390e5902179396d379f5cd9cf7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://studio/ui/icons/circle-plus.svg"
-dest_files=["res://.godot/imported/circle-plus.svg-2693ccbf19e32778373b738ddaf85981.ctex"]
+source_file="res://branding/Live2D logo rectangle white.png"
+dest_files=["res://.godot/imported/Live2D logo rectangle white.png-1e9086390e5902179396d379f5cd9cf7.ctex"]
 
 [params]
 
@@ -22,7 +22,7 @@ compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
-mipmaps/limit=1
+mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
 process/fix_alpha_border=true
@@ -32,6 +32,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false
