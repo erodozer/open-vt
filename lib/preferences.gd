@@ -28,6 +28,8 @@ func load_data():
 		return
 		
 	_data = JSON.to_native(preferences)
+	if _data == null:
+		_data = {}
 	for n in get_tree().get_nodes_in_group("persist"):
 		if n.has_method("load_settings"):
 			n.load_settings(_data)
