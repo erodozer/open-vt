@@ -97,8 +97,8 @@ jobs:
       - name: Copy extra resources
         run: |
           mkdir "bin/${{ matrix.platform }}/branding"
-          find branding/ ! -name "*.import" -type f | xargs cp -t "bin/${{ matrix.platform }}/branding"
-          cp LICENSE README.md "bin/${{ matrix.platform }}"
+          find branding/ ! -name "*.import" -type f -print0 | xargs -0 cp -t "bin/${{ matrix.platform }}/branding"
+          cp LICENSE.txt README.md "bin/${{ matrix.platform }}"
       - name: Verify Output
         run: |
           find bin/${{ matrix.platform }} -type f
