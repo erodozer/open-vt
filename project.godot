@@ -28,6 +28,7 @@ driver/enable_input=true
 [autoload]
 
 GlobalInput="*res://addons/keylogger/keylogger.tscn"
+Screenshot="*res://lib/screenshot.gd"
 
 [display]
 
@@ -52,6 +53,7 @@ vtmodel=""
 system:items=""
 system:stage=""
 system:settings=""
+hide_screenshot="Removes element from viewport when taking a screenshot"
 
 [gui]
 

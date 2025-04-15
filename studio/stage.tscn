@@ -14,7 +14,7 @@ fill_from = Vector2(0, 1)
 [node name="Stage" type="Node" groups=["persist", "system:stage"]]
 script = ExtResource("1_ptuf8")
 
-[node name="Bg" type="CanvasLayer" parent="."]
+[node name="Bg" type="CanvasLayer" parent="." groups=["hide_screenshot"]]
 unique_name_in_owner = true
 layer = -1
 

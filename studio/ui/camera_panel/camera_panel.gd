@@ -8,6 +8,7 @@ signal update_bg_color(color: Color)
 
 @onready var tracking_system: TrackingSystem = get_tree().get_first_node_in_group("system:tracking")
 @onready var transparency_toggle: CheckButton = %TransparencyToggle
+@onready var mic_toggle: CheckButton = %MicrophoneToggle
 @onready var tracker: OptionButton = %TrackingSource
 @onready var fps_option: OptionButton = %FPS
 
@@ -73,6 +74,7 @@ func load_settings(data: Dictionary):
 		tracking_system.activate_tracker(
 			tracker.get_selected_metadata().new()
 		)
+		mic_toggle.button_pressed = data.get("microphone", true)
 	
 func save_settings(data: Dictionary):
 	var w = data.get("window", {})
@@ -82,6 +84,7 @@ func save_settings(data: Dictionary):
 	c["tracking"] = tracker.get_selected_id()
 	data["window"] = w
 	data["camera"] = c
+	data["microphone"] = mic_toggle.button_pressed
 
 func _on_fps_value_item_selected(index: int) -> void:
 	match index:
@@ -91,3 +94,8 @@ func _on_fps_value_item_selected(index: int) -> void:
 			Engine.max_fps = 30
 		_: # Uncapped
 			Engine.max_fps = 0
+
+func _on_microphone_toggle_toggled(toggled_on: bool) -> void:
+	if not tracking_system:
+		return
+	tracking_system.voice_tracker.enabled = toggled_on

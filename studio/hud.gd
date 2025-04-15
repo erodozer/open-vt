@@ -120,3 +120,8 @@ func save_settings(settings: Dictionary):
 	
 	settings["popout_controls"] = self.is_floating
 	
+func _on_screenshot_btn_pressed() -> void:
+	var stage = get_tree().get_first_node_in_group("system:stage")
+	stage.get_node("ModelLayer")
+	await Screenshot.snap(stage.get_viewport())
+	

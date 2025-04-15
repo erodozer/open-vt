@@ -8,12 +8,13 @@ var parameters = {}
 signal tracker_changed(tracker: Tracker)
 signal parameters_updated(parameters: Dictionary)
 
+var voice_tracker: Tracker = preload("res://lib/tracking/microphone/microphone_tracker.tscn").instantiate()
+
 func _ready():
 	var mouse_tracker = preload("res://lib/tracking/mouse/mouse_tracker.gd").new()
 	mouse_tracker.name = "MouseTracker"
 	add_child(mouse_tracker)
 	
-	var voice_tracker = preload("res://lib/tracking/microphone/microphone_tracker.tscn").instantiate()
 	add_child(voice_tracker)
 	
 	for i in Tracker.Inputs:

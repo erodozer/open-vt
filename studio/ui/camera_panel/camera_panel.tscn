@@ -63,6 +63,21 @@ text = "Transparent Background"
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="HBoxContainer4" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+tooltip_text = "Use microphone input on PC to affect certain
+mouth related tracking parameters"
+text = "Sample Microphone"
+
+[node name="MicrophoneToggle" type="CheckButton" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer4"]
+unique_name_in_owner = true
+layout_mode = 2
+
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer"]
 visible = false
 layout_mode = 2
@@ -109,4 +124,5 @@ layout_mode = 2
 
 [connection signal="item_selected" from="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer3/FPS" to="." method="_on_fps_value_item_selected"]
 [connection signal="toggled" from="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer2/TransparencyToggle" to="." method="_on_transparency_toggle_toggled"]
+[connection signal="toggled" from="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer4/MicrophoneToggle" to="." method="_on_microphone_toggle_toggled"]
 [connection signal="color_changed" from="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer/PreviewBackgroundColor" to="." method="_on_preview_background_color_color_changed"]
