@@ -69,7 +69,30 @@ func scale_value(input: float) -> float:
 	)
 
 func serialize() -> Dictionary:
-	return {}
+	# translate input enum back to unity vts name
+	var pname: String
+	for param in TrackingInput:
+		var input = TrackingInput[param]
+		var meta = TrackingMeta.get(input, {})
+		if input == self.input_parameter:
+			pname = meta.get("name", param.to_pascal_case())
+			break
+			
+	return {
+		"Name": display_name,
+		"Input": pname,
+		"InputRangeLower": input_range.x,
+		"InputRangeUpper": input_range.y,
+		"OutputLive2D": output_parameter,
+		"OutputRangeLower": output_range.x,
+		"OutputRangeUpper": output_range.y,
+		"ClampInput": clamp_input,
+		"ClampOutput": clamp_output,
+		"UseBreathing": breath,
+		"UseBlinking": blink,
+		"Smoothing": smoothing,
+		"Minimized": minimized
+	}
 
 func deserialize(data: Dictionary) -> bool:
 	display_name = data["Name"]

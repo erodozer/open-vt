@@ -329,3 +329,15 @@ func save_settings(settings: Dictionary):
 		}
 	}
 	settings["model_preferences"] = p
+	
+	# save back updated parameters to VTS configuration	
+	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(model.studio_parameters))
+	var f = FileAccess.open(model.studio_parameters, FileAccess.WRITE)
+	vtube_data["ParameterSettings"] = studio_parameters.map(func (x): return x.serialize())
+	vtube_data["ArtMeshDetails"]["ArtMeshesExcludedFromPinning"] = pinnable.keys().filter(func (x): return pinnable[x] == false)
+	vtube_data["FileReferences"]["IdleAnimation"] = get_idle_animation_player().current_animation
+	
+	var out = JSON.stringify(vtube_data, "  ")
+	f.store_string(out)
+	f.close()
+	

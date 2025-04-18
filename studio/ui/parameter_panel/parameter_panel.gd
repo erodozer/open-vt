@@ -42,6 +42,15 @@ func _on_stage_model_changed(model: VtModel) -> void:
 		meshes.add_child(control)
 	# _model.renderer.transform_updated.connect(_update_transform)
 		
+	%IdleAnimation.clear()
+	%IdleAnimation.add_item("")
+	for anim in model.get_idle_animation_player().get_animation_library("").get_animation_list():
+		if anim == "RESET":
+			continue
+		%IdleAnimation.add_item(anim)
+		if anim == model.get_idle_animation_player().current_animation:
+			%IdleAnimation.selected = %IdleAnimation.item_count - 1
+		
 	_build_output_parameter_list(model)
 	_update_transform(model.position, model.scale, model.rotation)
 	%TextureFilter.select(1 if model.filter == TEXTURE_FILTER_LINEAR else 0)
@@ -205,3 +214,15 @@ func _on_generate_mipmaps_toggled(toggled_on: bool) -> void:
 	if model == null:
 		return
 	model.mipmaps = toggled_on
+
+func _on_idle_animation_item_selected(index: int) -> void:
+	if model == null:
+		return
+	if index == -1:
+		model.get_idle_animation_player().stop()
+		
+	var anim = %IdleAnimation.get_item_text(index)
+	if anim == "":
+		model.get_idle_animation_player().stop()
+	else:
+		model.get_idle_animation_player().play(anim)

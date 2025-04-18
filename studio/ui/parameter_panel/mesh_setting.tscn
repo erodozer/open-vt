@@ -23,6 +23,7 @@ size_flags_horizontal = 3
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
+tooltip_text = "Toggle Item Pinning"
 focus_mode = 0
 toggle_mode = true
 icon = ExtResource("2_yeggh")
@@ -33,6 +34,7 @@ expand_icon = true
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 24)
 layout_mode = 2
+tooltip_text = "Tint ArtMesh"
 
 [connection signal="toggled" from="MeshSetting/PinToggle" to="." method="_on_pin_toggle_toggled"]
 [connection signal="color_changed" from="MeshSetting/Color" to="." method="_on_color_changed"]

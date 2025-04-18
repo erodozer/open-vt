@@ -264,6 +264,20 @@ layout_mode = 2
 focus_mode = 0
 text = "Activate"
 
+[node name="HBoxContainer2" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Idle Animation"
+
+[node name="IdleAnimation" type="OptionButton" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+
 [node name="Mesh Settings" type="VBoxContainer" parent="ScrollContainer/MarginContainer/Accordion"]
 unique_name_in_owner = true
 visible = false
@@ -442,6 +456,7 @@ theme_type_variation = &"VBoxList"
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position/Erase" to="." method="_on_erase_position_pressed"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale/Erase" to="." method="_on_erase_scale_pressed"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation/Erase" to="." method="_on_erase_rotate_pressed"]
+[connection signal="item_selected" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer2/IdleAnimation" to="." method="_on_idle_animation_item_selected"]
 [connection signal="close_requested" from="Modal/OutputParameterPopup" to="." method="_on_output_parameter_popup_close_requested"]
 [connection signal="close_requested" from="Modal/OutputParameterPopup" to="." method="_on_popup_close_requested"]
 [connection signal="close_requested" from="Modal/InputParameterPopup" to="." method="_on_input_parameter_popup_close_requested"]
