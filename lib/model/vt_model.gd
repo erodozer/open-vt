@@ -117,15 +117,17 @@ func _rebuild_l2d(meta: ModelMeta):
 		nearest_shaders if filter == TEXTURE_FILTER_NEAREST else linear_shaders,
 		false if filter == TEXTURE_FILTER_NEAREST else mipmaps
 	)
-	var p = PackedScene.new()
-	if p.pack(loaded_model) != OK:
-		return false
-	p.take_over_path(meta.model)
 	
 	await get_tree().process_frame
 		
 	if loaded_model == null:
 		push_error("could not load model %s" % meta.model)
+		return false
+	
+	var p = PackedScene.new()
+	if p.pack(loaded_model) != OK:
+		return false
+	p.take_over_path(meta.model)
 	
 	live2d_model = loaded_model
 	

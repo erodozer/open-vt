@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cmd2d6iiryvk4"]
+[gd_scene load_steps=25 format=3 uid="uid://cmd2d6iiryvk4"]
 
 [ext_resource type="Script" uid="uid://pso4m0hd1wo3" path="res://studio/hud.gd" id="1_t0mli"]
 [ext_resource type="Texture2D" uid="uid://ddqu1ma3rgo08" path="res://studio/ui/icons/aperture.svg" id="2_vysue"]
@@ -15,7 +15,8 @@
 [ext_resource type="PackedScene" uid="uid://crwh7f50woqgu" path="res://studio/ui/camera_panel/camera_panel.tscn" id="12_blrl1"]
 [ext_resource type="PackedScene" uid="uid://toss8jnrs7a8" path="res://studio/action_engine/action_editor.tscn" id="13_wqkyb"]
 [ext_resource type="PackedScene" uid="uid://bbpykopqsj46s" path="res://studio/action_engine/action_controller.tscn" id="14_67g5m"]
-[ext_resource type="Script" uid="uid://yo4v8pcbw4ag" path="res://studio/debug.gd" id="15_vysue"]
+[ext_resource type="Script" uid="uid://dojlh62kl14nk" path="res://studio/fps_counter.gd" id="17_0k8c4"]
+[ext_resource type="Script" uid="uid://c13ymjxlrcs7g" path="res://studio/toast.gd" id="17_1vcj3"]
 
 [sub_resource type="Gradient" id="Gradient_joccq"]
 colors = PackedColorArray(0.298039, 0.282353, 0.239216, 1, 0.67451, 0.654902, 0.580392, 1)
@@ -32,6 +33,43 @@ content_margin_bottom = 8.0
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_42qc0"]
 allow_unpress = true
+
+[sub_resource type="Animation" id="Animation_0k8c4"]
+resource_name = "show"
+length = 2.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Debug/Toast:offset_bottom")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 2.25, 2.5),
+"transitions": PackedFloat32Array(0.5, 1, 2, 1),
+"update": 0,
+"values": [64.0, -32.0, -32.0, 64.0]
+}
+
+[sub_resource type="Animation" id="Animation_1vcj3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Debug/Toast:offset_bottom")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [64.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8qqt6"]
+_data = {
+&"RESET": SubResource("Animation_1vcj3"),
+&"show": SubResource("Animation_0k8c4")
+}
 
 [node name="HUD" type="HBoxContainer" groups=["hide_screenshot", "persist"]]
 anchors_preset = 15
@@ -216,10 +254,9 @@ title = "Action Editor"
 
 [node name="Debug" type="CanvasLayer" parent="."]
 layer = 99
-visible = false
-script = ExtResource("15_vysue")
 
-[node name="Label" type="Label" parent="Debug"]
+[node name="FPSCounter" type="Label" parent="Debug"]
+visible = false
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -228,6 +265,29 @@ offset_bottom = 23.0
 grow_horizontal = 0
 text = "FPS: 0"
 horizontal_alignment = 2
+script = ExtResource("17_0k8c4")
+
+[node name="Toast" type="PanelContainer" parent="Debug" groups=["system:alert"]]
+custom_minimum_size = Vector2(320, 32)
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = 64.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("17_1vcj3")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Debug/Toast"]
+root_node = NodePath("../../..")
+libraries = {
+&"": SubResource("AnimationLibrary_8qqt6")
+}
+
+[node name="Label" type="Label" parent="Debug/Toast"]
+layout_mode = 2
 
 [connection signal="pressed" from="Menu/VBoxContainer/ScreenshotBtn" to="." method="_on_screenshot_btn_pressed"]
 [connection signal="pressed" from="Menu/VBoxContainer/PopoutBtn" to="." method="popout"]

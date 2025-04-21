@@ -47,10 +47,17 @@ func spawn_model(model: VtModel):
 		await t.finished
 		canvas.remove_child(active_model)
 		
-	active_model = model
 	canvas.add_child(model)
 	_reorder()
-	await active_model.initialized
+	
+	while true:
+		if model.is_initialized():
+			active_model = model
+		if model.is_queued_for_deletion():
+			get_tree().get_first_node_in_group("system:alert").alert("Unable to load model")	
+			return
+		await get_tree().process_frame
+	
 	# TODO if model had items pinned to it, load them in as well
 	model_changed.emit(active_model)
 	if prev_model != null:

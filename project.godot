@@ -54,6 +54,7 @@ system:items=""
 system:stage=""
 system:settings=""
 hide_screenshot="Removes element from viewport when taking a screenshot"
+system:alert=""
 
 [gui]
 
