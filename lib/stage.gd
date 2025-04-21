@@ -37,6 +37,10 @@ func _reorder():
 	update_order.emit(sorted)
 
 func spawn_model(model: VtModel):
+	if model == null:
+		push_warning("invalid model attempted to load")
+		return
+	
 	var prev_model
 	if active_model != null:
 		prev_model = active_model
@@ -84,7 +88,8 @@ func load_settings(data):
 	if "active_model" in data:
 		var mm = get_tree().get_first_node_in_group("system:model")
 		var model = mm.make_model(data["active_model"])
-		spawn_model(model)
+		if model:
+			spawn_model(model)
 	
 	toggle_bg(data.get("window", {}).get("transparent", false))
 	
