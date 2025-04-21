@@ -223,6 +223,6 @@ func _on_idle_animation_item_selected(index: int) -> void:
 		
 	var anim = %IdleAnimation.get_item_text(index)
 	if anim == "":
-		model.get_idle_animation_player().stop()
+		model.get_idle_animation_player().play("RESET")
 	else:
 		model.get_idle_animation_player().play(anim)

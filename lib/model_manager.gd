@@ -42,7 +42,10 @@ func refresh_models():
 		meta.model = vt_file.get_base_dir().path_join(vtube_data["FileReferences"]["Model"])
 		meta.studio_parameters = vt_file
 		meta.model_parameters = vt_file.get_base_dir().path_join(model_data["FileReferences"]["DisplayInfo"])
-		meta.icon = vt_file.get_base_dir().path_join(vtube_data["FileReferences"]["Icon"])
+		meta.icon = load("res://branding/monochrome.svg") if vtube_data["FileReferences"].get("Icon", "").is_empty() else \
+			ImageTexture.create_from_image(
+				Image.load_from_file(vt_file.get_base_dir().path_join(vtube_data["FileReferences"]["Icon"]))
+			)
 		
 		model_cache[meta.id] = meta
 	

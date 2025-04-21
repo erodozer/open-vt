@@ -34,6 +34,21 @@ content_margin_bottom = 8.0
 [sub_resource type="ButtonGroup" id="ButtonGroup_42qc0"]
 allow_unpress = true
 
+[sub_resource type="Animation" id="Animation_1vcj3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Debug/Toast:offset_bottom")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [64.0]
+}
+
 [sub_resource type="Animation" id="Animation_0k8c4"]
 resource_name = "show"
 length = 2.5
@@ -48,21 +63,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(0.5, 1, 2, 1),
 "update": 0,
 "values": [64.0, -32.0, -32.0, 64.0]
-}
-
-[sub_resource type="Animation" id="Animation_1vcj3"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Debug/Toast:offset_bottom")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [64.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8qqt6"]
@@ -269,7 +269,7 @@ script = ExtResource("17_0k8c4")
 
 [node name="Toast" type="PanelContainer" parent="Debug" groups=["system:alert"]]
 custom_minimum_size = Vector2(320, 32)
-anchors_preset = -1
+anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5

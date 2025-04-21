@@ -172,6 +172,7 @@ func _rebuild_l2d(meta: ModelMeta):
 	idle_player.root_node = idle_player.get_path_to(idle_motion)
 	idle_player.name = "AnimationPlayer"
 	idle_player.active = true
+	idle_player.deterministic = true
 	
 	var tracking = ParameterProvider.new()
 	mixer.add_child(tracking)
@@ -304,11 +305,11 @@ func hydrate(settings: Dictionary):
 	mipmaps = model_preferences.get("mipmaps", true)
 	rotation_degrees = model_preferences.get("transform", {}).get("rotation", 0)
 	
-	var p = model_preferences.get("transform", {}).get("position", get_viewport_rect().get_center() - self.size / 2)
-	
 	_load_model(model)
 	
 	await self.initialized
+	await get_tree().process_frame
+	var p = model_preferences.get("transform", {}).get("position", get_viewport_rect().get_center() - (self.size / 2))
 	create_tween().tween_property(
 		self, "position", 
 		p,

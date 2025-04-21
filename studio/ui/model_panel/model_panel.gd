@@ -21,9 +21,7 @@ func _on_model_manager_list_updated(models: Array) -> void:
 	for i in models:
 		var btn = Button.new()
 		btn.set_meta("model", i)
-		btn.icon = ImageTexture.create_from_image(
-			Image.load_from_file(i.icon)
-		)
+		btn.icon = i.icon
 		btn.theme_type_variation = "ImageButton"
 		btn.focus_mode = Control.FOCUS_NONE
 		btn.tooltip_text = i.name

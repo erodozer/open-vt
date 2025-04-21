@@ -53,6 +53,7 @@ func spawn_model(model: VtModel):
 	while true:
 		if model.is_initialized():
 			active_model = model
+			break
 		if model.is_queued_for_deletion():
 			get_tree().get_first_node_in_group("system:alert").alert("Unable to load model")	
 			return
