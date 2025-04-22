@@ -212,9 +212,20 @@ func _rebuild_l2d(meta: ModelMeta):
 	)
 	os_provider.weight = 0
 	
+	var breathe = preload("./breathe_value_provider.gd").new()
+	mixer.add_child(breathe)
+	breathe.name = "Breathe"
+	breathe.model = self
+	
+	var blink = preload("./blink_value_provider.gd").new()
+	mixer.add_child(blink)
+	blink.name = "Blink"
+	blink.model = self
+	
 	var physics = GDCubismEffectPhysics.new()
 	loaded_model.add_child(physics)
 	physics.name = "Physics"
+	
 	
 	return true
 

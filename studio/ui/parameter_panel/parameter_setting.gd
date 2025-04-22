@@ -47,6 +47,16 @@ func _ready() -> void:
 			%SmoothingLabel.text = "%d" % value
 	)
 	%Smoothing.value = parameter.smoothing
+	%Breathe.button_pressed = parameter.breath
+	%Breathe.toggled.connect(
+		func (pressed):
+			parameter.breath = pressed
+	)
+	%Blink.button_pressed = parameter.blink
+	%Blink.toggled.connect(
+		func (pressed):
+			parameter.blink = pressed
+	)
 	
 	for idx in range(len(model_parameters)):
 		if model_parameters[idx] == parameter.output_parameter:
