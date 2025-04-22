@@ -124,6 +124,8 @@ func _rebuild_l2d(meta: ModelMeta):
 		push_error("could not load model %s" % meta.model)
 		return false
 	
+	loaded_model.mask_viewport_size = 2048
+	
 	var p = PackedScene.new()
 	if p.pack(loaded_model) != OK:
 		return false

@@ -115,6 +115,10 @@ func update(inputs: Dictionary):
 			var p_name: String = e["Id"]
 			var blend: String = e["Blend"]
 			var amount: float = e["Value"]
+			
+			if not (p_name in parameters):
+				continue
+			
 			var param: Dictionary = parameters[p_name];
 			
 			var v: float = inputs.get(p_name, param["default"])
