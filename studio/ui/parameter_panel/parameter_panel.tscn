@@ -67,7 +67,9 @@ popup/item_1/id = 1
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Improves scaling quality when using Nearest Neighbor filtering
-by rendering using a SubViewport.
+by rendering using a SubViewport and Super-Sampling.
+Increases VRAM usage.
+
 Recommended when using Pixel Models"
 focus_mode = 0
 text = "Smooth Scaling"
