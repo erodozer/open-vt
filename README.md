@@ -34,28 +34,17 @@ By contrast, OpenVT is built in Godot, leveraging much of the same open-source s
 OpenVT attempts to use as much out of the box functionality of Godot as possible with low overhead and dependencies, as it's already a rather feature rich runtime.
 As such, GDScript is the primary language of the codebase.
 
-Using the base version of at least Godot 4.3 will be enough to edit the project.
+Using the base version of at least Godot 4.4 will be enough to edit the project.
 Be sure to grab the export templates if you wish to export standalone binaries.
 
 ### Building Dependencies
 
-Please follow the readmes and build instructions of any git submodules to know of any specifics.
+This should be done before attempting to open or run the project, otherwise Godot will complain about missing files and classes.
+
+Please follow the readmes and build instructions of any git submodules to know of any specifics dependencies.
 Git submodules are not expected to change frequently.  Building the dependencies for most will only need to be done once.
 
-#### Requirements
-- Godot >= 4.4
-- Git
-- Docker (for ease of setup)
-
-From the project directory
-
-```
-docker build -t openvt-build .
-docker run -v .:/app -it openvt-build /app/build_dependencies.sh
-```
-
-This volume mounts the project directory into a build container and runs the `build_dependencies.sh` script for you.
-The script will moving the files into the appropriate locations.
+The provided `build_dependencies.sh` script is designed to build each submodule and move its outputs to the required locations in the project filesystem for openvt to run.
 
 ## References
 
@@ -75,5 +64,3 @@ OpenVT Mascot by @erodozer
 This application contains the Live2D Cubism SDK, a copyrighted work developed by Live2D Inc
 
 Any forks and distributions of OpenVT by third parties are not directly covered, with developers requiring explicit permission as per the [license agreement](https://www.live2d.com/eula/live2d-proprietary-software-license-agreement_en.html) and qualify as an Expandable Application.
-
-OpenVT is distributed non-commercially.  Do not pay for your copy of OpenVT.
