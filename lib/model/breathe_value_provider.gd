@@ -1,7 +1,7 @@
 extends "./parameter_value_provider.gd"
 
 const curve: Curve = preload("./breathe.tres")
-const FREQUENCY = 3.0
+const FREQUENCY = 2.0
 const MSEC = 1000.0
 const FREQ_SCALE = FREQUENCY * MSEC
 

@@ -86,6 +86,9 @@ func _update(_delta: float) -> void:
 		leftOpen = rightOpen
 		
 	var mapping = {
+		Inputs.FACE_POSITION_X: clamp(b.translation.x, -15, 15),
+		Inputs.FACE_POSITION_Y: clamp(b.translation.y, -15, 15),
+		Inputs.FACE_POSITION_Z: clamp(b.translation.z, -10, 10),
 		Inputs.FACE_ANGLE_X: clamp(lerp(a.rotation.y, b.rotation.y, progress), -30, 30),
 		Inputs.FACE_ANGLE_Y: clamp(-lerp(a.rotation.x, b.rotation.x, progress), -30, 30),
 		Inputs.FACE_ANGLE_Z: clamp(lerp(a.rotation.z, b.rotation.z, progress), -30, 30),

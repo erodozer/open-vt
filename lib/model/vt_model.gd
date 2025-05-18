@@ -7,6 +7,7 @@ const ParameterSetting = preload("res://lib/tracking/parameter_setting.gd")
 const ParameterProvider = preload("./parameter_value_provider.gd")
 const ExpressionController = preload("./expression_value_provider.gd")
 const TrackingSystem = preload("res://lib/tracking/tracking_system.gd")
+const Tracker = preload("res://lib/tracking/tracker.gd")
 const ModelMeta = preload("./metadata.gd")
 
 static var linear_shaders = [
@@ -84,6 +85,10 @@ var expression_controller: ExpressionController :
 # item pinning
 var pinnable: Dictionary = {}
 var rest_anchors: Dictionary = {}
+
+# movement transforms
+var movement_enabled: bool = false
+var movement_scale: Vector3 = Vector3.ZERO
 
 signal initialized
 
@@ -243,6 +248,15 @@ func _load_model(meta: ModelMeta):
 	var idle_animation = vtube_data["FileReferences"]["IdleAnimation"]
 	if idle_animation:
 		get_idle_animation_player().play(idle_animation)
+		
+	var movement_settings = vtube_data.get("ModelPositionMovement", {})
+	movement_enabled = movement_settings.get("Use", false)
+	# vts movement based on 10 = +100% scale
+	movement_scale = Vector3(
+		inverse_lerp(0.0, 10.0, movement_settings.get("X", 0.0)),
+		inverse_lerp(0.0, 10.0, movement_settings.get("Y", 0.0)),
+		inverse_lerp(0.0, 10.0, movement_settings.get("Z", 0.0))
+	)
 	
 	var transform = vtube_data.get("SavedModelPosition", {})
 	# position = utils.vts_to_world(Vector2(transform.get("Position", {}).get("x", 0.0), transform.get("Position", {}).get("y", 0.0)))
@@ -300,16 +314,26 @@ func parameters_updated(tracking_data: Dictionary):
 		elif parameter.input_parameter in tracking_data:
 			var raw_value = tracking_data[parameter.input_parameter]
 			tracking.set(parameter.output_parameter, parameter.scale_value(raw_value))
-
-func _process(delta: float) -> void:
-	if not is_initialized():
-		return
-	
-#	for m in get_meshes():
-#		var center = utils.v32xy(utils.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
-#		m.set_meta("centroid", center)
-#		m.set_meta("global_centroid", render.global_position + center)
-#		m.set_meta("angle", center.angle_to(m.get_meta("start_centroid")))
+			
+	if movement_enabled:
+		var moved = Vector3(
+			Tracker.signed_ilerp_input(
+				tracking_data.get(ParameterSetting.TrackingInput.FACE_POSITION_X, 0),
+				ParameterSetting.TrackingInput.FACE_POSITION_X
+			),
+			Tracker.signed_ilerp_input(
+				tracking_data.get(ParameterSetting.TrackingInput.FACE_POSITION_Y, 0),
+				ParameterSetting.TrackingInput.FACE_POSITION_Y
+			),
+			Tracker.signed_ilerp_input(
+				tracking_data.get(ParameterSetting.TrackingInput.FACE_POSITION_Z, 0),
+				ParameterSetting.TrackingInput.FACE_POSITION_Z
+			)
+		)
+		var movement = moved * movement_scale
+		live2d_model.scale = Vector2.ONE + (Vector2.ONE * movement.z)
+		live2d_model.position = Vector2(live2d_model.size + live2d_model.get_origin()) * utils.v32xy(movement)
+		
 
 func hydrate(settings: Dictionary):
 	var model_preferences = settings.get("model_preferences", {}).get(model.id, {})

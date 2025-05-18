@@ -91,17 +91,21 @@ layout_mode = 2
 focus_mode = 0
 text = "Save Transform"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer"]
+[node name="Transform" type="VBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/HBoxContainer"]
 layout_mode = 2
 text = "Transformation"
 
-[node name="LockButton" type="Button" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LockButton" type="Button" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
@@ -112,33 +116,33 @@ icon = ExtResource("3_ng4r4")
 icon_alignment = 1
 expand_icon = true
 
-[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer"]
 layout_mode = 2
 
-[node name="Position" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="Position" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position"]
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Position"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Position"
 
-[node name="XValue" type="SpinBox" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position"]
+[node name="XValue" type="SpinBox" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Position"]
 layout_mode = 2
 alignment = 2
 suffix = "X"
 
-[node name="YValue" type="SpinBox" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position"]
+[node name="YValue" type="SpinBox" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Position"]
 layout_mode = 2
 alignment = 2
 suffix = "Y"
 
-[node name="Erase" type="Button" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position"]
+[node name="Erase" type="Button" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Position"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 focus_mode = 0
@@ -146,17 +150,17 @@ icon = ExtResource("4_regdq")
 icon_alignment = 1
 expand_icon = true
 
-[node name="Scale" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="Scale" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale"]
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Scale"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Scale"
 vertical_alignment = 1
 
-[node name="Value" type="SpinBox" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale"]
+[node name="Value" type="SpinBox" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Scale"]
 layout_mode = 2
 min_value = 1.0
 max_value = 400.0
@@ -164,7 +168,7 @@ value = 1.0
 alignment = 2
 suffix = "%"
 
-[node name="Erase" type="Button" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale"]
+[node name="Erase" type="Button" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Scale"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 tooltip_text = "Reset Model to Fit in Screen"
@@ -173,22 +177,22 @@ icon = ExtResource("6_evig7")
 icon_alignment = 1
 expand_icon = true
 
-[node name="Rotation" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+[node name="Rotation" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation"]
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Rotation"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Rotation"
 
-[node name="Value" type="SpinBox" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation"]
+[node name="Value" type="SpinBox" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Rotation"]
 layout_mode = 2
 step = 0.01
 alignment = 2
 suffix = "°"
 
-[node name="Erase" type="Button" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation"]
+[node name="Erase" type="Button" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Rotation"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 focus_mode = 0
@@ -196,75 +200,51 @@ icon = ExtResource("2_4qkrp")
 icon_alignment = 1
 expand_icon = true
 
-[node name="MovementControls" type="VBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer"]
-visible = false
+[node name="Movement" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/MovementControls"]
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Movement"]
 layout_mode = 2
-text = "Movement Controls"
+text = "Movement"
 
-[node name="AxisX" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/MovementControls"]
-layout_mode = 2
-
-[node name="Toggle" type="Button" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/MovementControls/AxisX"]
-custom_minimum_size = Vector2(48, 0)
-layout_mode = 2
-toggle_mode = true
-button_pressed = true
-text = "X"
-
-[node name="HSlider" type="HSlider" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/MovementControls/AxisX"]
+[node name="Control" type="Control" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Movement"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 4
-focus_mode = 0
-min_value = -10.0
-max_value = 10.0
-scrollable = false
 
-[node name="AxisY" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/MovementControls"]
+[node name="XValue" type="SpinBox" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Movement"]
 layout_mode = 2
+min_value = -2.0
+max_value = 2.0
+step = 0.1
+alignment = 2
+suffix = "X"
 
-[node name="Toggle" type="Button" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/MovementControls/AxisY"]
+[node name="YValue" type="SpinBox" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Movement"]
+layout_mode = 2
+min_value = -2.0
+max_value = 2.0
+step = 0.1
+alignment = 2
+suffix = "Y"
+
+[node name="ZValue" type="SpinBox" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Movement"]
+layout_mode = 2
+min_value = -2.0
+max_value = 2.0
+step = 0.1
+alignment = 2
+suffix = "Z"
+
+[node name="LockButton" type="Button" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Movement"]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
+tooltip_text = "Lock transform"
+focus_mode = 0
 toggle_mode = true
-button_pressed = true
-text = "Y"
-
-[node name="HSlider" type="HSlider" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/MovementControls/AxisY"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-focus_mode = 0
-min_value = -10.0
-max_value = 10.0
-scrollable = false
-
-[node name="AxisZ" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/MovementControls"]
-layout_mode = 2
-
-[node name="Toggle" type="Button" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/MovementControls/AxisZ"]
-custom_minimum_size = Vector2(48, 0)
-layout_mode = 2
-toggle_mode = true
-button_pressed = true
-text = "Z"
-
-[node name="HSlider" type="HSlider" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/MovementControls/AxisZ"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-focus_mode = 0
-min_value = -10.0
-max_value = 10.0
-scrollable = false
-
-[node name="CheckButton" type="CheckButton" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/MovementControls"]
-layout_mode = 2
-focus_mode = 0
-text = "Activate"
+icon = ExtResource("3_ng4r4")
+icon_alignment = 1
+expand_icon = true
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer"]
 layout_mode = 2
@@ -454,11 +434,12 @@ theme_type_variation = &"VBoxList"
 [connection signal="item_selected" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer/TextureFilter" to="." method="_on_texture_filter_item_selected"]
 [connection signal="toggled" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/SmoothScaling" to="." method="_on_smooth_scaling_toggled"]
 [connection signal="toggled" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/GenerateMipmaps" to="." method="_on_generate_mipmaps_toggled"]
-[connection signal="toggled" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/HBoxContainer/LockButton" to="." method="_on_lock_button_toggled"]
-[connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Position/Erase" to="." method="_on_erase_position_pressed"]
-[connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Scale/Erase" to="." method="_on_erase_scale_pressed"]
-[connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/Rotation/Erase" to="." method="_on_erase_rotate_pressed"]
+[connection signal="toggled" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/HBoxContainer/LockButton" to="." method="_on_lock_button_toggled"]
+[connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Position/Erase" to="." method="_on_erase_position_pressed"]
+[connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Scale/Erase" to="." method="_on_erase_scale_pressed"]
+[connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Rotation/Erase" to="." method="_on_erase_rotate_pressed"]
+[connection signal="toggled" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Movement/LockButton" to="." method="_on_movement_lock_button_toggled"]
 [connection signal="item_selected" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer2/IdleAnimation" to="." method="_on_idle_animation_item_selected"]
-[connection signal="close_requested" from="Modal/OutputParameterPopup" to="." method="_on_popup_close_requested"]
 [connection signal="close_requested" from="Modal/OutputParameterPopup" to="." method="_on_output_parameter_popup_close_requested"]
+[connection signal="close_requested" from="Modal/OutputParameterPopup" to="." method="_on_popup_close_requested"]
 [connection signal="close_requested" from="Modal/InputParameterPopup" to="." method="_on_input_parameter_popup_close_requested"]

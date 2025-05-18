@@ -86,7 +86,7 @@ func read_osf_data(packet:PackedByteArray):
 	var x = b.read_float()
 	var y = b.read_float()
 	var z = b.read_float()
-	translation = Vector3(-y, x, -z)
+	translation = Vector3(y, -x, z)
 
 	for i in range(nPoints):
 		confidence[i] = b.read_float()

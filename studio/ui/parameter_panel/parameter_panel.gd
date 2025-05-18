@@ -20,6 +20,22 @@ func _ready():
 	var tracking = get_tree().get_first_node_in_group("system:tracking")
 	if tracking:
 		tracking.parameters_updated.connect(_on_tracker_system_parameters_updated)
+		
+	%Movement/XValue.value_changed.connect(
+		func (value):
+			if model:
+				model.movement_scale.x = value
+	)
+	%Movement/YValue.value_changed.connect(
+		func (value):
+			if model:
+				model.movement_scale.y = value
+	)
+	%Movement/ZValue.value_changed.connect(
+		func (value):
+			if model:
+				model.movement_scale.z = value
+	)
 
 func _on_stage_model_changed(model: VtModel) -> void:
 	for c in list.get_children():
@@ -61,6 +77,10 @@ func _on_stage_model_changed(model: VtModel) -> void:
 	
 	self.model = model
 	model.transform_updated.connect(_update_transform)
+	
+	%Movement/XValue.set_value_no_signal(model.movement_scale.x)
+	%Movement/YValue.set_value_no_signal(model.movement_scale.y)
+	%Movement/ZValue.set_value_no_signal(model.movement_scale.z)
 	
 func _update_transform(pos, scl, rot):
 	%Position/XValue.min_value = int(-get_viewport_rect().size.x)
@@ -227,3 +247,12 @@ func _on_idle_animation_item_selected(index: int) -> void:
 		model.get_idle_animation_player().play("RESET")
 	else:
 		model.get_idle_animation_player().play(anim)
+
+func _on_movement_lock_button_toggled(toggled_on: bool) -> void:
+	if model == null:
+		return
+	model.movement_enabled = !toggled_on
+	
+	%Movement/XValue.editable = !toggled_on
+	%Movement/YValue.editable = !toggled_on
+	%Movement/Value.editable = !toggled_on

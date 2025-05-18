@@ -174,10 +174,22 @@ const Meta = {
 
 var parameters = {}
 
-static func clamp_to_range(value: float, param: Inputs):
+static func clamp_to_range(value: float, param: Inputs) -> float:
 	return clamp(
 		value,
 		Meta[param].range.x, Meta[param].range.y
+	)
+
+static func ilerp_input(value: float, param: Inputs) -> float:
+	return inverse_lerp(
+		Meta[param].range.x, Meta[param].range.y,
+		value
+	)
+	
+static func signed_ilerp_input(value: float, param: Inputs) -> float:
+	return inverse_lerp(
+		0, Meta[param].range.y,
+		value
 	)
 
 func create_config() -> Node:
