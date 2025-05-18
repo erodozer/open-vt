@@ -87,7 +87,13 @@ var pinnable: Dictionary = {}
 var rest_anchors: Dictionary = {}
 
 # movement transforms
-var movement_enabled: bool = false
+var movement_enabled: bool = false :
+	set(value):
+		movement_enabled = value
+		if not value and live2d_model != null:
+			live2d_model.scale = Vector2.ONE
+			live2d_model.position = Vector2(live2d_model.get_origin())
+		
 var movement_scale: Vector3 = Vector3.ZERO
 
 signal initialized
@@ -332,7 +338,7 @@ func parameters_updated(tracking_data: Dictionary):
 		)
 		var movement = moved * movement_scale
 		live2d_model.scale = Vector2.ONE + (Vector2.ONE * movement.z)
-		live2d_model.position = Vector2(live2d_model.size + live2d_model.get_origin()) * utils.v32xy(movement)
+		live2d_model.position = Vector2(live2d_model.size) * utils.v32xy(movement) + Vector2(live2d_model.get_origin())
 		
 
 func hydrate(settings: Dictionary):
