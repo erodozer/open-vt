@@ -255,4 +255,4 @@ func _on_movement_lock_button_toggled(toggled_on: bool) -> void:
 	
 	%Movement/XValue.editable = !toggled_on
 	%Movement/YValue.editable = !toggled_on
-	%Movement/Value.editable = !toggled_on
+	%Movement/ZValue.editable = !toggled_on
