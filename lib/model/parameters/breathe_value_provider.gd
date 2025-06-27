@@ -5,7 +5,7 @@ const FREQUENCY = 2.0
 const MSEC = 1000.0
 const FREQ_SCALE = FREQUENCY * MSEC
 
-var model
+@export var model: VtModel
 
 func apply(inputs: Dictionary):
 	if weight == 0.0:

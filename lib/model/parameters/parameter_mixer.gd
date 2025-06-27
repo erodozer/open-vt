@@ -4,17 +4,15 @@ const Provider = preload("./parameter_value_provider.gd")
 
 var parameters : Dictionary :
 	get():
-		var model: GDCubismUserModel = get_parent().live2d_model
-		return model.parameters
+		return get_parent().parameters
 	
 func _process(_delta: float) -> void:
 	if get_parent() == null or not get_parent().is_initialized():
 		return
 		
-	var model: GDCubismUserModel = get_parent().live2d_model
 	var values = {}
-	for i in model.parameters:
-		values[i] = model.parameters[i]["default"]
+	for i in parameters:
+		values[i] = parameters[i]["default"]
 	
 	var modified = {}
 	for i in get_children():
@@ -23,5 +21,4 @@ func _process(_delta: float) -> void:
 	
 	values.merge(modified, true);
 	
-	for p_name in values:
-		model.set(p_name, float(values[p_name]))
+	get_parent().parameters = values

@@ -29,6 +29,21 @@ build_gdcubism () {
 	cd $PROJ_ROOT
 }
 
+build_virtualcamera () {
+	WORKDIR=$PROJ_ROOT/thirdparty/gd-virtualcamera
+
+	cd $WORKDIR
+	
+	scons platform=linux arch=x86_64 target=template_debug debug_symbols=yes
+	scons platform=linux arch=x86_64 target=template_release
+	cp -r $WORKDIR/demo/bin $PROJ_ROOT/addons/gd-virtualcamera
+	cp LICENSE.md $PROJ_ROOT/addons/gd-virtualcamera/LICENSE.md
+	cp README.md $PROJ_ROOT/addons/gd-virtualcamera/README.md
+	echo "*" > $PROJ_ROOT/addons/gd-virtualcamera/.gitignore
+	
+	cd $PROJ_ROOT
+}
+
 build_keylogger() {
 	WORKDIR=$PROJ_ROOT/thirdparty/godot-keylogger
 
@@ -59,6 +74,7 @@ openseeface () {
 # fetch submodules if they haven't been already
 git fetch --recurse-submodules
 
-#build_gdcubism
+build_gdcubism
+build_virtualcamera
 openseeface
-#build_keylogger
+build_keylogger

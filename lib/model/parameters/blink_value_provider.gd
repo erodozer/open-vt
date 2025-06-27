@@ -7,7 +7,7 @@ const MSEC = 1000.0
 const SCALE = SPEED * MSEC # speed at which we blink
 const FREQUENCY = [SCALE, SCALE * 15]
 
-var model
+@export var model: VtModel
 
 # keep track of blink tweens so we don't start again while already blinking
 var blinking: int = 0

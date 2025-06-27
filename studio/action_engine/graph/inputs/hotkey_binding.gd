@@ -44,7 +44,11 @@ signal activate
 signal deactivate
 
 func load_from_vts(hotkey: Dictionary):
-	name = hotkey.Name
+	var action_name = hotkey.get("Name", hotkey.File)
+	if action_name.is_empty():
+		push_warning("invalid action definition")
+		return
+	name = action_name
 	self.button_1 = ut_to_gd(hotkey.Triggers.Trigger1)
 	self.button_2 = ut_to_gd(hotkey.Triggers.Trigger2)
 	self.button_3 = ut_to_gd(hotkey.Triggers.Trigger3)

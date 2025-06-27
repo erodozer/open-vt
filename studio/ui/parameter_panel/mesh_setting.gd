@@ -8,7 +8,7 @@ var mesh: NodePath
 func _ready():
 	var m = model.get_node(mesh)
 	%PartName.text = m.name
-	%PinToggle.button_pressed = model.pinnable[m.name]
+	%PinToggle.button_pressed = m.get_meta("pinnable", true)
 	%Color.color = m.modulate
 
 func _on_pin_toggle_toggled(toggled_on: bool) -> void:
@@ -16,7 +16,7 @@ func _on_pin_toggle_toggled(toggled_on: bool) -> void:
 	if model.smoothing and model.filter == TEXTURE_FILTER_NEAREST:
 		path = NodePath("PixelSubviewport/SubViewport/" + String(mesh))
 	var m = model.get_node(path)
-	model.pinnable[m.name] = toggled_on
+	m.get_meta("pinnable", toggled_on)
 
 func _on_color_changed(color: Color) -> void:
 	var path = mesh

@@ -110,7 +110,7 @@ func _build_output_parameter_list(_model: VtModel):
 		c.queue_free()
 	await get_tree().process_frame
 		
-	for parameter in _model.live2d_model.parameters:
+	for parameter in _model.parameters:
 		var btn = Button.new()
 		btn.name = parameter
 		btn.text = parameter

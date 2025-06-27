@@ -78,6 +78,23 @@ text = "Sample Microphone"
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="VirtualWebcam" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/VirtualWebcam"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+tooltip_text = "Use microphone input on PC to affect certain
+mouth related tracking parameters"
+text = "Virtual Webcam (V4l2 Loopback Output Device)"
+
+[node name="Value" type="OptionButton" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/VirtualWebcam"]
+layout_mode = 2
+
+[node name="V4l2OutputStream" type="VirtualCamera" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/VirtualWebcam"]
+
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer"]
 visible = false
 layout_mode = 2
@@ -125,4 +142,5 @@ layout_mode = 2
 [connection signal="item_selected" from="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer3/FPS" to="." method="_on_fps_value_item_selected"]
 [connection signal="toggled" from="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer2/TransparencyToggle" to="." method="_on_transparency_toggle_toggled"]
 [connection signal="toggled" from="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer4/MicrophoneToggle" to="." method="_on_microphone_toggle_toggled"]
+[connection signal="item_selected" from="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/VirtualWebcam/Value" to="." method="_on_loopback_item_selected"]
 [connection signal="color_changed" from="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer/PreviewBackgroundColor" to="." method="_on_preview_background_color_color_changed"]

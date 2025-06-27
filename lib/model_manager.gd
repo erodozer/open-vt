@@ -2,6 +2,7 @@ extends Node
 
 const ModelMeta = preload("res://lib/model/metadata.gd")
 const VtModel = preload("res://lib/model/vt_model.gd")
+const TrackingSystem = preload("res://lib/tracking/tracking_system.gd")
 
 const MODEL_DIR = "user://Live2DModels"
 
@@ -40,6 +41,7 @@ func refresh_models():
 		meta.name = vtube_data["Name"]
 		meta.id = vtube_data["ModelID"]
 		meta.model = vt_file.get_base_dir().path_join(vtube_data["FileReferences"]["Model"])
+		meta.format = "l2d"
 		meta.studio_parameters = vt_file
 		meta.model_parameters = vt_file.get_base_dir().path_join(model_data["FileReferences"]["DisplayInfo"])
 		meta.icon = load("res://branding/monochrome.svg") if vtube_data["FileReferences"].get("Icon", "").is_empty() else \
@@ -58,7 +60,16 @@ func make_model(model):
 	var data = model_cache[model]
 	
 	var new_model: VtModel = preload("res://lib/model/vt_model.tscn").instantiate()
-	new_model.model = data
+	match data.format:
+		"l2d":
+			var strategy = preload("res://lib/model/formats/l2d/model_strategy.gd").new()
+			new_model.format_strategy = strategy
+			new_model.model = data
+			strategy.name = "FormatStrategy"
+			new_model.add_child(strategy)
+	
+	var tracking: TrackingSystem = get_tree().get_first_node_in_group("system:tracking")
+	tracking.parameters_updated.connect(new_model.tracking_updated)
 	
 	return new_model
 	

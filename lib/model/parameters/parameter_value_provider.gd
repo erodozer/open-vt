@@ -3,7 +3,9 @@ extends Node
 @export_range(0.0, 1.0, 0.001) var weight: float = 1.0
 var values = {}
 
-@onready var parameters: Dictionary = get_parent().parameters
+var parameters: Dictionary :
+	get():
+		return get_parent().parameters
 	
 func reset():
 	values.clear()

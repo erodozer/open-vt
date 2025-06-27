@@ -42,6 +42,21 @@ func _ready() -> void:
 				var tracker = tracker.get_item_metadata(idx)
 				tracking_system.activate_tracker(tracker.new())
 		)
+		
+	if OS.has_feature("linux"):
+		#CameraServer.set_monitoring_feeds(true)
+		await get_tree().process_frame
+		var feeds = CameraServer.feeds()
+		for i in feeds:
+			var id = i.get_id()
+			var name = i.get_name()
+			%VirtualWebcam/Value.add_item(i.get_name(), i.get_id() + 1)
+		if len(feeds) > 0:
+			%VirtualWebcam/Value.select(0)
+		var vp = get_tree().get_first_node_in_group("system:stage").capture_viewport
+		%VirtualWebcam/V4l2OutputStream.viewport = vp
+	else:
+		%VirtualWebcam.queue_free()
 	
 func _on_tracker_system_tracker_changed(new_tracker: Tracker) -> void:
 	var config = Control.new()
@@ -99,3 +114,9 @@ func _on_microphone_toggle_toggled(toggled_on: bool) -> void:
 	if not tracking_system:
 		return
 	tracking_system.voice_tracker.enabled = toggled_on
+
+
+func _on_loopback_item_selected(index: int) -> void:
+	var device_id = %VirtualWebcam/Value.get_item_id(index)
+	print("selected /dev/video%d" % device_id)
+	%VirtualWebcam/V4l2OutputStream.set_loopback_device("/dev/video%d" % [device_id])
