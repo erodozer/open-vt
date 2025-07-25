@@ -53,6 +53,9 @@ func apply(inputs: Dictionary):
 
 	var ary_parameters = self.values.keys()
 	for p_name in ary_parameters:
+		if not (p_name in parameters):
+			continue
+			
 		var param: Dictionary = parameters[p_name]
 		var default_value: float = param["default"]
 

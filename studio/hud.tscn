@@ -18,11 +18,11 @@
 [ext_resource type="Script" uid="uid://dojlh62kl14nk" path="res://studio/fps_counter.gd" id="17_0k8c4"]
 [ext_resource type="Script" uid="uid://c13ymjxlrcs7g" path="res://studio/toast.gd" id="17_1vcj3"]
 
-[sub_resource type="Gradient" id="Gradient_joccq"]
+[sub_resource type="Gradient" id="Gradient_0k8c4"]
 colors = PackedColorArray(0.298039, 0.282353, 0.239216, 1, 0.67451, 0.654902, 0.580392, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_kr4px"]
-gradient = SubResource("Gradient_joccq")
+gradient = SubResource("Gradient_0k8c4")
 fill_from = Vector2(0, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_goisu"]
@@ -173,11 +173,9 @@ layout_mode = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
 toggle_mode = true
-button_group = SubResource("ButtonGroup_42qc0")
 icon = ExtResource("6_8qqt6")
 icon_alignment = 1
 expand_icon = true
-metadata/panel = NodePath("../../../Panels/ActionEditor")
 
 [node name="ScreenshotBtn" type="Button" parent="Menu/VBoxContainer"]
 unique_name_in_owner = true
@@ -245,13 +243,7 @@ offset_right = 2030.0
 
 [node name="ActionEditor" parent="Panels" instance=ExtResource("13_wqkyb")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(1180, 0)
-anchors_preset = 11
-anchor_left = 1.0
-offset_left = 28.0
-offset_right = 1208.0
-grow_horizontal = 0
-title = "Action Editor"
+visible = false
 
 [node name="Debug" type="CanvasLayer" parent="."]
 layer = 99
@@ -290,5 +282,6 @@ libraries = {
 [node name="Label" type="Label" parent="Debug/Toast"]
 layout_mode = 2
 
+[connection signal="toggled" from="Menu/VBoxContainer/ActionBtn" to="Panels/ActionEditor" method="set_visible"]
 [connection signal="pressed" from="Menu/VBoxContainer/ScreenshotBtn" to="." method="_on_screenshot_btn_pressed"]
 [connection signal="pressed" from="Menu/VBoxContainer/PopoutBtn" to="." method="popout"]

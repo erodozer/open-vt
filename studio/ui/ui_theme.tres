@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=56 format=3 uid="uid://bwesfr5en0lxv"]
+[gd_resource type="Theme" load_steps=62 format=3 uid="uid://bwesfr5en0lxv"]
 
 [ext_resource type="Texture2D" uid="uid://dv7o0g2fot3n3" path="res://studio/ui/icons/toggle-on.svg" id="1_jmxgr"]
 [ext_resource type="Texture2D" uid="uid://58ua5of8kuir" path="res://studio/ui/icons/toggle-off.svg" id="2_3w1p0"]
@@ -306,6 +306,53 @@ bg_color = Color(0.847059, 0.823529, 0.729412, 1)
 shadow_size = 2
 shadow_offset = Vector2(2, 2)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7t4fe"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0.298039, 0.282353, 0.239216, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5hwks"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.811765, 0.788235, 0.698039, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v5cbu"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0.298039, 0.282353, 0.239216, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b4i6s"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.788235, 0.764706, 0.670588, 1)
+shadow_color = Color(0, 0, 0, 0.196078)
+shadow_size = 4
+shadow_offset = Vector2(0, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sidt4"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.811765, 0.788235, 0.698039, 1)
+shadow_color = Color(0, 0, 0, 0.392157)
+shadow_offset = Vector2(0, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0e6vk"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0.298039, 0.282353, 0.239216, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o3o4d"]
 bg_color = Color(0.811765, 0.788235, 0.698039, 1)
 shadow_size = 5
@@ -481,6 +528,17 @@ SpinBox/icons/up_pressed = ExtResource("5_b7yax")
 SpinBox/icons/updown = null
 SubPanelContainer/base_type = &"PanelContainer"
 SubPanelContainer/styles/panel = SubResource("StyleBoxFlat_piqja")
+TabBar/colors/font_hovered_color = Color(0.811765, 0.788235, 0.698039, 1)
+TabBar/colors/font_selected_color = Color(0.298039, 0.282353, 0.239216, 1)
+TabBar/colors/font_unselected_color = Color(0.690196, 0.670588, 0.592157, 1)
+TabBar/styles/tab_hovered = SubResource("StyleBoxFlat_7t4fe")
+TabBar/styles/tab_selected = SubResource("StyleBoxFlat_5hwks")
+TabBar/styles/tab_unselected = SubResource("StyleBoxFlat_v5cbu")
+TabContainer/colors/font_selected_color = Color(0.298039, 0.282353, 0.239216, 1)
+TabContainer/colors/font_unselected_color = Color(0.690196, 0.670588, 0.592157, 1)
+TabContainer/styles/panel = SubResource("StyleBoxFlat_b4i6s")
+TabContainer/styles/tab_selected = SubResource("StyleBoxFlat_sidt4")
+TabContainer/styles/tab_unselected = SubResource("StyleBoxFlat_0e6vk")
 TooltipPanel/styles/panel = SubResource("StyleBoxFlat_o3o4d")
 VBoxContainer/constants/separation = 16
 VBoxList/base_type = &"VBoxContainer"

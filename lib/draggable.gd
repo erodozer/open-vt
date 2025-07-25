@@ -1,4 +1,4 @@
-extends Control
+extends Node2D
 
 enum SampleMode {
 	BOUNDS,
@@ -11,7 +11,31 @@ signal drag_released
 
 @export var locked = false
 @export var sample_mode = SampleMode.BOUNDS
+@export var centered = true
+@export var debug = false
 var dragging = false
+
+var size: Vector2 = Vector2.ONE :
+	set(v):
+		size = v
+		var offset = (-size / 2) if centered else Vector2.ZERO
+		RenderingServer.canvas_item_set_custom_rect(
+			get_canvas_item(), true, 
+			Rect2(position + offset, v)
+		)
+		queue_redraw()
+		
+var rect: Rect2 :
+	get():
+		var offset = (-size / 2) if centered else Vector2.ZERO
+		return Rect2(offset, size)
+
+func _draw() -> void:
+	if debug:
+		draw_rect(
+			rect,
+			Color.GREEN, false, -3.0, true
+		)
 
 func _handle_mouse_button_down(event: InputEventMouseButton):
 	var dirty = false
@@ -64,7 +88,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.pressed:
 			# mouse event must be within the bounds of the control
 			var p_xy = self.get_local_mouse_position()
-			if not (p_xy.x >= 0 and p_xy.x < self.size.x and p_xy.y >= 0 and p_xy.y < self.size.y):
+			if not rect.has_point(p_xy):
 				return
 			# sample for alpha if control has texture
 			if "texture" in self and sample_mode == SampleMode.ALPHA:
@@ -73,17 +97,17 @@ func _unhandled_input(event: InputEvent) -> void:
 				if not opaque:
 					return
 			dirty = dirty || _handle_mouse_button_down(event)
-			accept_event()
+			get_viewport().set_input_as_handled()
 		elif not event.pressed and event.button_index == MOUSE_BUTTON_LEFT and dragging:
 			dragging = false
 			drag_released.emit()
-			accept_event()
+			get_viewport().set_input_as_handled()
 		else:
 			return
 		
 	if dragging and event is InputEventMouseMotion:
 		dirty = dirty || _handle_mouse_motion(event)
-		accept_event()
+		get_viewport().set_input_as_handled()
 	
 	if dirty:
 		transform_updated.emit(position, scale, rotation)

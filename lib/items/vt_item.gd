@@ -38,7 +38,10 @@ signal pin_changed(mesh: MeshInstance2D)
 
 func _ready():
 	# center the item image
-	pivot_offset = size / 2
+	centered = true
+	size = get_node("Render").size
+	get_node("Render").position = -size / 2
+	
 	# process_priority = 1
 
 func _process(_delta: float) -> void:
@@ -94,13 +97,13 @@ func _on_drag_released() -> void:
 	var pinned = pinned_to
 	pin_vertices = Vector3.ZERO
 	for mesh in meshes:
-		if not model.pinnable[mesh.name]:
+		if not model.pinnable.get(mesh.name, true):
 			continue
 		if not mesh.visible:
 			continue
 		
 		var c = self.get_global_transform() * (self.size / 2)
-		var p = model.live2d_model.to_local(c)
+		var p = model.to_local(c)
 		var _ary = RenderingServer.mesh_surface_get_arrays(mesh.mesh, 0)
 		var v = _ary[Mesh.ARRAY_VERTEX]
 		var f = _ary[Mesh.ARRAY_INDEX]

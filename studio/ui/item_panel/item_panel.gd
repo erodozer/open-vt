@@ -47,8 +47,7 @@ func _on_directory_button_pressed() -> void:
 	OS.shell_open(ProjectSettings.globalize_path(ItemManager.FILE_DIR))
 
 func _show_configuration(item: VtItem) -> void:
-	var tex = item.texture
-	%Preview/Image.texture = tex
+	%Preview/Camera2D.add_child(item)
 	
 	%ZIndex/Value.value = 0
 	%FrameRate/Value.value = 10
@@ -66,12 +65,13 @@ func _show_configuration(item: VtItem) -> void:
 		item.queue_free()
 		return
 	
-	if tex is AnimatedTexture:
-		tex.speed_scale = %FrameRate/Value.value
+	#if tex is AnimatedTexture:
+	#	tex.speed_scale = %FrameRate/Value.value
 	
 	item.sort_order = int(%ZIndex/Value.value)
 	item.pinnable = %Pin/Value.button_pressed
-			
+	
+	%Preview/Camera2D.remove_child(item)
 	stage.spawn_item(item)
 	
 func _on_item_popup_close_requested() -> void:
@@ -81,8 +81,9 @@ func _on_spawn_btn_pressed() -> void:
 	item_configured.emit(true)
 
 func _on_framerate_value_changed(value: float) -> void:
-	if %Preview/Image.texture is AnimatedTexture:
-		%Preview/Image.texture.speed_scale = value
+	pass
+	#if %Preview/Image.texture is AnimatedTexture:
+	#	%Preview/Image.texture.speed_scale = value
 
 func _on_stage_item_added(item: VtItem) -> void:
 	var row = preload("./item_row.tscn").instantiate()

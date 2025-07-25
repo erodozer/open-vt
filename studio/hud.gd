@@ -13,6 +13,8 @@ func _ready() -> void:
 	group = %ParameterBtn.button_group
 	group.pressed.connect(
 		func (button):
+			if button.get_meta("panel") == null:
+				return
 			if button != null and button.button_pressed:
 				var panel = button.get_node(button.get_meta("panel"))
 				_open_panel(panel)
@@ -47,7 +49,8 @@ func _ready() -> void:
 			group.allow_unpress = true
 			popup_bg.hide()
 			for p in panels.get_children():
-				p.offset_right = p.size.x
+				if p is Control:
+					p.offset_right = p.size.x
 			action_controller.restore()
 			open == null
 			_clear_buttons()
@@ -80,13 +83,6 @@ func _close_panel():
 func _open_panel(panel):
 	if panel != null and panel.has_method("_refresh"):
 		await panel._refresh()
-	
-	if panel == action_editor and is_floating:
-		action_editor.popout()
-		return
-	if action_editor.is_floating and panel == null:
-		action_editor.restore()
-		return
 	
 	if panel == open:
 		return

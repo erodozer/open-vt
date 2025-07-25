@@ -6,6 +6,8 @@ var format: String
 var id: String
 ## path to vtube.json file
 var studio_parameters: String
+## path to ovt.json file
+var openvt_parameters: String
 ## path to icon image, as defined in vtube.json
 var icon: Texture2D
 ## path to the moc3.json file as defined in vtube.json

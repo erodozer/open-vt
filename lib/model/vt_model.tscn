@@ -1,24 +1,20 @@
-[gd_scene load_steps=8 format=3 uid="uid://bkm4lgw38g4di"]
+[gd_scene load_steps=6 format=3 uid="uid://bkm4lgw38g4di"]
 
 [ext_resource type="Script" uid="uid://bxp75jugxppgv" path="res://lib/model/vt_model.gd" id="1_bvpwh"]
 [ext_resource type="Script" uid="uid://d10aurevaucml" path="res://lib/model/debug.gd" id="3_nwsty"]
 [ext_resource type="Script" uid="uid://upm0dm5yhv7y" path="res://lib/model/parameters/parameter_mixer.gd" id="3_srq5n"]
 [ext_resource type="Script" uid="uid://bwfq4xc1atg7r" path="res://lib/model/parameters/parameter_value_provider.gd" id="4_g0dve"]
 [ext_resource type="Script" uid="uid://rnu42w2adnxt" path="res://lib/model/parameters/expression_value_provider.gd" id="5_7xpjp"]
-[ext_resource type="Script" uid="uid://bhbvyv4xec0g4" path="res://lib/model/parameters/breathe_value_provider.gd" id="5_8xssb"]
-[ext_resource type="Script" uid="uid://bvgpl2e1wapdr" path="res://lib/model/parameters/blink_value_provider.gd" id="6_7xpjp"]
 
-[node name="VtModel" type="Control" groups=["persist", "vtmodel"]]
+[node name="VtModel" type="Node2D" groups=["persist", "vtmodel"]]
 texture_filter = 2
-layout_mode = 3
-anchors_preset = 0
-mouse_filter = 2
 script = ExtResource("1_bvpwh")
 
-[node name="Debug" type="Node2D" parent="."]
+[node name="Debug" type="Node2D" parent="." node_paths=PackedStringArray("model")]
 unique_name_in_owner = true
-visible = false
+z_index = 1000
 script = ExtResource("3_nwsty")
+model = NodePath("..")
 
 [node name="HotKeys" type="Node" parent="."]
 unique_name_in_owner = true
@@ -43,11 +39,3 @@ script = ExtResource("5_7xpjp")
 script = ExtResource("4_g0dve")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Mixer/OneShotMotion"]
-
-[node name="Breathe" type="Node" parent="Mixer" node_paths=PackedStringArray("model")]
-script = ExtResource("5_8xssb")
-model = NodePath("../..")
-
-[node name="Blink" type="Node" parent="Mixer" node_paths=PackedStringArray("model")]
-script = ExtResource("6_7xpjp")
-model = NodePath("../..")

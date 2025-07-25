@@ -1,0 +1,104 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxmvu0on3r7wd"]
+
+[ext_resource type="Script" uid="uid://cprgqedu8kiod" path="res://studio/action_engine/graph/logic/blink.gd" id="1_cikvy"]
+
+[sub_resource type="Curve" id="Curve_cikvy"]
+_data = [Vector2(0.254851, 0), 0.0, 1.4, 0, 0, Vector2(0.963777, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Blink" type="GraphNode"]
+offset_right = 25.0
+offset_bottom = 55.0
+title = "Blink"
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+slot/1/left_enabled = false
+slot/1/left_type = 0
+slot/1/left_color = Color(1, 1, 1, 1)
+slot/1/left_icon = null
+slot/1/right_enabled = true
+slot/1/right_type = 1
+slot/1/right_color = Color(1, 1, 1, 1)
+slot/1/right_icon = null
+slot/1/draw_stylebox = true
+script = ExtResource("1_cikvy")
+curve = SubResource("Curve_cikvy")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Frequency"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Label" type="Label" parent="VBoxContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Min"
+
+[node name="MinTimeScale" type="SpinBox" parent="VBoxContainer2/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+min_value = 10.0
+max_value = 10000.0
+value = 500.0
+alignment = 2
+suffix = "ms"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer2/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Max"
+
+[node name="MaxTimeScale" type="SpinBox" parent="VBoxContainer2/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+min_value = 10.0
+max_value = 10000.0
+value = 5000.0
+alignment = 2
+suffix = "ms"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer2"]
+layout_mode = 2
+
+[node name="Output" type="Label" parent="VBoxContainer2/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Speed"
+
+[node name="Speed" type="SpinBox" parent="VBoxContainer2/HBoxContainer3"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+min_value = 1.0
+max_value = 1000.0
+value = 200.0
+alignment = 2
+suffix = "ms"
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 1.0
+step = 0.001

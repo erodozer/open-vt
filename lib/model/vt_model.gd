@@ -5,7 +5,6 @@ class_name VtModel
 
 const utils = preload("res://lib/utils.gd")
 const ModelFormatStrategy = preload("./model_strategy.gd")
-const ParameterSetting = preload("res://lib/tracking/parameter_setting.gd")
 const ExpressionController = preload("./parameters/expression_value_provider.gd")
 const Tracker = preload("res://lib/tracking/tracker.gd")
 const ModelMeta = preload("./metadata.gd")
@@ -32,7 +31,6 @@ var mipmaps: bool = false :
 	set(v):
 		mipmaps = v
 		
-var studio_parameters: Array = []
 var parameters: Dictionary :
 	get():
 		if is_initialized():
@@ -64,23 +62,36 @@ var movement_scale: Vector3 = Vector3.ZERO
 signal initialized
 signal reload
 
+var _loading = false
+
+func _ready() -> void:
+	reload.connect(
+		func ():
+			if not _loading:
+				_load_model()
+	)
+
 func is_initialized():
 	return format_strategy != null and format_strategy.is_initialized()
 
 func get_meshes() -> Array:
-	return format_strategy.get_meshes()
+	if is_initialized():
+		return format_strategy.get_meshes()
+	return []
 
 func is_bound(parameter: Dictionary) -> bool:
 	return has_node(parameter.id)
 
 func _load_model():
 	var reload = is_initialized()
+	_loading = true
 	
 	if not (await format_strategy.load_model()):
 		queue_free()
 		return 
 		
 	if reload:
+		_loading = false
 		return
 	
 	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(model.studio_parameters))
@@ -102,21 +113,12 @@ func _load_model():
 	size = format_strategy.get_size()
 	scale = Vector2.ONE * clamp(get_viewport_rect().size.y / size.y, 0.001, 2.0)
 	rotation_degrees = 0
-	pivot_offset = size / 2
+	# pivot_offset = size / 2
 	# spawn off screen
 	position = -size 
 	
-	studio_parameters.clear()
-	for parameter_data in vtube_data["ParameterSettings"]:
-		var p = preload("res://lib/tracking/parameter_setting.gd").new()
-		var ok = p.deserialize(parameter_data)
-		if ok:
-			p.model_parameter = self.parameters[p.output_parameter]
-			studio_parameters.append(p)
-
-func add_parameter():
-	var p = preload("res://lib/tracking/parameter_setting.gd").new()
-	%Parameters.add_child(p)
+	parameters = format_strategy.get_parameters()
+	_loading = false
 		
 func toggle_expression(expression_name: String, activate: bool = true, duration: float = 1.0):
 	if expression_name.is_empty():
@@ -135,36 +137,20 @@ func get_animation_player() -> AnimationPlayer:
 func tracking_updated(tracking_data: Dictionary):
 	if not is_initialized():
 		return
-	
-	var tracking = mixer.get_node("Tracking")
-	for parameter in studio_parameters:
-		# skip paramters that haven't been fully configured
-		if parameter.output_parameter == null or parameter.model_parameter == null:
-			return
-		# allow tracking sources to provide prescaled/absolute values for parameters
-		if parameter.output_parameter in tracking_data:
-			var raw_value = tracking_data[parameter.output_parameter]
-			tracking.set(parameter.output_parameter, raw_value)
-		# also skip parameters that we do not yet support binding to
-		elif parameter.input_parameter in tracking_data:
-			var raw_value = tracking_data[parameter.input_parameter]
-			tracking.set(parameter.output_parameter, parameter.scale_value(raw_value))
-		
 	# pass forward to any format specific handling
 	format_strategy.tracking_updated(tracking_data)
-
+	
 func hydrate(settings: Dictionary):
 	var model_preferences = settings.get("model_preferences", {}).get(model.id, {})
 	scale = model_preferences.get("transform", {}).get("scale", self.scale)
 	rotation_degrees = model_preferences.get("transform", {}).get("rotation", 0)
 	
-	_load_model()
+	await _load_model()
 	
-	await self.initialized
 	await get_tree().process_frame
-	var p = model_preferences.get("transform", {}).get("position", get_viewport_rect().get_center() - (self.size / 2))
+	var p = model_preferences.get("transform", {}).get("position", get_viewport_rect().get_center() - (self.size * scale / 2))
 	create_tween().tween_property(
-		self, "position", 
+		self, "position",
 		p,
 		0.5
 	).from(
@@ -189,7 +175,7 @@ func save_settings(settings: Dictionary):
 	# save back updated parameters to VTS configuration	
 	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(model.studio_parameters))
 	var f = FileAccess.open(model.studio_parameters, FileAccess.WRITE)
-	vtube_data["ParameterSettings"] = studio_parameters.map(func (x): return x.serialize())
+	# vtube_data["ParameterSettings"] = studio_parameters.map(func (x): return x.serialize())
 	vtube_data["ArtMeshDetails"]["ArtMeshesExcludedFromPinning"] = pinnable.keys().filter(func (x): return pinnable[x] == false)
 	vtube_data["FileReferences"]["IdleAnimation"] = get_idle_animation_player().current_animation
 	
@@ -197,3 +183,7 @@ func save_settings(settings: Dictionary):
 	f.store_string(out)
 	f.close()
 	
+	f = FileAccess.open(model.openvt_parameters, FileAccess.WRITE)
+	out = JSON.stringify({}, "  ")
+	f.store_string(out)
+	f.close()

@@ -5,7 +5,6 @@ extends "res://lib/model/model_strategy.gd"
 const utils = preload("res://lib/utils.gd")
 const ModelMeta = preload("res://lib/model/metadata.gd")
 const Tracker = preload("res://lib/tracking/tracker.gd")
-const ParameterSetting = preload("res://lib/tracking/parameter_setting.gd")
 
 static var linear_shaders = [
 	preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_add.gdshader"),
@@ -155,12 +154,13 @@ func load_model():
 		m.set_meta("start_centroid", center)
 		m.set_meta("global_centroid", render.global_position + center)
 					
+	position = -get_size() / 2
 	await get_tree().process_frame
 	return true
 	
 func apply_parameters(values: Dictionary):
 	for p_name in values:
-		live2d_model.set(p_name, float(values[p_name]))
+		live2d_model.set(p_name, values.get(p_name, 0.0))
 	
 func tracking_updated(tracking_data: Dictionary):
 	if not get_parent().movement_enabled:
@@ -168,19 +168,18 @@ func tracking_updated(tracking_data: Dictionary):
 	
 	var moved = Vector3(
 		Tracker.signed_ilerp_input(
-			tracking_data.get(ParameterSetting.TrackingInput.FACE_POSITION_X, 0),
-			ParameterSetting.TrackingInput.FACE_POSITION_X
+			tracking_data.get(Tracker.Inputs.FACE_POSITION_X, 0),
+			Tracker.Inputs.FACE_POSITION_X,
 		),
 		Tracker.signed_ilerp_input(
-			tracking_data.get(ParameterSetting.TrackingInput.FACE_POSITION_Y, 0),
-			ParameterSetting.TrackingInput.FACE_POSITION_Y
+			tracking_data.get(Tracker.Inputs.FACE_POSITION_Y, 0),
+			Tracker.Inputs.FACE_POSITION_Y,
 		),
 		Tracker.signed_ilerp_input(
-			tracking_data.get(ParameterSetting.TrackingInput.FACE_POSITION_Z, 0),
-			ParameterSetting.TrackingInput.FACE_POSITION_Z
+			tracking_data.get(Tracker.Inputs.FACE_POSITION_Z, 0),
+			Tracker.Inputs.FACE_POSITION_Z,
 		)
 	)
 	var movement = moved * get_parent().movement_scale
 	live2d_model.scale = Vector2.ONE + (Vector2.ONE * movement.z)
 	live2d_model.position = Vector2(live2d_model.size) * utils.v32xy(movement) + Vector2(live2d_model.get_origin())
-		

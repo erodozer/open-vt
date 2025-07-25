@@ -62,7 +62,10 @@ func create_item(path: String) -> VtItem:
 	var vtitem = preload("res://lib/items/vt_item.tscn").instantiate()
 	
 	if path in png_items:
-		vtitem.texture = ImageTexture.create_from_image(Image.load_from_file(path))
+		var render = TextureRect.new()
+		render.name = "Render"
+		render.texture = ImageTexture.create_from_image(Image.load_from_file(path))
+		vtitem.add_child(render)
 	elif path in apng_items:
 		var tex = AnimatedTexture.new()
 		var frames = []
@@ -76,12 +79,14 @@ func create_item(path: String) -> VtItem:
 		tex.frames = len(frames)
 		for i in range(len(frames)):
 			tex.set_frame_texture(i, frames[i])
-		vtitem.texture = tex
+		var render = TextureRect.new()
+		render.name = "Render"
+		render.texture = ImageTexture.create_from_image(Image.load_from_file(path))
+		vtitem.add_child(render)
 	elif path in live2d_items:
-		var model = GDCubismUserModel.new()
-		model.assets = path
+		var model = GDCubismModelLoader.load_model(path, [], true)
+		model.name = "Render"
 		vtitem.add_child(model)
-		vtitem.texture = model.get_texture()
 	else:
 		return
 	
