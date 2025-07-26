@@ -1,7 +1,6 @@
 # System for loading models from VTubeStudio's format
 # and spawning them into the scene to be managed
 extends "res://lib/vtobject.gd"
-class_name VtModel
 
 const utils = preload("res://lib/utils.gd")
 const ModelFormatStrategy = preload("./model_strategy.gd")

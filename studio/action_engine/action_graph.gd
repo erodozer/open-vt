@@ -5,19 +5,18 @@ const VtAction = preload("./graph/vt_action.gd")
 var graph_elements: Array[GraphNode] = []
 
 func _on_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
-	var n1 = get_node(NodePath(from_node))
-	var n2 = get_node(NodePath(to_node)) 
+	var n = get_node(NodePath(to_node)) 
 	
-	var slot_type = n2.get_input_port_type(to_port)
+	var slot_type = n.get_input_port_type(to_port)
 	var count = get_connection_count(to_node, to_port)
 	
 	# only allow one binding for numeric, allow takeover
 	if slot_type == VtAction.SlotType.NUMERIC and count > 0:
-		var disconnect = connections.filter(
+		var disconnected = connections.filter(
 			func (f):
 				return f.to_node == to_node and f.to_port == to_port
 		)
-		for i in disconnect:
+		for i in disconnected:
 			disconnect_node(i.from_node, i.from_port, to_node, to_port)
 		
 	connect_node(from_node, from_port, to_node, to_port)

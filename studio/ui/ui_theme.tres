@@ -1,13 +1,19 @@
-[gd_resource type="Theme" load_steps=65 format=3 uid="uid://bwesfr5en0lxv"]
+[gd_resource type="Theme" load_steps=73 format=3 uid="uid://bwesfr5en0lxv"]
 
 [ext_resource type="Texture2D" uid="uid://cj047554m680j" path="res://studio/ui/icons/square-check.svg" id="1_5hwks"]
 [ext_resource type="Texture2D" uid="uid://dv7o0g2fot3n3" path="res://studio/ui/icons/toggle-on.svg" id="1_jmxgr"]
 [ext_resource type="Texture2D" uid="uid://58ua5of8kuir" path="res://studio/ui/icons/toggle-off.svg" id="2_3w1p0"]
+[ext_resource type="Texture2D" uid="uid://gua86suty0j4" path="res://studio/ui/icons/radio.svg" id="2_mwdli"]
 [ext_resource type="Texture2D" uid="uid://cinmh6ud6reg3" path="res://studio/ui/icons/square.svg" id="2_v5cbu"]
-[ext_resource type="Texture2D" uid="uid://1x62fhgcc5t6" path="res://studio/ui/icons/slider grabber.svg" id="3_7fevj"]
+[ext_resource type="Texture2D" uid="uid://c3dee7af4se08" path="res://studio/ui/icons/circle.svg" id="3_2pmx3"]
+[ext_resource type="Texture2D" uid="uid://8cs3l0r7n6m" path="res://studio/ui/icons/toggle-on-disabled.svg" id="4_0e6vk"]
 [ext_resource type="Texture2D" uid="uid://caxe2m44hrqj1" path="res://studio/ui/icons/angle-down.svg" id="4_o3o4d"]
 [ext_resource type="Texture2D" uid="uid://fge15v8vmf64" path="res://studio/ui/icons/xmark.svg" id="5_43xc2"]
+[ext_resource type="Texture2D" uid="uid://dj4gi77yklb34" path="res://studio/ui/icons/knob.svg" id="5_b4i6s"]
 [ext_resource type="Texture2D" uid="uid://bjxnq0slsgn8o" path="res://studio/ui/icons/angle-up.svg" id="5_b7yax"]
+[ext_resource type="Texture2D" uid="uid://cq6pa7el3jat7" path="res://studio/ui/icons/toggle-off-disabled.svg" id="6_7t4fe"]
+[ext_resource type="Texture2D" uid="uid://mtgh7f5wubre" path="res://studio/ui/icons/circle-chevron-left.svg" id="9_b4i6s"]
+[ext_resource type="Texture2D" uid="uid://b17r1y0nlfech" path="res://studio/ui/icons/circle-chevron-right.svg" id="10_sidt4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qnykt"]
 content_margin_left = 4.0
@@ -310,6 +316,14 @@ bg_color = Color(0.847059, 0.823529, 0.729412, 1)
 shadow_size = 2
 shadow_offset = Vector2(2, 2)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b4i6s"]
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sidt4"]
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7t4fe"]
 content_margin_left = 8.0
 content_margin_top = 4.0
@@ -454,6 +468,9 @@ CheckBox/colors/font_hover_pressed_color = Color(0.3, 0.284, 0.24, 0.588235)
 CheckBox/colors/font_pressed_color = Color(0.298039, 0.282353, 0.239216, 1)
 CheckBox/icons/checked = ExtResource("1_5hwks")
 CheckBox/icons/checked_disabled = ExtResource("1_5hwks")
+CheckBox/icons/radio_checked = ExtResource("2_mwdli")
+CheckBox/icons/radio_checked_disabled = null
+CheckBox/icons/radio_unchecked = ExtResource("3_2pmx3")
 CheckBox/icons/unchecked = ExtResource("2_v5cbu")
 CheckBox/icons/unchecked_disabled = ExtResource("2_v5cbu")
 CheckBox/styles/focus = SubResource("StyleBoxEmpty_5hwks")
@@ -463,8 +480,11 @@ CheckButton/colors/font_focus_color = Color(0.298039, 0.282353, 0.239216, 1)
 CheckButton/colors/font_hover_color = Color(0.3, 0.284, 0.24, 0.588235)
 CheckButton/colors/font_hover_pressed_color = Color(0.3, 0.284, 0.24, 0.588235)
 CheckButton/colors/font_pressed_color = Color(0.298039, 0.282353, 0.239216, 1)
+CheckButton/constants/check_v_offset = -6
 CheckButton/icons/checked = ExtResource("1_jmxgr")
+CheckButton/icons/checked_disabled = ExtResource("4_0e6vk")
 CheckButton/icons/unchecked = ExtResource("2_3w1p0")
+CheckButton/icons/unchecked_disabled = ExtResource("6_7t4fe")
 CheckButton/styles/disabled = SubResource("StyleBoxEmpty_2ihb8")
 CheckButton/styles/focus = SubResource("StyleBoxEmpty_dav6o")
 CheckButton/styles/hover = SubResource("StyleBoxEmpty_uf5kg")
@@ -480,9 +500,9 @@ HScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_4cmnx")
 HScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_ar787")
 HScrollBar/styles/scroll = SubResource("StyleBoxFlat_acytb")
 HScrollBar/styles/scroll_focus = SubResource("StyleBoxFlat_tm1gl")
-HSlider/icons/grabber = ExtResource("3_7fevj")
-HSlider/icons/grabber_disabled = ExtResource("3_7fevj")
-HSlider/icons/grabber_highlight = ExtResource("3_7fevj")
+HSlider/icons/grabber = ExtResource("5_b4i6s")
+HSlider/icons/grabber_disabled = ExtResource("5_b4i6s")
+HSlider/icons/grabber_highlight = ExtResource("5_b4i6s")
 HSlider/styles/grabber_area = SubResource("StyleBoxFlat_5u4rn")
 HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_rrc7s")
 HSlider/styles/slider = SubResource("StyleBoxFlat_eab0l")
@@ -514,6 +534,8 @@ Panel/styles/panel = SubResource("StyleBoxFlat_3k4yb")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_vl7lj")
 PopupMenu/colors/font_color = Color(0.788235, 0.764706, 0.670588, 1)
 PopupMenu/colors/font_hover_color = Color(0.298039, 0.282353, 0.239216, 1)
+PopupMenu/icons/radio_checked = ExtResource("2_mwdli")
+PopupMenu/icons/radio_unchecked = ExtResource("3_2pmx3")
 PopupMenu/styles/hover = SubResource("StyleBoxFlat_5e0sc")
 PopupMenu/styles/panel = SubResource("StyleBoxFlat_vbyic")
 PopupMenu/styles/separator = SubResource("StyleBoxLine_honxw")
@@ -546,11 +568,22 @@ SubPanelContainer/styles/panel = SubResource("StyleBoxFlat_piqja")
 TabBar/colors/font_hovered_color = Color(0.811765, 0.788235, 0.698039, 1)
 TabBar/colors/font_selected_color = Color(0.298039, 0.282353, 0.239216, 1)
 TabBar/colors/font_unselected_color = Color(0.690196, 0.670588, 0.592157, 1)
+TabBar/icons/close = ExtResource("5_43xc2")
+TabBar/icons/decrement = ExtResource("9_b4i6s")
+TabBar/icons/decrement_highlight = ExtResource("9_b4i6s")
+TabBar/icons/increment = ExtResource("10_sidt4")
+TabBar/icons/increment_highlight = ExtResource("10_sidt4")
+TabBar/styles/button_highlight = SubResource("StyleBoxEmpty_b4i6s")
+TabBar/styles/button_pressed = SubResource("StyleBoxEmpty_sidt4")
 TabBar/styles/tab_hovered = SubResource("StyleBoxFlat_7t4fe")
 TabBar/styles/tab_selected = SubResource("StyleBoxFlat_5hwks")
 TabBar/styles/tab_unselected = SubResource("StyleBoxFlat_v5cbu")
 TabContainer/colors/font_selected_color = Color(0.298039, 0.282353, 0.239216, 1)
 TabContainer/colors/font_unselected_color = Color(0.690196, 0.670588, 0.592157, 1)
+TabContainer/icons/decrement = ExtResource("9_b4i6s")
+TabContainer/icons/decrement_highlight = ExtResource("9_b4i6s")
+TabContainer/icons/increment = ExtResource("10_sidt4")
+TabContainer/icons/increment_highlight = ExtResource("10_sidt4")
 TabContainer/styles/panel = SubResource("StyleBoxFlat_b4i6s")
 TabContainer/styles/tab_selected = SubResource("StyleBoxFlat_sidt4")
 TabContainer/styles/tab_unselected = SubResource("StyleBoxFlat_0e6vk")

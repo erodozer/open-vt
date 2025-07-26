@@ -36,7 +36,7 @@ var progress: float :
 func get_value(_slot) -> float:
 	return progress
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var now = Time.get_ticks_msec()
 	if blinking < now:
 		blinking = now + randf_range(frequency.x, frequency.y) + speed

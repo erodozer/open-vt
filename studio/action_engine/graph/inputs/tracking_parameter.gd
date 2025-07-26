@@ -61,14 +61,16 @@ func _on_input_item_selected(index: int) -> void:
 func load_from_vts(data: Dictionary):
 	# display_name = data["Name"]
 	var input_name = data["Input"]
+	var meta: Dictionary = {}
 	for param in TrackingInput:
 		var i = TrackingInput[param]
-		var meta = TrackingMeta.get(i, {})
-		var pname = meta.get("name", param.to_pascal_case())
+		var m = TrackingMeta.get(i, {})
+		var pname = m.get("name", param.to_pascal_case())
 		if input_name == pname:
 			parameter = i
+			meta = m
+			break
 			
-	var meta = TrackingMeta.get(parameter, {})
 	var default_range = meta.get("range", Vector2(0, 1))
 	clamp_enabled = data.get("ClampInput", false)
 	clamp_range = Vector2(
@@ -78,8 +80,7 @@ func load_from_vts(data: Dictionary):
 
 func get_value(_slot):
 	var value: float = self.value
-	var range = self.clamp_range
 	if %ClampToggle.pressed:
-		value = clampf(value, range.x, range.y)
+		value = clampf(value, clamp_range.x, clamp_range.y)
 	
-	return inverse_lerp(range.x, range.y, value)
+	return inverse_lerp(clamp_range.x, clamp_range.y, value)

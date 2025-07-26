@@ -43,7 +43,7 @@ func _on_stage_model_changed(model: VtModel) -> void:
 	# _model.renderer.transform_updated.connect(_update_transform)
 		
 	%IdleAnimation.clear()
-	%IdleAnimation.add_item("")
+	%IdleAnimation.add_item("None")
 	for anim in model.get_idle_animation_player().get_animation_library("").get_animation_list():
 		if anim == "RESET":
 			continue
@@ -122,14 +122,12 @@ func _on_generate_mipmaps_toggled(toggled_on: bool) -> void:
 func _on_idle_animation_item_selected(index: int) -> void:
 	if model == null:
 		return
-	if index == -1:
+	if index <= 0:
 		model.get_idle_animation_player().stop()
+		model.get_idle_animation_player().play("RESET")
 		
 	var anim = %IdleAnimation.get_item_text(index)
-	if anim == "":
-		model.get_idle_animation_player().play("RESET")
-	else:
-		model.get_idle_animation_player().play(anim)
+	model.get_idle_animation_player().play(anim)
 
 func _on_movement_lock_button_toggled(toggled_on: bool) -> void:
 	if model == null:

@@ -39,8 +39,8 @@ func _ready() -> void:
 		tracking_system.parameters_updated.connect(_on_tracker_system_parameters_updated)
 		tracker.item_selected.connect(
 			func (idx):
-				var tracker = tracker.get_item_metadata(idx)
-				tracking_system.activate_tracker(tracker.new())
+				var _tracker = tracker.get_item_metadata(idx)
+				tracking_system.activate_tracker(_tracker.new())
 		)
 		
 	if OS.has_feature("linux"):

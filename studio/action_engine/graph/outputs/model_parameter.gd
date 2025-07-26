@@ -66,8 +66,7 @@ func load_from_vts(data: Dictionary):
 	)
 	clamp_enabled = data.get("ClampOutput", false)
 	
-func update_value(slot: int, v: float) -> void:
-	
+func update_value(_slot: int, v: float) -> void:
 	var parameter = input.get_selected_metadata()
 	if parameter == null:
 		return
@@ -89,6 +88,6 @@ func _update_model():
 	)
 	_dirty = false
 	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	_update_model()
 	

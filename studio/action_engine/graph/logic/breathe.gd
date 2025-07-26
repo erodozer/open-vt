@@ -26,9 +26,9 @@ var link: NodePath :
 		link = v
 		%TimeScale.disabled = v != NodePath("")
 
-func get_value(slot):
+func get_value(_slot):
 	return progress
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	%ProgressBar.value = progress
 	slot_updated.emit(0)

@@ -31,40 +31,56 @@ script = ExtResource("1_gusss")
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_constants/h_separation = 8
-theme_override_constants/v_separation = 8
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
 columns = 4
 
-[node name="CheckBox" type="CheckBox" parent="Mapping"]
+[node name="CheckBox" type="Button" parent="Mapping"]
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+toggle_mode = true
 button_group = SubResource("ButtonGroup_abhho")
 
-[node name="CheckBox2" type="CheckBox" parent="Mapping"]
+[node name="CheckBox2" type="Button" parent="Mapping"]
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+toggle_mode = true
 button_group = SubResource("ButtonGroup_abhho")
 
-[node name="CheckBox3" type="CheckBox" parent="Mapping"]
+[node name="CheckBox3" type="Button" parent="Mapping"]
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+toggle_mode = true
 button_group = SubResource("ButtonGroup_abhho")
 
-[node name="CheckBox4" type="CheckBox" parent="Mapping"]
+[node name="CheckBox4" type="Button" parent="Mapping"]
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+toggle_mode = true
 button_group = SubResource("ButtonGroup_abhho")
 
-[node name="CheckBox5" type="CheckBox" parent="Mapping"]
+[node name="CheckBox5" type="Button" parent="Mapping"]
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+toggle_mode = true
 button_group = SubResource("ButtonGroup_abhho")
 
-[node name="CheckBox6" type="CheckBox" parent="Mapping"]
+[node name="CheckBox6" type="Button" parent="Mapping"]
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+toggle_mode = true
 button_group = SubResource("ButtonGroup_abhho")
 
-[node name="CheckBox7" type="CheckBox" parent="Mapping"]
+[node name="CheckBox7" type="Button" parent="Mapping"]
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+toggle_mode = true
 button_group = SubResource("ButtonGroup_abhho")
 
-[node name="CheckBox8" type="CheckBox" parent="Mapping"]
+[node name="CheckBox8" type="Button" parent="Mapping"]
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+toggle_mode = true
 button_group = SubResource("ButtonGroup_abhho")
 
 [node name="Pressed" type="Label" parent="."]

@@ -38,6 +38,7 @@ stretch_mode = 1
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer"]
+texture_filter = 2
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -49,6 +50,9 @@ stretch = true
 unique_name_in_owner = true
 transparent_bg = true
 handle_input_locally = false
+msaa_2d = 2
+screen_space_aa = 1
+use_taa = true
 size = Vector2i(1280, 720)
 render_target_update_mode = 4
 

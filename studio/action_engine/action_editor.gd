@@ -273,6 +273,8 @@ func _on_profiles_child_exiting_tree(node: Node) -> void:
 			return
 
 func _on_profile_tabs_tab_selected(tab: int) -> void:
+	if tab >= %Profiles.get_tab_count():
+		return
 	%ProfileName.text = %Profiles.get_child(tab).name
 	%Profiles.current_tab = tab
 	%ProfileEnabled.set_pressed_no_signal(

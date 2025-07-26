@@ -258,6 +258,8 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
+text_overrun_behavior = 3
+fit_to_longest_item = false
 
 [node name="Mesh Settings" type="VBoxContainer" parent="ScrollContainer/MarginContainer/Accordion"]
 unique_name_in_owner = true
