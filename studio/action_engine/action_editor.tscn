@@ -220,6 +220,12 @@ custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
 placeholder_text = "Default"
 
+[node name="ProfileEnabled" type="CheckBox" parent="MarginContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enabled"
+flat = true
+
 [node name="Profiles" type="TabContainer" parent="MarginContainer/VBoxContainer/PanelContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -230,5 +236,6 @@ tabs_visible = false
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/AddProfile" to="." method="_on_add_profile_pressed"]
 [connection signal="tab_selected" from="MarginContainer/VBoxContainer/HBoxContainer/ProfileTabs" to="." method="_on_profile_tabs_tab_selected"]
 [connection signal="text_changed" from="MarginContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer/ProfileName" to="." method="_on_profile_name_text_changed"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer/ProfileEnabled" to="." method="_on_profile_enabled_toggled"]
 [connection signal="child_entered_tree" from="MarginContainer/VBoxContainer/PanelContainer/VBoxContainer/Profiles" to="." method="_on_profiles_child_entered_tree"]
 [connection signal="child_exiting_tree" from="MarginContainer/VBoxContainer/PanelContainer/VBoxContainer/Profiles" to="." method="_on_profiles_child_exiting_tree"]

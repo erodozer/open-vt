@@ -275,3 +275,9 @@ func _on_profiles_child_exiting_tree(node: Node) -> void:
 func _on_profile_tabs_tab_selected(tab: int) -> void:
 	%ProfileName.text = %Profiles.get_child(tab).name
 	%Profiles.current_tab = tab
+	%ProfileEnabled.set_pressed_no_signal(
+		%Profiles.get_child(tab).process_mode != PROCESS_MODE_DISABLED
+	)
+
+func _on_profile_enabled_toggled(toggled_on: bool) -> void:
+	active_graph.process_mode = PROCESS_MODE_INHERIT if toggled_on else PROCESS_MODE_DISABLED

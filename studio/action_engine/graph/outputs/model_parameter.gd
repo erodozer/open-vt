@@ -18,6 +18,13 @@ var parameter: int = -1 :
 		#var meta = stage.active_model.parameters[parameter]
 		#%Range/MinValue.min_value = meta
 		
+var model_parameter : String :
+	get():
+		var parameter = input.get_selected_metadata()
+		if parameter == null:
+			return ""
+		return parameter.name
+		
 var clamp_enabled: bool :
 	set(v):
 		%ClampToggle.button_pressed = v
@@ -32,6 +39,13 @@ var range: Vector2 = Vector2(0, 1) :
 	set(v):
 		%Range/MinValue.value = v.x
 		%Range/MaxValue.value = v.y
+	
+var value: float :
+	set(v):
+		value = v
+		%Input/Value.value = v
+	
+var _dirty = false
 	
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:	
@@ -52,16 +66,29 @@ func load_from_vts(data: Dictionary):
 	)
 	clamp_enabled = data.get("ClampOutput", false)
 	
-func update_value(slot: int, value: float) -> void:
-	var model = stage.active_model
+func update_value(slot: int, v: float) -> void:
 	
 	var parameter = input.get_selected_metadata()
 	if parameter == null:
 		return
 	
-	var scaled = lerp(range.x, range.y, value)
-	%Input/Value.value = scaled
+	var scaled = lerp(range.x, range.y, v)
+	value = scaled
 	
+	_dirty = true
+	
+func _update_model():
+	if model_parameter.is_empty():
+		return
+	if not _dirty:
+		return
+	
+	var model = stage.active_model
 	model.mixer.get_node("Tracking").set(
-		parameter.name, scaled
+		model_parameter, value
 	)
+	_dirty = false
+	
+func _process(delta: float) -> void:
+	_update_model()
+	

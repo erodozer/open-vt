@@ -18,7 +18,11 @@ var parameter: TrackingInput = TrackingInput.UNSET :
 		var meta = TrackingMeta.get(parameter, {})
 		var range = meta.get("range", Vector2(0, 1))
 		
-var value: float = 0.0
+var value: float = 0.0 :
+	set(v):
+		value = v
+		%Output/Value.value = v
+
 var clamp_enabled: bool = false :
 	get():
 		return %ClampToggle.button_pressed
@@ -47,7 +51,6 @@ func _ready() -> void:
 func _on_parameters_updated(parameters):
 	var old_value = value
 	value = parameters.get(parameter, 0.0)
-	%Output/Value.value = value
 	
 	if old_value != value:
 		slot_updated.emit(0)

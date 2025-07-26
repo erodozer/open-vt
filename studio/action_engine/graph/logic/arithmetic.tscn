@@ -69,8 +69,7 @@ custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 min_value = -999.9
 max_value = 999.9
-step = 0.001
-value = 0.1
+step = 0.01
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -86,8 +85,7 @@ custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 min_value = -999.9
 max_value = 999.9
-step = 0.001
-value = 0.1
+step = 0.01
 
 [node name="Output" type="Label" parent="."]
 layout_mode = 2

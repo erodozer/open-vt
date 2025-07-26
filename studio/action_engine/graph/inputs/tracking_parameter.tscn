@@ -98,7 +98,7 @@ layout_mode = 2
 size_flags_horizontal = 10
 min_value = -999.0
 max_value = 999.0
-step = 0.001
+step = 0.0
 alignment = 2
 editable = false
 

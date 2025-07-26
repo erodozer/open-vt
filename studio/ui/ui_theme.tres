@@ -1,7 +1,9 @@
-[gd_resource type="Theme" load_steps=62 format=3 uid="uid://bwesfr5en0lxv"]
+[gd_resource type="Theme" load_steps=65 format=3 uid="uid://bwesfr5en0lxv"]
 
+[ext_resource type="Texture2D" uid="uid://cj047554m680j" path="res://studio/ui/icons/square-check.svg" id="1_5hwks"]
 [ext_resource type="Texture2D" uid="uid://dv7o0g2fot3n3" path="res://studio/ui/icons/toggle-on.svg" id="1_jmxgr"]
 [ext_resource type="Texture2D" uid="uid://58ua5of8kuir" path="res://studio/ui/icons/toggle-off.svg" id="2_3w1p0"]
+[ext_resource type="Texture2D" uid="uid://cinmh6ud6reg3" path="res://studio/ui/icons/square.svg" id="2_v5cbu"]
 [ext_resource type="Texture2D" uid="uid://1x62fhgcc5t6" path="res://studio/ui/icons/slider grabber.svg" id="3_7fevj"]
 [ext_resource type="Texture2D" uid="uid://caxe2m44hrqj1" path="res://studio/ui/icons/angle-down.svg" id="4_o3o4d"]
 [ext_resource type="Texture2D" uid="uid://fge15v8vmf64" path="res://studio/ui/icons/xmark.svg" id="5_43xc2"]
@@ -69,6 +71,8 @@ bg_color = Color(0.756863, 0.737255, 0.658824, 1)
 shadow_color = Color(0, 0, 0, 0.196078)
 shadow_size = 2
 shadow_offset = Vector2(2, 2)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5hwks"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2ihb8"]
 content_margin_left = 4.0
@@ -442,6 +446,17 @@ Button/styles/normal = SubResource("StyleBoxFlat_mfmoo")
 Button/styles/pressed = SubResource("StyleBoxFlat_lmy8h")
 ButtonPanel/base_type = &"PanelContainer"
 ButtonPanel/styles/panel = SubResource("StyleBoxFlat_fqtye")
+CheckBox/colors/font_color = Color(0.298039, 0.282353, 0.239216, 1)
+CheckBox/colors/font_disabled_color = Color(0.690196, 0.670588, 0.592157, 1)
+CheckBox/colors/font_focus_color = Color(0.298039, 0.282353, 0.239216, 1)
+CheckBox/colors/font_hover_color = Color(0.3, 0.284, 0.24, 0.588235)
+CheckBox/colors/font_hover_pressed_color = Color(0.3, 0.284, 0.24, 0.588235)
+CheckBox/colors/font_pressed_color = Color(0.298039, 0.282353, 0.239216, 1)
+CheckBox/icons/checked = ExtResource("1_5hwks")
+CheckBox/icons/checked_disabled = ExtResource("1_5hwks")
+CheckBox/icons/unchecked = ExtResource("2_v5cbu")
+CheckBox/icons/unchecked_disabled = ExtResource("2_v5cbu")
+CheckBox/styles/focus = SubResource("StyleBoxEmpty_5hwks")
 CheckButton/colors/font_color = Color(0.298039, 0.282353, 0.239216, 1)
 CheckButton/colors/font_disabled_color = Color(0.67451, 0.654902, 0.580392, 1)
 CheckButton/colors/font_focus_color = Color(0.298039, 0.282353, 0.239216, 1)
