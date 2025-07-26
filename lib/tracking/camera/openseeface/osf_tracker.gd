@@ -27,12 +27,21 @@ func create_config() -> Node:
 	return panel
 
 func start():
-	if osf_pid > 0:
-		return
-	
 	var opened = super.start()
 	if not opened:
 		return
+	
+	# wait to see if we receive data from an instance that already exists
+	# if not, create a facetracker process
+	get_tree().create_timer(1.0).timeout.connect(start_process)
+	
+func start_process():
+	if peer != null:
+		print("receiving openseeface data from existing process")
+		return
+	
+	if osf_pid > 0:
+		stop_process()
 	
 	var executable
 	if OS.has_feature("linux"):
@@ -49,11 +58,14 @@ func start():
 	)
 	print("openseeface process: %d" % osf_pid)
 
-func stop():
+func stop_process():
 	if osf_pid > 0:
 		print("closing openseeface process: %d" % osf_pid)
 		OS.kill(osf_pid)
 		osf_pid = -1
+
+func stop():
+	stop_process()
 		
 	super.stop()
 	

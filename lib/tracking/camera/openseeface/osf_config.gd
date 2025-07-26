@@ -27,14 +27,19 @@ func _ready() -> void:
 	#for i in range(CameraServer.get_feed_count()):
 	#	var feed = CameraServer.get_feed(i)
 	#	%Camera.add_item(feed.get_name(), feed.get_id())
-	%Camera.select(0)
 	
 	tracker.data_received.connect(%PointPreview._on_data_received)
 	tracker.connection_status.connect(
 		func (status):
 			%ActiveIndicator.text = "On" if status == OsfTracker.ConnectionStatus.ON else "Off"
 			%ActiveIndicator.modulate = Color.RED if status == OsfTracker.ConnectionStatus.ON else Color.WHITE
+			
+			%Connect.disabled = status == OsfTracker.ConnectionStatus.ON
+			%Disconnect.disabled = status != OsfTracker.ConnectionStatus.ON
+			%Camera.disabled = status == OsfTracker.ConnectionStatus.ON
+			%Model.disabled = status == OsfTracker.ConnectionStatus.ON
 	)
+	tracker.start()
 	
 func _process(_delta: float) -> void:
 	if tracker != null:

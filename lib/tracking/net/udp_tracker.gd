@@ -5,7 +5,7 @@ var peer: PacketPeerUDP
 
 func start():
 	if server != null and server.is_listening():
-		return false
+		return true
 	
 	server = UDPServer.new()
 	var err = server.listen(port, self.host)
@@ -25,6 +25,7 @@ func stop():
 	connection_status.emit(ConnectionStatus.OFF)
 	
 	server = null
+	peer = null
 
 func _listen():
 	if server == null:

@@ -87,6 +87,7 @@ popup/item_4/text = "5 - High CPU, Most Accurate"
 popup/item_4/id = 5
 
 [node name="AutoConnect" type="CheckButton" parent="."]
+visible = false
 layout_mode = 2
 text = "Auto Connect"
 
