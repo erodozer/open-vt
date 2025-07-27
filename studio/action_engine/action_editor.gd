@@ -1,5 +1,6 @@
 extends Window
 
+const Files = preload("res://lib/utils/files.gd")
 const VtModel = preload("res://lib/model/vt_model.gd")
 const VtAction = preload("./graph/vt_action.gd")
 const TrackingInput = preload("res://lib/tracking/tracker.gd").Inputs
@@ -45,11 +46,11 @@ func _on_stage_model_changed(model: VtModel) -> void:
 		loaded = _load_from_vts(model)
 	
 func _load_graph(model):
-	var ovt_data = JSON.parse_string(FileAccess.get_file_as_string(model.model.openvt_parameters))
-	if ovt_data == null:
+	var ovt_data: Dictionary = Files.read_json(model.model.openvt_parameters)
+	if ovt_data.is_empty():
 		return false
 		
-	var graphs = ovt_data.get("graphs", {})
+	var graphs: Dictionary = ovt_data.get("graphs", {})
 	if graphs.is_empty():
 		return false
 	
@@ -68,7 +69,7 @@ func _load_graph(model):
 func _load_from_vts(model: VtModel):
 	const spacing = 30
 	# load vts hotkey settings
-	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(model.model.studio_parameters))
+	var vtube_data = Files.read_json(model.model.studio_parameters)
 	var y = 0
 	var x = 0
 	

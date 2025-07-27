@@ -2,7 +2,8 @@
 # and spawning them into the scene to be managed
 extends "res://lib/model/model_strategy.gd"
 
-const utils = preload("res://lib/utils.gd")
+const Math = preload("res://lib/utils/math.gd")
+const Files = preload("res://lib/utils/files.gd")
 const ModelMeta = preload("res://lib/model/metadata.gd")
 const Tracker = preload("res://lib/tracking/tracker.gd")
 
@@ -102,7 +103,7 @@ func _rebuild_l2d(meta: ModelMeta, smoothing: bool, filter: CanvasItem.TextureFi
 	live2d_model.position = live2d_model.get_origin()
 
 	for m in loaded_model.get_meshes():
-		var center = utils.v32xy(utils.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
+		var center = Math.v32xy(Math.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
 		m.set_meta("centroid", center)
 		m.set_meta("start_centroid", center)
 		m.set_meta("global_centroid", render.global_position + center)
@@ -112,7 +113,7 @@ func _rebuild_l2d(meta: ModelMeta, smoothing: bool, filter: CanvasItem.TextureFi
 	
 	# emotion controller
 	var expression_library = {}
-	for f in utils.walk_files(meta.model.get_base_dir(), "exp3.json"):
+	for f in Files.walk_files(meta.model.get_base_dir(), "exp3.json"):
 		expression_library[f.get_file()] = JSON.parse_string(FileAccess.get_file_as_string(f))
 
 	get_parent().expression_controller.expression_library = expression_library
@@ -149,7 +150,7 @@ func load_model():
 	for m in get_meshes():
 		m.set_meta("pinnable", m.name not in mesh_details.get("ArtMeshesExcludedFromPinning", []))
 
-		var center = utils.v32xy(utils.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
+		var center = Math.v32xy(Math.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
 		m.set_meta("centroid", center)
 		m.set_meta("start_centroid", center)
 		m.set_meta("global_centroid", render.global_position + center)
@@ -182,4 +183,4 @@ func tracking_updated(tracking_data: Dictionary):
 	)
 	var movement = moved * get_parent().movement_scale
 	live2d_model.scale = Vector2.ONE + (Vector2.ONE * movement.z)
-	live2d_model.position = Vector2(live2d_model.size) * utils.v32xy(movement) + Vector2(live2d_model.get_origin())
+	live2d_model.position = Vector2(live2d_model.size) * Math.v32xy(movement) + Vector2(live2d_model.get_origin())

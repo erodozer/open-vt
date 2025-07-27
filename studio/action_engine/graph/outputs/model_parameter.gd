@@ -1,5 +1,6 @@
 extends "../vt_action.gd"
 
+const Serializers = preload("res://lib/utils/serializers.gd")
 const Stage = preload("res://lib/stage.gd")
 
 const VALUE_SLOT = 1
@@ -30,7 +31,7 @@ var clamp_enabled: bool :
 		%ClampToggle.button_pressed = v
 		clamp_enabled = v
 		
-var range: Vector2 = Vector2(0, 1) :
+var clamp_range: Vector2 = Vector2(0, 1) :
 	get():
 		return Vector2(
 			%Range/MinValue.value,
@@ -60,7 +61,7 @@ func serialize():
 	return {
 		"parameter": model_parameter,
 		"clamp": clamp_enabled,
-		"range": { "min": range.x, "max": range.y },
+		"range": Serializers.RangeSerializer.to_json(clamp_range),
 	}
 	
 func deserialize(data: Dictionary):
@@ -69,10 +70,7 @@ func deserialize(data: Dictionary):
 			parameter = i
 	
 	clamp_enabled = data.get("clamp", false)
-	range = Vector2(
-		data.get("range", {}).get("min", 0),
-		data.get("range", {}).get("max", 1)
-	)
+	clamp_range = Serializers.RangeSerializer.from_json(data.get("range"))
 	
 func load_from_vts(data: Dictionary):
 	var model = stage.active_model
@@ -81,7 +79,7 @@ func load_from_vts(data: Dictionary):
 			return f.name == data["OutputLive2D"]
 	)
 	
-	range = Vector2(
+	clamp_range = Vector2(
 		data["OutputRangeLower"],
 		data["OutputRangeUpper"],
 	)
@@ -92,7 +90,7 @@ func update_value(_slot: int, v: float) -> void:
 	if parameter == null:
 		return
 	
-	var scaled = lerp(range.x, range.y, v)
+	var scaled = lerp(clamp_range.x, clamp_range.y, v)
 	value = scaled
 	
 	_dirty = true

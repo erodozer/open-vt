@@ -2,7 +2,7 @@
 # and spawning them into the scene to be managed
 extends "res://lib/vtobject.gd"
 
-const utils = preload("res://lib/utils.gd")
+const Files = preload("res://lib/utils/files.gd")
 const ModelFormatStrategy = preload("./model_strategy.gd")
 const ExpressionController = preload("./parameters/expression_value_provider.gd")
 const Tracker = preload("res://lib/tracking/tracker.gd")
@@ -63,13 +63,6 @@ signal reload
 
 var _loading = false
 
-func _ready() -> void:
-	reload.connect(
-		func ():
-			if not _loading:
-				_load_model()
-	)
-
 func is_initialized():
 	return format_strategy != null and format_strategy.is_initialized()
 
@@ -93,21 +86,8 @@ func _load_model():
 		_loading = false
 		return
 	
-	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(model.studio_parameters))
-	var model_data = JSON.parse_string(FileAccess.get_file_as_string(model.model))
-	
-	var idle_animation = vtube_data["FileReferences"]["IdleAnimation"]
-	if idle_animation:
-		get_idle_animation_player().play(idle_animation)
-		
-	var movement_settings = vtube_data.get("ModelPositionMovement", {})
-	movement_enabled = movement_settings.get("Use", false)
-	# vts movement based on 10 = +100% scale
-	movement_scale = Vector3(
-		inverse_lerp(0.0, 10.0, movement_settings.get("X", 0.0)),
-		inverse_lerp(0.0, 10.0, movement_settings.get("Y", 0.0)),
-		inverse_lerp(0.0, 10.0, movement_settings.get("Z", 0.0))
-	)
+	_load_from_vts()
+	_load_settings()
 	
 	size = format_strategy.get_size()
 	scale = Vector2.ONE * clamp(get_viewport_rect().size.y / size.y, 0.001, 2.0)
@@ -140,14 +120,50 @@ func tracking_updated(tracking_data: Dictionary):
 	format_strategy.tracking_updated(tracking_data)
 	
 func hydrate(settings: Dictionary):
-	var model_preferences = settings.get("model_preferences", {}).get(model.id, {})
-	scale = model_preferences.get("transform", {}).get("scale", self.scale)
-	rotation_degrees = model_preferences.get("transform", {}).get("rotation", 0)
-	
 	await _load_model()
 	
-	await get_tree().process_frame
-	var p = model_preferences.get("transform", {}).get("position", get_viewport_rect().get_center() - (self.size * scale / 2))
+	reload.connect(
+		func ():
+			if not _loading:
+				_load_model()
+	)
+
+## save bidirectional vts compatible settings
+func _save_to_vts():
+	var vtube_data = Files.read_json(model.studio_parameters)
+	# vtube_data["ParameterSettings"] = studio_parameters.map(func (x): return x.serialize())
+	vtube_data["ArtMeshDetails"]["ArtMeshesExcludedFromPinning"] = pinnable.keys().filter(func (x): return pinnable[x] == false)
+	vtube_data["FileReferences"]["IdleAnimation"] = get_idle_animation_player().current_animation
+	
+	Files.write_json(model.studio_parameters, vtube_data)
+	
+## load bidirectional vts compatible settings
+func _load_from_vts():
+	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(model.studio_parameters))
+	
+	var idle_animation = vtube_data["FileReferences"]["IdleAnimation"]
+	if idle_animation:
+		get_idle_animation_player().play(idle_animation)
+		
+	var movement_settings = vtube_data.get("ModelPositionMovement", {})
+	movement_enabled = movement_settings.get("Use", false)
+	# vts movement based on 10 = +100% scale
+	movement_scale = Vector3(
+		inverse_lerp(0.0, 10.0, movement_settings.get("X", 0.0)),
+		inverse_lerp(0.0, 10.0, movement_settings.get("Y", 0.0)),
+		inverse_lerp(0.0, 10.0, movement_settings.get("Z", 0.0))
+	)
+
+## load open-vt specific settings
+func _load_settings():
+	var model_preferences = Files.read_json(model.openvt_parameters)
+	scale = Vector2.ONE * model_preferences.get("transform", {}).get("scale", 1.0)
+	rotation_degrees = model_preferences.get("transform", {}).get("rotation", 0)
+	filter = TEXTURE_FILTER_NEAREST if model_preferences.get("quality", {}).get("filter", "linear") == "nearest" else TEXTURE_FILTER_LINEAR
+	smoothing = model_preferences.get("quality", {}).get("smooth", false)
+	
+	var p = model_preferences.get("transform", {}).get("position", get_viewport_rect().get_center())
+	p = Vector2(p.x, p.y)
 	create_tween().tween_property(
 		self, "position",
 		p,
@@ -159,33 +175,20 @@ func hydrate(settings: Dictionary):
 func save_settings(settings: Dictionary):
 	if not is_initialized():
 		return
-		
-	var p = settings.get("model_preferences", {})
-	p[model.id] = {
-		"filter": self.filter,
+	
+	_save_to_vts()
+	
+	var model_data  = {
+		"quality": {
+			"filter": "nearest" if self.filter != TEXTURE_FILTER_LINEAR else "linear",
+			"smooth": smoothing
+		},
 		"transform": {
-			"position": self.position,
-			"scale": self.scale,
+			"position": {"x": self.position.x, "y": self.position.y},
+			"scale": self.scale.x,
 			"rotation": self.rotation_degrees
 		}
 	}
-	settings["model_preferences"] = p
-	
-	# save back updated parameters to VTS configuration	
-	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(model.studio_parameters))
-	var f = FileAccess.open(model.studio_parameters, FileAccess.WRITE)
-	# vtube_data["ParameterSettings"] = studio_parameters.map(func (x): return x.serialize())
-	vtube_data["ArtMeshDetails"]["ArtMeshesExcludedFromPinning"] = pinnable.keys().filter(func (x): return pinnable[x] == false)
-	vtube_data["FileReferences"]["IdleAnimation"] = get_idle_animation_player().current_animation
-	
-	var out = JSON.stringify(vtube_data, "  ")
-	f.store_string(out)
-	f.close()
-	
-	f = FileAccess.open(model.openvt_parameters, FileAccess.WRITE)
-	var model_data  = {}
 	for o in get_tree().get_nodes_in_group("persist:model"):
 		o.save_settings(model_data)
-	out = JSON.stringify(model_data, "  ")
-	f.store_string(out)
-	f.close()
+	Files.write_json(model.openvt_parameters, model_data)

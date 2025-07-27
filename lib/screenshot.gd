@@ -28,6 +28,7 @@ func snap(viewport = get_viewport(), idx = Time.get_unix_time_from_system()):
 	get_window().transparent_bg = transparent
 
 func _unhandled_key_input(event: InputEvent) -> void:
-	if event.is_pressed() and (event as InputEventKey).keycode == KEY_F12:
+	if event.is_action_pressed("ui_screenshot"):
 		snap()
+		get_tree().set_input_as_handled()
 	

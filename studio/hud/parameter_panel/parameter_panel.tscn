@@ -1,0 +1,332 @@
+[gd_scene load_steps=7 format=3 uid="uid://dpw8au0ueatrg"]
+
+[ext_resource type="Script" uid="uid://ctgn3ir4rc6ap" path="res://studio/hud/parameter_panel/parameter_panel.gd" id="1_5864b"]
+[ext_resource type="Texture2D" uid="uid://d1kej52kqrg0g" path="res://ui/icons/eraser.svg" id="2_4qkrp"]
+[ext_resource type="Script" uid="uid://08yyvfky7ack" path="res://ui/accordion/accordion.gd" id="2_57r6x"]
+[ext_resource type="Texture2D" uid="uid://pd4vy1npck5p" path="res://ui/icons/lock.svg" id="3_ng4r4"]
+[ext_resource type="Texture2D" uid="uid://dy1nnckb883g" path="res://ui/icons/arrows-to-dot.svg" id="4_regdq"]
+[ext_resource type="Texture2D" uid="uid://dy2yryqb16rbw" path="res://ui/icons/arrows-to-circle.svg" id="6_evig7"]
+
+[node name="ParameterPanel" type="PanelContainer"]
+custom_minimum_size = Vector2(480, 0)
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 352.0
+grow_vertical = 2
+mouse_force_pass_scroll_events = false
+script = ExtResource("1_5864b")
+title = "Parameter Settings"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 2
+mouse_filter = 0
+mouse_force_pass_scroll_events = false
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_right = 8
+
+[node name="Accordion" type="VBoxContainer" parent="ScrollContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("2_57r6x")
+
+[node name="Model Settings" type="PanelContainer" parent="ScrollContainer/MarginContainer/Accordion"]
+layout_mode = 2
+theme_type_variation = &"SubPanelContainer"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Filter Mode"
+
+[node name="TextureFilter" type="OptionButton" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+selected = 0
+item_count = 2
+popup/item_0/text = "Nearest Neighbor"
+popup/item_0/id = 0
+popup/item_1/text = "Bilinear"
+popup/item_1/id = 1
+
+[node name="SmoothScaling" type="CheckButton" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Improves scaling quality when using Nearest Neighbor filtering
+by rendering using a SubViewport and Super-Sampling.
+Increases VRAM usage.
+
+Recommended when using Pixel Models"
+focus_mode = 0
+text = "Smooth Scaling"
+
+[node name="GenerateMipmaps" type="CheckButton" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Reduces aliasing when scaling a model.  Increases VRAM usage on average by 33%.
+Disabled when using Nearest Filtering
+Recommended: On"
+focus_mode = 0
+button_pressed = true
+text = "Generate Mipmaps"
+
+[node name="PreserveTransform" type="CheckButton" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+focus_mode = 0
+text = "Save Transform"
+
+[node name="Transform" type="VBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/HBoxContainer"]
+layout_mode = 2
+text = "Transformation"
+
+[node name="Control" type="Control" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LockButton" type="Button" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+tooltip_text = "Lock transform"
+focus_mode = 0
+toggle_mode = true
+icon = ExtResource("3_ng4r4")
+icon_alignment = 1
+expand_icon = true
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer"]
+layout_mode = 2
+
+[node name="Position" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Position"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Position"
+
+[node name="XValue" type="SpinBox" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Position"]
+layout_mode = 2
+alignment = 2
+suffix = "X"
+
+[node name="YValue" type="SpinBox" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Position"]
+layout_mode = 2
+alignment = 2
+suffix = "Y"
+
+[node name="Erase" type="Button" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Position"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+focus_mode = 0
+icon = ExtResource("4_regdq")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Scale" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Scale"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Scale"
+vertical_alignment = 1
+
+[node name="Value" type="SpinBox" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Scale"]
+layout_mode = 2
+min_value = 1.0
+max_value = 400.0
+value = 1.0
+alignment = 2
+suffix = "%"
+
+[node name="Erase" type="Button" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Scale"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+tooltip_text = "Reset Model to Fit in Screen"
+focus_mode = 0
+icon = ExtResource("6_evig7")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Rotation" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Rotation"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Rotation"
+
+[node name="Value" type="SpinBox" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Rotation"]
+layout_mode = 2
+step = 0.01
+alignment = 2
+suffix = "°"
+
+[node name="Erase" type="Button" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Rotation"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+focus_mode = 0
+icon = ExtResource("2_4qkrp")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Movement" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Movement"]
+layout_mode = 2
+text = "Movement"
+
+[node name="Control" type="Control" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Movement"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="XValue" type="SpinBox" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Movement"]
+layout_mode = 2
+min_value = -2.0
+max_value = 2.0
+step = 0.1
+alignment = 2
+suffix = "X"
+
+[node name="YValue" type="SpinBox" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Movement"]
+layout_mode = 2
+min_value = -2.0
+max_value = 2.0
+step = 0.1
+alignment = 2
+suffix = "Y"
+
+[node name="ZValue" type="SpinBox" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Movement"]
+layout_mode = 2
+min_value = -2.0
+max_value = 2.0
+step = 0.1
+alignment = 2
+suffix = "Z"
+
+[node name="LockButton" type="Button" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Movement"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+tooltip_text = "Lock transform"
+focus_mode = 0
+toggle_mode = true
+icon = ExtResource("3_ng4r4")
+icon_alignment = 1
+expand_icon = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Idle Animation"
+
+[node name="IdleAnimation" type="OptionButton" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+text_overrun_behavior = 3
+fit_to_longest_item = false
+
+[node name="Mesh Settings" type="VBoxContainer" parent="ScrollContainer/MarginContainer/Accordion"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Modal" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+layer = 2
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="Modal"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.392157)
+
+[node name="ActionPopup" type="Window" parent="Modal"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+transparent_bg = true
+title = "Select Output Parameter"
+initial_position = 1
+size = Vector2i(480, 600)
+visible = false
+transient = true
+transient_to_focused = true
+exclusive = true
+unresizable = true
+borderless = true
+transparent = true
+popup_window = true
+
+[node name="PanelContainer" type="PanelContainer" parent="Modal/ActionPopup"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/ActionPopup/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Modal/ActionPopup/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Select Action"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Modal/ActionPopup/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ActionList" type="VBoxContainer" parent="Modal/ActionPopup/PanelContainer/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_type_variation = &"VBoxList"
+
+[connection signal="item_selected" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer/TextureFilter" to="." method="_on_texture_filter_item_selected"]
+[connection signal="toggled" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/SmoothScaling" to="." method="_on_smooth_scaling_toggled"]
+[connection signal="toggled" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/GenerateMipmaps" to="." method="_on_generate_mipmaps_toggled"]
+[connection signal="toggled" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/HBoxContainer/LockButton" to="." method="_on_lock_button_toggled"]
+[connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Position/Erase" to="." method="_on_erase_position_pressed"]
+[connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Scale/Erase" to="." method="_on_erase_scale_pressed"]
+[connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Rotation/Erase" to="." method="_on_erase_rotate_pressed"]
+[connection signal="toggled" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Movement/LockButton" to="." method="_on_movement_lock_button_toggled"]
+[connection signal="item_selected" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer2/IdleAnimation" to="." method="_on_idle_animation_item_selected"]

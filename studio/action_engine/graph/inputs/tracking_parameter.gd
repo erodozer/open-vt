@@ -1,5 +1,6 @@
 extends "../vt_action.gd"
 
+const Serializers = preload("res://lib/utils/serializers.gd")
 const TrackingInput = preload("res://lib/tracking/tracker.gd").Inputs
 const TrackingMeta = preload("res://lib/tracking/tracker.gd").Meta
 const TrackingSystem = preload("res://lib/tracking/tracking_system.gd")
@@ -57,7 +58,7 @@ func serialize():
 	return {
 		"parameter": input.get_item_text(parameter),
 		"clamp": clamp_enabled,
-		"range": { "min": clamp_range.x, "max": clamp_range.y },
+		"range": Serializers.RangeSerializer.to_json(clamp_range),
 	}
 	
 func deserialize(data):
@@ -71,10 +72,7 @@ func deserialize(data):
 	clamp_enabled = data.get("clamp", false)
 	
 	var default_range = meta.get("range", Vector2(0, 1))
-	clamp_range = Vector2(
-		data.get("range", {}).get("min", default_range.x),
-		data.get("range", {}).get("max", default_range.y)
-	)
+	clamp_range = Serializers.RangeSerializer.from_json(data.get("range"), default_range)
 
 func _on_parameters_updated(parameters):
 	var old_value = value

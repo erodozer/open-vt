@@ -1,7 +1,5 @@
 extends "./parameter_value_provider.gd"
 
-const utils = preload("res://lib/utils.gd")
-
 var expression_library: Dictionary
 var weights: Dictionary
 var fades: Dictionary = {}

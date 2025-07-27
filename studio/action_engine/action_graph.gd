@@ -1,5 +1,6 @@
 extends GraphEdit
 
+const Serializers = preload("res://lib/utils/serializers.gd")
 const VtAction = preload("./graph/vt_action.gd")
 const ActionPalette = preload("./action_palette.gd")
 
@@ -82,9 +83,7 @@ func deserialize(data: Dictionary, palette: ActionPalette):
 		await n.ready
 		
 		n.deserialize(i.get("parameters", {}))
-		n.position_offset = Vector2(
-			i.position.x, i.position.y
-		)
+		n.position_offset = Serializers.Vec2Serializer.from_json(i.get("position"), Vector2.ZERO)
 		
 	for i in data.get("bindings", []):
 		if i.src in graph_elements and i.dst in graph_elements:
@@ -103,10 +102,7 @@ func serialize() -> Dictionary:
 		var node = {
 			"id": i.get_meta("id"),
 			"type": i.get_type(),
-			"position": {
-				"x": i.position_offset.x,
-				"y": i.position_offset.y,
-			},
+			"position": Serializers.Vec2Serializer.to_json(i.position_offset),
 			"parameters": i.serialize(),
 		}
 		nodes.append(node)

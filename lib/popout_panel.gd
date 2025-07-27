@@ -1,5 +1,7 @@
 extends Control
 
+const Serializers = preload("res://lib/utils/serializers.gd")
+
 @export var title: String = ""
 
 var is_floating: bool = false
@@ -63,7 +65,7 @@ func popout(persistent: bool = false) -> void:
 
 func load_settings(settings: Dictionary):
 	var windows: Dictionary = settings.get("window_positions", {})
-	var self_pos: Vector2 = windows.get(self.name, Vector2.ZERO)
+	var self_pos: Vector2 = Serializers.Vec2Serializer.from_json(windows.get(self.name, {"x": 0, "y": 0}))
 	
 	popup_position = self_pos
 	
@@ -72,7 +74,7 @@ func save_settings(settings: Dictionary):
 		popup_position = window.position
 		
 	var windows: Dictionary = settings.get("window_positions", {})
-	windows[self.name] = popup_position
+	windows[self.name] = Serializers.Vec2Serializer.to_json(popup_position)
 	
 	settings["window_positions"] = windows
 	

@@ -1,1 +1,1 @@
-extends "res://lib/draggable.gd"
+extends "res://ui/draggable.gd"

@@ -1,6 +1,5 @@
 extends "res://lib/tracking/net/udp_tracker.gd"
 
-const utils = preload("res://lib/utils.gd")
 const OpenSeeData = preload("./osf_data.gd")
 
 const OSF_PORT = 11573

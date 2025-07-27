@@ -1,6 +1,6 @@
 extends RefCounted
 
-const utils = preload("res://lib/utils.gd")
+const Math = preload("res://lib/utils/math.gd")
 const BufferedReader = preload("./buffered_reader.gd")
 
 const nPoints = 68
@@ -45,10 +45,10 @@ var mouthWide: float
 
 var eyeLeftXY: Vector2 :
 	get:
-		return utils.v32xy(Vector3.FORWARD * leftGaze).normalized()
+		return Math.v32xy(Vector3.FORWARD * leftGaze).normalized()
 var eyeRightXY: Vector2 :
 	get:
-		return utils.v32xy(Vector3.FORWARD * rightGaze)
+		return Math.v32xy(Vector3.FORWARD * rightGaze)
 		
 
 func _init() -> void:

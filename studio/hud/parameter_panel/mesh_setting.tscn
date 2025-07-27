@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3 uid="uid://c7vk0klv5gfev"]
+
+[ext_resource type="Script" uid="uid://ic6qqciq8f18" path="res://studio/hud/parameter_panel/mesh_setting.gd" id="1_fq7df"]
+[ext_resource type="Texture2D" uid="uid://qky5l021m1dt" path="res://ui/icons/thumbtack.svg" id="2_yeggh"]
+
+[node name="PanelContainer" type="PanelContainer"]
+offset_right = 53.0
+offset_bottom = 24.0
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_type_variation = &"SubPanelContainer"
+script = ExtResource("1_fq7df")
+
+[node name="MeshSetting" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="PartName" type="Label" parent="MeshSetting"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PinToggle" type="Button" parent="MeshSetting"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+tooltip_text = "Toggle Item Pinning"
+focus_mode = 0
+toggle_mode = true
+icon = ExtResource("2_yeggh")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Color" type="ColorPickerButton" parent="MeshSetting"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 24)
+layout_mode = 2
+tooltip_text = "Tint ArtMesh"
+
+[connection signal="toggled" from="MeshSetting/PinToggle" to="." method="_on_pin_toggle_toggled"]
+[connection signal="color_changed" from="MeshSetting/Color" to="." method="_on_color_changed"]

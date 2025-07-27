@@ -1,6 +1,6 @@
 extends "res://lib/tracking/tracker.gd"
 
-const RingBuffer = preload("res://lib/utils.gd").RingBuffer
+const RingBuffer = preload("res://lib/utils/ring_buffer.gd")
 
 enum ConnectionStatus {
 	OFF,

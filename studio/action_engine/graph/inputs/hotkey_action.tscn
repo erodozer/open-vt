@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://dvbxj8xftt1ei" path="res://studio/action_engine/graph/inputs/hotkey_action.gd" id="1_0733d"]
 [ext_resource type="Script" uid="uid://pejy6s53go63" path="res://studio/action_engine/graph/inputs/hotkey_binding.gd" id="2_wanp4"]
-[ext_resource type="PackedScene" uid="uid://d2a67yxp08esv" path="res://studio/ui/modal/modal.tscn" id="3_ggeq4"]
-[ext_resource type="PackedScene" uid="uid://hpg52fgw7kdc" path="res://studio/ui/input_recorder/input_rec_popup.tscn" id="4_ti7i4"]
+[ext_resource type="PackedScene" uid="uid://d2a67yxp08esv" path="res://ui/modal/modal.tscn" id="3_ggeq4"]
+[ext_resource type="PackedScene" uid="uid://hpg52fgw7kdc" path="res://studio/hud/input_recorder/input_rec_popup.tscn" id="4_ti7i4"]
 
 [node name="HotkeyInput" type="GraphNode"]
 custom_minimum_size = Vector2(180, 0)

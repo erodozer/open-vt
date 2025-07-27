@@ -1,5 +1,6 @@
 extends Node
 
+const Files = preload("res://lib/utils/files.gd")
 const ModelMeta = preload("res://lib/model/metadata.gd")
 const VtModel = preload("res://lib/model/vt_model.gd")
 const TrackingSystem = preload("res://lib/tracking/tracking_system.gd")
@@ -34,8 +35,8 @@ func refresh_models():
 		
 	model_cache = {}
 	for vt_file in models:
-		var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(vt_file))
-		var model_data = JSON.parse_string(FileAccess.get_file_as_string(vt_file.get_base_dir().path_join(vtube_data["FileReferences"]["Model"])))
+		var vtube_data = Files.read_json(vt_file)
+		var model_data = Files.read_json(vt_file.get_base_dir().path_join(vtube_data["FileReferences"]["Model"]))
 		
 		var meta = ModelMeta.new()
 		var base_name = vt_file.get_file()

@@ -1,5 +1,6 @@
 extends Node
 
+const Files = preload("res://lib/utils/files.gd")
 const UserSettings = "user://settings.json"
 
 var _data = {}
@@ -18,28 +19,18 @@ func get_state():
 	return _data.duplicate(true)
 
 func load_data():
-	if not FileAccess.file_exists(UserSettings):
-		var f = FileAccess.open(UserSettings, FileAccess.WRITE_READ)
-		f.store_string("{}")
-		f.close()
+	var preferences = Files.read_json(UserSettings)
 	
-	var preferences = JSON.parse_string(FileAccess.get_file_as_string(UserSettings))
-	if preferences == null:
-		return
-		
-	_data = JSON.to_native(preferences)
-	if _data == null:
-		_data = {}
 	for n in get_tree().get_nodes_in_group("persist"):
 		if n.has_method("load_settings"):
-			n.load_settings(_data)
+			n.load_settings(preferences)
+			
+	_data = preferences
 		
 func save_data():
-	var f = FileAccess.open(UserSettings, FileAccess.WRITE_READ)
-	
 	for n in get_tree().get_nodes_in_group("persist"):
 		if n.has_method("save_settings"):
 			n.save_settings(_data)
 	
-	f.store_string(JSON.stringify(JSON.from_native(_data)))
-	f.close()
+	Files.write_json(UserSettings, _data)
+	

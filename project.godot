@@ -59,7 +59,7 @@ persist:model="Write values into openvt.json with model files"
 
 [gui]
 
-theme/custom="res://studio/ui/ui_theme.tres"
+theme/custom="res://ui/ui_theme.tres"
 
 [importer_defaults]
 

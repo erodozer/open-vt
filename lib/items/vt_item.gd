@@ -2,7 +2,7 @@ extends "res://lib/vtobject.gd"
 
 const VtModel = preload("res://lib/model/vt_model.gd")
 const Stage = preload("res://lib/stage.gd")
-const utils = preload("res://lib/utils.gd")
+const Math = preload("res://lib/utils/math.gd")
 
 # distance from the center of the item to sample for vertices
 # assuming this is how VTS is deciding which vertices to bind to
@@ -109,10 +109,10 @@ func _on_drag_released() -> void:
 		var f = _ary[Mesh.ARRAY_INDEX]
 		for vtx in range(0, len(f), 3):
 			var tri = [v[f[vtx]], v[f[vtx+1]], v[f[vtx+2]]]
-			var tri3d = tri.map(utils.v23xy)
+			var tri3d = tri.map(Math.v23xy)
 			if Geometry2D.point_is_inside_triangle(p, tri[0], tri[1], tri[2]):
 				pin_vertices = Geometry3D.get_triangle_barycentric_coords(
-					utils.v23xy(p),
+					Math.v23xy(p),
 					tri3d[0], tri3d[1], tri3d[2]
 				)
 				pin_angle = tri[0].angle_to_point(tri[1])

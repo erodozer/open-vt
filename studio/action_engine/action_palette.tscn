@@ -17,7 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://cow7c85xiw0xr" path="res://studio/action_engine/graph/outputs/toggle_expression.tscn" id="14_8pyru"]
 [ext_resource type="Texture2D" uid="uid://deu302jii4nsk" path="res://studio/action_engine/graph/outputs/film-simple.svg" id="15_jnorj"]
 [ext_resource type="PackedScene" uid="uid://dcqnjvju4erad" path="res://studio/action_engine/graph/outputs/play_animation.tscn" id="16_vs2tt"]
-[ext_resource type="Texture2D" uid="uid://dnoy3sguwj6m5" path="res://studio/ui/icons/person-running.svg" id="17_3ghld"]
+[ext_resource type="Texture2D" uid="uid://dnoy3sguwj6m5" path="res://studio/action_engine/graph/outputs/person-running.svg" id="17_3ghld"]
 [ext_resource type="PackedScene" uid="uid://bijxdkq5d5x8f" path="res://studio/action_engine/graph/outputs/model_parameter.tscn" id="18_ryi2a"]
 
 [node name="Palette" type="PanelContainer"]
