@@ -53,6 +53,27 @@ func _ready() -> void:
 		input.add_item(m.name)
 		input.set_item_metadata(input.item_count - 1, m)
 
+func get_type():
+	return "model_parameter"
+	
+func serialize():
+	return {
+		"parameter": model_parameter,
+		"clamp": clamp_enabled,
+		"range": { "min": range.x, "max": range.y },
+	}
+	
+func deserialize(data: Dictionary):
+	for i in input.item_count:
+		if input.get_item_text(i) == data.parameter:
+			parameter = i
+	
+	clamp_enabled = data.get("clamp", false)
+	range = Vector2(
+		data.get("range", {}).get("min", 0),
+		data.get("range", {}).get("max", 1)
+	)
+	
 func load_from_vts(data: Dictionary):
 	var model = stage.active_model
 	parameter = model.parameters.values().find_custom(

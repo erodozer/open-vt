@@ -9,14 +9,18 @@ const VALUE_SLOT = 4
 @onready var input: OptionButton = %Parameter
 
 var parameter: TrackingInput = TrackingInput.UNSET :
+	get():
+		if input == null:
+			return TrackingInput.UNSET
+		return TrackingInput.values()[input.selected]
 	set(v):
 		if input == null:
 			return
 		
 		parameter = v
 		input.select(v)
-		var meta = TrackingMeta.get(parameter, {})
-		var range = meta.get("range", Vector2(0, 1))
+		# var meta = TrackingMeta.get(parameter, {})
+		# var range = meta.get("range", Vector2(0, 1))
 		
 var value: float = 0.0 :
 	set(v):
@@ -41,12 +45,36 @@ var clamp_range: Vector2 = Vector2(0, 1) :
 func _ready() -> void:
 	for i in TrackingInput:
 		input.add_item(i)
-	input.selected = 0
-	_on_input_item_selected(0)
 		
 	var tracking: TrackingSystem = get_tree().get_first_node_in_group("system:tracking")
 	if tracking:
 		tracking.parameters_updated.connect(_on_parameters_updated)
+
+func get_type() -> StringName:
+	return "tracking_parameter"
+	
+func serialize():
+	return {
+		"parameter": input.get_item_text(parameter),
+		"clamp": clamp_enabled,
+		"range": { "min": clamp_range.x, "max": clamp_range.y },
+	}
+	
+func deserialize(data):
+	for i in input.item_count:
+		if input.get_item_text(i) == data.parameter:
+			parameter = TrackingInput.values()[i]
+			break
+	
+	var meta = TrackingMeta.get(parameter, {})
+	
+	clamp_enabled = data.get("clamp", false)
+	
+	var default_range = meta.get("range", Vector2(0, 1))
+	clamp_range = Vector2(
+		data.get("range", {}).get("min", default_range.x),
+		data.get("range", {}).get("max", default_range.y)
+	)
 
 func _on_parameters_updated(parameters):
 	var old_value = value
@@ -54,9 +82,6 @@ func _on_parameters_updated(parameters):
 	
 	if old_value != value:
 		slot_updated.emit(0)
-
-func _on_input_item_selected(index: int) -> void:
-	parameter = TrackingInput.values()[index]
 
 func load_from_vts(data: Dictionary):
 	# display_name = data["Name"]

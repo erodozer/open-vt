@@ -26,6 +26,8 @@ slot/1/right_color = Color(1, 1, 1, 1)
 slot/1/right_icon = null
 slot/1/draw_stylebox = true
 script = ExtResource("1_gusss")
+button_group = SubResource("ButtonGroup_abhho")
+metadata/type = "screen_button"
 
 [node name="Mapping" type="GridContainer" parent="."]
 unique_name_in_owner = true

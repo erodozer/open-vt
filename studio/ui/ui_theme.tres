@@ -491,6 +491,7 @@ CheckButton/styles/hover = SubResource("StyleBoxEmpty_uf5kg")
 CheckButton/styles/hover_pressed = SubResource("StyleBoxEmpty_egow3")
 CheckButton/styles/normal = SubResource("StyleBoxEmpty_b5jbl")
 CheckButton/styles/pressed = SubResource("StyleBoxEmpty_ssym2")
+GraphNode/constants/separation = 8
 GraphNode/styles/panel = SubResource("StyleBoxFlat_gk3qa")
 GraphNode/styles/panel_selected = SubResource("StyleBoxFlat_l1t76")
 GraphNode/styles/titlebar = SubResource("StyleBoxFlat_pyljb")

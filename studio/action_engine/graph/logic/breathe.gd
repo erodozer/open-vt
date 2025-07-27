@@ -21,10 +21,13 @@ var input: float :
 	set(v):
 		%Value.value = v
 
-var link: NodePath :
-	set(v):
-		link = v
-		%TimeScale.disabled = v != NodePath("")
+func get_type():
+	return "breathe"
+	
+func serialize():
+	return {
+		"frequency": frequency,
+	}
 
 func get_value(_slot):
 	return progress

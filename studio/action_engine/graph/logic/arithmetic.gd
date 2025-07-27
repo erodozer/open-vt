@@ -2,7 +2,10 @@ extends "../vt_action.gd"
 
 enum Operator {
 	Add,
-	Multiply
+	Multiply,
+	Subtract,
+	Divide,
+	Modulo
 }
 
 var operator : Operator :
@@ -21,12 +24,28 @@ var b : float :
 		b = v
 		%InputB.value = v
 
+func get_type() -> StringName:
+	return "arithmetic"
+	
+func serialize():
+	return {
+		"operator": operator,
+		"a": null if %InputA.editable else %InputA.value,
+		"b": null if %InputB.editable else %InputB.value
+	}
+
 func get_value(_slot):
 	match operator:
 		Operator.Add:
 			return a + b
 		Operator.Multiply:
 			return a * b
+		Operator.Subtract:
+			return a - b
+		Operator.Divide:
+			return a / b
+		Operator.Modulo:
+			return fmod(a, b)
 
 func update_value(slot, value):
 	var dirty = false
@@ -39,4 +58,16 @@ func update_value(slot, value):
 	
 	if dirty:
 		slot_updated.emit(0)
+	
+func bind(slot: int, node: GraphNode):
+	if slot == 0:
+		%InputA.editable = false
+	if slot == 1:
+		%InputB.editable = false
+
+func unbind(slot: int, node: GraphNode):
+	if slot == 0:
+		%InputA.editable = true
+	if slot == 1:
+		%InputB.editable = true
 	

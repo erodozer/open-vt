@@ -1,8 +1,8 @@
-extends GraphNode
+extends "../vt_action.gd"
 
 const Stage = preload("res://lib/stage.gd")
 
-@onready var input = %Expression
+@onready var input: OptionButton = %Expression
 @onready var stage: Stage = get_tree().get_first_node_in_group("system:stage")
 
 # Called when the node enters the scene tree for the first time.
@@ -12,6 +12,19 @@ func _ready() -> void:
 		input.add_item(m)
 		input.set_item_metadata(input.item_count - 1, m)
 		%Toggle/CheckButton.button_pressed = stage.active_model.expression_controller.is_activated(m)
+
+func get_type():
+	return "expression"
+	
+func serialize():
+	return {
+		"name": input.get_item_text(input.selected),
+	}
+	
+func deserialize(data: Dictionary):
+	for i in input.item_count:
+		if input.get_item_text(i) == data.get("name"):
+			input.select(i)
 
 func invoke_trigger(slot: int) -> void:
 	var activate: bool

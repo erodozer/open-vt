@@ -33,6 +33,15 @@ var progress: float :
 			)
 		return 1.0
 
+func get_type():
+	return "blink"
+	
+func serialize():
+	return {
+		"frequency": { "min": frequency.x, "max": frequency.y },
+		"speed": speed,
+	}
+
 func get_value(_slot) -> float:
 	return progress
 

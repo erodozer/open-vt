@@ -1,24 +1,7 @@
-[gd_scene load_steps=23 format=3 uid="uid://toss8jnrs7a8"]
+[gd_scene load_steps=6 format=3 uid="uid://toss8jnrs7a8"]
 
 [ext_resource type="Script" uid="uid://db42rl050i8ey" path="res://studio/action_engine/action_editor.gd" id="1_i8a08"]
-[ext_resource type="Texture2D" uid="uid://degtf3o1bgig0" path="res://studio/action_engine/graph/inputs/keyboard.svg" id="3_cu0p7"]
-[ext_resource type="Texture2D" uid="uid://cbriovdwq4va0" path="res://studio/action_engine/graph/outputs/face-laugh-wink.svg" id="3_w3k0o"]
-[ext_resource type="PackedScene" uid="uid://uagdego7pt02" path="res://studio/action_engine/graph/inputs/hotkey_action.tscn" id="4_cclj7"]
-[ext_resource type="PackedScene" uid="uid://cow7c85xiw0xr" path="res://studio/action_engine/graph/outputs/toggle_expression.tscn" id="4_v7se5"]
-[ext_resource type="Texture2D" uid="uid://cwws2r8ygckrj" path="res://studio/action_engine/graph/inputs/sidebar-flip.svg" id="5_idygo"]
-[ext_resource type="Texture2D" uid="uid://deu302jii4nsk" path="res://studio/action_engine/graph/outputs/film-simple.svg" id="5_vml2o"]
-[ext_resource type="PackedScene" uid="uid://dcqnjvju4erad" path="res://studio/action_engine/graph/outputs/play_animation.tscn" id="6_io8o0"]
-[ext_resource type="PackedScene" uid="uid://dwyu5dbc3akkx" path="res://studio/action_engine/graph/inputs/screen_button.tscn" id="6_y4h4g"]
-[ext_resource type="Texture2D" uid="uid://bi47la4lgog0c" path="res://studio/action_engine/graph/inputs/face-viewfinder.svg" id="7_whefd"]
-[ext_resource type="Texture2D" uid="uid://dquygailhgfka" path="res://studio/action_engine/graph/logic/face-exhaling.svg" id="8_5gny4"]
-[ext_resource type="Texture2D" uid="uid://lto72ierstpg" path="res://studio/action_engine/graph/logic/calculator-simple.svg" id="8_awbb8"]
-[ext_resource type="PackedScene" uid="uid://bgc5frfweklsv" path="res://studio/action_engine/graph/inputs/tracking_parameter.tscn" id="8_r85br"]
-[ext_resource type="PackedScene" uid="uid://dyittcs286rby" path="res://studio/action_engine/graph/logic/breathe.tscn" id="9_awbb8"]
-[ext_resource type="PackedScene" uid="uid://bpgxly1q2f3tc" path="res://studio/action_engine/graph/logic/arithmetic.tscn" id="9_rswag"]
-[ext_resource type="Texture2D" uid="uid://cvwnn0nikv5uf" path="res://studio/action_engine/graph/logic/eye.svg" id="10_rswag"]
-[ext_resource type="PackedScene" uid="uid://cxmvu0on3r7wd" path="res://studio/action_engine/graph/logic/blink.tscn" id="11_vd640"]
-[ext_resource type="Texture2D" uid="uid://dnoy3sguwj6m5" path="res://studio/ui/icons/person-running.svg" id="12_cu0p7"]
-[ext_resource type="PackedScene" uid="uid://bijxdkq5d5x8f" path="res://studio/action_engine/graph/outputs/model_parameter.tscn" id="13_cclj7"]
+[ext_resource type="PackedScene" uid="uid://dgmc2ouh0pqwh" path="res://studio/action_engine/action_palette.tscn" id="2_gl8b5"]
 
 [sub_resource type="Gradient" id="Gradient_joccq"]
 colors = PackedColorArray(0.298039, 0.282353, 0.239216, 1, 0.67451, 0.654902, 0.580392, 1)
@@ -29,7 +12,7 @@ fill_from = Vector2(0, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vd640"]
 
-[node name="ActionEditor" type="Window" groups=["persist"]]
+[node name="ActionEditor" type="Window" groups=["persist:model"]]
 disable_3d = true
 gui_snap_controls_to_pixels = false
 initial_position = 1
@@ -77,128 +60,9 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Palette" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-
-[node name="Palette" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Palette"]
+[node name="Palette" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_gl8b5")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
-alignment = 2
-
-[node name="Hotkey" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Palette/Palette"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 6
-tooltip_text = "Add Hotkey Binding"
-focus_mode = 0
-icon = ExtResource("3_cu0p7")
-icon_alignment = 1
-expand_icon = true
-metadata/action = ExtResource("4_cclj7")
-
-[node name="ScreenButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Palette/Palette"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 6
-tooltip_text = "Add Onscreen Button Binding"
-focus_mode = 0
-icon = ExtResource("5_idygo")
-icon_alignment = 1
-expand_icon = true
-metadata/action = ExtResource("6_y4h4g")
-
-[node name="TrackingParameter" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Palette/Palette"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 6
-tooltip_text = "Add Tracking Parameter"
-focus_mode = 0
-icon = ExtResource("7_whefd")
-icon_alignment = 1
-expand_icon = true
-metadata/action = ExtResource("8_r85br")
-
-[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer/Palette/Palette"]
-custom_minimum_size = Vector2(12, 0)
-layout_mode = 2
-
-[node name="Math" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Palette/Palette"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 6
-tooltip_text = "Add Hotkey Binding"
-focus_mode = 0
-icon = ExtResource("8_awbb8")
-icon_alignment = 1
-expand_icon = true
-metadata/action = ExtResource("9_rswag")
-
-[node name="Breathe" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Palette/Palette"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 6
-tooltip_text = "Add Hotkey Binding"
-focus_mode = 0
-icon = ExtResource("8_5gny4")
-icon_alignment = 1
-expand_icon = true
-metadata/action = ExtResource("9_awbb8")
-
-[node name="Blink" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Palette/Palette"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 6
-tooltip_text = "Add Onscreen Button Binding"
-focus_mode = 0
-icon = ExtResource("10_rswag")
-icon_alignment = 1
-expand_icon = true
-metadata/action = ExtResource("11_vd640")
-
-[node name="Control2" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer/Palette/Palette"]
-custom_minimum_size = Vector2(12, 0)
-layout_mode = 2
-
-[node name="SetExpression" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Palette/Palette"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 6
-tooltip_text = "Change Expression"
-focus_mode = 0
-icon = ExtResource("3_w3k0o")
-icon_alignment = 1
-expand_icon = true
-metadata/action = ExtResource("4_v7se5")
-
-[node name="PlayAnimation" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Palette/Palette"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 6
-tooltip_text = "Animation"
-focus_mode = 0
-icon = ExtResource("5_vml2o")
-icon_alignment = 1
-expand_icon = true
-metadata/action = ExtResource("6_io8o0")
-
-[node name="ModelParameter" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Palette/Palette"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-tooltip_text = "Set Model Parameter"
-icon = ExtResource("12_cu0p7")
-expand_icon = true
-metadata/action = ExtResource("13_cclj7")
 
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -236,6 +100,7 @@ tabs_visible = false
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/AddProfile" to="." method="_on_add_profile_pressed"]
 [connection signal="tab_selected" from="MarginContainer/VBoxContainer/HBoxContainer/ProfileTabs" to="." method="_on_profile_tabs_tab_selected"]
+[connection signal="create_node" from="MarginContainer/VBoxContainer/HBoxContainer/Palette" to="." method="_on_add_hotkey_pressed"]
 [connection signal="text_changed" from="MarginContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer/ProfileName" to="." method="_on_profile_name_text_changed"]
 [connection signal="toggled" from="MarginContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer/ProfileEnabled" to="." method="_on_profile_enabled_toggled"]
 [connection signal="child_entered_tree" from="MarginContainer/VBoxContainer/PanelContainer/VBoxContainer/Profiles" to="." method="_on_profiles_child_entered_tree"]

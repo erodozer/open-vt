@@ -45,11 +45,11 @@ func spawn_model(model: VtModel):
 	var prev_model
 	if active_model != null:
 		prev_model = active_model
-		preferences.save_data.call_deferred()
 		var t = create_tween().tween_property(
 			active_model, "position", Vector2(0, (active_model.size.y * active_model.scale.y) + active_model.get_viewport_rect().size.y), 0.5
 		).as_relative().set_trans(Tween.TRANS_CUBIC)
 		await t.finished
+		await preferences.save_data()
 		canvas.remove_child(active_model)
 		
 	canvas.add_child(model)

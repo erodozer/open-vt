@@ -14,6 +14,19 @@ func _ready() -> void:
 	if input.get_item_count() == 0:
 		queue_free()
 	
+func get_type():
+	return "animation"
+	
+func serialize():
+	return {
+		"name": input.get_item_text(input.selected),
+	}
+	
+func deserialize(data: Dictionary):
+	for i in input.item_count:
+		if input.get_item_text(i) == data.get("name"):
+			input.select(i)
+	
 func on_animation_completed():
 	pass
 

@@ -55,6 +55,7 @@ system:stage=""
 system:settings=""
 hide_screenshot="Removes element from viewport when taking a screenshot"
 system:alert=""
+persist:model="Write values into openvt.json with model files"
 
 [gui]
 

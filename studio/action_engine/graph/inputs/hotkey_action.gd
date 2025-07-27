@@ -4,6 +4,22 @@ const HotkeyBinding = preload("./hotkey_binding.gd")
 
 @onready var hotkey = %Handler
 
+func get_type() -> StringName:
+	return "hotkey"
+	
+func serialize():
+	return {
+		"buttons": [hotkey.button_1, hotkey.button_2, hotkey.button_3]
+	}
+	
+func deserialize(data: Dictionary):
+	var binding = data.get("buttons", ["", "", ""])
+	hotkey.button_1 = binding[0]
+	hotkey.button_2 = binding[1]
+	hotkey.button_3 = binding[2]
+	
+	%Input.text = " + ".join(hotkey.input_as_list)
+
 func _on_input_pressed() -> void:
 	%Modal.show()
 	%InputRecPopup.show()

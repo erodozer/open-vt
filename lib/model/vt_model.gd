@@ -183,6 +183,9 @@ func save_settings(settings: Dictionary):
 	f.close()
 	
 	f = FileAccess.open(model.openvt_parameters, FileAccess.WRITE)
-	out = JSON.stringify({}, "  ")
+	var model_data  = {}
+	for o in get_tree().get_nodes_in_group("persist:model"):
+		o.save_settings(model_data)
+	out = JSON.stringify(model_data, "  ")
 	f.store_string(out)
 	f.close()
