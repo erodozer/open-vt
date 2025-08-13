@@ -5,7 +5,7 @@ const TrackingInput = preload("res://lib/tracking/tracker.gd").Inputs
 const TrackingMeta = preload("res://lib/tracking/tracker.gd").Meta
 const TrackingSystem = preload("res://lib/tracking/tracking_system.gd")
 
-const VALUE_SLOT = 4
+const VALUE_SLOT = 1
 
 @onready var input: OptionButton = %Parameter
 
@@ -42,6 +42,11 @@ var clamp_range: Vector2 = Vector2(0, 1) :
 	set(v):
 		%Input/MinValue.value = v.x
 		%Input/MaxValue.value = v.y
+var invert_value: bool = false :
+	get():
+		return %InvertToggle.button_pressed
+	set(v):
+		%InvertToggle.set_pressed_no_signal(v)
 
 func _ready() -> void:
 	for i in TrackingInput:
@@ -100,10 +105,17 @@ func load_from_vts(data: Dictionary):
 		data.get("InputRangeLower", default_range.x),
 		data.get("InputRangeUpper", default_range.y)
 	)
+	if clamp_range.x > clamp_range.y:
+		invert_value = true
+		clamp_range = Vector2(clamp_range.y, clamp_range.x)
+	else:
+		invert_value = false
 
 func get_value(_slot):
 	var value: float = self.value
-	if %ClampToggle.pressed:
+	if self.clamp_enabled:
 		value = clampf(value, clamp_range.x, clamp_range.y)
-	
-	return inverse_lerp(clamp_range.x, clamp_range.y, value)
+	value = inverse_lerp(clamp_range.x, clamp_range.y, value)
+	if self.invert_value:
+		value = 1.0 - value
+	return value

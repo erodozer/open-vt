@@ -20,48 +20,33 @@ slot/1/left_enabled = false
 slot/1/left_type = 0
 slot/1/left_color = Color(1, 1, 1, 1)
 slot/1/left_icon = null
-slot/1/right_enabled = false
-slot/1/right_type = 0
+slot/1/right_enabled = true
+slot/1/right_type = 1
 slot/1/right_color = Color(1, 1, 1, 1)
 slot/1/right_icon = null
 slot/1/draw_stylebox = true
-slot/2/left_enabled = false
-slot/2/left_type = 0
-slot/2/left_color = Color(1, 1, 1, 1)
-slot/2/left_icon = null
-slot/2/right_enabled = false
-slot/2/right_type = 0
-slot/2/right_color = Color(1, 1, 1, 1)
-slot/2/right_icon = null
-slot/2/draw_stylebox = true
-slot/3/left_enabled = false
-slot/3/left_type = 0
-slot/3/left_color = Color(1, 1, 1, 1)
-slot/3/left_icon = null
-slot/3/right_enabled = true
-slot/3/right_type = 1
-slot/3/right_color = Color(1, 1, 1, 1)
-slot/3/right_icon = null
-slot/3/draw_stylebox = true
 script = ExtResource("1_fhsw5")
 
-[node name="Parameter" type="OptionButton" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Parameter" type="OptionButton" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text_overrun_behavior = 3
 fit_to_longest_item = false
 
-[node name="Input" type="HBoxContainer" parent="."]
+[node name="Input" type="HBoxContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Input"]
+[node name="Label" type="Label" parent="VBoxContainer/Input"]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Min"
 
-[node name="MinValue" type="SpinBox" parent="Input"]
+[node name="MinValue" type="SpinBox" parent="VBoxContainer/Input"]
 layout_mode = 2
 size_flags_horizontal = 3
 min_value = -999.0
@@ -69,13 +54,17 @@ max_value = 999.0
 step = 0.001
 alignment = 2
 
-[node name="Label2" type="Label" parent="Input"]
+[node name="Spacer" type="Control" parent="VBoxContainer/Input"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/Input"]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Max"
 
-[node name="MaxValue" type="SpinBox" parent="Input"]
+[node name="MaxValue" type="SpinBox" parent="VBoxContainer/Input"]
 layout_mode = 2
 size_flags_horizontal = 3
 min_value = -999.0
@@ -83,10 +72,20 @@ max_value = 999.0
 step = 0.001
 alignment = 2
 
-[node name="ClampToggle" type="CheckButton" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ClampToggle" type="CheckButton" parent="VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Clamp"
+
+[node name="InvertToggle" type="CheckButton" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Invert"
 
 [node name="Output" type="HBoxContainer" parent="."]
 unique_name_in_owner = true
@@ -109,4 +108,4 @@ text = "Value"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[connection signal="item_selected" from="Parameter" to="." method="_on_input_item_selected"]
+[connection signal="item_selected" from="VBoxContainer/Parameter" to="." method="_on_input_item_selected"]

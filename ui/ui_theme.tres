@@ -480,7 +480,6 @@ CheckButton/colors/font_focus_color = Color(0.298039, 0.282353, 0.239216, 1)
 CheckButton/colors/font_hover_color = Color(0.3, 0.284, 0.24, 0.588235)
 CheckButton/colors/font_hover_pressed_color = Color(0.3, 0.284, 0.24, 0.588235)
 CheckButton/colors/font_pressed_color = Color(0.298039, 0.282353, 0.239216, 1)
-CheckButton/constants/check_v_offset = -6
 CheckButton/icons/checked = ExtResource("1_jmxgr")
 CheckButton/icons/checked_disabled = ExtResource("4_0e6vk")
 CheckButton/icons/unchecked = ExtResource("2_3w1p0")

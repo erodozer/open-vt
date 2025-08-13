@@ -15,13 +15,15 @@ var operator : Operator :
 		%Operator.selected = v
 
 var a : float :
+	get():
+		return %InputA.value
 	set(v):
-		a = v
 		%InputA.value = v
 
 var b : float :
+	get():
+		return %InputB.value
 	set(v):
-		b = v
 		%InputB.value = v
 
 func get_type() -> StringName:
@@ -70,4 +72,3 @@ func unbind(slot: int, node: GraphNode):
 		%InputA.editable = true
 	if slot == 1:
 		%InputB.editable = true
-	
