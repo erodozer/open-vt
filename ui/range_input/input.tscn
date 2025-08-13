@@ -1,0 +1,40 @@
+[gd_scene load_steps=2 format=3 uid="uid://dqwhus4y0one8"]
+
+[ext_resource type="Script" uid="uid://loew7m1hqk41" path="res://ui/range_input/input.gd" id="1_ea4xf"]
+
+[node name="Input" type="HBoxContainer"]
+script = ExtResource("1_ea4xf")
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Min"
+
+[node name="MinValue" type="SpinBox" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = -999.0
+max_value = 999.0
+step = 0.001
+alignment = 2
+
+[node name="Spacer" type="Control" parent="."]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="."]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Max"
+
+[node name="MaxValue" type="SpinBox" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = -999.0
+max_value = 999.0
+step = 0.001
+alignment = 2

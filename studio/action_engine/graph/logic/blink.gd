@@ -1,5 +1,7 @@
 extends "../vt_action.gd"
 
+const Serializers = preload("res://lib/utils/serializers.gd")
+
 @export var curve: Curve
 
 var blinking: float
@@ -38,9 +40,13 @@ func get_type():
 	
 func serialize():
 	return {
-		"frequency": { "min": frequency.x, "max": frequency.y },
+		"frequency": Serializers.RangeSerializer.to_json(frequency),
 		"speed": speed,
 	}
+	
+func deserialize(data):
+	frequency = Serializers.RangeSerializer.from_json(data.get("frequency"), Vector2(500.0, 5000.0))
+	speed = data.get("speed", 200.0)
 
 func get_value(_slot) -> float:
 	return progress

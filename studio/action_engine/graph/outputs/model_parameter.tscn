@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bijxdkq5d5x8f"]
+[gd_scene load_steps=6 format=3 uid="uid://bijxdkq5d5x8f"]
 
 [ext_resource type="Script" uid="uid://d3800yrntrfgb" path="res://studio/action_engine/graph/outputs/model_parameter.gd" id="1_s81k7"]
+[ext_resource type="PackedScene" uid="uid://dqwhus4y0one8" path="res://ui/range_input/input.tscn" id="2_pybyp"]
+[ext_resource type="Texture2D" uid="uid://d1kej52kqrg0g" path="res://ui/icons/eraser.svg" id="3_rnnsk"]
 
 [sub_resource type="Curve" id="Curve_7ad3g"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -83,41 +85,31 @@ max_value = 999.0
 step = 0.01
 editable = false
 
-[node name="ClampToggle" type="CheckButton" parent="."]
+[node name="Range" parent="." instance=ExtResource("2_pybyp")]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="ResetButton" type="Button" parent="Range"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+focus_mode = 0
+icon = ExtResource("3_rnnsk")
+expand_icon = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="ClampToggle" type="CheckButton" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
 text = "Clamp"
 
-[node name="Range" type="HBoxContainer" parent="."]
+[node name="InvertToggle" type="CheckButton" parent="HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-
-[node name="Label" type="Label" parent="Range"]
-layout_mode = 2
 size_flags_horizontal = 3
-text = "Min"
+text = "Invert"
 
-[node name="MinValue" type="SpinBox" parent="Range"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-min_value = -999.0
-max_value = 999.0
-step = 0.001
-alignment = 2
-editable = false
-
-[node name="Label2" type="Label" parent="Range"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Max"
-
-[node name="MaxValue" type="SpinBox" parent="Range"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-min_value = -999.0
-max_value = 999.0
-step = 0.001
-alignment = 2
-editable = false
+[connection signal="pressed" from="Range/ResetButton" to="." method="_on_reset_button_pressed"]

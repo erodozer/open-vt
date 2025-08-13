@@ -33,14 +33,16 @@ var clamp_enabled: bool :
 		
 var clamp_range: Vector2 = Vector2(0, 1) :
 	get():
-		return Vector2(
-			%Range/MinValue.value,
-			%Range/MaxValue.value
-		)
+		return %Range.value
 	set(v):
-		%Range/MinValue.value = v.x
-		%Range/MaxValue.value = v.y
-	
+		%Range.value = v
+
+var invert_value: bool = false :
+	get():
+		return %InvertToggle.button_pressed
+	set(v):
+		%InvertToggle.set_pressed_no_signal(v)
+			
 var value: float :
 	set(v):
 		value = v
@@ -62,6 +64,7 @@ func serialize():
 		"parameter": model_parameter,
 		"clamp": clamp_enabled,
 		"range": Serializers.RangeSerializer.to_json(clamp_range),
+		"invert": invert_value,
 	}
 	
 func deserialize(data: Dictionary):
@@ -70,7 +73,13 @@ func deserialize(data: Dictionary):
 			parameter = i
 	
 	clamp_enabled = data.get("clamp", false)
-	clamp_range = Serializers.RangeSerializer.from_json(data.get("range"))
+	var range = Serializers.RangeSerializer.from_json(data.get("range"))
+	if range.x > range.y:
+		clamp_range = Vector2(range.y, range.x)
+		invert_value = true
+	else:
+		invert_value = data.get("invert", false)
+		clamp_range = range
 	
 func load_from_vts(data: Dictionary):
 	var model = stage.active_model
@@ -79,16 +88,25 @@ func load_from_vts(data: Dictionary):
 			return f.name == data["OutputLive2D"]
 	)
 	
-	clamp_range = Vector2(
+	var range = Vector2(
 		data["OutputRangeLower"],
 		data["OutputRangeUpper"],
 	)
+	if range.x > range.y:
+		invert_value = true
+		clamp_range = Vector2(range.y, range.x)
+	else:
+		invert_value = false
+		clamp_range = range
 	clamp_enabled = data.get("ClampOutput", false)
 	
 func update_value(_slot: int, v: float) -> void:
 	var parameter = input.get_selected_metadata()
 	if parameter == null:
 		return
+	
+	if invert_value:
+		v = 1.0 - v
 	
 	var scaled = lerp(clamp_range.x, clamp_range.y, v)
 	value = scaled
@@ -110,3 +128,8 @@ func _update_model():
 func _process(_delta: float) -> void:
 	_update_model()
 	
+func _on_reset_button_pressed() -> void:
+	invert_value = false
+	if not model_parameter.is_empty():
+		var model = stage.active_model
+		clamp_range = Vector2(input.get_selected_metadata().min, input.get_selected_metadata().max)

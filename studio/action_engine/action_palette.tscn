@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dgmc2ouh0pqwh"]
+[gd_scene load_steps=22 format=3 uid="uid://dgmc2ouh0pqwh"]
 
 [ext_resource type="Script" uid="uid://bbwsxqduu3dap" path="res://studio/action_engine/action_palette.gd" id="1_87dy3"]
 [ext_resource type="Texture2D" uid="uid://degtf3o1bgig0" path="res://studio/action_engine/graph/inputs/keyboard.svg" id="1_mavpt"]
@@ -10,7 +10,9 @@
 [ext_resource type="Texture2D" uid="uid://lto72ierstpg" path="res://studio/action_engine/graph/logic/calculator-simple.svg" id="7_n4xfi"]
 [ext_resource type="PackedScene" uid="uid://bpgxly1q2f3tc" path="res://studio/action_engine/graph/logic/arithmetic.tscn" id="8_rog7t"]
 [ext_resource type="Texture2D" uid="uid://dquygailhgfka" path="res://studio/action_engine/graph/logic/face-exhaling.svg" id="9_cbf0x"]
+[ext_resource type="Texture2D" uid="uid://cubucdwwnclkl" path="res://studio/action_engine/graph/logic/bezier-curve.svg" id="10_d27ip"]
 [ext_resource type="PackedScene" uid="uid://dyittcs286rby" path="res://studio/action_engine/graph/logic/breathe.tscn" id="10_woji1"]
+[ext_resource type="PackedScene" uid="uid://c5cur7nlbprvt" path="res://studio/action_engine/graph/logic/curve.tscn" id="11_5ng8c"]
 [ext_resource type="Texture2D" uid="uid://cvwnn0nikv5uf" path="res://studio/action_engine/graph/logic/eye.svg" id="11_ssi51"]
 [ext_resource type="PackedScene" uid="uid://cxmvu0on3r7wd" path="res://studio/action_engine/graph/logic/blink.tscn" id="12_m3pyl"]
 [ext_resource type="Texture2D" uid="uid://cbriovdwq4va0" path="res://studio/action_engine/graph/outputs/face-laugh-wink.svg" id="13_xs0xf"]
@@ -82,6 +84,19 @@ icon = ExtResource("7_n4xfi")
 icon_alignment = 1
 expand_icon = true
 metadata/action = ExtResource("8_rog7t")
+
+[node name="Curve" type="Button" parent="Buttons"]
+visible = false
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+tooltip_text = "Add Smoothing"
+focus_mode = 0
+icon = ExtResource("10_d27ip")
+icon_alignment = 1
+expand_icon = true
+metadata/action = ExtResource("11_5ng8c")
 
 [node name="Breathe" type="Button" parent="Buttons"]
 custom_minimum_size = Vector2(32, 32)

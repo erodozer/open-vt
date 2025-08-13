@@ -1,5 +1,7 @@
 extends "../vt_action.gd"
 
+const Serializers = preload("res://lib/utils/serializers.gd")
+
 @export var curve: Curve
 
 var frequency: float :
@@ -29,6 +31,9 @@ func serialize():
 		"frequency": frequency,
 	}
 
+func deserialize(data):
+	frequency = data.get("frequency", 2000.0)
+	
 func get_value(_slot):
 	return progress
 

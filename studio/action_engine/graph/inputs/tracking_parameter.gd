@@ -35,13 +35,10 @@ var clamp_enabled: bool = false :
 		%ClampToggle.set_pressed_no_signal(v)
 var clamp_range: Vector2 = Vector2(0, 1) :
 	get():
-		return Vector2(
-			%Input/MinValue.value,
-			%Input/MaxValue.value
-		)
+		return %Input.value
 	set(v):
-		%Input/MinValue.value = v.x
-		%Input/MaxValue.value = v.y
+		%Input.value = v
+		
 var invert_value: bool = false :
 	get():
 		return %InvertToggle.button_pressed
@@ -64,6 +61,7 @@ func serialize():
 		"parameter": input.get_item_text(parameter),
 		"clamp": clamp_enabled,
 		"range": Serializers.RangeSerializer.to_json(clamp_range),
+		"invert": invert_value,
 	}
 	
 func deserialize(data):
@@ -77,7 +75,13 @@ func deserialize(data):
 	clamp_enabled = data.get("clamp", false)
 	
 	var default_range = meta.get("range", Vector2(0, 1))
-	clamp_range = Serializers.RangeSerializer.from_json(data.get("range"), default_range)
+	var range = Serializers.RangeSerializer.from_json(data.get("range"), default_range)
+	if range.x > range.y:
+		range = Vector2(range.y, range.x)
+		invert_value = true
+	else:
+		invert_value = meta.get("invert", false)
+		clamp_range = range
 
 func _on_parameters_updated(parameters):
 	var old_value = value
@@ -101,21 +105,25 @@ func load_from_vts(data: Dictionary):
 			
 	var default_range = meta.get("range", Vector2(0, 1))
 	clamp_enabled = data.get("ClampInput", false)
-	clamp_range = Vector2(
+	var range = Vector2(
 		data.get("InputRangeLower", default_range.x),
 		data.get("InputRangeUpper", default_range.y)
 	)
-	if clamp_range.x > clamp_range.y:
+	if range.x > range.y:
 		invert_value = true
-		clamp_range = Vector2(clamp_range.y, clamp_range.x)
+		clamp_range = Vector2(range.y, range.x)
 	else:
 		invert_value = false
+		clamp_range = range
 
 func get_value(_slot):
 	var value: float = self.value
-	if self.clamp_enabled:
-		value = clampf(value, clamp_range.x, clamp_range.y)
 	value = inverse_lerp(clamp_range.x, clamp_range.y, value)
+	if self.clamp_enabled:
+		value = clampf(value, 0.0, 1.0)
 	if self.invert_value:
 		value = 1.0 - value
 	return value
+
+func _on_reset_button_pressed() -> void:
+	clamp_range = TrackingMeta[parameter].range

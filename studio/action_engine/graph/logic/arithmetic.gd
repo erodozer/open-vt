@@ -31,10 +31,21 @@ func get_type() -> StringName:
 	
 func serialize():
 	return {
-		"operator": operator,
-		"a": null if %InputA.editable else %InputA.value,
-		"b": null if %InputB.editable else %InputB.value
+		"operator": Operator.keys()[int(operator)],
+		"a": null if not %InputA.editable else %InputA.value,
+		"b": null if not %InputB.editable else %InputB.value
 	}
+
+func deserialize(data):
+	var op = data.get("operator", "Add")
+	if op in Operator:
+		operator = Operator[op]
+	else:
+		operator = Operator.Add
+	if data.get("a", null):
+		a = data.get("a")
+	if data.get("b", null):
+		b = data.get("b")
 
 func get_value(_slot):
 	match operator:

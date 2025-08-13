@@ -85,7 +85,7 @@ const Meta = {
 		"range": Vector2(-30, 30),
 	},
 	Inputs.FACE_ANGLE_Z: {
-		"range": Vector2(-90, 90),
+		"range": Vector2(-30, 30),
 	},
 	Inputs.MOUTH_SMILE: {
 		"range": Vector2(0, 1),
