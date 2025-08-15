@@ -38,3 +38,6 @@ min_value = -999.0
 max_value = 999.0
 step = 0.001
 alignment = 2
+
+[connection signal="value_changed" from="MinValue" to="." method="_on_min_value_value_changed"]
+[connection signal="value_changed" from="MaxValue" to="." method="_on_max_value_value_changed"]

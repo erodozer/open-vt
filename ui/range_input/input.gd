@@ -10,9 +10,6 @@ extends Control
 @export_range(-999.9, 999.9) var min_value: float :
 	get():
 		return %MinValue.value
-	set(v):
-		assert(v <= max_value, "can not set min above max")
-		%MinValue.value = v
 
 @export_range(-999.9, 999.9) var max_value: float :
 	get():
@@ -43,5 +40,11 @@ var value: Vector2 :
 		)
 	set(v):
 		assert(v.x <= v.y, "min must be below max")
-		max_value = v.y
-		min_value = v.x
+		%MaxValue.value = v.y
+		%MinValue.value = v.x
+
+func _on_min_value_value_changed(value: float) -> void:
+	%MaxValue.min_value = value
+
+func _on_max_value_value_changed(value: float) -> void:
+	%MinValue.max_value = value
