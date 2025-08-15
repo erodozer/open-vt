@@ -26,7 +26,7 @@ var parameter: TrackingInput = TrackingInput.UNSET :
 var value: float = 0.0 :
 	set(v):
 		value = v
-		%Output/Value.value = v
+		%Output/RawValue.value = v
 
 var clamp_enabled: bool = false :
 	get():
@@ -118,11 +118,14 @@ func load_from_vts(data: Dictionary):
 
 func get_value(_slot):
 	var value: float = self.value
-	value = inverse_lerp(clamp_range.x, clamp_range.y, value)
-	if self.clamp_enabled:
-		value = clampf(value, 0.0, 1.0)
+	var input = TrackingMeta[parameter].range
 	if self.invert_value:
-		value = 1.0 - value
+		value = remap(value, input.x, input.y, input.y, input.x)
+	if self.clamp_enabled:
+		value = clampf(value, clamp_range.x, clamp_range.y)
+		
+	value = inverse_lerp(clamp_range.x, clamp_range.y, value)
+	%Output/Value.value = value
 	return value
 
 func _on_reset_button_pressed() -> void:

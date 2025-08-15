@@ -27,9 +27,10 @@ var model_parameter : String :
 		return parameter.name
 		
 var clamp_enabled: bool :
+	get():
+		return %ClampToggle.button_pressed
 	set(v):
 		%ClampToggle.button_pressed = v
-		clamp_enabled = v
 		
 var clamp_range: Vector2 = Vector2(0, 1) :
 	get():
@@ -105,12 +106,15 @@ func update_value(_slot: int, v: float) -> void:
 	if parameter == null:
 		return
 	
+	v = lerp(clamp_range.x, clamp_range.y, v)
+	
 	if invert_value:
-		v = 1.0 - v
+		v = remap(v, clamp_range.x, clamp_range.y, clamp_range.y, clamp_range.x)
 	
-	var scaled = lerp(clamp_range.x, clamp_range.y, v)
-	value = scaled
+	if clamp_enabled:
+		v = clampf(v, clamp_range.x, clamp_range.y)
 	
+	value = v
 	_dirty = true
 	
 func _update_model():
