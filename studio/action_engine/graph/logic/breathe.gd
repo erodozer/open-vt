@@ -19,9 +19,9 @@ var progress: float :
 		
 var input: float :
 	get():
-		return %Value.value
+		return %ProgressBar.value
 	set(v):
-		%Value.value = v
+		%ProgressBar.value = v
 
 func get_type():
 	return "breathe"

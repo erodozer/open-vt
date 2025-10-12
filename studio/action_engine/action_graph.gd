@@ -51,7 +51,7 @@ func _on_child_exiting_tree(node: Node) -> void:
 		if not id.is_empty() and id in graph_elements:
 			graph_elements.erase(id)
 		
-func _on_action(slot: int, node: GraphNode):
+func _on_action(slot: int, node: VtAction):
 	for conn in get_connection_list():
 		if not (conn.from_node == node.name and conn.from_port == slot):
 			continue
@@ -60,7 +60,8 @@ func _on_action(slot: int, node: GraphNode):
 		if target == null:
 			continue
 			
-		match node.get_output_port_type(slot):
+		var output = node.get_output_type(slot)
+		match output:
 			VtAction.SlotType.TRIGGER:
 				target.invoke_trigger(conn.to_port)
 			_:
@@ -87,7 +88,7 @@ func deserialize(data: Dictionary, palette: ActionPalette):
 		
 	for i in data.get("bindings", []):
 		if i.src in graph_elements and i.dst in graph_elements:
-			_on_connection_request(
+			_on_connection_request.call_deferred(
 				graph_elements[i.src].name, i.src_slot,
 				graph_elements[i.dst].name, i.dst_slot
 			)

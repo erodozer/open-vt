@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://jqiaeaslelbe" path="res://studio/hud/icons/person.svg" id="3_buab2"]
 [ext_resource type="Texture2D" uid="uid://csg8x01sho2ej" path="res://studio/hud/icons/cube.svg" id="4_0k8c4"]
 [ext_resource type="Texture2D" uid="uid://blil5brl4i0qh" path="res://studio/hud/icons/gear.svg" id="5_1vcj3"]
-[ext_resource type="Texture2D" uid="uid://0yh01fnusj7i" path="res://studio/hud/icons/square-t.svg" id="6_8qqt6"]
+[ext_resource type="Texture2D" uid="uid://b2152bd2ck2uq" path="res://ui/icons/circle-nodes.svg" id="7_bomus"]
 [ext_resource type="Texture2D" uid="uid://b3m3xj1ms8rss" path="res://ui/icons/square-arrow-up-left.svg" id="7_wochk"]
 [ext_resource type="Texture2D" uid="uid://b401bri37hvvq" path="res://studio/grid.png" id="8_i4b50"]
 [ext_resource type="PackedScene" uid="uid://dpw8au0ueatrg" path="res://studio/hud/parameter_panel/parameter_panel.tscn" id="9_p03m3"]
@@ -47,9 +47,8 @@ title = "open-vt (Controls)"
 [node name="Bg" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 layer = -1
-visible = false
 
-[node name="BgFill" type="TextureRect" parent="Bg"]
+[node name="Gradient" type="TextureRect" parent="Bg"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -57,7 +56,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_kr4px")
 
-[node name="BgFill2" type="TextureRect" parent="Bg"]
+[node name="Grid" type="TextureRect" parent="Bg"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -81,6 +80,7 @@ theme_override_constants/separation = 10
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
+tooltip_text = "Configure Application and Hardware Settings"
 focus_mode = 0
 mouse_default_cursor_shape = 2
 toggle_mode = true
@@ -94,6 +94,7 @@ metadata/panel = NodePath("../../../Panels/CameraPanel")
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
+tooltip_text = "Change the active model"
 focus_mode = 0
 mouse_default_cursor_shape = 2
 toggle_mode = true
@@ -107,6 +108,7 @@ metadata/panel = NodePath("../../../Panels/ModelPanel")
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
+tooltip_text = "Compose your scene with extra items"
 focus_mode = 0
 mouse_default_cursor_shape = 2
 toggle_mode = true
@@ -120,6 +122,7 @@ metadata/panel = NodePath("../../../Panels/ItemPanel")
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
+tooltip_text = "Configure Model Settings"
 focus_mode = 0
 mouse_default_cursor_shape = 2
 toggle_mode = true
@@ -133,10 +136,11 @@ metadata/panel = NodePath("../../../Panels/ParameterPanel")
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
+tooltip_text = "Configure Model Bindings"
 focus_mode = 0
 mouse_default_cursor_shape = 2
 toggle_mode = true
-icon = ExtResource("6_8qqt6")
+icon = ExtResource("7_bomus")
 icon_alignment = 1
 expand_icon = true
 
@@ -155,6 +159,8 @@ expand_icon = true
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
+tooltip_text = "Pop out UI
+(Recommended when Capturing)"
 focus_mode = 0
 icon = ExtResource("7_wochk")
 expand_icon = true

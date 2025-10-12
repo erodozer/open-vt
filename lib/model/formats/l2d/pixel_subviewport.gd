@@ -8,7 +8,7 @@ const MAX_QUALITY = Vector2(4096, 4096)
 @export var model: GDCubismUserModel
 
 func _ready():
-	model.scale = Vector2.ONE
+	model.scale = Vector2.ONE * SUPER_SAMPLE
 	# model.origin *= SUPER_SAMPLE
 	viewport.add_child(model)
 	

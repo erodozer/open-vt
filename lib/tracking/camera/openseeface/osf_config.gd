@@ -10,23 +10,19 @@ var tracker: OsfTracker
 func _ready() -> void:
 	# only do this until Godot supports webcams on desktop
 	if OS.has_feature("linux"):
-		var lines = []
-		OS.execute("v4l2-ctl", ["--list-devices"], lines)
-		var idx = 1
-		for l in lines[0].split("\n"):
-			if "(" in l:
-				%Camera.add_item(l, idx)
-				idx += 1
+		CameraServer.set_monitoring_feeds(true)
+		await get_tree().process_frame
+		var feeds = CameraServer.feeds()
+		for i in feeds:
+			%Camera.add_item(i.get_name(), i.get_id())
+		if len(feeds) > 0:
+			%Camera.select(0)
 	#elif OS.has_feature("windows"):
 	#	var lines = []
 	#	OS.execute("powershell", ["""Get-CimInstance Win32_PnPEntity | ? { $_.service -eq "usbvideo" } | Select-Object -Property PNPDeviceID, Name"""], lines)
 	#	var idx = 1
 	#	for l in lines[0].split("\r\n"):
 	#		pass
-			
-	#for i in range(CameraServer.get_feed_count()):
-	#	var feed = CameraServer.get_feed(i)
-	#	%Camera.add_item(feed.get_name(), feed.get_id())
 	
 	tracker.data_received.connect(%PointPreview._on_data_received)
 	tracker.connection_status.connect(

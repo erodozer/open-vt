@@ -1,5 +1,7 @@
 extends Node
 
+const Registry = preload("./parameter_registry.gd")
+
 # for compatibility with VTS and its Stream to PC functionality
 # it's important to maintain exact enum order, as they are serialized by the ordinal
 enum Inputs {

@@ -16,7 +16,7 @@ func _ready():
 	port = OSF_PORT
 	
 func _notification(what):
-	if what == NOTIFICATION_PREDELETE:
+	if what == NOTIFICATION_PREDELETE or what == NOTIFICATION_WM_CLOSE_REQUEST:
 		if osf_pid > 0:
 			OS.kill(osf_pid)
 
