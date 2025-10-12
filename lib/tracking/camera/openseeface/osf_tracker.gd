@@ -2,72 +2,17 @@ extends "res://lib/tracking/net/udp_tracker.gd"
 
 const OpenSeeData = preload("./osf_data.gd")
 
-const OSF_PORT = 11573
-
-var osf_pid: int
-var camera: int
-var model: int
-
 # controls
 var blink_sync: bool = false
 
 func _ready():
 	super._ready()
-	port = OSF_PORT
-	
-func _notification(what):
-	if what == NOTIFICATION_PREDELETE or what == NOTIFICATION_WM_CLOSE_REQUEST:
-		if osf_pid > 0:
-			OS.kill(osf_pid)
 
 func create_config() -> Node:
 	var panel = preload("./osf_config.tscn").instantiate()
 	panel.tracker = self
 	return panel
 
-func start():
-	var opened = super.start()
-	if not opened:
-		return
-	
-	# wait to see if we receive data from an instance that already exists
-	# if not, create a facetracker process
-	get_tree().create_timer(1.0).timeout.connect(start_process)
-	
-func start_process():
-	if peer != null:
-		print("receiving openseeface data from existing process")
-		return
-	
-	if osf_pid > 0:
-		stop_process()
-	
-	var executable
-	if OS.has_feature("linux"):
-		executable = ProjectSettings.globalize_path("res://bin/openseeface/facetracker")
-	elif OS.has_feature("windows"):
-		executable = ProjectSettings.globalize_path("res://bin/openseeface/facetracker.exe")
-		camera = 1
-	else:
-		push_error("OpenSeeFace is unsupported on this platform")
-		return
-	osf_pid = OS.create_process(
-		executable,
-		["-s", "1", "-c", camera, "-m", model]
-	)
-	print("openseeface process: %d" % osf_pid)
-
-func stop_process():
-	if osf_pid > 0:
-		print("closing openseeface process: %d" % osf_pid)
-		OS.kill(osf_pid)
-		osf_pid = -1
-
-func stop():
-	stop_process()
-		
-	super.stop()
-	
 func _packet_received(data: PackedByteArray):
 	var osf_data = OpenSeeData.new()
 	osf_data.read_osf_data(data)

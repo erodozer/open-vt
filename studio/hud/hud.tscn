@@ -47,6 +47,7 @@ title = "open-vt (Controls)"
 [node name="Bg" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 layer = -1
+visible = false
 
 [node name="Gradient" type="TextureRect" parent="Bg"]
 anchors_preset = 15

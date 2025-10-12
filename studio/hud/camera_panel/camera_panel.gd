@@ -44,7 +44,7 @@ func _ready() -> void:
 		)
 		
 	if OS.has_feature("linux"):
-		#CameraServer.set_monitoring_feeds(true)
+		CameraServer.set_monitoring_feeds(true)
 		await get_tree().process_frame
 		var feeds = CameraServer.feeds()
 		for i in feeds:

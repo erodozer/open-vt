@@ -11,7 +11,7 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 	var n1 = get_node(NodePath(from_node))
 	var n2 = get_node(NodePath(to_node))
 	
-	var slot_type = n2.get_input_port_type(to_port)
+	var slot_type = n2.get_input_type(to_port)
 	var count = get_connection_count(to_node, to_port)
 	
 	# only allow one binding for numeric, allow takeover

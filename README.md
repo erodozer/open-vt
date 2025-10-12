@@ -17,8 +17,8 @@ By contrast, OpenVT is built in Godot, leveraging much of the same open-source s
 
 ### Supported Trackers
 
-- OpenSeeFace (Linux)
-- VTubeStudio (TCP over Wi-fi) (Linux/Windows)
+- OpenSeeFace (Separate executable required)
+- VTubeStudio (TCP over Wi-fi)
 
 ### Examples of Improvements over VTS
 
@@ -34,7 +34,7 @@ By contrast, OpenVT is built in Godot, leveraging much of the same open-source s
 OpenVT attempts to use as much out of the box functionality of Godot as possible with low overhead and dependencies, as it's already a rather feature rich runtime.
 As such, GDScript is the primary language of the codebase.
 
-Using the base version of at least Godot 4.4 will be enough to edit the project.
+Using the base version of at least Godot 4.5 will be enough to edit the project.
 Be sure to grab the export templates if you wish to export standalone binaries.
 
 ### Building Dependencies
@@ -61,6 +61,6 @@ OpenVT Mascot by @erodozer
 
 ## Licensing
 
-This application contains the Live2D Cubism SDK, a copyrighted work developed by Live2D Inc
+For full functionality, this application depends on the Live2D Cubism SDK, a copyrighted work developed by Live2D Inc
 
 Any forks and distributions of OpenVT by third parties are not directly covered, with developers requiring explicit permission as per the [license agreement](https://www.live2d.com/eula/live2d-proprietary-software-license-agreement_en.html) and qualify as an Expandable Application.

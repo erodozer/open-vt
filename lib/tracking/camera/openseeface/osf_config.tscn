@@ -5,11 +5,17 @@
 
 [sub_resource type="PlaceholderMesh" id="PlaceholderMesh_w8rkj"]
 
-[node name="OsfConfig" type="VBoxContainer"]
-size_flags_horizontal = 3
+[node name="PanelContainer" type="PanelContainer"]
+offset_top = 417.0
+offset_right = 207.0
+offset_bottom = 433.0
 script = ExtResource("1_l2brn")
 
-[node name="PointPreview" type="Panel" parent="."]
+[node name="OsfConfig" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PointPreview" type="Panel" parent="OsfConfig"]
 unique_name_in_owner = true
 clip_contents = true
 custom_minimum_size = Vector2(0, 256)
@@ -17,10 +23,10 @@ layout_mode = 2
 script = ExtResource("1_a10jp")
 mirror = true
 
-[node name="FpsCounter" type="Label" parent="PointPreview"]
+[node name="FpsCounter" type="Label" parent="OsfConfig/PointPreview"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 0)
-layout_mode = 2
+layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 45.0
@@ -28,13 +34,13 @@ offset_bottom = 23.0
 theme_type_variation = &"ValueLabel"
 text = "FPS: 0"
 
-[node name="FaceMesh" type="MeshInstance2D" parent="PointPreview"]
+[node name="FaceMesh" type="MeshInstance2D" parent="OsfConfig/PointPreview"]
 unique_name_in_owner = true
 position = Vector2(216, 128)
 scale = Vector2(128, 128)
 mesh = SubResource("PlaceholderMesh_w8rkj")
 
-[node name="ActiveIndicator" type="Label" parent="PointPreview"]
+[node name="ActiveIndicator" type="Label" parent="OsfConfig/PointPreview"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 1
@@ -49,63 +55,47 @@ theme_type_variation = &"ValueLabel"
 text = "Off"
 horizontal_alignment = 1
 
-[node name="BlinkSync" type="CheckButton" parent="."]
+[node name="BlinkSync" type="CheckButton" parent="OsfConfig"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Link Eye Blinking"
 
-[node name="Label" type="Label" parent="."]
+[node name="HBoxContainer2" type="HBoxContainer" parent="OsfConfig"]
 layout_mode = 2
-text = "Camera"
 
-[node name="Camera" type="OptionButton" parent="."]
+[node name="Label" type="Label" parent="OsfConfig/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "OSF Port"
+
+[node name="Port" type="SpinBox" parent="OsfConfig/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
-text_overrun_behavior = 1
-fit_to_longest_item = false
+min_value = 10000.0
+max_value = 64335.0
+value = 11573.0
+alignment = 2
 
-[node name="Label2" type="Label" parent="."]
-layout_mode = 2
-text = "Model"
-
-[node name="Model" type="OptionButton" parent="."]
-unique_name_in_owner = true
-layout_mode = 2
-text_overrun_behavior = 1
-selected = 4
-fit_to_longest_item = false
-item_count = 5
-popup/item_0/text = "1 - Low CPU, Inaccurate"
-popup/item_0/id = 1
-popup/item_1/text = "2 - Low CPU, Semi-accurate"
-popup/item_1/id = 2
-popup/item_2/text = "3 - Med CPU, Accurate"
-popup/item_2/id = 3
-popup/item_3/text = "4 - Med CPU, Wink Supported"
-popup/item_3/id = 4
-popup/item_4/text = "5 - High CPU, Most Accurate"
-popup/item_4/id = 5
-
-[node name="AutoConnect" type="CheckButton" parent="."]
+[node name="AutoConnect" type="CheckButton" parent="OsfConfig"]
 visible = false
 layout_mode = 2
 text = "Auto Connect"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="OsfConfig"]
 layout_mode = 2
 
-[node name="Connect" type="Button" parent="HBoxContainer"]
+[node name="Connect" type="Button" parent="OsfConfig/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Connect"
 
-[node name="Disconnect" type="Button" parent="HBoxContainer"]
+[node name="Disconnect" type="Button" parent="OsfConfig/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Disconnect"
 
-[connection signal="toggled" from="BlinkSync" to="." method="_on_blink_sync_toggled"]
-[connection signal="pressed" from="HBoxContainer/Connect" to="." method="_on_connect_pressed"]
-[connection signal="pressed" from="HBoxContainer/Disconnect" to="." method="_on_disconnect_pressed"]
+[connection signal="toggled" from="OsfConfig/BlinkSync" to="OsfConfig" method="_on_blink_sync_toggled"]
+[connection signal="pressed" from="OsfConfig/HBoxContainer/Connect" to="OsfConfig" method="_on_connect_pressed"]
+[connection signal="pressed" from="OsfConfig/HBoxContainer/Disconnect" to="OsfConfig" method="_on_disconnect_pressed"]
