@@ -309,3 +309,20 @@ func _on_profile_tabs_tab_selected(tab: int) -> void:
 
 func _on_profile_enabled_toggled(toggled_on: bool) -> void:
 	active_graph.process_mode = PROCESS_MODE_INHERIT if toggled_on else PROCESS_MODE_DISABLED
+
+func _on_delete_profile_pressed() -> void:
+	var graph = active_graph
+	var idx = active_profile
+	var popup = ConfirmationDialog.new()
+	popup.dialog_text = "Delete Profile %s\nThis action is Permanent" % active_graph.name
+	popup.cancel_button_text = "Nevermind"
+	popup.ok_button_text = "Yes, Delete It"
+	popup.confirmed.connect(
+		func ():
+			graph.queue_free()
+			popup.queue_free()
+			await get_tree().process_frame
+			_on_profile_tabs_tab_selected(0)
+	)
+	add_child(popup)
+	popup.popup_centered()
