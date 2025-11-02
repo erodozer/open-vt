@@ -2,7 +2,6 @@ extends "res://lib/popout_panel.gd"
 
 const Tracker = preload("res://lib/tracking/tracker.gd")
 const TrackingSystem = preload("res://lib/tracking/tracking_system.gd")
-const TrackingInputs = preload("res://lib/tracking/tracker.gd").Inputs
 
 signal update_bg_color(color: Color)
 
@@ -11,6 +10,8 @@ signal update_bg_color(color: Color)
 @onready var mic_toggle: CheckButton = %MicrophoneToggle
 @onready var tracker: OptionButton = %TrackingSource
 @onready var fps_option: OptionButton = %FPS
+
+@onready var parameter_list = %ParameterList
 
 func _get_title():
 	return "Settings"
@@ -23,16 +24,23 @@ func _ready() -> void:
 	tracker.add_item("VTubeStudio (iOS/Android)")
 	tracker.set_item_metadata(tracker.item_count - 1, preload("res://lib/tracking/camera/vts/vts_tracker.gd"))
 	
-	for i in TrackingInputs:
-		var box = HBoxContainer.new()
-		var l = Label.new()
-		l.text = i
-		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		box.add_child(l)
-		var v = Label.new()
-		v.name = "Value"
-		box.add_child(v)
-		%ParameterList.add_child(box)
+	Registry.parameter_list_changed.connect(
+		func ():
+			for c in parameter_list.get_children():
+				c.free()
+			
+			for i in Registry.parameters():
+				var box = HBoxContainer.new()
+				var l = Label.new()
+				l.text = i.id
+				l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+				box.add_child(l)
+				var v = Label.new()
+				v.name = "Value"
+				box.add_child(v)
+				box.name = i.id
+				parameter_list.add_child.call_deferred(box)
+	)
 		
 	if tracking_system:
 		tracking_system.tracker_changed.connect(_on_tracker_system_tracker_changed)
@@ -57,7 +65,7 @@ func _ready() -> void:
 		%VirtualWebcam/V4l2OutputStream.viewport = vp
 	else:
 		%VirtualWebcam.queue_free()
-	
+
 func _on_tracker_system_tracker_changed(new_tracker: Tracker) -> void:
 	var config = Control.new()
 	if new_tracker != null:
@@ -71,8 +79,11 @@ func _on_tracker_system_tracker_changed(new_tracker: Tracker) -> void:
 func _on_tracker_system_parameters_updated(parameters: Dictionary) -> void:
 	if !is_node_ready():
 		return
-	for i in TrackingInputs:
-		%ParameterList.get_child(TrackingInputs[i]).get_node("Value").text = "%.02f" % parameters.get(TrackingInputs[i], 0)
+	for p in Registry.parameters():
+		var node = parameter_list.get_node(NodePath(p.id))
+		if node == null:
+			continue
+		node.get_node("Value").text = "%.02f" % parameters.get(p.id, 0)
 
 func _on_preview_background_color_color_changed(color: Color) -> void:
 	update_bg_color.emit(color)

@@ -3,8 +3,6 @@ extends Window
 const Files = preload("res://lib/utils/files.gd")
 const VtModel = preload("res://lib/model/vt_model.gd")
 const VtAction = preload("./graph/vt_action.gd")
-const TrackingInput = preload("res://lib/tracking/tracker.gd").Inputs
-const TrackingMeta = preload("res://lib/tracking/tracker.gd").Meta
 
 const ActionGraph = preload("res://studio/action_engine/action_graph.tscn")
 
@@ -196,7 +194,7 @@ func _load_from_vts(model: VtModel):
 		
 		input.position_offset = Vector2(x, y)
 		
-		var unbound = input.parameter == TrackingInput.UNSET
+		var unbound = input.parameter == "unset"
 		var breathing = data.get("UseBreathing", false)
 		var blinking = data.get("UseBlinking", false)
 		var _x = x

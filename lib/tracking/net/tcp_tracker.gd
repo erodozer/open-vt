@@ -49,4 +49,4 @@ func _listen():
 	if err != OK:
 		return
 	
-	_packet_received(data)
+	packet_received.emit(data)

@@ -1,8 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://bbh7pj5wq0sii"]
+[gd_scene load_steps=18 format=3 uid="uid://bbh7pj5wq0sii"]
 
 [ext_resource type="Script" uid="uid://bq0aow0vnq1i6" path="res://main.gd" id="1_g562h"]
 [ext_resource type="Script" uid="uid://bl1h5l0htvi3k" path="res://lib/preferences.gd" id="2_kek77"]
 [ext_resource type="Script" uid="uid://ds0i7bdpr6wsy" path="res://lib/item_manager.gd" id="4_4ht51"]
+[ext_resource type="Script" uid="uid://c0x5krhvleh5m" path="res://lib/tracking/mouse/mouse_tracker.gd" id="4_w48qg"]
+[ext_resource type="PackedScene" uid="uid://15kl1t37lo3j" path="res://lib/tracking/microphone/microphone_tracker.tscn" id="5_vivmo"]
+[ext_resource type="Script" uid="uid://cd7vdcscwlelj" path="res://lib/tracking/gamepad/gamepad_tracker.gd" id="6_2cqfq"]
 [ext_resource type="PackedScene" uid="uid://c773w6vc4nnrr" path="res://studio/stage.tscn" id="6_efxa6"]
 [ext_resource type="PackedScene" uid="uid://cmd2d6iiryvk4" path="res://studio/hud/hud.tscn" id="8_5vw27"]
 [ext_resource type="Script" uid="uid://c3dhmb2w6nvr0" path="res://lib/tracking/tracking_system.gd" id="8_dv8e1"]
@@ -131,6 +134,17 @@ script = ExtResource("2_kek77")
 
 [node name="TrackerSystem" type="Node" parent="." groups=["system:tracking"]]
 script = ExtResource("8_dv8e1")
+
+[node name="MouseTracker" type="Node" parent="TrackerSystem"]
+script = ExtResource("4_w48qg")
+smoothing = 0.0
+
+[node name="MicrophoneTracker" parent="TrackerSystem" instance=ExtResource("5_vivmo")]
+smoothing = 0.0
+
+[node name="GamepadTracker" type="Node" parent="TrackerSystem"]
+script = ExtResource("6_2cqfq")
+smoothing = 0.0
 
 [node name="ModelManager" type="Node" parent="." groups=["system:model"]]
 script = ExtResource("12_ufyfb")

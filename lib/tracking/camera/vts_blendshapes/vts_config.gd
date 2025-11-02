@@ -5,11 +5,7 @@ const SocketTracker = preload("res://lib/tracking/net/socket_tracker.gd")
 var tracker: SocketTracker
 
 func _ready() -> void:
-	print(IP.get_local_addresses())
-	%Hostname.text = Array(IP.get_local_addresses()).filter(
-		func (ip):
-			return ip.begins_with("192")
-	)[0]
+	%Hostname.text = "192.168.88.250"
 	tracker.connection_status.connect(
 		func (status):
 			match status:
@@ -25,8 +21,11 @@ func _ready() -> void:
 	)
 	
 func _on_connect_pressed() -> void:
-	tracker.host = "*"
-	tracker.port = %Port.value
+	tracker.host = Array(IP.get_local_addresses()).filter(
+		func (ip):
+			return ip.begins_with("192")
+	)[0]
+	tracker.client_host = %Hostname.text
 	tracker.start()
 	
 func _on_disconnect_pressed() -> void:

@@ -1,26 +1,16 @@
 extends Node
 
 const Tracker = preload("res://lib/tracking/tracker.gd")
-const Inputs = Tracker.Inputs
 
 var parameters = {}
 
 signal tracker_changed(tracker: Tracker)
 signal parameters_updated(parameters: Dictionary)
 
-var voice_tracker: Tracker = preload("res://lib/tracking/microphone/microphone_tracker.tscn").instantiate()
-
 func _ready():
-	var mouse_tracker = preload("res://lib/tracking/mouse/mouse_tracker.gd").new()
-	mouse_tracker.name = "MouseTracker"
-	add_child(mouse_tracker)
-	
-	add_child(voice_tracker)
-	
-	for i in Tracker.Inputs:
-		var ord = Tracker.Inputs[i]
-		parameters[ord] = Tracker.Meta.get(ord, {}).get("default", 0)
-	parameters.erase(Tracker.Inputs.UNSET)
+	for i in Registry.parameters():
+		parameters[i.id] = i.default_value
+	parameters.erase("unset")
 	
 func activate_tracker(tracker: Tracker):
 	if has_node("FaceTracker"):
@@ -41,12 +31,12 @@ func _process(_delta: float) -> void:
 	
 	# mouse tracking
 	for i in get_children():
-		parameters.merge(i.parameters, true)
+		parameters.merge(i.parameters(), true)
 		
 	# accumulative adjustments
 	parameters.merge(
 		{
-			Inputs.VOICE_VOLUME_PLUS_MOUTH_OPEN: Tracker.clamp_to_range(parameters.get(Inputs.MOUTH_OPEN, 0) + parameters.get(Inputs.VOICE_VOLUME, 0), Inputs.MOUTH_OPEN),
+			"VoiceVolumePlusMouthOpen": Registry.clamp_to_range(parameters.get("MouthOpen", 0) + parameters.get("VoiceVolume", 0), "MouthOpen"),
 		}, true
 	)
 	

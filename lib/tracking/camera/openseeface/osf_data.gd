@@ -1,7 +1,7 @@
 extends RefCounted
 
 const Math = preload("res://lib/utils/math.gd")
-const BufferedReader = preload("./buffered_reader.gd")
+const BufferedReader = preload("res://lib/utils/buffered_reader.gd")
 
 const nPoints = 68
 const nPoints3D = nPoints + 2
@@ -74,7 +74,7 @@ func read_osf_data(packet:PackedByteArray):
 
 	fit3DError = b.read_float()
 	rawQuaternion = b.read_quaternion()
-	var convertedQuaternion = Quaternion(-rawQuaternion.x, rawQuaternion.y, -rawQuaternion.z, rawQuaternion.w)
+	var convertedQuaternion = Quaternion(-rawQuaternion.x, -rawQuaternion.y, rawQuaternion.z, rawQuaternion.w)
 	rawEuler = b.read_vector3();
 
 	rotation = Vector3(rawEuler);

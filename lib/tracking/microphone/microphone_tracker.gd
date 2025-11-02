@@ -11,22 +11,22 @@ var enabled = true :
 		return AudioServer.is_bus_effect_enabled(bus, 0)
 
 func _ready() -> void:
-	Registry.add_parameter("VOICE_VOLUME", Vector2(0, 1), 0.0)
-	Registry.add_parameter("VOICE_FREQUENCY", Vector2(0, 1), 0.0)
-	Registry.add_parameter("VOICE_VOLUME_PLUS_MOUTH_OPEN", Vector2(0, 1), 0.0)
-	Registry.add_parameter("VOICE_FREQUENCY_PLUS_MOUTH_SMILE", Vector2(0, 1), 0.0)
+	Registry.add_parameter("VoiceVolume", Vector2(0, 1), 0.0)
+	Registry.add_parameter("VoiceFrequency", Vector2(0, 1), 0.0)
+	Registry.add_parameter("VoiceVolumePlusMouthOpen", Vector2(0, 1), 0.0)
+	Registry.add_parameter("VoiceFrequencyPlusMouthSmile", Vector2(0, 1), 0.0)
 	
-	Registry.add_parameter("VOICE_A", Vector2(0, 1), 0.0)
-	Registry.add_parameter("VOICE_E", Vector2(0, 1), 0.0)
-	Registry.add_parameter("VOICE_I", Vector2(0, 1), 0.0)
-	Registry.add_parameter("VOICE_O", Vector2(0, 1), 0.0)
-	Registry.add_parameter("VOICE_U", Vector2(0, 1), 0.0)
-	Registry.add_parameter("VOICE_SILENCE", Vector2(0, 1), 0.0)
+	Registry.add_parameter("VoiceA", Vector2(0, 1), 0.0)
+	Registry.add_parameter("VoiceE", Vector2(0, 1), 0.0)
+	Registry.add_parameter("VoiceI", Vector2(0, 1), 0.0)
+	Registry.add_parameter("VoiceO", Vector2(0, 1), 0.0)
+	Registry.add_parameter("VoiceU", Vector2(0, 1), 0.0)
+	Registry.add_parameter("VoiceSilence", Vector2(0, 1), 0.0)
 	
 func _process(_delta: float) -> void:
 	var vol = AudioServer.get_bus_peak_volume_left_db(bus, 0)
 	
 	# TOOD figure out how to parse other voice frequency values, until then rely on input from VTS
-	parameters = {
-		Inputs.VOICE_VOLUME: db_to_linear(vol)
-	}
+	update({
+		"VoiceVolume": db_to_linear(vol)
+	})

@@ -90,7 +90,7 @@ func _load_model():
 	_load_settings()
 	
 	size = format_strategy.get_size()
-	scale = Vector2.ONE * clamp(get_viewport_rect().size.y / size.y, 0.001, 2.0)
+	scale = Vector2.ONE * clampf(get_viewport_rect().size.y / size.y, 0.001, 2.0)
 	rotation_degrees = 0
 	# pivot_offset = size / 2
 	# spawn off screen

@@ -18,8 +18,8 @@ func _ready():
 	Registry.add_parameter("NP_RStickX", Vector2(-1.0, 1.0), 0.0)
 	Registry.add_parameter("NP_RStickY", Vector2(-1.0, 1.0), 0.0)
 
-func _process(delta: float) -> void:
-	parameters = {
+func _process(_delta: float) -> void:
+	update({
 		"NP_RButtonDown":
 			Input.is_joy_button_pressed(gamepad_index, JOY_BUTTON_A) or \
 			Input.is_joy_button_pressed(gamepad_index, JOY_BUTTON_B) or \
@@ -40,5 +40,5 @@ func _process(delta: float) -> void:
 		"NP_LStickY": Input.get_joy_axis(0, JOY_AXIS_LEFT_Y),
 		"NP_RStickX": Input.get_joy_axis(0, JOY_AXIS_RIGHT_X),
 		"NP_RStickY": Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y),
-	}
+	})
 	

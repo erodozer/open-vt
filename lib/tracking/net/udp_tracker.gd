@@ -1,14 +1,15 @@
 extends "./socket_tracker.gd"
 
-var server: UDPServer
-var peer: PacketPeerUDP
+var server: PacketPeerUDP
 
 func start():
-	if server != null and server.is_listening():
+	if server != null and server.is_bound():
 		return true
 	
-	server = UDPServer.new()
-	var err = server.listen(port, self.host)
+	stop() # do cleanup just in case
+	
+	server = PacketPeerUDP.new()
+	var err = server.bind(port, host)
 	if err != OK:
 		push_error("could not open udp server")
 		return false
@@ -16,40 +17,34 @@ func start():
 	return true
 	
 func stop():
-	if server == null or not server.is_listening():
+	if server == null:
 		return
 	
 	# quickly issue a kill message to the listener socket
-	server.stop()
+	server.close()
 	
 	connection_status.emit(ConnectionStatus.OFF)
 	
 	server = null
-	peer = null
 
 func _listen():
 	if server == null:
 		return
 		
-	if server != null and not server.is_listening():
-		server = null
+	if not server.is_bound():
+		stop()
 		return
 		
-	server.poll()
-	if server.is_connection_available() and peer == null:
-		peer = server.take_connection()
-		connection_status.emit(ConnectionStatus.ON)
-	
-	if peer == null:
+	if server.get_available_packet_count() < 0:
 		return
 	
-	if peer.get_available_packet_count() < 0:
-		return
-	
-	var data: PackedByteArray = peer.get_packet()
+	var data: PackedByteArray = server.get_packet()
 			
 	if data.size() <= 0:
 		return
-		
-	_packet_received(data)
+	
+	# state is switched to ON as soon as first packet is received
+	connection_status.emit(ConnectionStatus.ON)
+	
+	packet_received.emit(data)
 	

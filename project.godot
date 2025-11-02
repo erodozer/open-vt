@@ -29,6 +29,7 @@ driver/enable_input=true
 
 GlobalInput="*res://addons/keylogger/keylogger.tscn"
 Screenshot="*res://lib/screenshot.gd"
+Registry="*res://lib/tracking/parameter_registry.gd"
 
 [display]
 

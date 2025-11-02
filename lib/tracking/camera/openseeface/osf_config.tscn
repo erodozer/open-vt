@@ -97,5 +97,5 @@ size_flags_horizontal = 3
 text = "Disconnect"
 
 [connection signal="toggled" from="OsfConfig/BlinkSync" to="OsfConfig" method="_on_blink_sync_toggled"]
-[connection signal="pressed" from="OsfConfig/HBoxContainer/Connect" to="OsfConfig" method="_on_connect_pressed"]
-[connection signal="pressed" from="OsfConfig/HBoxContainer/Disconnect" to="OsfConfig" method="_on_disconnect_pressed"]
+[connection signal="pressed" from="OsfConfig/HBoxContainer/Connect" to="." method="_on_connect_pressed"]
+[connection signal="pressed" from="OsfConfig/HBoxContainer/Disconnect" to="." method="_on_disconnect_pressed"]

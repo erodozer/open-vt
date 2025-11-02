@@ -1,13 +1,10 @@
 extends "res://lib/popout_panel.gd"
 
 const VtModel = preload("res://lib/model/vt_model.gd")
-const TrackingInput = preload("res://lib/tracking/tracker.gd").Inputs
 const Stage = preload("res://lib/stage.gd")
 
 @onready var meshes = get_node("%Mesh Settings")
 var model
-
-signal parameter_selected(value)
 
 func _ready():
 	var stage = get_tree().get_first_node_in_group("system:stage")

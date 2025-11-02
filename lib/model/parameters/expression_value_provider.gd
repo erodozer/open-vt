@@ -102,7 +102,7 @@ func update(inputs: Dictionary):
 		var expression: Dictionary = expression_library[exp_name]
 		
 		var fade: Dictionary = fades[exp_name]
-		var progress = clamp(inverse_lerp(fade["start"], fade["end"], now), 0.0, 1.0)
+		var progress = clampf(inverse_lerp(fade["start"], fade["end"], now), 0.0, 1.0)
 		if fade["reverse"] == true:
 			progress = 1.0 - progress
 			

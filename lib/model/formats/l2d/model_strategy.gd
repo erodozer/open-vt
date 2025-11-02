@@ -109,7 +109,10 @@ func _rebuild_l2d(meta: ModelMeta, smoothing: bool, filter: CanvasItem.TextureFi
 		m.set_meta("global_centroid", render.global_position + center)
 	
 	var anim_lib = GDCubismMotionLoader.load_motion_library(loaded_model)
-	get_parent().get_idle_animation_player().add_animation_library("", anim_lib)
+	var idle_anim: AnimationPlayer = get_parent().get_idle_animation_player()
+	if idle_anim.has_animation_library(""):
+		idle_anim.remove_animation_library("") # remove just in case
+	idle_anim.add_animation_library("", anim_lib)
 	
 	# emotion controller
 	var expression_library = {}
@@ -168,17 +171,17 @@ func tracking_updated(tracking_data: Dictionary):
 		return
 	
 	var moved = Vector3(
-		Tracker.signed_ilerp_input(
-			tracking_data.get(Tracker.Inputs.FACE_POSITION_X, 0),
-			Tracker.Inputs.FACE_POSITION_X,
+		Registry.signed_ilerp_input(
+			tracking_data.get("FacePositionX", 0),
+			"FacePositionX",
 		),
-		Tracker.signed_ilerp_input(
-			tracking_data.get(Tracker.Inputs.FACE_POSITION_Y, 0),
-			Tracker.Inputs.FACE_POSITION_Y,
+		Registry.signed_ilerp_input(
+			tracking_data.get("FacePositionY", 0),
+			"FacePositionY",
 		),
-		Tracker.signed_ilerp_input(
-			tracking_data.get(Tracker.Inputs.FACE_POSITION_Z, 0),
-			Tracker.Inputs.FACE_POSITION_Z,
+		Registry.signed_ilerp_input(
+			tracking_data.get("FacePositionZ", 0),
+			"FacePositionZ",
 		)
 	)
 	var movement = moved * get_parent().movement_scale
