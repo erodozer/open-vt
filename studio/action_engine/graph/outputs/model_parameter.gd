@@ -1,12 +1,10 @@
 extends "../vt_action.gd"
 
 const Serializers = preload("res://lib/utils/serializers.gd")
-const Stage = preload("res://lib/stage.gd")
 
 const VALUE_SLOT = 1
 
 @onready var input: OptionButton = %Parameters
-@onready var stage: Stage = get_tree().get_first_node_in_group("system:stage")
 
 @export var breathe_curve: Curve
 @export var blink_curve: Curve
@@ -135,5 +133,4 @@ func _process(_delta: float) -> void:
 func _on_reset_button_pressed() -> void:
 	invert_value = false
 	if not model_parameter.is_empty():
-		var model = stage.active_model
 		clamp_range = Vector2(input.get_selected_metadata().min, input.get_selected_metadata().max)

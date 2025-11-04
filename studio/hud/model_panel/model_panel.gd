@@ -1,10 +1,10 @@
 extends PanelContainer
 
 const ModelManager = preload("res://lib/model_manager.gd")
-const Stage = preload("res://lib/stage.gd")
+const Stage = preload("res://studio/stage/stage.gd")
 
 @onready var manager: ModelManager = get_tree().get_first_node_in_group("system:model")
-@onready var stage: Stage = get_tree().get_first_node_in_group("system:stage")
+@onready var stage: Stage = get_tree().get_first_node_in_group(Stage.GROUP_NAME)
 @onready var list = %ModelList
 
 func _ready() -> void:

@@ -1,10 +1,9 @@
 # System for loading models from VTubeStudio's format
 # and spawning them into the scene to be managed
-extends "res://lib/model/model_strategy.gd"
+extends "../model_strategy.gd"
 
 const Math = preload("res://lib/utils/math.gd")
 const Files = preload("res://lib/utils/files.gd")
-const ModelMeta = preload("res://lib/model/metadata.gd")
 const Tracker = preload("res://lib/tracking/tracker.gd")
 
 const linear_shaders = [
@@ -188,3 +187,9 @@ func tracking_updated(tracking_data: Dictionary):
 	var movement = moved * get_parent().movement_scale
 	live2d_model.scale = Vector2.ONE + (Vector2.ONE * movement.z)
 	live2d_model.position = Vector2(live2d_model.size) * Math.v32xy(movement) + Vector2(live2d_model.get_origin())
+
+func on_filter_update(filter):
+	pass
+
+func on_smoothing_update(filter):
+	pass

@@ -1,5 +1,7 @@
 extends Node
 
+const GROUP_NAME = "system:stage"
+
 const VtModel = preload("res://lib/model/vt_model.gd")
 const VtItem = preload("res://lib/items/vt_item.gd")
 
@@ -71,7 +73,12 @@ func spawn_model(model: VtModel):
 		prev_model.queue_free()
 
 func spawn_item(item: VtItem):
+	# do not allow spawning items if there is no active model
+	if active_model == null:
+		return
+		
 	item.position = get_viewport().get_texture().get_size() / 2
+	item.model = active_model
 	
 	# simply setting z_index does not work for control nodes, as Input order is not affected by it
 	# instead we'll rely on child order in the stage to define the position

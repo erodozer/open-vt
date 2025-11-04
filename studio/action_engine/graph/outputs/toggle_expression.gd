@@ -1,9 +1,6 @@
 extends "../vt_action.gd"
 
-const Stage = preload("res://lib/stage.gd")
-
 @onready var input: OptionButton = %Expression
-@onready var stage: Stage = get_tree().get_first_node_in_group("system:stage")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

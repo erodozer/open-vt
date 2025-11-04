@@ -1,7 +1,7 @@
-extends "res://lib/popout_panel.gd"
+extends "res://ui/popout_panel.gd"
 
 const VtModel = preload("res://lib/model/vt_model.gd")
-const Stage = preload("res://lib/stage.gd")
+const Stage = preload("res://studio/stage/stage.gd")
 
 @onready var meshes = get_node("%Mesh Settings")
 var model

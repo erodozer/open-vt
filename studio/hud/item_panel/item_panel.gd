@@ -3,7 +3,7 @@ extends PanelContainer
 const ItemManager = preload("res://lib/item_manager.gd")
 const VtItem = preload("res://lib/items/vt_item.gd")
 const VtModel = preload("res://lib/model/vt_model.gd")
-const Stage = preload("res://lib/stage.gd")
+const Stage = preload("res://studio/stage/stage.gd")
 
 @onready var manager: ItemManager = get_tree().get_first_node_in_group("system:items")
 @onready var stage: Stage = get_tree().get_first_node_in_group("system:stage")

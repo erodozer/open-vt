@@ -1,4 +1,4 @@
-extends "res://lib/popout_panel.gd"
+extends "res://ui/popout_panel.gd"
 
 var open
 var group: ButtonGroup

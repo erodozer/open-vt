@@ -1,19 +1,19 @@
 [gd_scene load_steps=18 format=3 uid="uid://bbh7pj5wq0sii"]
 
-[ext_resource type="Script" uid="uid://bq0aow0vnq1i6" path="res://main.gd" id="1_g562h"]
-[ext_resource type="Script" uid="uid://bl1h5l0htvi3k" path="res://lib/preferences.gd" id="2_kek77"]
-[ext_resource type="Script" uid="uid://ds0i7bdpr6wsy" path="res://lib/item_manager.gd" id="4_4ht51"]
-[ext_resource type="Script" uid="uid://c0x5krhvleh5m" path="res://lib/tracking/mouse/mouse_tracker.gd" id="4_w48qg"]
-[ext_resource type="PackedScene" uid="uid://15kl1t37lo3j" path="res://lib/tracking/microphone/microphone_tracker.tscn" id="5_vivmo"]
-[ext_resource type="Script" uid="uid://cd7vdcscwlelj" path="res://lib/tracking/gamepad/gamepad_tracker.gd" id="6_2cqfq"]
-[ext_resource type="PackedScene" uid="uid://c773w6vc4nnrr" path="res://studio/stage.tscn" id="6_efxa6"]
-[ext_resource type="PackedScene" uid="uid://cmd2d6iiryvk4" path="res://studio/hud/hud.tscn" id="8_5vw27"]
-[ext_resource type="Script" uid="uid://c3dhmb2w6nvr0" path="res://lib/tracking/tracking_system.gd" id="8_dv8e1"]
-[ext_resource type="Texture2D" uid="uid://bcqaflbakxadd" path="res://branding/splash.png" id="10_4c57u"]
-[ext_resource type="PackedScene" uid="uid://idtkx4rstmqq" path="res://studio/hud/terms/terms.tscn" id="11_dg77c"]
-[ext_resource type="Texture2D" uid="uid://dt0b6abqyy1jn" path="res://branding/Live2D logo rectangle white.png" id="11_efxa6"]
-[ext_resource type="Texture2D" uid="uid://d4mqdkit20d64" path="res://branding/godot_logo_large_monochrome_dark.svg" id="12_dg77c"]
-[ext_resource type="Script" uid="uid://cwcgdtduxw584" path="res://lib/model_manager.gd" id="12_ufyfb"]
+[ext_resource type="Script" uid="uid://bq0aow0vnq1i6" path="res://studio/studio.gd" id="1_o3t2a"]
+[ext_resource type="Script" uid="uid://bl1h5l0htvi3k" path="res://lib/preferences.gd" id="2_d6kje"]
+[ext_resource type="Script" uid="uid://c3dhmb2w6nvr0" path="res://lib/tracking/tracking_system.gd" id="3_q22or"]
+[ext_resource type="Script" uid="uid://c0x5krhvleh5m" path="res://lib/tracking/mouse/mouse_tracker.gd" id="4_ihfr3"]
+[ext_resource type="PackedScene" uid="uid://15kl1t37lo3j" path="res://lib/tracking/microphone/microphone_tracker.tscn" id="5_an10b"]
+[ext_resource type="Script" uid="uid://cd7vdcscwlelj" path="res://lib/tracking/gamepad/gamepad_tracker.gd" id="6_efmbb"]
+[ext_resource type="Script" uid="uid://cwcgdtduxw584" path="res://lib/model_manager.gd" id="7_4tybf"]
+[ext_resource type="Script" uid="uid://ds0i7bdpr6wsy" path="res://lib/item_manager.gd" id="8_tqb0b"]
+[ext_resource type="PackedScene" uid="uid://c773w6vc4nnrr" path="res://studio/stage/stage.tscn" id="9_oyfbk"]
+[ext_resource type="PackedScene" uid="uid://cmd2d6iiryvk4" path="res://studio/hud/hud.tscn" id="10_o8nmr"]
+[ext_resource type="Texture2D" uid="uid://bcqaflbakxadd" path="res://branding/splash.png" id="11_jnoo6"]
+[ext_resource type="Texture2D" uid="uid://dt0b6abqyy1jn" path="res://branding/Live2D logo rectangle white.png" id="12_phb3q"]
+[ext_resource type="Texture2D" uid="uid://d4mqdkit20d64" path="res://branding/godot_logo_large_monochrome_dark.svg" id="13_elko7"]
+[ext_resource type="PackedScene" uid="uid://idtkx4rstmqq" path="res://studio/hud/terms/terms.tscn" id="14_ylsn8"]
 
 [sub_resource type="Animation" id="Animation_efxa6"]
 length = 0.001
@@ -127,38 +127,38 @@ _data = {
 }
 
 [node name="Studio" type="Node" groups=["persist"]]
-script = ExtResource("1_g562h")
+script = ExtResource("1_o3t2a")
 
 [node name="Preferences" type="Node" parent="." groups=["system:settings"]]
-script = ExtResource("2_kek77")
+script = ExtResource("2_d6kje")
 
 [node name="TrackerSystem" type="Node" parent="." groups=["system:tracking"]]
-script = ExtResource("8_dv8e1")
+script = ExtResource("3_q22or")
 
 [node name="MouseTracker" type="Node" parent="TrackerSystem"]
-script = ExtResource("4_w48qg")
+script = ExtResource("4_ihfr3")
 smoothing = 0.0
 
-[node name="MicrophoneTracker" parent="TrackerSystem" instance=ExtResource("5_vivmo")]
+[node name="MicrophoneTracker" parent="TrackerSystem" instance=ExtResource("5_an10b")]
 smoothing = 0.0
 
 [node name="GamepadTracker" type="Node" parent="TrackerSystem"]
-script = ExtResource("6_2cqfq")
+script = ExtResource("6_efmbb")
 smoothing = 0.0
 
 [node name="ModelManager" type="Node" parent="." groups=["system:model"]]
-script = ExtResource("12_ufyfb")
+script = ExtResource("7_4tybf")
 
 [node name="ItemManager" type="Node" parent="." groups=["system:items"]]
-script = ExtResource("4_4ht51")
+script = ExtResource("8_tqb0b")
 
-[node name="Stage" parent="." instance=ExtResource("6_efxa6")]
+[node name="Stage" parent="." instance=ExtResource("9_oyfbk")]
 
 [node name="Interface" type="CanvasLayer" parent="."]
 layer = 2
 follow_viewport_enabled = true
 
-[node name="HUD" parent="Interface" instance=ExtResource("8_5vw27")]
+[node name="HUD" parent="Interface" instance=ExtResource("10_o8nmr")]
 unique_name_in_owner = true
 
 [node name="Splash" type="CanvasLayer" parent="."]
@@ -171,7 +171,7 @@ layer = 100
 custom_minimum_size = Vector2(1280, 720)
 offset_right = 1280.0
 offset_bottom = 720.0
-texture = ExtResource("10_4c57u")
+texture = ExtResource("11_jnoo6")
 expand_mode = 1
 stretch_mode = 3
 
@@ -197,7 +197,7 @@ offset_left = -200.0
 offset_top = -72.0
 grow_horizontal = 0
 grow_vertical = 0
-texture = ExtResource("11_efxa6")
+texture = ExtResource("12_phb3q")
 expand_mode = 1
 stretch_mode = 5
 
@@ -210,7 +210,7 @@ anchor_bottom = 1.0
 offset_top = -72.0
 offset_right = 200.0
 grow_vertical = 0
-texture = ExtResource("12_dg77c")
+texture = ExtResource("13_elko7")
 expand_mode = 1
 stretch_mode = 5
 
@@ -219,6 +219,6 @@ libraries = {
 &"": SubResource("AnimationLibrary_dg77c")
 }
 
-[node name="Terms" parent="." instance=ExtResource("11_dg77c")]
+[node name="Terms" parent="." instance=ExtResource("14_ylsn8")]
 
 [connection signal="parameters_updated" from="TrackerSystem" to="ModelManager" method="_on_tracker_system_parameters_updated"]

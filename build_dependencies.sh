@@ -55,26 +55,9 @@ build_keylogger() {
 	echo "*" > $PROJ_ROOT/addons/keylogger/.gitignore
 }
 
-# build openseeface
-openseeface () {
-	WORKDIR=$PROJ_ROOT/thirdparty/OpenSeeFace
-
-	cd $WORKDIR
-	poetry install
-	poetry run pyinstaller --onedir --clean --noconfirm facetracker.py
-	cp -r models dist/facetracker/models
-
-	# remove previous binaries
-	rm -r $PROJ_ROOT/bin/openseeface
-	mv dist/facetracker $PROJ_ROOT/bin/openseeface
-
-	cd $PROJ_ROOT
-}
-
 # fetch submodules if they haven't been already
 git fetch --recurse-submodules
 
 build_gdcubism
 build_virtualcamera
-openseeface
 build_keylogger

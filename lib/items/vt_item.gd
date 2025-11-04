@@ -1,7 +1,6 @@
 extends "res://lib/vtobject.gd"
 
 const VtModel = preload("res://lib/model/vt_model.gd")
-const Stage = preload("res://lib/stage.gd")
 const Math = preload("res://lib/utils/math.gd")
 
 # distance from the center of the item to sample for vertices
@@ -21,6 +20,7 @@ enum PinMode {
 @export var pinnable: bool
 @export var sort_order: int
 
+@export var model: VtModel
 @export var pinned_to: MeshInstance2D
 # offset from the centroid of the pinned mesh
 var pin_offset: Vector2 = Vector2.ZERO
@@ -34,8 +34,6 @@ var pin_scale: Vector2 = Vector2.ONE
 
 signal pin_changed(mesh: MeshInstance2D)
 
-@onready var stage: Stage = get_tree().get_first_node_in_group("system:stage")
-
 func _ready():
 	# center the item image
 	centered = true
@@ -47,8 +45,6 @@ func _ready():
 func _process(_delta: float) -> void:
 	if pinned_to == null:
 		return
-		
-	var model: VtModel = stage.active_model
 	
 	# copy transform from model so that items rotate and scale with it
 	if pin_mode == PinMode.CENTROID:
@@ -85,7 +81,6 @@ func _on_drag_released() -> void:
 	if not pinnable:
 		return
 		
-	var model: VtModel = stage.active_model
 	# sample meshes in reverse front to back order
 	# whichever we first intersect with becomes the pin target
 	var meshes = model.get_meshes()

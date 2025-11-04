@@ -5,6 +5,7 @@ const VtModel = preload("res://lib/model/vt_model.gd")
 const VtAction = preload("./graph/vt_action.gd")
 
 const ActionGraph = preload("res://studio/action_engine/action_graph.tscn")
+const Stage = preload("res://studio/stage/stage.gd")
 
 const GRAPH_NODES_DIR = "res://studio/action_engine/graph"
 static var INPUTS_DIR = GRAPH_NODES_DIR.path_join("inputs")
@@ -21,8 +22,8 @@ var active_graph: GraphEdit :
 		return %Profiles.get_child(active_profile)
 
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:			
-	get_tree().get_first_node_in_group("system:stage").model_changed.connect(_on_stage_model_changed)
+func _ready() -> void:
+	get_tree().get_first_node_in_group(Stage.GROUP_NAME).model_changed.connect(_on_stage_model_changed)
 
 func _on_add_hotkey_pressed(node: GraphNode, graph: GraphEdit = active_graph) -> GraphNode:
 	graph.add_child(node)

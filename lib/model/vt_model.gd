@@ -3,7 +3,7 @@
 extends "res://lib/vtobject.gd"
 
 const Files = preload("res://lib/utils/files.gd")
-const ModelFormatStrategy = preload("./model_strategy.gd")
+const ModelFormatStrategy = preload("./formats/model_strategy.gd")
 const ExpressionController = preload("./parameters/expression_value_provider.gd")
 const Tracker = preload("res://lib/tracking/tracker.gd")
 const ModelMeta = preload("./metadata.gd")

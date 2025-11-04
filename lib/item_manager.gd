@@ -1,6 +1,5 @@
 extends Node
 
-const ModelMeta = preload("res://lib/model/metadata.gd")
 const VtModel = preload("res://lib/model/vt_model.gd")
 const VtItem = preload("res://lib/items/vt_item.gd")
 
