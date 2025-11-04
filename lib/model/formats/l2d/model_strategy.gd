@@ -7,7 +7,7 @@ const Files = preload("res://lib/utils/files.gd")
 const ModelMeta = preload("res://lib/model/metadata.gd")
 const Tracker = preload("res://lib/tracking/tracker.gd")
 
-static var linear_shaders = [
+const linear_shaders = [
 	preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_add.gdshader"),
 	preload("res://addons/gd_cubism/res/shader//2d_cubism_norm_mix.gdshader"),
 	preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_mul.gdshader"),
@@ -22,7 +22,7 @@ static var linear_shaders = [
 	preload("res://addons/gd_cubism/res/shader/2d_cubism_mask_mul_inv.gdshader")
 ]
 
-static var nearest_shaders = [
+const nearest_shaders = [
 	preload("./shaders/nearest/2d_cubism_norm_add.gdshader"),
 	preload("./shaders/nearest/2d_cubism_norm_mix.gdshader"),
 	preload("./shaders/nearest/2d_cubism_norm_mul.gdshader"),
@@ -79,6 +79,7 @@ func _rebuild_l2d(meta: ModelMeta, smoothing: bool, filter: CanvasItem.TextureFi
 		return false
 	
 	loaded_model.mask_viewport_size = 2048
+	loaded_model.set_process(true)
 	
 	var p = PackedScene.new()
 	if p.pack(loaded_model) != OK:
