@@ -35,7 +35,7 @@ func _on_stage_model_changed(model: VtModel) -> void:
 	for mesh in model.get_meshes():
 		var control = preload("./mesh_setting.tscn").instantiate()
 		control.model = model
-		control.mesh = model.get_path_to(mesh as Node)
+		control.mesh = mesh as Node
 		control.name = mesh.name
 		meshes.add_child(control)
 	# _model.renderer.transform_updated.connect(_update_transform)

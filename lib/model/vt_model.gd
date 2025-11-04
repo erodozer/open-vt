@@ -19,12 +19,14 @@ var motions: Array :
 var filter: CanvasItem.TextureFilter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS :
 	set(v):
 		filter = v
-		reload.emit()
+		if is_initialized():
+			format_strategy.on_filter_update(v, smoothing)
 			
 var smoothing: bool = false :
 	set(v):
 		smoothing = v
-		reload.emit()
+		if is_initialized():
+			format_strategy.on_filter_update(filter, v)
 			
 var mipmaps: bool = false :
 	set(v):
@@ -59,7 +61,7 @@ var movement_enabled: bool = false :
 var movement_scale: Vector3 = Vector3.ZERO
 
 signal initialized
-signal reload
+signal loaded
 
 var _loading = false
 
@@ -75,16 +77,13 @@ func is_bound(parameter: Dictionary) -> bool:
 	return has_node(parameter.id)
 
 func _load_model():
-	var reload = is_initialized()
 	_loading = true
 	
 	if not (await format_strategy.load_model()):
 		queue_free()
-		return 
-		
-	if reload:
 		_loading = false
-		return
+		loaded.emit()
+		return 
 	
 	_load_from_vts()
 	_load_settings()
@@ -98,6 +97,7 @@ func _load_model():
 	
 	parameters = format_strategy.get_parameters()
 	_loading = false
+	loaded.emit()
 		
 func toggle_expression(expression_name: String, activate: bool = true, duration: float = 1.0):
 	if expression_name.is_empty():
@@ -121,12 +121,6 @@ func tracking_updated(tracking_data: Dictionary):
 	
 func hydrate(settings: Dictionary):
 	await _load_model()
-	
-	reload.connect(
-		func ():
-			if not _loading:
-				_load_model()
-	)
 
 ## save bidirectional vts compatible settings
 func _save_to_vts():

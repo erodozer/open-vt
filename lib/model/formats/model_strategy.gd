@@ -13,8 +13,6 @@ const ModelMeta = preload("../metadata.gd")
 
 @abstract func apply_parameters(values)
 
-@abstract func on_filter_update(filter)
-
-@abstract func on_smoothing_update(filter)
+@abstract func on_filter_update(filter, smoothing)
 
 @abstract func tracking_updated(tracking_data: Dictionary)

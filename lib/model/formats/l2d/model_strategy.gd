@@ -6,38 +6,18 @@ const Math = preload("res://lib/utils/math.gd")
 const Files = preload("res://lib/utils/files.gd")
 const Tracker = preload("res://lib/tracking/tracker.gd")
 
-const linear_shaders = [
+const l2d_shaders: Array[Shader] = [
 	preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_add.gdshader"),
-	preload("res://addons/gd_cubism/res/shader//2d_cubism_norm_mix.gdshader"),
+	preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_mix.gdshader"),
 	preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_mul.gdshader"),
-
 	preload("res://addons/gd_cubism/res/shader/2d_cubism_mask.gdshader"),
-
-	preload("res://addons/gd_cubism/res/shader/2d_cubism_mask_add.gdshader"),
-	preload("res://addons/gd_cubism/res/shader/2d_cubism_mask_add_inv.gdshader"),
-	preload("res://addons/gd_cubism/res/shader/2d_cubism_mask_mix.gdshader"),
-	preload("res://addons/gd_cubism/res/shader/2d_cubism_mask_mix_inv.gdshader"),
-	preload("res://addons/gd_cubism/res/shader/2d_cubism_mask_mul.gdshader"),
-	preload("res://addons/gd_cubism/res/shader/2d_cubism_mask_mul_inv.gdshader")
 ]
 
-const nearest_shaders = [
-	preload("./shaders/nearest/2d_cubism_norm_add.gdshader"),
-	preload("./shaders/nearest/2d_cubism_norm_mix.gdshader"),
-	preload("./shaders/nearest/2d_cubism_norm_mul.gdshader"),
-
-	preload("./shaders/nearest/2d_cubism_mask.gdshader"),
-
-	preload("./shaders/nearest/2d_cubism_mask_add.gdshader"),
-	preload("./shaders/nearest/2d_cubism_mask_add_inv.gdshader"),
-	preload("./shaders/nearest/2d_cubism_mask_mix.gdshader"),
-	preload("./shaders/nearest/2d_cubism_mask_mix_inv.gdshader"),
-	preload("./shaders/nearest/2d_cubism_mask_mul.gdshader"),
-	preload("./shaders/nearest/2d_cubism_mask_mul_inv.gdshader")
-]
-
-var render: CanvasItem
 var live2d_model: GDCubismUserModel
+var container = preload("./pixel_subviewport.tscn").instantiate()
+
+func _ready() -> void:
+	add_child(container)
 
 func is_initialized() -> bool:
 	return live2d_model != null
@@ -58,18 +38,12 @@ func get_size() -> Vector2:
 func _rebuild_l2d(meta: ModelMeta, smoothing: bool, filter: CanvasItem.TextureFilter):
 	var reload = is_initialized()
 	if reload:
-		render.queue_free()
-		render = null
 		live2d_model.queue_free()
 		live2d_model = null
 		await get_tree().process_frame
 		
 	var loaded_model: GDCubismUserModel
-	loaded_model = GDCubismModelLoader.load_model(
-		meta.model, 
-		nearest_shaders if filter == CanvasItem.TEXTURE_FILTER_NEAREST else linear_shaders,
-		filter != CanvasItem.TEXTURE_FILTER_NEAREST
-	)
+	loaded_model = GDCubismModelLoader.load_model(meta.model, l2d_shaders, true)
 	
 	await get_tree().process_frame
 		
@@ -86,27 +60,15 @@ func _rebuild_l2d(meta: ModelMeta, smoothing: bool, filter: CanvasItem.TextureFi
 	p.take_over_path(meta.model)
 	
 	live2d_model = loaded_model
-	
-	if smoothing and filter == CanvasItem.TEXTURE_FILTER_NEAREST:
-		var container = preload("./pixel_subviewport.tscn").instantiate()
-		container.model = live2d_model
-		render = container
-	else:
-		render = live2d_model
-		
-	add_child(render)
-	
-	for m in loaded_model.get_meshes():
-		m.texture_filter = filter
-	
 	# adjust anchor to be top-left to match godot's control coordinate system
+	add_child(live2d_model)
+	await get_tree().process_frame # wait for the model to initialize
 	live2d_model.position = live2d_model.get_origin()
-
+	
 	for m in loaded_model.get_meshes():
 		var center = Math.v32xy(Math.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
 		m.set_meta("centroid", center)
 		m.set_meta("start_centroid", center)
-		m.set_meta("global_centroid", render.global_position + center)
 	
 	var anim_lib = GDCubismMotionLoader.load_motion_library(loaded_model)
 	var idle_anim: AnimationPlayer = get_parent().get_idle_animation_player()
@@ -156,10 +118,12 @@ func load_model():
 		var center = Math.v32xy(Math.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
 		m.set_meta("centroid", center)
 		m.set_meta("start_centroid", center)
-		m.set_meta("global_centroid", render.global_position + center)
 					
 	position = -get_size() / 2
 	await get_tree().process_frame
+	
+	on_filter_update(filter)
+	
 	return true
 	
 func apply_parameters(values: Dictionary):
@@ -188,8 +152,14 @@ func tracking_updated(tracking_data: Dictionary):
 	live2d_model.scale = Vector2.ONE + (Vector2.ONE * movement.z)
 	live2d_model.position = Vector2(live2d_model.size) * Math.v32xy(movement) + Vector2(live2d_model.get_origin())
 
-func on_filter_update(filter):
-	pass
-
-func on_smoothing_update(filter):
-	pass
+func on_filter_update(filter = CanvasItem.TEXTURE_FILTER_LINEAR, smoothing = false):
+	for m in get_meshes():
+		var prev = m.texture_filter
+		m.texture_filter = filter
+		m.set_instance_shader_parameter("filter", filter == TEXTURE_FILTER_LINEAR)
+		
+	if smoothing and filter == CanvasItem.TEXTURE_FILTER_NEAREST:
+		container.model = live2d_model
+	else:
+		live2d_model.reparent(self)
+	

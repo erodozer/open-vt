@@ -58,14 +58,12 @@ func spawn_model(model: VtModel):
 	canvas.add_child(model)
 	_reorder()
 	
-	while true:
-		if model.is_initialized():
-			active_model = model
-			break
-		if model.is_queued_for_deletion():
-			get_tree().get_first_node_in_group("system:alert").alert("Unable to load model")	
-			return
-		await get_tree().process_frame
+	await model.loaded
+	
+	if model.is_queued_for_deletion():
+		get_tree().get_first_node_in_group("system:alert").alert("Unable to load model")	
+		return
+	active_model = model
 	
 	# TODO if model had items pinned to it, load them in as well
 	model_changed.emit(active_model)
