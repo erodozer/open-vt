@@ -7,6 +7,10 @@ const MAX_QUALITY = Vector2(4096, 4096)
 @onready var parent: CanvasItem = get_parent()
 @export var model: GDCubismUserModel :
 	set(m):
+		if m == null:
+			viewport.size = Vector2i.ONE
+			return
+			
 		model = m
 		model.scale = Vector2.ONE * SUPER_SAMPLE
 		# model.origin *= SUPER_SAMPLE

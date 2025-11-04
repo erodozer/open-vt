@@ -163,6 +163,7 @@ vertical_alignment = 1
 layout_mode = 2
 min_value = 1.0
 max_value = 400.0
+step = 0.01
 value = 1.0
 alignment = 2
 suffix = "%"
@@ -187,7 +188,11 @@ text = "Rotation"
 
 [node name="Value" type="SpinBox" parent="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Rotation"]
 layout_mode = 2
+min_value = -360.0
+max_value = 360.0
 step = 0.01
+allow_greater = true
+allow_lesser = true
 alignment = 2
 suffix = "°"
 
@@ -347,6 +352,5 @@ theme_type_variation = &"VBoxList"
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Position/Erase" to="." method="_on_erase_position_pressed"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Scale/Erase" to="." method="_on_erase_scale_pressed"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Rotation/Erase" to="." method="_on_erase_rotate_pressed"]
-[connection signal="toggled" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Movement/LockButton" to="." method="_on_movement_lock_button_toggled"]
 [connection signal="item_selected" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer2/IdleAnimation" to="." method="_on_idle_animation_item_selected"]
 [connection signal="text_changed" from="ScrollContainer/MarginContainer/Accordion/Mesh Settings/PanelContainer/MeshFilter/MeshFilterInput" to="." method="_on_mesh_filter_input_text_changed"]

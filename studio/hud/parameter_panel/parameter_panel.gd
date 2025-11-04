@@ -6,27 +6,23 @@ const Stage = preload("res://studio/stage/stage.gd")
 @onready var meshes = get_node("%MeshItems")
 var model
 
+var _pause_signals = false
+
 func _ready():
 	var stage = get_tree().get_first_node_in_group("system:stage")
 	if stage:
 		stage.model_changed.connect(_on_stage_model_changed)
 		model = stage.active_model
 		
-	%Movement/XValue.value_changed.connect(
-		func (value):
-			if model:
-				model.movement_scale.x = value
-	)
-	%Movement/YValue.value_changed.connect(
-		func (value):
-			if model:
-				model.movement_scale.y = value
-	)
-	%Movement/ZValue.value_changed.connect(
-		func (value):
-			if model:
-				model.movement_scale.z = value
-	)
+	%Position/XValue.value_changed.connect(_move_model)
+	%Position/YValue.value_changed.connect(_move_model)
+	%Scale/Value.value_changed.connect(_move_model)
+	%Rotation/Value.value_changed.connect(_move_model)
+		
+	%Movement/XValue.value_changed.connect(_move_model)
+	%Movement/YValue.value_changed.connect(_move_model)
+	%Movement/ZValue.value_changed.connect(_move_model)
+	%Movement/LockButton.toggled.connect(_on_movement_lock_button_toggled)
 
 func _on_stage_model_changed(model: VtModel) -> void:
 	for c in meshes.get_children():
@@ -63,7 +59,28 @@ func _on_stage_model_changed(model: VtModel) -> void:
 	%Movement/YValue.set_value_no_signal(model.movement_scale.y)
 	%Movement/ZValue.set_value_no_signal(model.movement_scale.z)
 	
+func _move_model(_value):
+	if not model:
+		return
+		
+	_pause_signals = true
+	model.position = Vector2(
+		%Position/XValue.value,
+		%Position/YValue.value
+	)
+	model.scale = Vector2.ONE * (%Scale/Value.value / 100.0)
+	model.rotation_degrees = %Rotation/Value.value
+	model.movement_scale = Vector3(
+		%Movement/XValue.value,
+		%Movement/YValue.value,
+		%Movement/ZValue.value
+	)
+	_pause_signals = false
+	
 func _update_transform(pos, scl, rot):
+	if _pause_signals:
+		return
+		
 	%Position/XValue.min_value = int(-get_viewport_rect().size.x)
 	%Position/XValue.max_value = int(get_viewport_rect().size.x * 2)
 	%Position/YValue.min_value = int(-get_viewport_rect().size.y)
@@ -137,6 +154,6 @@ func _on_movement_lock_button_toggled(toggled_on: bool) -> void:
 	%Movement/ZValue.editable = !toggled_on
 
 func _on_mesh_filter_input_text_changed(new_text: String) -> void:
-	var search = new_text.strip_edges()
+	var search = new_text.to_lower().strip_edges()
 	for i in meshes.get_children():
-		i.visible = i.name.contains(search) or search.is_empty()
+		i.visible = i.name.to_lower().contains(search) or search.is_empty()

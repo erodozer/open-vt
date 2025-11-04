@@ -162,4 +162,4 @@ func on_filter_update(filter = CanvasItem.TEXTURE_FILTER_LINEAR, smoothing = fal
 		container.model = live2d_model
 	else:
 		live2d_model.reparent(self)
-	
+		container.model = null

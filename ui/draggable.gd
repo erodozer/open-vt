@@ -43,16 +43,18 @@ func _handle_mouse_button_down(event: InputEventMouseButton):
 	# check for simultaneous inputs to perform different actions
 	if dragging:
 		if Input.is_key_pressed(KEY_CTRL):
+			var rot = 0
 			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-				rotation_degrees += 1
+				rot += 1
 				dirty = true
 			elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-				rotation_degrees -= 1
+				rot -= 1
 				dirty = true
 			elif event.button_index == MOUSE_BUTTON_MIDDLE:
-				rotation_degrees = 0
+				rot = 0
 				dirty = true
-			rotation_degrees = wrapi(int(ceil(rotation_degrees)), 0, 359)
+			if dirty:
+				rotation_degrees = wrapi(int(ceil(rotation_degrees + rot)), 0, 359)
 		else:
 			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 				scale += Vector2(0.01, 0.01)
