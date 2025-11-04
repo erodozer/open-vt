@@ -91,6 +91,13 @@ texture={
 "svg/scale": 1.0
 }
 
+[input]
+
+ui_screenshot={
+"deadzone": 0.2,
+"events": []
+}
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=2

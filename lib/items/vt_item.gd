@@ -77,7 +77,6 @@ func _process(_delta: float) -> void:
 	# rotation = -mtx.get_angle()
 
 func _on_drag_released() -> void:
-	print("released " + name)
 	if not pinnable:
 		return
 		

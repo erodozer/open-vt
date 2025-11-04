@@ -3,7 +3,7 @@ extends "res://ui/popout_panel.gd"
 const VtModel = preload("res://lib/model/vt_model.gd")
 const Stage = preload("res://studio/stage/stage.gd")
 
-@onready var meshes = get_node("%Mesh Settings")
+@onready var meshes = get_node("%MeshItems")
 var model
 
 func _ready():
@@ -36,6 +36,7 @@ func _on_stage_model_changed(model: VtModel) -> void:
 		var control = preload("./mesh_setting.tscn").instantiate()
 		control.model = model
 		control.mesh = model.get_path_to(mesh as Node)
+		control.name = mesh.name
 		meshes.add_child(control)
 	# _model.renderer.transform_updated.connect(_update_transform)
 		
@@ -134,3 +135,8 @@ func _on_movement_lock_button_toggled(toggled_on: bool) -> void:
 	%Movement/XValue.editable = !toggled_on
 	%Movement/YValue.editable = !toggled_on
 	%Movement/ZValue.editable = !toggled_on
+
+func _on_mesh_filter_input_text_changed(new_text: String) -> void:
+	var search = new_text.strip_edges()
+	for i in meshes.get_children():
+		i.visible = i.name.contains(search) or search.is_empty()

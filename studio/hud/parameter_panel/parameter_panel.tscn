@@ -262,8 +262,27 @@ text_overrun_behavior = 3
 fit_to_longest_item = false
 
 [node name="Mesh Settings" type="VBoxContainer" parent="ScrollContainer/MarginContainer/Accordion"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/MarginContainer/Accordion/Mesh Settings"]
+layout_mode = 2
+theme_type_variation = &"SubPanelContainer"
+
+[node name="MeshFilter" type="HBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Mesh Settings/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/Accordion/Mesh Settings/PanelContainer/MeshFilter"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+text = "Filter Name"
+
+[node name="MeshFilterInput" type="LineEdit" parent="ScrollContainer/MarginContainer/Accordion/Mesh Settings/PanelContainer/MeshFilter"]
 unique_name_in_owner = true
-visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MeshItems" type="VBoxContainer" parent="ScrollContainer/MarginContainer/Accordion/Mesh Settings"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Modal" type="CanvasLayer" parent="."]
@@ -330,3 +349,4 @@ theme_type_variation = &"VBoxList"
 [connection signal="pressed" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Transform/MarginContainer/VBoxContainer/Rotation/Erase" to="." method="_on_erase_rotate_pressed"]
 [connection signal="toggled" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/Movement/LockButton" to="." method="_on_movement_lock_button_toggled"]
 [connection signal="item_selected" from="ScrollContainer/MarginContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer2/IdleAnimation" to="." method="_on_idle_animation_item_selected"]
+[connection signal="text_changed" from="ScrollContainer/MarginContainer/Accordion/Mesh Settings/PanelContainer/MeshFilter/MeshFilterInput" to="." method="_on_mesh_filter_input_text_changed"]
