@@ -63,7 +63,6 @@ func _rebuild_l2d(meta: ModelMeta, smoothing: bool, filter: CanvasItem.TextureFi
 	# adjust anchor to be top-left to match godot's control coordinate system
 	add_child(live2d_model)
 	await get_tree().process_frame # wait for the model to initialize
-	live2d_model.position = live2d_model.get_origin()
 	
 	for m in loaded_model.get_meshes():
 		var center = Math.v32xy(Math.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
@@ -119,7 +118,6 @@ func load_model():
 		m.set_meta("centroid", center)
 		m.set_meta("start_centroid", center)
 					
-	position = -get_size() / 2
 	await get_tree().process_frame
 	
 	on_filter_update(filter)
@@ -149,9 +147,8 @@ func tracking_updated(tracking_data: Dictionary):
 		)
 	)
 	var movement = moved * get_parent().movement_scale
-	live2d_model.scale = Vector2.ONE + (Vector2.ONE * movement.z)
-	live2d_model.position = Vector2(live2d_model.size) * Math.v32xy(movement) + Vector2(live2d_model.get_origin())
-
+	scale = Vector2.ONE + (Vector2.ONE * movement.z)
+	
 func on_filter_update(filter = CanvasItem.TEXTURE_FILTER_LINEAR, smoothing = false):
 	for m in get_meshes():
 		var prev = m.texture_filter
@@ -161,5 +158,6 @@ func on_filter_update(filter = CanvasItem.TEXTURE_FILTER_LINEAR, smoothing = fal
 	if smoothing and filter == CanvasItem.TEXTURE_FILTER_NEAREST:
 		container.model = live2d_model
 	else:
-		live2d_model.reparent(self)
+		live2d_model.reparent(self, false)
+		live2d_model.position = Vector2.ZERO
 		container.model = null

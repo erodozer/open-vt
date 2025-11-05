@@ -65,6 +65,14 @@ func spawn_model(model: VtModel):
 		return
 	active_model = model
 	
+	create_tween().tween_property(
+		model, "position",
+		model.position,
+		0.5
+	).from(
+		model.position + Vector2(0, model.get_viewport_rect().size.y)
+	).set_trans(Tween.TRANS_CUBIC)
+	
 	# TODO if model had items pinned to it, load them in as well
 	model_changed.emit(active_model)
 	if prev_model != null:

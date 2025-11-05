@@ -7,6 +7,7 @@ const ModelFormatStrategy = preload("./formats/model_strategy.gd")
 const ExpressionController = preload("./parameters/expression_value_provider.gd")
 const Tracker = preload("res://lib/tracking/tracker.gd")
 const ModelMeta = preload("./metadata.gd")
+const Serializers = preload("res://lib/utils/serializers.gd")
 
 var model: ModelMeta
 @onready var mixer = %Mixer
@@ -89,11 +90,9 @@ func _load_model():
 	_load_settings()
 	
 	size = format_strategy.get_size()
-	scale = Vector2.ONE * clampf(get_viewport_rect().size.y / size.y, 0.001, 2.0)
 	rotation_degrees = 0
 	# pivot_offset = size / 2
 	# spawn off screen
-	position = -size 
 	
 	parameters = format_strategy.get_parameters()
 	_loading = false
@@ -151,20 +150,18 @@ func _load_from_vts():
 ## load open-vt specific settings
 func _load_settings():
 	var model_preferences = Files.read_json(model.openvt_parameters)
-	scale = Vector2.ONE * model_preferences.get("transform", {}).get("scale", 1.0)
+	scale = Vector2.ONE * model_preferences.get("transform", {}).get(
+		"scale", 
+		clampf(get_viewport_rect().size.y / size.y, 0.001, 2.0)
+	)
 	rotation_degrees = model_preferences.get("transform", {}).get("rotation", 0)
 	filter = TEXTURE_FILTER_NEAREST if model_preferences.get("quality", {}).get("filter", "linear") == "nearest" else TEXTURE_FILTER_LINEAR
 	smoothing = model_preferences.get("quality", {}).get("smooth", false)
 	
-	var p = model_preferences.get("transform", {}).get("position", get_viewport_rect().get_center())
-	p = Vector2(p.x, p.y)
-	create_tween().tween_property(
-		self, "position",
-		p,
-		0.5
-	).from(
-		p + Vector2(0, get_viewport_rect().size.y)
-	).set_trans(Tween.TRANS_CUBIC)
+	position = Serializers.Vec2Serializer.from_json(
+		model_preferences.get("transform", {}).get("position", {}),
+		get_viewport_rect().get_center()
+	)
 
 func save_settings(settings: Dictionary):
 	if not is_initialized():
@@ -178,7 +175,7 @@ func save_settings(settings: Dictionary):
 			"smooth": smoothing
 		},
 		"transform": {
-			"position": {"x": self.position.x, "y": self.position.y},
+			"position": Serializers.Vec2Serializer.to_json(self.position),
 			"scale": self.scale.x,
 			"rotation": self.rotation_degrees
 		}
