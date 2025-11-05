@@ -7,6 +7,10 @@ const ModelMeta = preload("../metadata.gd")
 
 @abstract func load_model() -> bool
 
+@abstract func get_size() -> Vector2
+
+@abstract func get_origin() -> Vector2
+
 @abstract func get_meshes() -> Array
 
 @abstract func get_parameters() -> Dictionary

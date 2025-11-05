@@ -11,31 +11,42 @@ signal drag_released
 
 @export var locked = false
 @export var sample_mode = SampleMode.BOUNDS
-@export var centered = true
+@export var centered = false :
+	set(v):
+		centered = v
+		_update_rect()
+		
 @export var debug = false
 var dragging = false
 
 var size: Vector2 = Vector2.ONE :
 	set(v):
 		size = v
-		var offset = (-size / 2) if centered else Vector2.ZERO
-		RenderingServer.canvas_item_set_custom_rect(
-			get_canvas_item(), true, 
-			Rect2(position + offset, v)
-		)
-		queue_redraw()
+		_update_rect()
 		
 var rect: Rect2 :
 	get():
 		var offset = (-size / 2) if centered else Vector2.ZERO
 		return Rect2(offset, size)
+		
+var center: Vector2 :
+	get():
+		return rect.get_center()
 
 func _draw() -> void:
 	if debug:
 		draw_rect(
 			rect,
-			Color.GREEN, false, -3.0, true
+			Color.GREEN, false, -3.0, false
 		)
+
+func _update_rect():
+	var offset = (-size / 2) if centered else Vector2.ZERO
+	RenderingServer.canvas_item_set_custom_rect(
+		get_canvas_item(), true, 
+		Rect2(position + offset, size)
+	)
+	queue_redraw()
 
 func _handle_mouse_button_down(event: InputEventMouseButton):
 	var dirty = false
@@ -113,3 +124,4 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	if dirty:
 		transform_updated.emit(position, scale, rotation)
+		_update_rect()

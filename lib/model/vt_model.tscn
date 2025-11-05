@@ -9,9 +9,11 @@
 [node name="VtModel" type="Node2D" groups=["persist", "vtmodel"]]
 texture_filter = 2
 script = ExtResource("1_bvpwh")
+centered = true
 
 [node name="Debug" type="Node2D" parent="." node_paths=PackedStringArray("model")]
 unique_name_in_owner = true
+visible = false
 z_index = 1000
 script = ExtResource("3_nwsty")
 model = NodePath("..")

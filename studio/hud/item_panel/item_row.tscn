@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bmpqgbccg71l2"]
+[gd_scene load_steps=8 format=3 uid="uid://bmpqgbccg71l2"]
 
 [ext_resource type="Script" uid="uid://cvh32s1515wsb" path="res://studio/hud/item_panel/item_row.gd" id="1_31mjc"]
 [ext_resource type="Texture2D" uid="uid://pd4vy1npck5p" path="res://ui/icons/lock.svg" id="2_145ox"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bjxnq0slsgn8o" path="res://ui/icons/angle-up.svg" id="3_7b11q"]
 [ext_resource type="Texture2D" uid="uid://caxe2m44hrqj1" path="res://ui/icons/angle-down.svg" id="4_hbq2x"]
 [ext_resource type="Texture2D" uid="uid://ce5log3qg4jho" path="res://ui/icons/delete-right.svg" id="5_2b7ni"]
+[ext_resource type="Texture2D" uid="uid://cdre4ugwvhbi8" path="res://ui/icons/axes.svg" id="7_e4n0q"]
 
 [node name="ItemRow" type="PanelContainer"]
 size_flags_horizontal = 3
@@ -81,6 +82,66 @@ toggle_mode = true
 icon = ExtResource("2_bacbn")
 icon_alignment = 1
 expand_icon = true
+
+[node name="Transformation" type="HBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Transformation"]
+modulate = Color(0.298039, 0.282353, 0.239216, 1)
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("7_e4n0q")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Position" type="HBoxContainer" parent="VBoxContainer/Transformation"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="XValue" type="SpinBox" parent="VBoxContainer/Transformation/Position"]
+layout_mode = 2
+min_value = -9999.0
+max_value = 9999.0
+value = 9999.0
+alignment = 2
+suffix = "X"
+
+[node name="YValue" type="SpinBox" parent="VBoxContainer/Transformation/Position"]
+layout_mode = 2
+min_value = -9999.0
+max_value = 9999.0
+alignment = 2
+suffix = "Y"
+
+[node name="Scale" type="HBoxContainer" parent="VBoxContainer/Transformation"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Value" type="SpinBox" parent="VBoxContainer/Transformation/Scale"]
+layout_mode = 2
+min_value = 1.0
+max_value = 400.0
+step = 0.01
+value = 1.0
+alignment = 2
+suffix = "%"
+
+[node name="Rotation" type="HBoxContainer" parent="VBoxContainer/Transformation"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Value" type="SpinBox" parent="VBoxContainer/Transformation/Rotation"]
+layout_mode = 2
+min_value = -360.0
+max_value = 360.0
+step = 0.01
+allow_greater = true
+allow_lesser = true
+alignment = 2
+suffix = "°"
 
 [connection signal="toggled" from="VBoxContainer/HBoxContainer/LockButton" to="." method="_on_lock_button_toggled"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/ZControls/UpButton" to="." method="_on_up_button_pressed"]

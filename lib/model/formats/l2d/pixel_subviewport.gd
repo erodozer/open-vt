@@ -11,7 +11,7 @@ const MAX_QUALITY = Vector2(4096, 4096)
 			viewport.size = Vector2i.ONE
 			if model != null:
 				model.scale = Vector2.ONE
-				model.position = Vector2.ZERO
+				model.position = model.origin
 				model = m
 			return
 			
@@ -28,4 +28,5 @@ const MAX_QUALITY = Vector2(4096, 4096)
 			scaled = canvas_size * ratio
 		viewport.size = scaled
 		viewport.canvas_transform = Transform2D(0.0, ratio / SUPER_SAMPLE, 0, model.get_size() / 2)
-		position = -Vector2.ONE * scaled / 2.0
+		position = Vector2.ZERO
+		

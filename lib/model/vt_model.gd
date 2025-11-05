@@ -141,11 +141,11 @@ func _load_from_vts():
 	var movement_settings = vtube_data.get("ModelPositionMovement", {})
 	movement_enabled = movement_settings.get("Use", false)
 	# vts movement based on 10 = +100% scale
-	movement_scale = Vector3(
-		inverse_lerp(0.0, 10.0, movement_settings.get("X", 0.0)),
-		inverse_lerp(0.0, 10.0, movement_settings.get("Y", 0.0)),
-		inverse_lerp(0.0, 10.0, movement_settings.get("Z", 0.0))
-	)
+	#movement_scale = Vector3(
+	#	inverse_lerp(0.0, 10.0, movement_settings.get("X", 0.0)),
+	#	inverse_lerp(0.0, 10.0, movement_settings.get("Y", 0.0)),
+	#	inverse_lerp(0.0, 10.0, movement_settings.get("Z", 0.0))
+	#)
 
 ## load open-vt specific settings
 func _load_settings():

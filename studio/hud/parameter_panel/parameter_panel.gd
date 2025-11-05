@@ -103,7 +103,7 @@ func _on_texture_filter_item_selected(index: int) -> void:
 			%GenerateMipmaps.disabled = false
 
 func _on_erase_position_pressed() -> void:
-	model.position = get_viewport_rect().get_center()
+	model.global_position = model.get_viewport_rect().get_center()
 	_update_transform(model.position, model.scale, model.rotation)
 	
 func _on_erase_scale_pressed() -> void:

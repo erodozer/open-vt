@@ -5,64 +5,71 @@ const ModelMeta = preload("res://lib/model/metadata.gd")
 const VtModel = preload("res://lib/model/vt_model.gd")
 const TrackingSystem = preload("res://lib/tracking/tracking_system.gd")
 
-const MODEL_DIR = "user://Live2DModels"
+const FILE_DIR = "user://Live2DModels"
 
 var model_cache: Dictionary = {}
 signal list_updated(models: Array)
 
 func _ready() -> void:
 	refresh_models.call_deferred()
+	add_to_group("system:model")
+	
+func load_data(path: String) -> ModelMeta:
+	var vt_file = ""
+
+	var files = Array(DirAccess.get_files_at(path))
+	for f in files:
+		if f.ends_with("vtube.json"):
+			vt_file = path.path_join(f)
+			break
+			
+	if vt_file.is_empty():
+		return null
+				
+	var vtube_data = Files.read_json(vt_file)
+	var model_data = Files.read_json(vt_file.get_base_dir().path_join(vtube_data["FileReferences"]["Model"]))
+		
+	var meta = ModelMeta.new()
+	var base_name = vt_file.get_file()
+	var ext = base_name.find(".")
+	base_name = base_name.left(ext)
+	meta.name = vtube_data["Name"]
+	meta.path = path
+	meta.id = vtube_data["ModelID"]
+	meta.model = vt_file.get_base_dir().path_join(vtube_data["FileReferences"]["Model"])
+	meta.format = "l2d"
+	meta.studio_parameters = vt_file
+	meta.openvt_parameters = "%s/%s.ovt.json" % [meta.model.get_base_dir(), base_name]
+	meta.model_parameters = vt_file.get_base_dir().path_join(model_data["FileReferences"]["DisplayInfo"])
+	meta.icon = load("res://branding/monochrome.svg") if vtube_data["FileReferences"].get("Icon", "").is_empty() else \
+		ImageTexture.create_from_image(
+			Image.load_from_file(vt_file.get_base_dir().path_join(vtube_data["FileReferences"]["Icon"]))
+		)
+	return meta
 	
 func refresh_models():
-	if not DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(MODEL_DIR)):
-		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(MODEL_DIR))
+	if not DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(FILE_DIR)):
+		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(FILE_DIR))
 	
-	var model_folders = DirAccess.get_directories_at(MODEL_DIR)
-	var models: Array[String] = []
-	for i in model_folders:
-		var fp = MODEL_DIR.path_join(i)
-		
-		var files = Array(DirAccess.get_files_at(fp))
-		var model_file: String
-		for f in files:
-			if f.ends_with("vtube.json"):
-				model_file = fp.path_join(f)
-			
-		if not model_file:
-			continue
-			
-		models.append(model_file)
-		
+	var model_folders = DirAccess.get_directories_at(FILE_DIR)
 	model_cache = {}
-	for vt_file in models:
-		var vtube_data = Files.read_json(vt_file)
-		var model_data = Files.read_json(vt_file.get_base_dir().path_join(vtube_data["FileReferences"]["Model"]))
+	for i in model_folders:
+		var fp = FILE_DIR.path_join(i)
+		var meta = load_data(fp)
+		if meta:
+			model_cache[meta.id] = meta
 		
-		var meta = ModelMeta.new()
-		var base_name = vt_file.get_file()
-		var ext = base_name.find(".")
-		base_name = base_name.left(ext)
-		meta.name = vtube_data["Name"]
-		meta.id = vtube_data["ModelID"]
-		meta.model = vt_file.get_base_dir().path_join(vtube_data["FileReferences"]["Model"])
-		meta.format = "l2d"
-		meta.studio_parameters = vt_file
-		meta.openvt_parameters = "%s/%s.ovt.json" % [meta.model.get_base_dir(), base_name]
-		meta.model_parameters = vt_file.get_base_dir().path_join(model_data["FileReferences"]["DisplayInfo"])
-		meta.icon = load("res://branding/monochrome.svg") if vtube_data["FileReferences"].get("Icon", "").is_empty() else \
-			ImageTexture.create_from_image(
-				Image.load_from_file(vt_file.get_base_dir().path_join(vtube_data["FileReferences"]["Icon"]))
-			)
-		
-		model_cache[meta.id] = meta
-	
 	list_updated.emit(model_cache.values())
 
 func make_model(model):
-	if model not in model_cache:
+	var data
+	if model in model_cache:
+		data = model_cache[model]
+	else:
+		data = load_data(model)
+				
+	if data == null:
 		return
-	
-	var data = model_cache[model]
 	
 	var new_model: VtModel = preload("res://lib/model/vt_model.tscn").instantiate()
 	match data.format:
@@ -72,9 +79,12 @@ func make_model(model):
 			new_model.model = data
 			strategy.name = "FormatStrategy"
 			new_model.add_child(strategy)
+			new_model.render = strategy
 	
 	var tracking: TrackingSystem = get_tree().get_first_node_in_group("system:tracking")
 	tracking.parameters_updated.connect(new_model.tracking_updated)
+	
+	new_model.display_name = data.name
 	
 	return new_model
 	

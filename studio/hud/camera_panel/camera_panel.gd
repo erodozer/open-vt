@@ -124,7 +124,7 @@ func _on_fps_value_item_selected(index: int) -> void:
 func _on_microphone_toggle_toggled(toggled_on: bool) -> void:
 	if not tracking_system:
 		return
-	tracking_system.voice_tracker.enabled = toggled_on
+	tracking_system.get_node("MicrophoneTracker").enabled = toggled_on
 
 
 func _on_loopback_item_selected(index: int) -> void:

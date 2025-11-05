@@ -35,6 +35,9 @@ func get_parameters() -> Dictionary:
 func get_size() -> Vector2:
 	return live2d_model.size
 	
+func get_origin() -> Vector2:
+	return live2d_model.origin
+	
 func _rebuild_l2d(meta: ModelMeta, smoothing: bool, filter: CanvasItem.TextureFilter):
 	var reload = is_initialized()
 	if reload:
@@ -122,6 +125,8 @@ func load_model():
 	
 	on_filter_update(filter)
 	
+	position = -live2d_model.size / 2 # align to top-left
+	
 	return true
 	
 func apply_parameters(values: Dictionary):
@@ -159,5 +164,5 @@ func on_filter_update(filter = CanvasItem.TEXTURE_FILTER_LINEAR, smoothing = fal
 		container.model = live2d_model
 	else:
 		live2d_model.reparent(self, false)
-		live2d_model.position = Vector2.ZERO
+		live2d_model.position = live2d_model.origin
 		container.model = null

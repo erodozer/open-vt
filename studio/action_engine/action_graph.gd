@@ -1,10 +1,10 @@
 extends GraphEdit
 
 const Serializers = preload("res://lib/utils/serializers.gd")
+const VtModel = preload("res://lib/model/vt_model.gd")
 const VtAction = preload("./graph/vt_action.gd")
 const ActionPalette = preload("./action_palette.gd")
 
-var _id = 0
 var graph_elements: Dictionary[String, GraphNode] = {}
 
 func _on_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
@@ -50,6 +50,7 @@ func _on_child_exiting_tree(node: Node) -> void:
 		var id = node.get_meta("id", "")
 		if not id.is_empty() and id in graph_elements:
 			graph_elements.erase(id)
+		node.slot_updated.disconnect(_on_action.bind(node))
 		
 func _on_action(slot: int, node: VtAction):
 	for conn in get_connection_list():
@@ -73,13 +74,14 @@ func _on_delete_nodes_request(nodes: Array[StringName]) -> void:
 		var n = get_node(NodePath(i))
 		n.queue_free()
 		
-func deserialize(data: Dictionary, palette: ActionPalette):
+func deserialize(model: VtModel, data: Dictionary, palette: ActionPalette):
 	for i in data.get("nodes", []):
 		var id = i.get("id", "")
 		if id.is_empty():
 			continue
 		var n = palette.create(i.type)
 		n.set_meta("id", i.get("id", rid_allocate_id()))
+		n.model = model
 		add_child.call_deferred(n, true)
 		await n.ready
 		

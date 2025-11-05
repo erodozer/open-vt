@@ -1,14 +1,17 @@
 extends "res://lib/tracking/tracker.gd"
 
 @onready var bus = AudioServer.get_bus_index("VoiceInput")
+@onready var mic = $AudioStreamPlayer
 
 var enabled = true :
 	set(v):
 		if not self.is_node_ready():
 			return
 		AudioServer.set_bus_effect_enabled(bus, 0, v)
+		mic.playing = v
+		set_process(v)
 	get():
-		return AudioServer.is_bus_effect_enabled(bus, 0)
+		return mic.playing
 
 func _ready() -> void:
 	Registry.add_parameter("VoiceVolume", Vector2(0, 1), 0.0)

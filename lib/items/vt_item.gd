@@ -7,6 +7,12 @@ const Math = preload("res://lib/utils/math.gd")
 # assuming this is how VTS is deciding which vertices to bind to
 const PIN_RANGE = 50.0
 
+enum ItemType {
+	IMAGE,
+	ANIMATED,
+	MODEL
+}
+
 # define the style of pin weight
 # when no vertices are in range when binding
 # we use an offset relative to the centroid
@@ -17,8 +23,10 @@ enum PinMode {
 	VERTICES
 }
 
+@export var path: String
+@export var item_type: ItemType
+
 @export var pinnable: bool
-@export var sort_order: int
 
 @export var model: VtModel
 @export var pinned_to: MeshInstance2D
@@ -34,14 +42,6 @@ var pin_scale: Vector2 = Vector2.ONE
 
 signal pin_changed(mesh: MeshInstance2D)
 
-func _ready():
-	# center the item image
-	centered = true
-	size = get_node("Render").size
-	get_node("Render").position = -size / 2
-	
-	# process_priority = 1
-
 func _process(_delta: float) -> void:
 	if pinned_to == null:
 		return
@@ -50,7 +50,7 @@ func _process(_delta: float) -> void:
 	if pin_mode == PinMode.CENTROID:
 		var pin: Vector2 = pinned_to.get_meta("centroid")
 		var angle: float = pinned_to.get_meta("angle")
-		global_position = model.to_global(pin + pin_offset - model.render.size / 2)
+		global_position = model.to_global(pin + pin_offset - model.size / 2)
 		rotation = model.rotation + angle
 	else:
 		var _ary = RenderingServer.mesh_surface_get_arrays(pinned_to.mesh, 0)
@@ -67,11 +67,16 @@ func _process(_delta: float) -> void:
 		scale = pin_scale * model.scale
 		
 		# apply barycentric weights to current vtx positions to get centroid offset
-		global_position = pinned_to.to_global(
+		var p = (
 			t[0] * pin_vertices.x +
 			t[1] * pin_vertices.y +
 			t[2] * pin_vertices.z
-		) - (self.size.rotated(rotation) / 2 * scale)
+		)
+		# transform to pixel viewport to stage viewport
+		p = pinned_to.get_viewport().get_screen_transform() * pinned_to.get_global_transform_with_canvas() * p
+		p = get_viewport().get_screen_transform().affine_inverse() * p
+		
+		global_position = p - (center.rotated(rotation) / 2 * scale)
 		
 	
 	# rotation = -mtx.get_angle()
@@ -88,6 +93,8 @@ func _on_drag_released() -> void:
 			return a.z_index < b.z_index
 	)
 		
+	# get centroid on screen
+	var c = get_viewport().get_screen_transform() * get_global_transform_with_canvas() * center
 	var pinned = pinned_to
 	pin_vertices = Vector3.ZERO
 	for mesh in meshes:
@@ -95,9 +102,11 @@ func _on_drag_released() -> void:
 			continue
 		if not mesh.visible:
 			continue
-		
-		var c = self.get_global_transform() * (self.size / 2)
-		var p = model.to_local(c)
+			
+		# handle pinning in pixel subviewport
+		# convert screen coordinate to mesh viewport
+		var p = mesh.get_global_transform_with_canvas().affine_inverse() * mesh.get_viewport().get_screen_transform().affine_inverse() * c
+			
 		var _ary = RenderingServer.mesh_surface_get_arrays(mesh.mesh, 0)
 		var v = _ary[Mesh.ARRAY_VERTEX]
 		var f = _ary[Mesh.ARRAY_INDEX]
@@ -115,7 +124,7 @@ func _on_drag_released() -> void:
 				break
 	
 	pin_mode = PinMode.VERTICES if pin_vertices != Vector3.ZERO else PinMode.CENTROID
-				
+	
 	if pinned_to != pinned:
 		# preserve scale when pinned
 		pin_scale = scale / model.scale

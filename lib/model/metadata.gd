@@ -2,6 +2,7 @@ extends RefCounted
 
 var name: String
 var format: String
+var path: String
 ## unique model identifier
 var id: String
 ## path to vtube.json file

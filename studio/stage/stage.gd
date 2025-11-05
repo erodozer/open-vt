@@ -14,16 +14,6 @@ const INDEX_RANGE = 30
 
 signal model_changed(model: VtModel)
 signal item_added(item: VtItem)
-signal update_order(objects: Array[Node])
-
-static func _item_sorter(a, b):
-	var x = 0
-	var y = 0
-	if a is VtItem:
-		x = a.sort_order
-	if b is VtItem:
-		y = b.sort_order
-	return x < y
 
 func toggle_bg(enabled: bool) -> void:
 	get_tree().root.transparent_bg = enabled
@@ -31,14 +21,6 @@ func toggle_bg(enabled: bool) -> void:
 	get_window().transparent_bg = true
 	%Bg.visible = not enabled
 	
-func _reorder():
-	var sorted = canvas.get_children().duplicate()
-	sorted.sort_custom(_item_sorter)
-	for i in range(len(sorted)):
-		sorted[i].z_index = 1000 * i
-		canvas.move_child(sorted[i], i)
-	update_order.emit(sorted)
-
 func spawn_model(model: VtModel):
 	if model == null:
 		push_warning("invalid model attempted to load")
@@ -52,11 +34,17 @@ func spawn_model(model: VtModel):
 			active_model, "position", Vector2(0, (active_model.size.y * active_model.scale.y) + active_model.get_viewport_rect().size.y), 0.5
 		).as_relative().set_trans(Tween.TRANS_CUBIC)
 		await t.finished
-		canvas.remove_child(active_model)
+		# clear all pinned items
+		for i in canvas.get_children():
+			if i is VtItem:
+				i.model = null
+				if i.pinned_to != null:
+					i.queue_free()
+		
+		canvas.remove_child.call_deferred(active_model)
 		
 	model.position = Vector2.INF # initialize offscreen
 	canvas.add_child(model)
-	_reorder()
 	
 	await model.loaded
 	
@@ -72,26 +60,52 @@ func spawn_model(model: VtModel):
 	).from(
 		model.position + Vector2(0, model.get_viewport_rect().size.y)
 	).set_trans(Tween.TRANS_CUBIC)
-	
+
+	# make carried over objects aware of the new model
+	for i in canvas.get_children():
+		if i is VtItem:
+			i.model = model
+			if i.pinned_to != null:
+				i.queue_free()
+
 	# TODO if model had items pinned to it, load them in as well
 	model_changed.emit(active_model)
 	if prev_model != null:
 		prev_model.queue_free()
 
-func spawn_item(item: VtItem):
+func spawn_item(item: VtItem, animate = true):
 	# do not allow spawning items if there is no active model
 	if active_model == null:
 		return
 		
-	item.position = get_viewport().get_texture().get_size() / 2
+	# position to center of screen
+	var viewport_rect = get_viewport().get_visible_rect()
 	item.model = active_model
+	item.scale = Vector2.ONE * min(
+		clampf(viewport_rect.size.y / item.size.y, 0.001, 1.0),
+		1.0
+	)
+	item.global_position = (viewport_rect.size / 2) - (item.scale * item.center)
 	
 	# simply setting z_index does not work for control nodes, as Input order is not affected by it
 	# instead we'll rely on child order in the stage to define the position
 	canvas.add_child(item)
-	_reorder()
 	item_added.emit(item)
 	preferences.save_data.call_deferred()
+	
+	if not animate:
+		return
+	
+	var t = create_tween()
+	t.parallel().tween_property(
+		item, "scale", item.scale, 0.4
+	).from(Vector2.ONE * 0.3).set_trans(Tween.TRANS_CIRC)
+	#t.parallel().tween_property(
+	#	item, "rotation_degrees", 0, 0.4
+	#).from(60).set_trans(Tween.TRANS_QUAD)
+	t.parallel().tween_property(
+		item, "modulate", Color.WHITE, 0.4
+	).from(Color.TRANSPARENT).set_ease(Tween.EASE_IN)
 
 func remove_item(_item: VtItem):
 	pass
@@ -116,3 +130,6 @@ func save_settings(data):
 	window_settings["transparent"] = %Bg.visible
 	data["window"] = window_settings
 	
+func _on_model_layer_child_order_changed() -> void:
+	for i in canvas.get_children():
+		i.sort_order = i.get_index()

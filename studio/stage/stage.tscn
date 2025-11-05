@@ -61,3 +61,5 @@ unique_name_in_owner = true
 
 [node name="VtModel" parent="CanvasLayer/SubViewportContainer/SubViewport/ModelLayer" instance=ExtResource("3_fncbb")]
 unique_name_in_owner = true
+
+[connection signal="child_order_changed" from="CanvasLayer/SubViewportContainer/SubViewport/ModelLayer" to="." method="_on_model_layer_child_order_changed"]

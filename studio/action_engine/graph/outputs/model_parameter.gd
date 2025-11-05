@@ -12,17 +12,19 @@ const VALUE_SLOT = 1
 var parameter: int = -1 :
 	set(v):
 		parameter = v
-		input.selected = v
+		if input:
+			input.selected = v
 		
 		#var meta = stage.active_model.parameters[parameter]
 		#%Range/MinValue.min_value = meta
 		
 var model_parameter : String :
 	get():
-		var parameter = input.get_selected_metadata()
-		if parameter == null:
-			return ""
-		return parameter.name
+		if input:
+			var parameter = input.get_selected_metadata()
+			if parameter != null:
+				return parameter.name
+		return ""
 		
 var clamp_enabled: bool :
 	get():
@@ -51,9 +53,10 @@ var _dirty = false
 	
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:	
-	for m in stage.active_model.parameters.values():
+	for m in model.parameters.values():
 		input.add_item(m.name)
 		input.set_item_metadata(input.item_count - 1, m)
+	input.select(parameter)
 
 func get_type():
 	return "model_parameter"
@@ -81,7 +84,6 @@ func deserialize(data: Dictionary):
 		clamp_range = range
 	
 func load_from_vts(data: Dictionary):
-	var model = stage.active_model
 	parameter = model.parameters.values().find_custom(
 		func (f):
 			return f.name == data["OutputLive2D"]
@@ -121,7 +123,6 @@ func _update_model():
 	if not _dirty:
 		return
 	
-	var model = stage.active_model
 	model.mixer.get_node("Tracking").set(
 		model_parameter, value
 	)

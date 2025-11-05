@@ -5,6 +5,7 @@
 
 [node name="VtItem" type="Node2D"]
 script = ExtResource("1_pu6sx")
+centered = true
 
 [node name="Debug" type="Node2D" parent="."]
 visible = false

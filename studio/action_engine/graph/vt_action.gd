@@ -1,6 +1,6 @@
 extends GraphNode
 
-const Stage = preload("res://studio/stage/stage.gd")
+const VtModel = preload("res://lib/model/vt_model.gd")
 
 enum SlotType {
 	TRIGGER,
@@ -13,7 +13,7 @@ var _inputs = []
 var _outputs = []
 
 # handy reference to the stage is directly available to all VtActions
-@onready var stage: Stage = get_tree().get_first_node_in_group(Stage.GROUP_NAME)
+var model: VtModel
 
 func _notification(what: int) -> void:
 	# BUG godot 4.5 broke port indexes by only indexing them when the graph is drawn

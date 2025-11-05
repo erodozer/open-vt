@@ -4,7 +4,7 @@ extends "../vt_action.gd"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:	
-	for m in stage.active_model.motions:
+	for m in model.motions:
 		input.add_item(m)
 		input.set_item_metadata(input.item_count - 1, m)
 
@@ -28,8 +28,6 @@ func on_animation_completed():
 	pass
 
 func invoke_trigger(slot: int) -> void:
-	var model = stage.active_model
-	
 	var animation = input.get_selected_metadata()
 	if animation == null:
 		return

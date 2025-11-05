@@ -10,6 +10,14 @@ func _process(delta: float) -> void:
 		return
 		
 	queue_redraw()
+
+func _mesh_to_local(point: Vector2):
+	var mesh: MeshInstance2D = item.pinned_to
+	# position within viewport
+	var p = mesh.get_viewport().get_screen_transform() * mesh.get_global_transform_with_canvas() * point
+	p = self.get_viewport().get_screen_transform().affine_inverse() * p
+	p = to_local(p)
+	return p
 	
 func _draw() -> void:
 	var centroid = item.size / 2
@@ -24,7 +32,7 @@ func _draw() -> void:
 				_ary[Mesh.ARRAY_VERTEX][f[i+1]],
 				_ary[Mesh.ARRAY_VERTEX][f[i+2]],
 				_ary[Mesh.ARRAY_VERTEX][f[i]]
-			].map(item.pinned_to.to_global).map(self.to_local)
+			].map(_mesh_to_local)
 			draw_polyline(t, Color.GREEN if not i == item.pin_indicies else Color.RED)
 
 		var i = item.pin_indicies
@@ -33,5 +41,5 @@ func _draw() -> void:
 			_ary[Mesh.ARRAY_VERTEX][f[i+1]],
 			_ary[Mesh.ARRAY_VERTEX][f[i+2]],
 			_ary[Mesh.ARRAY_VERTEX][f[i]]
-		].map(item.pinned_to.to_global).map(self.to_local)
+		].map(_mesh_to_local)
 		draw_polyline(t, Color.RED)

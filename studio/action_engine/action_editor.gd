@@ -2,6 +2,7 @@ extends Window
 
 const Files = preload("res://lib/utils/files.gd")
 const VtModel = preload("res://lib/model/vt_model.gd")
+const VtItem = preload("res://lib/items/vt_item.gd")
 const VtAction = preload("./graph/vt_action.gd")
 
 const ActionGraph = preload("res://studio/action_engine/action_graph.tscn")
@@ -24,8 +25,10 @@ var active_graph: GraphEdit :
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	get_tree().get_first_node_in_group(Stage.GROUP_NAME).model_changed.connect(_on_stage_model_changed)
+	get_tree().get_first_node_in_group(Stage.GROUP_NAME).item_added.connect(_on_stage_item_added)
 
-func _on_add_hotkey_pressed(node: GraphNode, graph: GraphEdit = active_graph) -> GraphNode:
+func _on_add_hotkey_pressed(model: VtModel, node: VtAction, graph: GraphEdit = active_graph) -> VtAction:
+	node.model = model
 	graph.add_child(node)
 	node.position_offset = (graph.scroll_offset + graph.size / 2) / graph.zoom - node.size / 2
 	return node
@@ -38,56 +41,76 @@ func _on_stage_model_changed(model: VtModel) -> void:
 	
 	await get_tree().process_frame
 	
-	var loaded = false
+	var graphs = []
 	if FileAccess.file_exists(model.model.openvt_parameters):
-		loaded = _load_graph(model)
-	if not loaded and FileAccess.file_exists(model.model.studio_parameters):
-		loaded = _load_from_vts(model)
+		graphs = _load_graph(model)
+	if not graphs and FileAccess.file_exists(model.model.studio_parameters):
+		graphs = _load_from_vts(model)
+	for g in graphs:
+		%Profiles.add_child(g)
+	%ProfileTabs.current_tab = 0
 	
-func _load_graph(model):
+func _on_stage_item_added(item: VtItem) -> void:
+	if item.item_type != VtItem.ItemType.MODEL:
+		return
+		
+	var model = item.get_node("Render") as VtModel
+	var graphs = []
+	if FileAccess.file_exists(model.model.openvt_parameters):
+		graphs = _load_graph(model)
+	if not graphs and FileAccess.file_exists(model.model.studio_parameters):
+		graphs = _load_from_vts(model)
+		
+	for g in graphs:
+		g.visible = false
+		item.add_child(g) # item graphs, do that by opening as a model
+	
+func _load_graph(model: VtModel) -> Array:
 	var ovt_data: Dictionary = Files.read_json(model.model.openvt_parameters)
 	if ovt_data.is_empty():
-		return false
+		return []
 		
 	var graphs: Dictionary = ovt_data.get("graphs", {})
 	if graphs.is_empty():
-		return false
+		return []
 	
-	var data_found = false
+	var valid_graphs = []
 	for profile in graphs:
 		var graph = ActionGraph.instantiate()
 		graph.name = profile
-		graph.deserialize(graphs[profile], %Palette)
+		add_child(graph)
+		graph.deserialize(model, graphs[profile], %Palette)
+		remove_child(graph)
 		if graph.get_child_count() > 0:
-			%Profiles.add_child(graph)
-			data_found = true
+			valid_graphs.append(graph)
 	
-	return data_found
+	return valid_graphs
 
 ## adapts bindings from VTS into our action graph
-func _load_from_vts(model: VtModel):
+func _load_from_vts(model: VtModel) -> Array:
 	const spacing = 30
 	# load vts hotkey settings
 	var vtube_data = Files.read_json(model.model.studio_parameters)
 	var y = 0
 	var x = 0
 	
+	var graphs = []
 #region hotkey binding
 	var graph = preload("./action_graph.tscn").instantiate()
 	graph.name = "VTS_Hotkeys"
-	%Profiles.add_child(graph)
+	add_child(graph)
 	
 	for hotkey in vtube_data.get("Hotkeys", []):
-		var keybind: GraphNode
-		var btnbind: GraphNode
+		var keybind: VtAction
+		var btnbind: VtAction
 		if ["","",""] != [hotkey.Triggers.Trigger1, hotkey.Triggers.Trigger2, hotkey.Triggers.Trigger3]:
-			keybind = _on_add_hotkey_pressed(preload("./graph/inputs/hotkey_action.tscn").instantiate(), graph)
+			keybind = _on_add_hotkey_pressed(model, preload("./graph/inputs/hotkey_action.tscn").instantiate(), graph)
 			var binding = keybind.get_node("%Handler")
 			binding.load_from_vts(hotkey)
 			keybind.get_node("%Input").text = " + ".join(binding.input_as_list)
 			keybind.position_offset = Vector2(x, y)
 		if hotkey.Triggers.get("ScreenButton", 0) > 0:
-			btnbind = _on_add_hotkey_pressed(preload("./graph/inputs/screen_button.tscn").instantiate(), graph)
+			btnbind = _on_add_hotkey_pressed(model, preload("./graph/inputs/screen_button.tscn").instantiate(), graph)
 			btnbind.get_node("%Mapping").get_child(hotkey.Triggers.ScreenButton - 1).button_pressed = true
 			if keybind != null:
 				btnbind.position_offset = Vector2(x, y + keybind.size.y + spacing)
@@ -97,7 +120,7 @@ func _load_from_vts(model: VtModel):
 		var output: GraphNode
 		match hotkey.Action:
 			"TriggerAnimation":
-				output = _on_add_hotkey_pressed(preload("./graph/outputs/play_animation.tscn").instantiate(), graph)
+				output = _on_add_hotkey_pressed(model, preload("./graph/outputs/play_animation.tscn").instantiate(), graph)
 				
 				var anim_name = hotkey.File
 				var duration = hotkey.FadeSecondsAmount * 1000.0
@@ -126,7 +149,7 @@ func _load_from_vts(model: VtModel):
 						btnbind.name, 0, output.name, 2
 					)
 			"ToggleExpression", "RemoveAllExpressions":
-				output = _on_add_hotkey_pressed(preload("./graph/outputs/toggle_expression.tscn").instantiate(), graph)
+				output = _on_add_hotkey_pressed(model, preload("./graph/outputs/toggle_expression.tscn").instantiate(), graph)
 				
 				var e_name: String = hotkey.File
 				var duration = hotkey.FadeSecondsAmount * 1000.0
@@ -170,25 +193,26 @@ func _load_from_vts(model: VtModel):
 		if y > 2000:
 			x += 800
 			y = 0
-			
-	%ProfileTabs.current_tab = 0
+	remove_child(graph)
+	graphs.append(graph)
 #endregion
 
 #region parameter binding
 	graph = preload("./action_graph.tscn").instantiate()
 	graph.name = "VTS_Parameters"
-	%Profiles.add_child(graph)
 	
-	var breathe = _on_add_hotkey_pressed(preload("./graph/logic/breathe.tscn").instantiate(), graph)
-	var blink = _on_add_hotkey_pressed(preload("./graph/logic/blink.tscn").instantiate(), graph)
+	add_child(graph)
+	
+	var breathe = _on_add_hotkey_pressed(model, preload("./graph/logic/breathe.tscn").instantiate(), graph)
+	var blink = _on_add_hotkey_pressed(model, preload("./graph/logic/blink.tscn").instantiate(), graph)
 	
 	breathe.position_offset = Vector2(-500, 0)
 	blink.position_offset = Vector2(-500, 250)
 	
 	var column_width = 800
 	for data in vtube_data["ParameterSettings"]:
-		var input = _on_add_hotkey_pressed(preload("./graph/inputs/tracking_parameter.tscn").instantiate(), graph)
-		var output = _on_add_hotkey_pressed(preload("./graph/outputs/model_parameter.tscn").instantiate(), graph)
+		var input = _on_add_hotkey_pressed(model, preload("./graph/inputs/tracking_parameter.tscn").instantiate(), graph)
+		var output = _on_add_hotkey_pressed(model, preload("./graph/outputs/model_parameter.tscn").instantiate(), graph)
 		
 		input.load_from_vts(data)
 		output.load_from_vts(data)
@@ -205,7 +229,7 @@ func _load_from_vts(model: VtModel):
 			_x += input.size.x + 40
 		
 		if breathing:
-			var scalar = _on_add_hotkey_pressed(preload("./graph/logic/arithmetic.tscn").instantiate(), graph)
+			var scalar = _on_add_hotkey_pressed(model, preload("./graph/logic/arithmetic.tscn").instantiate(), graph)
 			scalar.operator = 1
 			if not unbound:
 				graph._on_connection_request(
@@ -223,7 +247,7 @@ func _load_from_vts(model: VtModel):
 				input = breathe
 			
 		if blinking:
-			var scalar = _on_add_hotkey_pressed(preload("./graph/logic/arithmetic.tscn").instantiate(), graph)
+			var scalar = _on_add_hotkey_pressed(model, preload("./graph/logic/arithmetic.tscn").instantiate(), graph)
 			scalar.operator = 1
 			if breathing or not unbound:
 				graph._on_connection_request(
@@ -257,11 +281,11 @@ func _load_from_vts(model: VtModel):
 			x += column_width
 			y = 0
 			column_width = 800
+	remove_child(graph)
+	graphs.append(graph)
 			
 #endregion
-	%Profiles.current_tab = 0
-	
-	return true
+	return graphs
 	
 func save_settings(model_data: Dictionary):
 	var graphs = model_data.get("graphs", {})
