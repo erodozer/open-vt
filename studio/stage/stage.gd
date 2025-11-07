@@ -7,7 +7,6 @@ const VtItem = preload("res://lib/items/vt_item.gd")
 
 const INDEX_RANGE = 30
 
-@onready var preferences = get_tree().get_first_node_in_group("system:settings")
 @onready var active_model: VtModel = %VtModel
 @onready var canvas = %ModelLayer
 @onready var capture_viewport = %SubViewport
@@ -28,7 +27,7 @@ func spawn_model(model: VtModel):
 	
 	var prev_model
 	if active_model != null:
-		await preferences.save_data()
+		await Preferences.save_data()
 		prev_model = active_model
 		var t = create_tween().tween_property(
 			active_model, "position", Vector2(0, (active_model.size.y * active_model.scale.y) + active_model.get_viewport_rect().size.y), 0.5
@@ -91,7 +90,6 @@ func spawn_item(item: VtItem, animate = true):
 	# instead we'll rely on child order in the stage to define the position
 	canvas.add_child(item)
 	item_added.emit(item)
-	preferences.save_data.call_deferred()
 	
 	if not animate:
 		return

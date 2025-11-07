@@ -1,7 +1,6 @@
-[gd_scene load_steps=16 format=3 uid="uid://bbh7pj5wq0sii"]
+[gd_scene load_steps=15 format=3 uid="uid://bbh7pj5wq0sii"]
 
 [ext_resource type="Script" uid="uid://bq0aow0vnq1i6" path="res://studio/studio.gd" id="1_o3t2a"]
-[ext_resource type="Script" uid="uid://bl1h5l0htvi3k" path="res://lib/preferences.gd" id="2_d6kje"]
 [ext_resource type="Script" uid="uid://c3dhmb2w6nvr0" path="res://lib/tracking/tracking_system.gd" id="3_q22or"]
 [ext_resource type="Script" uid="uid://c0x5krhvleh5m" path="res://lib/tracking/mouse/mouse_tracker.gd" id="4_ihfr3"]
 [ext_resource type="PackedScene" uid="uid://15kl1t37lo3j" path="res://lib/tracking/microphone/microphone_tracker.tscn" id="5_an10b"]
@@ -126,9 +125,6 @@ _data = {
 
 [node name="Studio" type="Node" groups=["persist"]]
 script = ExtResource("1_o3t2a")
-
-[node name="Preferences" type="Node" parent="." groups=["system:settings"]]
-script = ExtResource("2_d6kje")
 
 [node name="TrackerSystem" type="Node" parent="." groups=["system:tracking"]]
 script = ExtResource("3_q22or")

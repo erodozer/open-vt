@@ -1,9 +1,7 @@
 extends Node
 
-@onready var preferences = get_tree().get_first_node_in_group("system:settings")
-
 func _ready() -> void:
-	preferences.load_data.call_deferred()
+	Preferences.load_data.call_deferred()
 	if not Engine.is_embedded_in_editor():
 		get_window().borderless = false
 		
@@ -14,7 +12,7 @@ func _ready() -> void:
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		preferences.save_data()
+		Preferences.save_data()
 
 func save_settings(settings: Dictionary):
 	var window_settings = settings.get("window", {})
