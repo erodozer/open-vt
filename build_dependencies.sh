@@ -17,13 +17,13 @@ build_gdcubism () {
 	## https://www.live2d.com/en/sdk/download/native/
 	##
 	## OpenVT is currently developed against Native version 5 R3
-	scons platform=linux arch=x86_64 target=template_debug debug_symbols=yes
-	scons platform=linux arch=x86_64 target=template_release
+	scons platform=linux arch=x86_64 target=template_debug debug_symbols=yes GDCUBISM_DYLIB=1
 	cp -r $WORKDIR/demo/addons/gd_cubism $PROJ_ROOT/addons
 	rm -r $PROJ_ROOT/addons/gd_cubism/example
 	rm -r $PROJ_ROOT/addons/gd_cubism/cs
 	cp LICENSE.en.adoc $PROJ_ROOT/addons/gd_cubism/LICENSE.en.adoc
 	cp README.en.adoc $PROJ_ROOT/addons/gd_cubism/README.en.adoc
+	
 	echo "*" > $PROJ_ROOT/addons/gd_cubism/.gitignore
 	
 	cd $PROJ_ROOT
