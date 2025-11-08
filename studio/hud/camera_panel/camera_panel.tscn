@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://crwh7f50woqgu"]
+[gd_scene load_steps=3 format=3 uid="uid://crwh7f50woqgu"]
 
 [ext_resource type="Script" uid="uid://ckj4kaun5h87" path="res://studio/hud/camera_panel/camera_panel.gd" id="1_qt06k"]
+[ext_resource type="Script" uid="uid://08yyvfky7ack" path="res://ui/accordion/accordion.gd" id="2_qv3m7"]
 
 [node name="CameraPanel" type="PanelContainer" groups=["persist"]]
 custom_minimum_size = Vector2(480, 0)
@@ -17,28 +18,30 @@ script = ExtResource("1_qt06k")
 layout_mode = 2
 vertical_scroll_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+[node name="Accordion" type="VBoxContainer" parent="ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource("2_qv3m7")
+metadata/_custom_type_script = "uid://08yyvfky7ack"
 
-[node name="PanelContainer2" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
+[node name="Application Settings" type="PanelContainer" parent="ScrollContainer/Accordion"]
 layout_mode = 2
 theme_type_variation = &"SubPanelContainer"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/Accordion/Application Settings"]
 layout_mode = 2
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer3"]
+[node name="Label" type="Label" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 text = "Application FPS Limit"
 
-[node name="FPS" type="OptionButton" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer3"]
+[node name="FPS" type="OptionButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer3"]
 unique_name_in_owner = true
 layout_mode = 2
 selected = 0
@@ -50,23 +53,23 @@ popup/item_1/id = 1
 popup/item_2/text = "Max"
 popup/item_2/id = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 text = "Transparent Background"
 
-[node name="TransparencyToggle" type="CheckButton" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer2"]
+[node name="TransparencyToggle" type="CheckButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer"]
+[node name="HBoxContainer4" type="HBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer4"]
+[node name="Label" type="Label" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer4"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
@@ -74,15 +77,15 @@ tooltip_text = "Use microphone input on PC to affect certain
 mouth related tracking parameters"
 text = "Sample Microphone"
 
-[node name="MicrophoneToggle" type="CheckButton" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer4"]
+[node name="MicrophoneToggle" type="CheckButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer4"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="VirtualWebcam" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer"]
+[node name="VirtualWebcam" type="VBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/VirtualWebcam"]
+[node name="Label" type="Label" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
@@ -90,57 +93,63 @@ tooltip_text = "Use microphone input on PC to affect certain
 mouth related tracking parameters"
 text = "Virtual Webcam (V4l2 Loopback Output Device)"
 
-[node name="Value" type="OptionButton" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/VirtualWebcam"]
+[node name="Value" type="OptionButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam"]
 layout_mode = 2
 
-[node name="V4l2OutputStream" type="VirtualCamera" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/VirtualWebcam"]
+[node name="V4l2OutputStream" type="VirtualCamera" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam"]
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer"]
 visible = false
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 text = "Preview Background Color"
 
-[node name="PreviewBackgroundColor" type="ColorPickerButton" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer"]
+[node name="PreviewBackgroundColor" type="ColorPickerButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 edit_alpha = false
 
-[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
+[node name="Tracking" type="VBoxContainer" parent="ScrollContainer/Accordion"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"SubPanelContainer"
 
-[node name="Tracking" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/Accordion/Tracking"]
+layout_mode = 2
+theme_type_variation = &"SubPanelContainer"
+
+[node name="FaceTracking" type="VBoxContainer" parent="ScrollContainer/Accordion/Tracking/PanelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/PanelContainer/Tracking"]
+[node name="Label" type="Label" parent="ScrollContainer/Accordion/Tracking/PanelContainer/FaceTracking"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 text = "Face Tracking Source"
 
-[node name="TrackingSource" type="OptionButton" parent="ScrollContainer/VBoxContainer/PanelContainer/Tracking"]
+[node name="TrackingSource" type="OptionButton" parent="ScrollContainer/Accordion/Tracking/PanelContainer/FaceTracking"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Config" type="Control" parent="ScrollContainer/VBoxContainer/PanelContainer/Tracking"]
+[node name="Config" type="Control" parent="ScrollContainer/Accordion/Tracking/PanelContainer/FaceTracking"]
 layout_mode = 2
 
-[node name="PanelContainer3" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
+[node name="Parameter Debug" type="PanelContainer" parent="ScrollContainer/Accordion"]
+visible = false
 layout_mode = 2
 theme_type_variation = &"SubPanelContainer"
 
-[node name="ParameterList" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer3"]
+[node name="ParameterList" type="VBoxContainer" parent="ScrollContainer/Accordion/Parameter Debug"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[connection signal="item_selected" from="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer3/FPS" to="." method="_on_fps_value_item_selected"]
-[connection signal="toggled" from="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer2/TransparencyToggle" to="." method="_on_transparency_toggle_toggled"]
-[connection signal="toggled" from="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer4/MicrophoneToggle" to="." method="_on_microphone_toggle_toggled"]
-[connection signal="item_selected" from="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/VirtualWebcam/Value" to="." method="_on_loopback_item_selected"]
-[connection signal="color_changed" from="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer/PreviewBackgroundColor" to="." method="_on_preview_background_color_color_changed"]
+[connection signal="item_selected" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer3/FPS" to="." method="_on_fps_value_item_selected"]
+[connection signal="toggled" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer2/TransparencyToggle" to="." method="_on_transparency_toggle_toggled"]
+[connection signal="toggled" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer4/MicrophoneToggle" to="." method="_on_microphone_toggle_toggled"]
+[connection signal="item_selected" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam/Value" to="." method="_on_loopback_item_selected"]
+[connection signal="color_changed" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer/PreviewBackgroundColor" to="." method="_on_preview_background_color_color_changed"]

@@ -1,0 +1,62 @@
+[gd_scene load_steps=4 format=3 uid="uid://rx1k71lk3xi2"]
+
+[ext_resource type="Script" uid="uid://ddqdj7ehf48j5" path="res://lib/tracking/gamepad/config.gd" id="1_ya4c7"]
+[ext_resource type="PackedScene" uid="uid://d2a67yxp08esv" path="res://ui/modal/modal.tscn" id="1_yo73d"]
+[ext_resource type="PackedScene" uid="uid://hpg52fgw7kdc" path="res://studio/hud/input_recorder/input_rec_popup.tscn" id="2_ya4c7"]
+
+[node name="Config" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ya4c7")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Gamepad"
+
+[node name="GamepadIndex" type="OptionButton" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+selected = 0
+item_count = 1
+popup/item_0/text = "Keyboard"
+popup/item_0/id = 9999
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="DpadMapping" type="CheckButton" parent="VBoxContainer"]
+layout_mode = 2
+text = "Map DPad to Left Stick"
+
+[node name="KeytoGamepad" type="GridContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 8
+columns = 4
+
+[node name="Modal" parent="." instance=ExtResource("1_yo73d")]
+unique_name_in_owner = true
+layer = 10
+visible = false
+
+[node name="CenterContainer" type="CenterContainer" parent="Modal"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InputRecPopup" parent="Modal/CenterContainer" instance=ExtResource("2_ya4c7")]
+unique_name_in_owner = true
+layout_mode = 2
+allow_modifiers = false
+allow_mouse_buttons = false
+
+[connection signal="item_selected" from="VBoxContainer/GamepadIndex" to="." method="_on_gamepad_index_item_selected"]
+[connection signal="toggled" from="VBoxContainer/DpadMapping" to="." method="_on_dpad_mapping_toggled"]

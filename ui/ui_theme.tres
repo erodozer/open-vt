@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=74 format=3 uid="uid://bwesfr5en0lxv"]
+[gd_resource type="Theme" load_steps=77 format=3 uid="uid://bwesfr5en0lxv"]
 
 [ext_resource type="Texture2D" uid="uid://cj047554m680j" path="res://ui/icons/square-check.svg" id="1_5hwks"]
 [ext_resource type="Texture2D" uid="uid://dv7o0g2fot3n3" path="res://ui/icons/toggle-on.svg" id="1_jmxgr"]
@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://cq6pa7el3jat7" path="res://ui/icons/toggle-off-disabled.svg" id="6_7t4fe"]
 [ext_resource type="Texture2D" uid="uid://mtgh7f5wubre" path="res://ui/icons/circle-chevron-left.svg" id="9_b4i6s"]
 [ext_resource type="Texture2D" uid="uid://b17r1y0nlfech" path="res://ui/icons/circle-chevron-right.svg" id="10_sidt4"]
+[ext_resource type="Script" uid="uid://x2qr57tdvr4g" path="res://ui/padded_stylebox.gd" id="15_4bemj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b7yax"]
 content_margin_left = 8.0
@@ -384,15 +385,25 @@ bg_color = Color(0.811765, 0.788235, 0.698039, 1)
 shadow_size = 5
 shadow_offset = Vector2(2, 2)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h610x"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4bemj"]
 bg_color = Color(0.298039, 0.282353, 0.239216, 1)
 border_width_bottom = 2
-border_color = Color(0.847059, 0.823529, 0.729412, 1)
 shadow_color = Color(0.298039, 0.282353, 0.239216, 1)
 shadow_size = 1
 shadow_offset = Vector2(0, 2)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bfryo"]
+[sub_resource type="StyleBox" id="StyleBox_klrf6"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = 8.0
+content_margin_top = -1.0
+content_margin_right = -1.0
+content_margin_bottom = -1.0
+script = ExtResource("15_4bemj")
+stylebox = SubResource("StyleBoxFlat_4bemj")
+metadata/_custom_type_script = "uid://x2qr57tdvr4g"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_61t3q"]
 bg_color = Color(1, 1, 1, 1)
 border_width_bottom = 2
 border_color = Color(0.847059, 0.823529, 0.729412, 1)
@@ -400,24 +411,43 @@ shadow_color = Color(1, 1, 1, 1)
 shadow_size = 1
 shadow_offset = Vector2(0, 2)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wb0bc"]
-bg_color = Color(0.298039, 0.282353, 0.239216, 1)
-border_width_bottom = 2
-border_color = Color(0.847059, 0.823529, 0.729412, 1)
-shadow_color = Color(0.298039, 0.282353, 0.239216, 1)
-shadow_size = 1
-shadow_offset = Vector2(0, 2)
+[sub_resource type="StyleBox" id="StyleBox_atl1g"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = 8.0
+content_margin_top = -1.0
+content_margin_right = -1.0
+content_margin_bottom = -1.0
+script = ExtResource("15_4bemj")
+stylebox = SubResource("StyleBoxFlat_61t3q")
+metadata/_custom_type_script = "uid://x2qr57tdvr4g"
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0wueg"]
-content_margin_left = 4.0
-content_margin_right = 4.0
+[sub_resource type="StyleBox" id="StyleBox_cd8m4"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = 8.0
+content_margin_top = -1.0
+content_margin_right = -1.0
+content_margin_bottom = -1.0
+script = ExtResource("15_4bemj")
+stylebox = SubResource("StyleBoxFlat_4bemj")
+metadata/_custom_type_script = "uid://x2qr57tdvr4g"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_klrf6"]
+content_margin_left = 8.0
 bg_color = Color(0.847059, 0.823529, 0.729412, 1)
 border_color = Color(0.8, 0.8, 0.8, 0)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kjdfi"]
-content_margin_left = 4.0
-content_margin_right = 4.0
-bg_color = Color(0.67451, 0.654902, 0.580392, 1)
+[sub_resource type="StyleBox" id="StyleBox_61t3q"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = 8.0
+content_margin_top = -1.0
+content_margin_right = -1.0
+content_margin_bottom = -1.0
+script = ExtResource("15_4bemj")
+stylebox = SubResource("StyleBoxFlat_klrf6")
+metadata/_custom_type_script = "uid://x2qr57tdvr4g"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fsm2c"]
 content_margin_left = 4.0
@@ -601,11 +631,11 @@ TooltipPanel/styles/panel = SubResource("StyleBoxFlat_o3o4d")
 VBoxContainer/constants/separation = 16
 VBoxList/base_type = &"VBoxContainer"
 VBoxList/constants/separation = 4
-VScrollBar/styles/grabber = SubResource("StyleBoxFlat_h610x")
-VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_bfryo")
-VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_wb0bc")
-VScrollBar/styles/scroll = SubResource("StyleBoxFlat_0wueg")
-VScrollBar/styles/scroll_focus = SubResource("StyleBoxFlat_kjdfi")
+VScrollBar/styles/grabber = SubResource("StyleBox_klrf6")
+VScrollBar/styles/grabber_highlight = SubResource("StyleBox_atl1g")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBox_cd8m4")
+VScrollBar/styles/scroll = SubResource("StyleBox_61t3q")
+VScrollBar/styles/scroll_focus = SubResource("StyleBox_61t3q")
 ValueLabel/base_type = &"Label"
 ValueLabel/colors/font_color = Color(0.298039, 0.282353, 0.239216, 1)
 ValueLabel/colors/font_outline_color = Color(0.298039, 0.282353, 0.239216, 1)

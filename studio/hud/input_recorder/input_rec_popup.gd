@@ -1,16 +1,20 @@
-extends Window
+extends Control
+
+@export var allow_modifiers = true
+@export var allow_mouse_buttons = true
 
 signal input_recorded(pressed)
 
 func _input(event: InputEvent) -> void:
 	var input_buffer = []
-	if Input.is_key_pressed(KEY_SHIFT):
-		input_buffer.append(KEY_SHIFT)
-	if Input.is_key_pressed(KEY_CTRL):
-		input_buffer.append(KEY_CTRL)
-	if Input.is_key_pressed(KEY_ALT):
-		input_buffer.append(KEY_ALT)
-	
+	if allow_modifiers:
+		if Input.is_key_pressed(KEY_SHIFT):
+			input_buffer.append(KEY_SHIFT)
+		if Input.is_key_pressed(KEY_CTRL):
+			input_buffer.append(KEY_CTRL)
+		if Input.is_key_pressed(KEY_ALT):
+			input_buffer.append(KEY_ALT)
+		
 	%PressedInput.text = " + ".join(input_buffer.map(OS.get_keycode_string))
 	
 	if event is InputEventKey:
@@ -21,6 +25,6 @@ func _input(event: InputEvent) -> void:
 		else:
 			input_buffer.append(event.keycode)
 			input_recorded.emit(input_buffer)
-	elif event is InputEventMouseButton and event.is_pressed():
+	elif event is InputEventMouseButton and event.is_pressed() and allow_mouse_buttons:
 		input_buffer.append(event.button_index)
 		input_recorded.emit(input_buffer)

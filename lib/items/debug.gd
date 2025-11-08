@@ -6,7 +6,7 @@ const VtItem = preload("res://lib/items/vt_item.gd")
 @onready var item = get_parent()
 
 func _process(delta: float) -> void:
-	if not visible:
+	if visible:
 		return
 		
 	queue_redraw()

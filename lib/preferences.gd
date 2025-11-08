@@ -4,6 +4,7 @@ const Files = preload("res://lib/utils/files.gd")
 const UserSettings = "user://settings.json"
 
 var _data = {}
+@export var debug: bool = false
 
 func _ready() -> void:
 	get_tree().node_added.connect(

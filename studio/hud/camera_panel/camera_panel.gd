@@ -8,7 +8,7 @@ signal update_bg_color(color: Color)
 @onready var tracking_system: TrackingSystem = get_tree().get_first_node_in_group("system:tracking")
 @onready var transparency_toggle: CheckButton = %TransparencyToggle
 @onready var mic_toggle: CheckButton = %MicrophoneToggle
-@onready var tracker: OptionButton = %TrackingSource
+@onready var face_trackers: OptionButton = %TrackingSource
 @onready var fps_option: OptionButton = %FPS
 
 @onready var parameter_list = %ParameterList
@@ -18,11 +18,16 @@ func _get_title():
 
 func _ready() -> void:
 	if OS.has_feature("openseeface") or OS.is_debug_build():
-		tracker.add_item("OpenSeeFace (Webcam)")
-		tracker.set_item_metadata(tracker.item_count - 1, preload("res://lib/tracking/camera/openseeface/osf_tracker.gd"))
+		face_trackers.add_item("OpenSeeFace (Webcam)")
+		face_trackers.set_item_metadata(face_trackers.item_count - 1, preload("res://lib/tracking/camera/openseeface/osf_tracker.gd"))
 	
-	tracker.add_item("VTubeStudio (iOS/Android)")
-	tracker.set_item_metadata(tracker.item_count - 1, preload("res://lib/tracking/camera/vts/vts_tracker.gd"))
+	face_trackers.add_item("VTubeStudio (iOS/Android)")
+	face_trackers.set_item_metadata(face_trackers.item_count - 1, preload("res://lib/tracking/camera/vts/vts_tracker.gd"))
+	
+	for tracker in tracking_system.get_children():
+		var config = tracker.create_config()
+		if config != null:
+			%Tracking.add_child(config)
 	
 	Registry.parameter_list_changed.connect(
 		func ():
@@ -45,9 +50,9 @@ func _ready() -> void:
 	if tracking_system:
 		tracking_system.tracker_changed.connect(_on_tracker_system_tracker_changed)
 		tracking_system.parameters_updated.connect(_on_tracker_system_parameters_updated)
-		tracker.item_selected.connect(
+		face_trackers.item_selected.connect(
 			func (idx):
-				var _tracker = tracker.get_item_metadata(idx)
+				var _tracker = face_trackers.get_item_metadata(idx)
 				tracking_system.activate_tracker(_tracker.new())
 		)
 		
@@ -72,9 +77,9 @@ func _on_tracker_system_tracker_changed(new_tracker: Tracker) -> void:
 		config = new_tracker.create_config()
 	config.name = "Config"
 	
-	%Tracking/Config.queue_free()
+	%FaceTracking/Config.queue_free()
 	await get_tree().process_frame
-	%Tracking.add_child(config)
+	%FaceTracking.add_child(config)
 
 func _on_tracker_system_parameters_updated(parameters: Dictionary) -> void:
 	if !is_node_ready():
@@ -93,12 +98,12 @@ func _on_transparency_toggle_toggled(toggled_on: bool) -> void:
 
 func load_settings(data: Dictionary):
 	transparency_toggle.button_pressed = data.get("window", {}).get("transparent", false)
-	tracker.select(data.get("camera", {}).get("tracking", 0))
+	face_trackers.select(data.get("camera", {}).get("tracking", 0))
 	fps_option.select(data.get("window", {}).get("fps", 0))
 	_on_fps_value_item_selected(fps_option.get_selected_id())
 	if tracking_system:
 		tracking_system.activate_tracker(
-			tracker.get_selected_metadata().new()
+			face_trackers.get_selected_metadata().new()
 		)
 		mic_toggle.button_pressed = data.get("microphone", true)
 	
@@ -107,7 +112,7 @@ func save_settings(data: Dictionary):
 	w["transparent"] = transparency_toggle.button_pressed
 	w["fps"] = fps_option.get_selected_id()
 	var c = data.get("camera", {})
-	c["tracking"] = tracker.get_selected_id()
+	c["tracking"] = face_trackers.get_selected_id()
 	data["window"] = w
 	data["camera"] = c
 	data["microphone"] = mic_toggle.button_pressed

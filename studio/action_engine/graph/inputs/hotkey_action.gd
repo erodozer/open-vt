@@ -24,14 +24,12 @@ func _on_input_pressed() -> void:
 	%Modal.show()
 	%InputRecPopup.show()
 
-	%Modal.visible = true
-	%InputRecPopup.show()
+	%Modal.show()
 	%InputRecPopup.grab_focus()
 	
 	var pressed: Array = await %InputRecPopup.input_recorded
 	
-	%InputRecPopup.hide()
-	%Modal.visible = false
+	%Modal.hide()
 	
 	if len(pressed) > 0:
 		hotkey.button_1 = OS.get_keycode_string(pressed[0])

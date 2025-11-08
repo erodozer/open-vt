@@ -91,11 +91,19 @@ script = ExtResource("2_wanp4")
 
 [node name="Modal" parent="." instance=ExtResource("3_ggeq4")]
 unique_name_in_owner = true
+layer = 10
 visible = false
 
-[node name="InputRecPopup" parent="Modal" instance=ExtResource("4_ti7i4")]
+[node name="CenterContainer" type="CenterContainer" parent="Modal"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InputRecPopup" parent="Modal/CenterContainer" instance=ExtResource("4_ti7i4")]
 unique_name_in_owner = true
-visible = false
+layout_mode = 2
 
 [connection signal="pressed" from="Input" to="." method="_on_input_pressed"]
 [connection signal="activate" from="Handler" to="." method="_on_handler_activate"]
