@@ -6,7 +6,8 @@ var _queue = []
 
 var message: String :
 	set(t):
-		$Label.text
+		message = t
+		$Label.text = t
 
 func alert(msg: String):
 	_queue.append(msg)
@@ -14,7 +15,6 @@ func alert(msg: String):
 func pop_toast():
 	message = _queue.pop_front()
 	anim.play("show")
-
 	
 func _process(_delta: float) -> void:
 	if anim.is_playing():

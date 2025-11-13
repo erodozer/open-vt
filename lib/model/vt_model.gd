@@ -112,7 +112,7 @@ func get_idle_animation_player() -> AnimationPlayer:
 func get_animation_player() -> AnimationPlayer:
 	return mixer.get_node("OneShotMotion/AnimationPlayer")
 
-func tracking_updated(tracking_data: Dictionary):
+func tracking_updated(tracking_data: Dictionary, _delta: float):
 	if not is_initialized():
 		return
 	# pass forward to any format specific handling

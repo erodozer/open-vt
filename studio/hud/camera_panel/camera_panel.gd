@@ -81,7 +81,7 @@ func _on_tracker_system_tracker_changed(new_tracker: Tracker) -> void:
 	await get_tree().process_frame
 	%FaceTracking.add_child(config)
 
-func _on_tracker_system_parameters_updated(parameters: Dictionary) -> void:
+func _on_tracker_system_parameters_updated(parameters: Dictionary, _delta) -> void:
 	if !is_node_ready():
 		return
 	for p in Registry.parameters():

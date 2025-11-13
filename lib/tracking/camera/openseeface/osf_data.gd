@@ -23,9 +23,16 @@ var rotation: Vector3
 var translation: Vector3
 var rawQuaternion: Quaternion
 var rawEuler: Vector3
-var confidence: Array[float]
+var pointConfidence: Array[float]
 var points: Array[Vector2]
 var points3D: Array[Vector3]
+
+var confidence: float :
+	get():
+		return pointConfidence.reduce(
+			func (acc, v):
+				return acc + v
+		) / float(len(pointConfidence))
 
 # features
 var eyeLeft: float
@@ -52,7 +59,7 @@ var eyeRightXY: Vector2 :
 		
 
 func _init() -> void:
-	confidence.resize(nPoints)
+	pointConfidence.resize(nPoints)
 	points.resize(nPoints)
 	points3D.resize(nPoints3D)
 	
@@ -89,7 +96,7 @@ func read_osf_data(packet:PackedByteArray):
 	translation = Vector3(y, -x, z)
 
 	for i in range(nPoints):
-		confidence[i] = b.read_float()
+		pointConfidence[i] = b.read_float()
 
 	for i in range(nPoints):
 		points[i] = b.read_vector2()

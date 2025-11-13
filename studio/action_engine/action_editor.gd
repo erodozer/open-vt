@@ -335,7 +335,6 @@ func _on_profile_enabled_toggled(toggled_on: bool) -> void:
 
 func _on_delete_profile_pressed() -> void:
 	var graph = active_graph
-	var idx = active_profile
 	var popup = ConfirmationDialog.new()
 	popup.dialog_text = "Delete Profile %s\nThis action is Permanent" % active_graph.name
 	popup.cancel_button_text = "Nevermind"

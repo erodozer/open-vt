@@ -4,6 +4,8 @@ const OpenSeeData = preload("./osf_data.gd")
 
 @export var mirror = false
 
+@export_range(0.0, 1.0) var minimum_confidence = 0.2
+
 var mat: BaseMaterial3D
 var mesh: ImmediateMesh
 

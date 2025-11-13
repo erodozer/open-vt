@@ -5,7 +5,7 @@ const Tracker = preload("res://lib/tracking/tracker.gd")
 var parameters = {}
 
 signal tracker_changed(tracker: Tracker)
-signal parameters_updated(parameters: Dictionary)
+signal parameters_updated(parameters: Dictionary, delta: float)
 
 func _ready():
 	for i in Registry.parameters():
@@ -26,7 +26,7 @@ func activate_tracker(tracker: Tracker):
 	
 	return tracker
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	parameters.clear()
 	
 	# mouse tracking
@@ -40,5 +40,5 @@ func _process(_delta: float) -> void:
 		}, true
 	)
 	
-	parameters_updated.emit(parameters)
+	parameters_updated.emit(parameters, delta)
 	

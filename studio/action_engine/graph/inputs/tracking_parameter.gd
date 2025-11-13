@@ -61,7 +61,7 @@ func serialize():
 		"parameter": parameter,
 		"clamp": clamp_enabled,
 		"range": Serializers.RangeSerializer.to_json(clamp_range),
-		"invert": invert_value,
+		"invert": invert_value
 	}
 	
 func deserialize(data):
@@ -75,20 +75,24 @@ func deserialize(data):
 	clamp_enabled = data.get("clamp", false)
 	
 	var default_range = meta.get("range", Vector2(0, 1))
-	var range = Serializers.RangeSerializer.from_json(data.get("range"), default_range)
-	if range.x > range.y:
-		range = Vector2(range.y, range.x)
+	var value_range = Serializers.RangeSerializer.from_json(data.get("range"), default_range)
+	if value_range.x > value_range.y:
+		value_range = Vector2(value_range.y, value_range.x)
 		invert_value = true
 	else:
 		invert_value = meta.get("invert", false)
-		clamp_range = range
+		clamp_range = value_range
 
-func _on_parameters_updated(parameters):
+func _on_parameters_updated(parameters, delta):
 	var old_value = value
-	value = parameters.get(parameter, 0.0)
+	var new_value = parameters.get(parameter, 0.0)
 	
-	if old_value != value:
-		slot_updated.emit(0)
+	if old_value == new_value:
+		return
+		
+	value = new_value
+	
+	slot_updated.emit(0)
 
 func load_from_vts(data: Dictionary):
 	# display_name = data["Name"]
@@ -114,16 +118,16 @@ func load_from_vts(data: Dictionary):
 		clamp_range = range
 
 func get_value(_slot):
-	var value: float = self.value
-	var input = Registry.get(parameter).range
+	var out: float = self.value
+	var in_range = Registry.get(parameter).range
 	if self.invert_value:
-		value = remap(value, input.x, input.y, input.y, input.x)
+		out = remap(out, in_range.x, in_range.y, in_range.y, in_range.x)
 	if self.clamp_enabled:
-		value = clampf(value, clamp_range.x, clamp_range.y)
+		out = clampf(out, clamp_range.x, clamp_range.y)
 		
-	value = inverse_lerp(clamp_range.x, clamp_range.y, value)
-	%Output/Value.value = value
-	return value
+	out = inverse_lerp(clamp_range.x, clamp_range.y, value)
+	%Output/Value.value = out
+	return out
 
 func _on_reset_button_pressed() -> void:
 	clamp_range = Registry.get(parameter).range

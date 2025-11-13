@@ -72,13 +72,13 @@ func update_value(slot, value):
 	if dirty:
 		slot_updated.emit(0)
 	
-func bind(slot: int, node: GraphNode):
+func bind(slot: int, _node: GraphNode):
 	if slot == 0:
 		%InputA.editable = false
 	if slot == 1:
 		%InputB.editable = false
 
-func unbind(slot: int, node: GraphNode):
+func unbind(slot: int, _node: GraphNode):
 	if slot == 0:
 		%InputA.editable = true
 	if slot == 1:
