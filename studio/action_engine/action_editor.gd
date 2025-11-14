@@ -209,7 +209,9 @@ func _load_from_vts(model: VtModel) -> Array:
 	breathe.position_offset = Vector2(-500, 0)
 	blink.position_offset = Vector2(-500, 250)
 	
-	var column_width = 800
+	var column_width = 0
+	x = 0
+	y = 0
 	for data in vtube_data["ParameterSettings"]:
 		var input = _on_add_hotkey_pressed(model, preload("./graph/inputs/tracking_parameter.tscn").instantiate(), graph)
 		var output = _on_add_hotkey_pressed(model, preload("./graph/outputs/model_parameter.tscn").instantiate(), graph)
@@ -223,28 +225,14 @@ func _load_from_vts(model: VtModel) -> Array:
 		var breathing = data.get("UseBreathing", false)
 		var blinking = data.get("UseBlinking", false)
 		var _x = x
-		if (breathing or blinking) and unbound:
+		if breathing or unbound:
 			input.queue_free()
 		else:
 			_x += input.size.x + 40
 		
+		# VTS's breathe behavior overrides any input parameter setting
 		if breathing:
-			var scalar = _on_add_hotkey_pressed(model, preload("./graph/logic/arithmetic.tscn").instantiate(), graph)
-			scalar.operator = 1
-			if not unbound:
-				graph._on_connection_request(
-					input.name, 0, scalar.name, 0
-				)
-				graph._on_connection_request(
-					breathe.name, 0, scalar.name, 1
-				)
-				_x += scalar.size / 2
-				scalar.position_offset = Vector2(_x, y)
-				_x += scalar.size.x + 40
-				input = scalar
-			else:
-				scalar.queue_free()
-				input = breathe
+			input = breathe
 			
 		if blinking:
 			var scalar = _on_add_hotkey_pressed(model, preload("./graph/logic/arithmetic.tscn").instantiate(), graph)
@@ -256,7 +244,6 @@ func _load_from_vts(model: VtModel) -> Array:
 				graph._on_connection_request(
 					blink.name, 0, scalar.name, 1
 				)
-				_x += scalar.size.x / 2
 				scalar.position_offset = Vector2(_x, y)
 				_x += scalar.size.x + 40
 				input = scalar
@@ -264,23 +251,30 @@ func _load_from_vts(model: VtModel) -> Array:
 				scalar.queue_free()
 				input = blink
 			
-		# smoothing = data["Smoothing"]
+		if float(data.get("Smoothing", 0.0)) > 0.0:
+			var smoothing = _on_add_hotkey_pressed(model, preload("res://studio/action_engine/graph/logic/smoothing.tscn").instantiate(), graph)
+			smoothing.smoothing = data.get("Smoothing", 0.0) / 100.0
+			graph._on_connection_request(
+				input.name, 0, smoothing.name, 0
+			)
+			smoothing.position_offset = Vector2(_x, y)
+			_x += smoothing.size.x + 40
+			input = smoothing
 		
 		graph._on_connection_request(
 			input.name, 0, output.name, 0
 		)
 		
-		_x += output.size.x / 2
 		output.position_offset = Vector2(_x, y)
 		y += output.size.y + 96
-		_x += output.size.x + 40
+		_x += output.size.x + 120
 			
 		column_width = max(column_width, _x)
 			
 		if y > 2000:
-			x += column_width
+			x += column_width - x
 			y = 0
-			column_width = 800
+			column_width = 0
 	remove_child(graph)
 	graphs.append(graph)
 			

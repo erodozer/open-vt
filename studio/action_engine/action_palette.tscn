@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://dquygailhgfka" path="res://studio/action_engine/graph/logic/face-exhaling.svg" id="9_cbf0x"]
 [ext_resource type="Texture2D" uid="uid://cubucdwwnclkl" path="res://studio/action_engine/graph/logic/bezier-curve.svg" id="10_d27ip"]
 [ext_resource type="PackedScene" uid="uid://dyittcs286rby" path="res://studio/action_engine/graph/logic/breathe.tscn" id="10_woji1"]
-[ext_resource type="PackedScene" uid="uid://c5cur7nlbprvt" path="res://studio/action_engine/graph/logic/curve.tscn" id="11_5ng8c"]
+[ext_resource type="PackedScene" uid="uid://ckixji58acmx6" path="res://studio/action_engine/graph/logic/smoothing.tscn" id="11_d27ip"]
 [ext_resource type="Texture2D" uid="uid://cvwnn0nikv5uf" path="res://studio/action_engine/graph/logic/eye.svg" id="11_ssi51"]
 [ext_resource type="PackedScene" uid="uid://cxmvu0on3r7wd" path="res://studio/action_engine/graph/logic/blink.tscn" id="12_m3pyl"]
 [ext_resource type="Texture2D" uid="uid://cbriovdwq4va0" path="res://studio/action_engine/graph/outputs/face-laugh-wink.svg" id="13_xs0xf"]
@@ -85,8 +85,7 @@ icon_alignment = 1
 expand_icon = true
 metadata/action = ExtResource("8_rog7t")
 
-[node name="Curve" type="Button" parent="Buttons"]
-visible = false
+[node name="Smoothing" type="Button" parent="Buttons"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -96,7 +95,7 @@ focus_mode = 0
 icon = ExtResource("10_d27ip")
 icon_alignment = 1
 expand_icon = true
-metadata/action = ExtResource("11_5ng8c")
+metadata/action = ExtResource("11_d27ip")
 
 [node name="Breathe" type="Button" parent="Buttons"]
 custom_minimum_size = Vector2(32, 32)

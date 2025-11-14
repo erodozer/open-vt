@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://d1kej52kqrg0g" path="res://ui/icons/eraser.svg" id="3_7y14m"]
 
 [node name="Tracking" type="GraphNode"]
-custom_minimum_size = Vector2(180, 0)
+custom_minimum_size = Vector2(360, 215)
 offset_right = 180.0
 offset_bottom = 132.0
 title = "Tracking Parameter"

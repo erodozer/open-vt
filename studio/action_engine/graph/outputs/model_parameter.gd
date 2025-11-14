@@ -6,9 +6,6 @@ const VALUE_SLOT = 1
 
 @onready var input: OptionButton = %Parameters
 
-@export var breathe_curve: Curve
-@export var blink_curve: Curve
-
 var parameter: int = -1 :
 	set(v):
 		parameter = v
@@ -21,9 +18,9 @@ var parameter: int = -1 :
 var model_parameter : String :
 	get():
 		if input:
-			var parameter = input.get_selected_metadata()
-			if parameter != null:
-				return parameter.name
+			var p = input.get_selected_metadata()
+			if p != null:
+				return p.name
 		return ""
 		
 var clamp_enabled: bool :
@@ -48,7 +45,7 @@ var value: float :
 	set(v):
 		value = v
 		%Input/Value.value = v
-	
+
 var _dirty = false
 	
 # Called when the node enters the scene tree for the first time.
@@ -66,7 +63,7 @@ func serialize():
 		"parameter": model_parameter,
 		"clamp": clamp_enabled,
 		"range": Serializers.RangeSerializer.to_json(clamp_range),
-		"invert": invert_value,
+		"invert": invert_value
 	}
 	
 func deserialize(data: Dictionary):
@@ -75,35 +72,34 @@ func deserialize(data: Dictionary):
 			parameter = i
 	
 	clamp_enabled = data.get("clamp", false)
-	var range = Serializers.RangeSerializer.from_json(data.get("range"))
-	if range.x > range.y:
-		clamp_range = Vector2(range.y, range.x)
+	var value_range = Serializers.RangeSerializer.from_json(data.get("range"))
+	if value_range.x > value_range.y:
+		clamp_range = Vector2(value_range.y, value_range.x)
 		invert_value = true
 	else:
 		invert_value = data.get("invert", false)
-		clamp_range = range
-	
+		clamp_range = value_range
+
 func load_from_vts(data: Dictionary):
 	parameter = model.parameters.values().find_custom(
 		func (f):
 			return f.name == data["OutputLive2D"]
 	)
 	
-	var range = Vector2(
+	var output_range = Vector2(
 		data["OutputRangeLower"],
 		data["OutputRangeUpper"],
 	)
-	if range.x > range.y:
+	if output_range.x > output_range.y:
 		invert_value = true
-		clamp_range = Vector2(range.y, range.x)
+		clamp_range = Vector2(output_range.y, output_range.x)
 	else:
 		invert_value = false
-		clamp_range = range
+		clamp_range = output_range
 	clamp_enabled = data.get("ClampOutput", false)
-	
+
 func update_value(_slot: int, v: float) -> void:
-	var parameter = input.get_selected_metadata()
-	if parameter == null:
+	if input.get_selected_metadata() == null:
 		return
 	
 	v = lerp(clamp_range.x, clamp_range.y, v)

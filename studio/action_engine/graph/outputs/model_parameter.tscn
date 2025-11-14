@@ -47,15 +47,6 @@ slot/2/right_type = 0
 slot/2/right_color = Color(1, 1, 1, 1)
 slot/2/right_icon = null
 slot/2/draw_stylebox = true
-slot/3/left_enabled = false
-slot/3/left_type = 1
-slot/3/left_color = Color(1, 1, 1, 1)
-slot/3/left_icon = null
-slot/3/right_enabled = false
-slot/3/right_type = 0
-slot/3/right_color = Color(1, 1, 1, 1)
-slot/3/right_icon = null
-slot/3/draw_stylebox = true
 script = ExtResource("1_s81k7")
 breathe_curve = SubResource("Curve_7ad3g")
 blink_curve = SubResource("Curve_cikvy")
@@ -85,11 +76,14 @@ max_value = 999.0
 step = 0.01
 editable = false
 
-[node name="Range" parent="." instance=ExtResource("2_pybyp")]
+[node name="Options" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Range" parent="Options" instance=ExtResource("2_pybyp")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="ResetButton" type="Button" parent="Range"]
+[node name="ResetButton" type="Button" parent="Options/Range"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
@@ -97,19 +91,19 @@ focus_mode = 0
 icon = ExtResource("3_rnnsk")
 expand_icon = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="Options"]
 layout_mode = 2
 
-[node name="ClampToggle" type="CheckButton" parent="HBoxContainer"]
+[node name="ClampToggle" type="CheckButton" parent="Options/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Clamp"
 
-[node name="InvertToggle" type="CheckButton" parent="HBoxContainer"]
+[node name="InvertToggle" type="CheckButton" parent="Options/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Invert"
 
-[connection signal="pressed" from="Range/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="Options/Range/ResetButton" to="." method="_on_reset_button_pressed"]

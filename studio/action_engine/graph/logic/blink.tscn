@@ -7,6 +7,7 @@ _data = [Vector2(0.254851, 0), 0.0, 1.4, 0, 0, Vector2(0.963777, 1), 0.0, 0.0, 0
 point_count = 2
 
 [node name="Blink" type="GraphNode"]
+custom_minimum_size = Vector2(160, 235)
 offset_right = 25.0
 offset_bottom = 55.0
 title = "Blink"
