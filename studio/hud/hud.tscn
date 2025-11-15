@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cmd2d6iiryvk4"]
+[gd_scene load_steps=21 format=3 uid="uid://cmd2d6iiryvk4"]
 
 [ext_resource type="Script" uid="uid://pso4m0hd1wo3" path="res://studio/hud/hud.gd" id="1_t0mli"]
 [ext_resource type="Texture2D" uid="uid://ddqu1ma3rgo08" path="res://studio/hud/icons/aperture.svg" id="2_vysue"]
@@ -13,7 +13,6 @@
 [ext_resource type="PackedScene" uid="uid://dijec4c8prced" path="res://studio/hud/model_panel/model_panel.tscn" id="10_6xy5i"]
 [ext_resource type="PackedScene" uid="uid://bcxs7fe1yqc6o" path="res://studio/hud/item_panel/item_panel.tscn" id="11_juv7g"]
 [ext_resource type="PackedScene" uid="uid://crwh7f50woqgu" path="res://studio/hud/camera_panel/camera_panel.tscn" id="12_blrl1"]
-[ext_resource type="PackedScene" uid="uid://toss8jnrs7a8" path="res://studio/action_engine/action_editor.tscn" id="13_wqkyb"]
 [ext_resource type="PackedScene" uid="uid://bbpykopqsj46s" path="res://studio/action_engine/action_controller.tscn" id="14_67g5m"]
 [ext_resource type="Script" uid="uid://dojlh62kl14nk" path="res://ui/fps_counter.gd" id="17_0k8c4"]
 [ext_resource type="PackedScene" uid="uid://bpwsyuhheohw7" path="res://ui/toast/toast.tscn" id="17_1vcj3"]
@@ -211,10 +210,6 @@ unique_name_in_owner = true
 offset_left = 1550.0
 offset_right = 2030.0
 
-[node name="ActionEditor" parent="Panels" instance=ExtResource("13_wqkyb")]
-unique_name_in_owner = true
-visible = false
-
 [node name="Debug" type="CanvasLayer" parent="."]
 layer = 99
 
@@ -232,6 +227,6 @@ script = ExtResource("17_0k8c4")
 
 [node name="Toast" parent="Debug" instance=ExtResource("17_1vcj3")]
 
-[connection signal="toggled" from="Menu/VBoxContainer/ActionBtn" to="Panels/ActionEditor" method="set_visible"]
+[connection signal="toggled" from="Menu/VBoxContainer/ActionBtn" to="." method="_on_action_btn_toggled"]
 [connection signal="pressed" from="Menu/VBoxContainer/ScreenshotBtn" to="." method="_on_screenshot_btn_pressed"]
 [connection signal="pressed" from="Menu/VBoxContainer/PopoutBtn" to="." method="popout"]

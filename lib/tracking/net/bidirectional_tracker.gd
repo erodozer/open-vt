@@ -51,15 +51,12 @@ func _listen():
 		stop()
 		return
 	
-	if server.get_available_packet_count() < 0:
-		return
-	
-	var data: PackedByteArray = server.get_packet()
+	packet_sender.reset()
+	while server.get_available_packet_count() > 0:
+		var data: PackedByteArray = server.get_packet()
+				
+		if data.size() <= 0:
+			continue
 			
-	if data.size() <= 0:
-		return
-		
-	connection_status.emit(ConnectionStatus.ON)
-	
-	packet_received.emit(data)
-	
+		emit_connect.exec()
+		packet_sender.exec(data)

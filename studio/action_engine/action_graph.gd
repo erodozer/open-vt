@@ -3,7 +3,6 @@ extends GraphEdit
 const Serializers = preload("res://lib/utils/serializers.gd")
 const VtModel = preload("res://lib/model/vt_model.gd")
 const VtAction = preload("./graph/vt_action.gd")
-const ActionPalette = preload("./action_palette.gd")
 
 var graph_elements: Dictionary[String, GraphNode] = {}
 
@@ -74,12 +73,12 @@ func _on_delete_nodes_request(nodes: Array[StringName]) -> void:
 		var n = get_node(NodePath(i))
 		n.queue_free()
 		
-func deserialize(model: VtModel, data: Dictionary, palette: ActionPalette):
+func deserialize(model: VtModel, data: Dictionary, palette: Dictionary):
 	for i in data.get("nodes", []):
 		var id = i.get("id", "")
 		if id.is_empty():
 			continue
-		var n = palette.create(i.type)
+		var n = palette[i.type].duplicate()
 		n.set_meta("id", i.get("id", rid_allocate_id()))
 		n.model = model
 		add_child.call_deferred(n, true)

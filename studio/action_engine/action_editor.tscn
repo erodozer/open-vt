@@ -112,7 +112,7 @@ tabs_visible = false
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/AddProfile" to="." method="_on_add_profile_pressed"]
 [connection signal="tab_selected" from="MarginContainer/VBoxContainer/HBoxContainer/ProfileTabs" to="." method="_on_profile_tabs_tab_selected"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/DeleteProfile" to="." method="_on_delete_profile_pressed"]
-[connection signal="create_node" from="MarginContainer/VBoxContainer/HBoxContainer/Palette" to="." method="_on_add_hotkey_pressed"]
+[connection signal="create_node" from="MarginContainer/VBoxContainer/HBoxContainer/Palette" to="." method="_on_palette_create_node"]
 [connection signal="text_changed" from="MarginContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer/ProfileName" to="." method="_on_profile_name_text_changed"]
 [connection signal="toggled" from="MarginContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer/ProfileEnabled" to="." method="_on_profile_enabled_toggled"]
 [connection signal="child_entered_tree" from="MarginContainer/VBoxContainer/PanelContainer/VBoxContainer/Profiles" to="." method="_on_profiles_child_entered_tree"]

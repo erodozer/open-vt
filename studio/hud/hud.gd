@@ -6,7 +6,6 @@ var group: ButtonGroup
 @onready var popup_bg = %Bg
 @onready var panels = %Panels
 @onready var action_controller = %ActionController
-@onready var action_editor = %ActionEditor
 @onready var popup_btn = %PopoutBtn
 
 func _ready() -> void:
@@ -121,3 +120,16 @@ func _on_screenshot_btn_pressed() -> void:
 	stage.get_node("ModelLayer")
 	await Screenshot.snap(stage.get_viewport())
 	
+var editor
+func _on_action_btn_toggled(toggled_on: bool) -> void:
+	if editor != null:
+		editor.queue_free()
+	
+	if toggled_on:
+		var stage = get_tree().get_first_node_in_group("system:stage")
+		editor = preload("res://studio/action_engine/action_editor.tscn").instantiate()
+		editor.active_model = stage.active_model
+		editor.visible = true
+		add_child(editor)
+	else:
+		editor.queue_free()

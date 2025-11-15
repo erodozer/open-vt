@@ -33,6 +33,7 @@ Registry="*res://lib/tracking/parameter_registry.gd"
 Preferences="*res://lib/preferences.gd"
 ModelManager="*res://lib/model_manager.gd"
 ItemManager="*res://lib/item_manager.gd"
+ActionGraphLoader="*res://studio/action_engine/action_graph_loader.gd"
 
 [display]
 

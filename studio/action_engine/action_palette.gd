@@ -18,7 +18,3 @@ func _ready():
 			func ():
 				create_node.emit(template.instantiate())
 		)
-
-func create(type: StringName):
-	assert(type in _mapping)
-	return _mapping[type].instantiate()

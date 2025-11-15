@@ -50,6 +50,17 @@ var expression_controller: ExpressionController :
 	get():
 		return mixer.get_node("Expression")
 
+var action_graphs: Array :
+	get():
+		return %Actions.get_children()
+	set(graphs):
+		for g in graphs:
+			if g.get_parent():
+				g.reparent(%Actions)
+			else:
+				%Actions.add_child(g)
+			g.visible = false
+
 # item pinning
 var pinnable: Dictionary = {}
 var rest_anchors: Dictionary = {}
@@ -98,10 +109,12 @@ func _load_model():
 	_loading = false
 	loaded.emit()
 		
-func toggle_expression(expression_name: String, activate: bool = true, duration: float = 1.0):
+func toggle_expression(expression_name: String, activate: bool = true, duration: float = 1.0, exclusive: bool = false):
 	if expression_name.is_empty():
 		expression_controller.clear(duration)
 	elif activate:
+		if exclusive:
+			expression_controller.clear(duration)
 		expression_controller.activate_expression(expression_name, duration)
 	else:
 		expression_controller.deactivate_expression(expression_name, duration)
@@ -120,6 +133,11 @@ func tracking_updated(tracking_data: Dictionary, _delta: float):
 	
 func hydrate(settings: Dictionary):
 	await _load_model()
+	await _load_graphs()
+	
+func _load_graphs():
+	var graphs = ActionGraphLoader.load_graph(self)
+	self.action_graphs = graphs
 
 ## save bidirectional vts compatible settings
 func _save_to_vts():
