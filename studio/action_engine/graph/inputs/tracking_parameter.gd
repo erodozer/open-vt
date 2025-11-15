@@ -125,7 +125,7 @@ func get_value(_slot):
 	if self.clamp_enabled:
 		out = clampf(out, clamp_range.x, clamp_range.y)
 		
-	out = inverse_lerp(clamp_range.x, clamp_range.y, value)
+	out = inverse_lerp(clamp_range.x, clamp_range.y, out)
 	%Output/Value.value = out
 	return out
 

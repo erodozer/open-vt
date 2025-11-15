@@ -14,6 +14,8 @@ static var OUTPUTS_DIR = GRAPH_NODES_DIR.path_join("outputs")
 
 @onready var screen_controller = get_tree().get_first_node_in_group("system:hotkey")
 
+var active_model: VtModel
+
 var active_profile: int :
 	get():
 		return %ProfileTabs.current_tab
@@ -27,7 +29,7 @@ func _ready() -> void:
 	get_tree().get_first_node_in_group(Stage.GROUP_NAME).model_changed.connect(_on_stage_model_changed)
 	get_tree().get_first_node_in_group(Stage.GROUP_NAME).item_added.connect(_on_stage_item_added)
 
-func _on_add_hotkey_pressed(model: VtModel, node: VtAction, graph: GraphEdit = active_graph) -> VtAction:
+func _on_add_hotkey_pressed(node: VtAction, graph: GraphEdit = active_graph, model: VtModel = active_model) -> VtAction:
 	node.model = model
 	graph.add_child(node)
 	node.position_offset = (graph.scroll_offset + graph.size / 2) / graph.zoom - node.size / 2
@@ -40,6 +42,8 @@ func _on_stage_model_changed(model: VtModel) -> void:
 	%ProfileTabs.clear_tabs()
 	
 	await get_tree().process_frame
+	
+	active_model = model
 	
 	var graphs = []
 	if FileAccess.file_exists(model.model.openvt_parameters):
@@ -104,13 +108,13 @@ func _load_from_vts(model: VtModel) -> Array:
 		var keybind: VtAction
 		var btnbind: VtAction
 		if ["","",""] != [hotkey.Triggers.Trigger1, hotkey.Triggers.Trigger2, hotkey.Triggers.Trigger3]:
-			keybind = _on_add_hotkey_pressed(model, preload("./graph/inputs/hotkey_action.tscn").instantiate(), graph)
+			keybind = _on_add_hotkey_pressed(preload("./graph/inputs/hotkey_action.tscn").instantiate(), graph, model)
 			var binding = keybind.get_node("%Handler")
 			binding.load_from_vts(hotkey)
 			keybind.get_node("%Input").text = " + ".join(binding.input_as_list)
 			keybind.position_offset = Vector2(x, y)
 		if hotkey.Triggers.get("ScreenButton", 0) > 0:
-			btnbind = _on_add_hotkey_pressed(model, preload("./graph/inputs/screen_button.tscn").instantiate(), graph)
+			btnbind = _on_add_hotkey_pressed(preload("./graph/inputs/screen_button.tscn").instantiate(), graph, model)
 			btnbind.get_node("%Mapping").get_child(hotkey.Triggers.ScreenButton - 1).button_pressed = true
 			if keybind != null:
 				btnbind.position_offset = Vector2(x, y + keybind.size.y + spacing)
@@ -120,7 +124,7 @@ func _load_from_vts(model: VtModel) -> Array:
 		var output: GraphNode
 		match hotkey.Action:
 			"TriggerAnimation":
-				output = _on_add_hotkey_pressed(model, preload("./graph/outputs/play_animation.tscn").instantiate(), graph)
+				output = _on_add_hotkey_pressed(preload("./graph/outputs/play_animation.tscn").instantiate(), graph, model)
 				
 				var anim_name = hotkey.File
 				var duration = hotkey.FadeSecondsAmount * 1000.0
@@ -149,7 +153,7 @@ func _load_from_vts(model: VtModel) -> Array:
 						btnbind.name, 0, output.name, 2
 					)
 			"ToggleExpression", "RemoveAllExpressions":
-				output = _on_add_hotkey_pressed(model, preload("./graph/outputs/toggle_expression.tscn").instantiate(), graph)
+				output = _on_add_hotkey_pressed(preload("./graph/outputs/toggle_expression.tscn").instantiate(), graph, model)
 				
 				var e_name: String = hotkey.File
 				var duration = hotkey.FadeSecondsAmount * 1000.0
@@ -203,8 +207,8 @@ func _load_from_vts(model: VtModel) -> Array:
 	
 	add_child(graph)
 	
-	var breathe = _on_add_hotkey_pressed(model, preload("./graph/logic/breathe.tscn").instantiate(), graph)
-	var blink = _on_add_hotkey_pressed(model, preload("./graph/logic/blink.tscn").instantiate(), graph)
+	var breathe = _on_add_hotkey_pressed(preload("./graph/logic/breathe.tscn").instantiate(), graph, model)
+	var blink = _on_add_hotkey_pressed(preload("./graph/logic/blink.tscn").instantiate(), graph, model)
 	
 	breathe.position_offset = Vector2(-500, 0)
 	blink.position_offset = Vector2(-500, 250)
@@ -213,8 +217,8 @@ func _load_from_vts(model: VtModel) -> Array:
 	x = 0
 	y = 0
 	for data in vtube_data["ParameterSettings"]:
-		var input = _on_add_hotkey_pressed(model, preload("./graph/inputs/tracking_parameter.tscn").instantiate(), graph)
-		var output = _on_add_hotkey_pressed(model, preload("./graph/outputs/model_parameter.tscn").instantiate(), graph)
+		var input = _on_add_hotkey_pressed(preload("./graph/inputs/tracking_parameter.tscn").instantiate(), graph, model)
+		var output = _on_add_hotkey_pressed(preload("./graph/outputs/model_parameter.tscn").instantiate(), graph, model)
 		
 		input.load_from_vts(data)
 		output.load_from_vts(data)
@@ -235,7 +239,7 @@ func _load_from_vts(model: VtModel) -> Array:
 			input = breathe
 			
 		if blinking:
-			var scalar = _on_add_hotkey_pressed(model, preload("./graph/logic/arithmetic.tscn").instantiate(), graph)
+			var scalar = _on_add_hotkey_pressed(preload("./graph/logic/arithmetic.tscn").instantiate(), graph, model)
 			scalar.operator = 1
 			if breathing or not unbound:
 				graph._on_connection_request(
@@ -252,7 +256,7 @@ func _load_from_vts(model: VtModel) -> Array:
 				input = blink
 			
 		if float(data.get("Smoothing", 0.0)) > 0.0:
-			var smoothing = _on_add_hotkey_pressed(model, preload("res://studio/action_engine/graph/logic/smoothing.tscn").instantiate(), graph)
+			var smoothing = _on_add_hotkey_pressed(preload("res://studio/action_engine/graph/logic/smoothing.tscn").instantiate(), graph, model)
 			smoothing.smoothing = data.get("Smoothing", 0.0) / 100.0
 			graph._on_connection_request(
 				input.name, 0, smoothing.name, 0
