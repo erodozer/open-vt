@@ -1,0 +1,95 @@
+[gd_scene load_steps=3 format=3 uid="uid://dpd03nwwl7x70"]
+
+[ext_resource type="Script" uid="uid://bojwhuguf60vg" path="res://studio/hud/item_panel/item_selector.gd" id="1_6nyon"]
+[ext_resource type="Texture2D" uid="uid://clbvp8v3ryv4q" path="res://ui/icons/magnifying-glass.svg" id="1_dfrnd"]
+
+[node name="ItemSelectPopup" type="PopupPanel"]
+oversampling_override = 1.0
+title = "Select Item"
+initial_position = 2
+size = Vector2i(424, 553)
+visible = true
+borderless = false
+theme_type_variation = &"FramedPopupPanel"
+script = ExtResource("1_6nyon")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 416.0
+offset_bottom = 545.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ItemSearch" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Search..."
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
+modulate = Color(0.298039, 0.282353, 0.239216, 1)
+texture_filter = 2
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("1_dfrnd")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TypeToggles" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ImageType" type="CheckBox" parent="VBoxContainer/TypeToggles"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+button_pressed = true
+text = "Static"
+flat = true
+
+[node name="AnimatedType" type="CheckBox" parent="VBoxContainer/TypeToggles"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+button_pressed = true
+text = "Animated"
+flat = true
+
+[node name="ModelType" type="CheckBox" parent="VBoxContainer/TypeToggles"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+button_pressed = true
+text = "Model"
+flat = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(400, 400)
+layout_mode = 2
+size_flags_vertical = 3
+vertical_scroll_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_right = 4
+
+[node name="List" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="CancelButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Cancel"
+
+[connection signal="item_selected" from="." to="." method="_on_item_selected"]
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
+[connection signal="text_changed" from="VBoxContainer/HBoxContainer/ItemSearch" to="." method="_on_item_search_text_changed"]
+[connection signal="toggled" from="VBoxContainer/TypeToggles/ImageType" to="." method="_on_image_type_toggled"]
+[connection signal="toggled" from="VBoxContainer/TypeToggles/AnimatedType" to="." method="_on_animated_type_toggled"]
+[connection signal="toggled" from="VBoxContainer/TypeToggles/ModelType" to="." method="_on_model_type_toggled"]
+[connection signal="pressed" from="VBoxContainer/CancelButton" to="." method="_on_cancel_button_pressed"]

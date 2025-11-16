@@ -75,22 +75,28 @@ func create_item(path: String) -> VtItem:
 		vtitem.add_child(render)
 		vtitem.render = render
 	elif path in apng_items:
-		var tex = AnimatedTexture.new()
-		var frames = []
+		var frames = SpriteFrames.new()
+		frames.set_animation_loop("default", true)
+		var size = Vector2.ZERO
 		for i in DirAccess.get_files_at(path):
 			var fp = path.path_join(i)
 			if fp.ends_with(".png"):
-				frames.append(
-					ImageTexture.create_from_image(Image.load_from_file(fp))
+				var tex = ImageTexture.create_from_image(Image.load_from_file(fp))
+				frames.add_frame(
+					"default",
+					tex
 				)
+				size = Vector2(
+					max(size.x, tex.get_size().x),
+					max(size.y, tex.get_size().y)
+				)
+		frames.set_animation_speed("default", 60.0 / frames.get_frame_count("default"))
 		
-		tex.frames = len(frames)
-		for i in range(len(frames)):
-			tex.set_frame_texture(i, frames[i])
-		var render = TextureRect.new()
+		var render = AnimatedSprite2D.new()
+		render.sprite_frames = frames
+		render.play("default")
 		render.name = "Render"
-		render.texture = ImageTexture.create_from_image(Image.load_from_file(path))
-		vtitem.size = render.size
+		vtitem.size = size
 		vtitem.add_child(render)
 		vtitem.item_type = VtItem.ItemType.ANIMATED
 		vtitem.render = render

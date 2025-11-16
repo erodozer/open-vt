@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://c773w6vc4nnrr"]
+[gd_scene load_steps=5 format=3 uid="uid://c773w6vc4nnrr"]
 
 [ext_resource type="Script" uid="uid://17187ovs368q" path="res://studio/stage/stage.gd" id="1_ptuf8"]
 [ext_resource type="Texture2D" uid="uid://b401bri37hvvq" path="res://studio/stage/grid.png" id="2_yiyxu"]
-[ext_resource type="PackedScene" uid="uid://bkm4lgw38g4di" path="res://lib/model/vt_model.tscn" id="3_fncbb"]
 
 [sub_resource type="Gradient" id="Gradient_joccq"]
 colors = PackedColorArray(0.298039, 0.282353, 0.239216, 1, 0.67451, 0.654902, 0.580392, 1)
@@ -57,9 +56,6 @@ size = Vector2i(1280, 720)
 render_target_update_mode = 4
 
 [node name="ModelLayer" type="CanvasLayer" parent="CanvasLayer/SubViewportContainer/SubViewport"]
-unique_name_in_owner = true
-
-[node name="VtModel" parent="CanvasLayer/SubViewportContainer/SubViewport/ModelLayer" instance=ExtResource("3_fncbb")]
 unique_name_in_owner = true
 
 [connection signal="child_order_changed" from="CanvasLayer/SubViewportContainer/SubViewport/ModelLayer" to="." method="_on_model_layer_child_order_changed"]

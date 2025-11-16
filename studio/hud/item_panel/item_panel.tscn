@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bcxs7fe1yqc6o"]
+[gd_scene load_steps=5 format=3 uid="uid://bcxs7fe1yqc6o"]
 
 [ext_resource type="Script" uid="uid://cc2iuifrx868t" path="res://studio/hud/item_panel/item_panel.gd" id="1_uiugv"]
 [ext_resource type="Texture2D" uid="uid://d0oc7kwqufoqr" path="res://ui/icons/circle-plus.svg" id="2_8x6lw"]
-[ext_resource type="Texture2D" uid="uid://clbvp8v3ryv4q" path="res://ui/icons/magnifying-glass.svg" id="3_jl0uw"]
+[ext_resource type="PackedScene" uid="uid://cclqov7m5aj47" path="res://studio/hud/item_panel/item_preview.tscn" id="3_eg7ht"]
+[ext_resource type="PackedScene" uid="uid://dpd03nwwl7x70" path="res://studio/hud/item_panel/item_selector.tscn" id="4_eg7ht"]
 
 [node name="ItemPanel" type="PanelContainer"]
 custom_minimum_size = Vector2(480, 0)
@@ -108,187 +109,18 @@ flat = true
 icon_alignment = 1
 expand_icon = true
 
-[node name="Modal" type="CanvasLayer" parent="."]
+[node name="ItemPopup" parent="." instance=ExtResource("3_eg7ht")]
 unique_name_in_owner = true
-layer = 10
+initial_position = 2
 visible = false
 
-[node name="ColorRect" type="ColorRect" parent="Modal"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.392157)
-
-[node name="LinkButton" type="LinkButton" parent="Modal/ColorRect"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="CenterContainer" type="CenterContainer" parent="Modal"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="ItemPopup" type="PanelContainer" parent="Modal/CenterContainer"]
+[node name="ItemSelectPopup" parent="." instance=ExtResource("4_eg7ht")]
 unique_name_in_owner = true
 visible = false
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Modal/CenterContainer/ItemPopup"]
-layout_mode = 2
-
-[node name="Preview" type="VBoxContainer" parent="Modal/CenterContainer/ItemPopup/VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Modal/CenterContainer/ItemPopup/VBoxContainer/Preview"]
-layout_mode = 2
-text = "Preview"
-
-[node name="PanelContainer" type="PanelContainer" parent="Modal/CenterContainer/ItemPopup/VBoxContainer/Preview"]
-custom_minimum_size = Vector2(0, 250)
-layout_mode = 2
-
-[node name="SubViewportContainer" type="SubViewportContainer" parent="Modal/CenterContainer/ItemPopup/VBoxContainer/Preview/PanelContainer"]
-layout_mode = 2
-stretch = true
-
-[node name="Preview" type="SubViewport" parent="Modal/CenterContainer/ItemPopup/VBoxContainer/Preview/PanelContainer/SubViewportContainer"]
-unique_name_in_owner = true
-handle_input_locally = false
-gui_disable_input = true
-size = Vector2i(282, 234)
-render_target_update_mode = 0
-
-[node name="Camera2D" type="Camera2D" parent="Modal/CenterContainer/ItemPopup/VBoxContainer/Preview/PanelContainer/SubViewportContainer/Preview"]
-
-[node name="FrameRate" type="HBoxContainer" parent="Modal/CenterContainer/ItemPopup/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Modal/CenterContainer/ItemPopup/VBoxContainer/FrameRate"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Animation Frame Rate"
-
-[node name="Value" type="SpinBox" parent="Modal/CenterContainer/ItemPopup/VBoxContainer/FrameRate"]
-custom_minimum_size = Vector2(120, 0)
-layout_mode = 2
-min_value = 1.0
-value = 1.0
-alignment = 2
-suffix = "FPS"
-
-[node name="ZIndex" type="HBoxContainer" parent="Modal/CenterContainer/ItemPopup/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Modal/CenterContainer/ItemPopup/VBoxContainer/ZIndex"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Layer"
-
-[node name="Value" type="SpinBox" parent="Modal/CenterContainer/ItemPopup/VBoxContainer/ZIndex"]
-custom_minimum_size = Vector2(120, 0)
-layout_mode = 2
-min_value = -30.0
-max_value = 30.0
-alignment = 2
-suffix = "Z"
-
-[node name="Pin" type="HBoxContainer" parent="Modal/CenterContainer/ItemPopup/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Modal/CenterContainer/ItemPopup/VBoxContainer/Pin"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Pin to Model"
-
-[node name="Value" type="CheckButton" parent="Modal/CenterContainer/ItemPopup/VBoxContainer/Pin"]
-layout_mode = 2
-alignment = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Modal/CenterContainer/ItemPopup/VBoxContainer"]
-layout_mode = 2
-
-[node name="SpawnBtn" type="Button" parent="Modal/CenterContainer/ItemPopup/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 10
-text = "Add Item"
-
-[node name="CancelBtn" type="Button" parent="Modal/CenterContainer/ItemPopup/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 10
-text = "Cancel"
-
-[node name="ItemSelectPopup" type="PanelContainer" parent="Modal/CenterContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(360, 500)
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Modal/CenterContainer/ItemSelectPopup"]
-layout_mode = 2
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="Modal/CenterContainer/ItemSelectPopup/VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Modal/CenterContainer/ItemSelectPopup/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Select Item"
-horizontal_alignment = 1
-
-[node name="CancelButton" type="Button" parent="Modal/CenterContainer/ItemSelectPopup/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-text = "Cancel"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Modal/CenterContainer/ItemSelectPopup/VBoxContainer"]
-layout_mode = 2
-
-[node name="ItemSearch" type="LineEdit" parent="Modal/CenterContainer/ItemSelectPopup/VBoxContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-placeholder_text = "Search..."
-
-[node name="TextureRect" type="TextureRect" parent="Modal/CenterContainer/ItemSelectPopup/VBoxContainer/HBoxContainer"]
-modulate = Color(0.298039, 0.282353, 0.239216, 1)
-texture_filter = 2
-custom_minimum_size = Vector2(32, 0)
-layout_mode = 2
-texture = ExtResource("3_jl0uw")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="ScrollContainer" type="ScrollContainer" parent="Modal/CenterContainer/ItemSelectPopup/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-vertical_scroll_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="Modal/CenterContainer/ItemSelectPopup/VBoxContainer/ScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/margin_right = 4
-
-[node name="List" type="VBoxContainer" parent="Modal/CenterContainer/ItemSelectPopup/VBoxContainer/ScrollContainer/MarginContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 8
 
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer/DirectoryButton" to="." method="_on_directory_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer/ClearButton" to="." method="_on_clear_button_pressed"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/AddButton" to="." method="_on_add_button_pressed"]
-[connection signal="pressed" from="Modal/ColorRect/LinkButton" to="." method="_on_cancel_button_pressed"]
-[connection signal="value_changed" from="Modal/CenterContainer/ItemPopup/VBoxContainer/FrameRate/Value" to="." method="_on_framerate_value_changed"]
-[connection signal="pressed" from="Modal/CenterContainer/ItemPopup/VBoxContainer/HBoxContainer/SpawnBtn" to="." method="_on_spawn_btn_pressed"]
-[connection signal="pressed" from="Modal/CenterContainer/ItemSelectPopup/VBoxContainer/HBoxContainer2/CancelButton" to="." method="_on_cancel_button_pressed"]
-[connection signal="text_changed" from="Modal/CenterContainer/ItemSelectPopup/VBoxContainer/HBoxContainer/ItemSearch" to="." method="_on_item_search_text_changed"]
+[connection signal="canceled" from="ItemPopup" to="." method="_on_cancel_button_pressed"]
+[connection signal="confirmed" from="ItemPopup" to="." method="_on_spawn_btn_pressed"]
+[connection signal="item_selected" from="ItemSelectPopup" to="ItemPopup" method="show_item"]

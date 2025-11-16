@@ -11,7 +11,7 @@ func _ready():
 	%Color.color = mesh.modulate
 
 func _on_pin_toggle_toggled(toggled_on: bool) -> void:
-	mesh.get_meta("pinnable", toggled_on)
+	mesh.set_meta("pinnable", toggled_on)
 
 func _on_color_changed(color: Color) -> void:
 	mesh.modulate = %Color.color

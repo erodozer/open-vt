@@ -48,8 +48,8 @@ func _process(_delta: float) -> void:
 	
 	# copy transform from model so that items rotate and scale with it
 	if pin_mode == PinMode.CENTROID:
-		var pin: Vector2 = pinned_to.get_meta("centroid")
-		var angle: float = pinned_to.get_meta("angle")
+		var pin: Vector2 = pinned_to.get_meta("centroid", Vector2.ZERO)
+		var angle: float = pinned_to.get_meta("angle", 0.0)
 		global_position = model.to_global(pin + pin_offset - model.size / 2)
 		rotation = model.rotation + angle
 	else:
@@ -98,7 +98,7 @@ func _on_drag_released() -> void:
 	var pinned = pinned_to
 	pin_vertices = Vector3.ZERO
 	for mesh in meshes:
-		if not model.pinnable.get(mesh.name, true):
+		if not mesh.get_meta("pinnable", false):
 			continue
 		if not mesh.visible:
 			continue

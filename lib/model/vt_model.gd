@@ -62,7 +62,6 @@ var action_graphs: Array :
 			g.visible = false
 
 # item pinning
-var pinnable: Dictionary = {}
 var rest_anchors: Dictionary = {}
 
 # movement transforms
@@ -143,7 +142,13 @@ func _load_graphs():
 func _save_to_vts():
 	var vtube_data = Files.read_json(model.studio_parameters)
 	# vtube_data["ParameterSettings"] = studio_parameters.map(func (x): return x.serialize())
-	vtube_data["ArtMeshDetails"]["ArtMeshesExcludedFromPinning"] = pinnable.keys().filter(func (x): return pinnable[x] == false)
+	vtube_data["ArtMeshDetails"]["ArtMeshesExcludedFromPinning"] = get_meshes().filter(
+		func (mesh):
+			return mesh.get_meta("pinnable", false) == false
+	).map(
+		func (mesh):
+			return mesh.name
+	)
 	vtube_data["FileReferences"]["IdleAnimation"] = get_idle_animation_player().current_animation
 	
 	Files.write_json(model.studio_parameters, vtube_data)
@@ -164,6 +169,10 @@ func _load_from_vts():
 	#	inverse_lerp(0.0, 10.0, movement_settings.get("Y", 0.0)),
 	#	inverse_lerp(0.0, 10.0, movement_settings.get("Z", 0.0))
 	#)
+	var pin_settings = vtube_data.get("ArtMeshDetails", {}).get("ArtMeshesExcludedFromPinning", [])
+	for mesh in get_meshes():
+		var exclude = mesh.name in pin_settings
+		mesh.set_meta("pinnable", not exclude)
 
 ## load open-vt specific settings
 func _load_settings():

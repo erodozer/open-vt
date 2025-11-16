@@ -7,12 +7,13 @@ const VtItem = preload("res://lib/items/vt_item.gd")
 
 const INDEX_RANGE = 30
 
-@onready var active_model: VtModel = %VtModel
+var active_model: VtModel
 @onready var canvas = %ModelLayer
 @onready var capture_viewport = %SubViewport
 
 signal model_changed(model: VtModel)
 signal item_added(item: VtItem)
+signal item_removed(item: VtItem)
 
 func toggle_bg(enabled: bool) -> void:
 	get_tree().root.transparent_bg = enabled
@@ -64,8 +65,9 @@ func spawn_model(model: VtModel):
 	for i in canvas.get_children():
 		if i is VtItem:
 			i.model = model
+			# remove an item if it was pinned to the previous model
 			if i.pinned_to != null:
-				i.queue_free()
+				remove_item(i, false)
 
 	# TODO if model had items pinned to it, load them in as well
 	model_changed.emit(active_model)
@@ -88,7 +90,10 @@ func spawn_item(item: VtItem, animate = true):
 	
 	# simply setting z_index does not work for control nodes, as Input order is not affected by it
 	# instead we'll rely on child order in the stage to define the position
-	canvas.add_child(item)
+	if item.get_parent():
+		item.reparent(canvas)
+	else:
+		canvas.add_child(item)
 	item_added.emit(item)
 	
 	if not animate:
@@ -104,12 +109,30 @@ func spawn_item(item: VtItem, animate = true):
 	t.parallel().tween_property(
 		item, "modulate", Color.WHITE, 0.4
 	).from(Color.TRANSPARENT).set_ease(Tween.EASE_IN)
+	
+	item.request_delete.connect(remove_item.bind(item))
 
-func remove_item(_item: VtItem):
-	pass
+func remove_item(item: VtItem, animated = true):
+	if animated:
+		var t = create_tween()
+		t.parallel().tween_property(
+			item, "scale", item.scale * 0.3, 0.4
+		).from(item.scale).set_trans(Tween.TRANS_CIRC)
+		#t.parallel().tween_property(
+		#	item, "rotation_degrees", 0, 0.4
+		#).from(60).set_trans(Tween.TRANS_QUAD)
+		t.parallel().tween_property(
+			item, "modulate", Color.TRANSPARENT, 0.4
+		).from(Color.WHITE).set_ease(Tween.EASE_IN)
+		t.finished.connect(item.queue_free)
+	else:
+		item.queue_free()
+	item_removed.emit(item)
 	
 func clear_items():
-	pass
+	for i in canvas.get_children():
+		if i is VtItem:
+			remove_item(i)
 
 func load_settings(data):
 	if "active_model" in data:

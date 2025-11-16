@@ -1,0 +1,102 @@
+[gd_scene load_steps=2 format=3 uid="uid://cclqov7m5aj47"]
+
+[ext_resource type="Script" uid="uid://c5s7q8rlkiicv" path="res://studio/hud/item_panel/item_preview.gd" id="1_j8rdi"]
+
+[node name="ItemPopup" type="ConfirmationDialog"]
+oversampling_override = 1.0
+title = "Preview"
+size = Vector2i(322, 461)
+visible = true
+ok_button_text = "Add Item"
+script = ExtResource("1_j8rdi")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 314.0
+offset_bottom = 412.0
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+theme_type_variation = &"Section"
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="VBoxContainer/PanelContainer"]
+layout_mode = 2
+stretch = true
+
+[node name="Preview" type="SubViewport" parent="VBoxContainer/PanelContainer/SubViewportContainer"]
+unique_name_in_owner = true
+handle_input_locally = false
+gui_disable_input = true
+size = Vector2i(300, 244)
+render_target_update_mode = 4
+
+[node name="Camera2D" type="Camera2D" parent="VBoxContainer/PanelContainer/SubViewportContainer/Preview"]
+
+[node name="FrameRate" type="HBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/FrameRate"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Animation Frame Rate"
+
+[node name="Value" type="SpinBox" parent="VBoxContainer/FrameRate"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+min_value = 1.0
+value = 1.0
+alignment = 2
+suffix = "FPS"
+
+[node name="ZIndex" type="HBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/ZIndex"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Layer"
+
+[node name="Value" type="SpinBox" parent="VBoxContainer/ZIndex"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+min_value = -30.0
+max_value = 30.0
+alignment = 2
+suffix = "Z"
+
+[node name="Pin" type="HBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Pin"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Pin to Model"
+
+[node name="Value" type="CheckButton" parent="VBoxContainer/Pin"]
+layout_mode = 2
+alignment = 2
+
+[node name="Flip" type="HBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/Flip"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Flip"
+
+[node name="Value" type="CheckButton" parent="VBoxContainer/Flip"]
+layout_mode = 2
+alignment = 2
+
+[connection signal="canceled" from="." to="." method="_on_canceled"]
+[connection signal="value_changed" from="VBoxContainer/FrameRate/Value" to="." method="_on_framerate_changed"]
+[connection signal="value_changed" from="VBoxContainer/ZIndex/Value" to="." method="_on_sortorder_changed"]
+[connection signal="toggled" from="VBoxContainer/Pin/Value" to="." method="_on_pinnable_toggled"]
+[connection signal="toggled" from="VBoxContainer/Flip/Value" to="." method="_on_flip_toggled"]

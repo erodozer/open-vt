@@ -4,6 +4,7 @@ const VtItem = preload("res://lib/items/vt_item.gd")
 const VtModel = preload("res://lib/model/vt_model.gd")
 const VtObject = preload("res://lib/vtobject.gd")
 
+@export var model: VtModel
 @export var item: VtObject
 
 var _lock_transform = false
@@ -23,9 +24,7 @@ func _ready() -> void:
 	if item.item_type != VtItem.ItemType.MODEL:
 		%ModelControls.hide()
 	else:
-		var model: VtModel = item.get_node("Render")
-		
-		for e in model.expressions:
+		for e in item.render.expressions:
 			var idx = %Expressions.item_count
 			%Expressions.add_item(e)
 			%Expressions.set_item_metadata(idx, e)
@@ -38,6 +37,8 @@ func _ready() -> void:
 	%YValue.value_changed.connect(_update_transform)
 	%Scale.value_changed.connect(_update_transform)
 	%Rotation.value_changed.connect(_update_transform)
+	
+	%PinSelector.model = model
 
 func _update_pin_name(mesh: MeshInstance2D) -> void:
 	if mesh == null:
@@ -49,8 +50,7 @@ func _on_pin_toggle_toggled(toggled_on: bool) -> void:
 	item.pinnable = toggled_on
 
 func _on_delete_button_pressed() -> void:
-	queue_free()
-	item.queue_free()
+	item.request_delete.emit()
 	
 func _on_lock_button_toggled(toggled_on: bool) -> void:
 	item.locked = toggled_on
@@ -105,13 +105,19 @@ func _on_edit_bindings_toggled(toggled_on: bool) -> void:
 		editor.queue_free()
 		
 	if toggled_on:
+		assert(item.item_type == VtItem.ItemType.MODEL)
 		editor = preload("res://studio/action_engine/action_editor.tscn").instantiate()
-		var model = item.get_node("Render") as VtModel
-		editor.active_model = model
+		editor.active_model = item.render as VtModel
 		editor.visible = true
 		add_child(editor)
 
 func _on_expression_menu_confirmed() -> void:
-	var model = item.get_node("Render") as VtModel
+	assert(item.item_type == VtItem.ItemType.MODEL)
 	var selected = %Expressions.get_selected_metadata()
-	model.toggle_expression(selected, true, %Duration.value, %Exclusive.button_pressed)
+	item.render.toggle_expression(selected, true, %Duration.value, %Exclusive.button_pressed)
+
+func _on_pin_selector_confirmed() -> void:
+	var vitem = item as VtItem
+	var mesh = %PinSelector.mesh
+	vitem.pinned_to = mesh
+	%PinTarget.text = "-" if mesh == null else mesh.name
