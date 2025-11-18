@@ -10,6 +10,7 @@ var item: VtItem :
 		
 		%Preview.add_child(item)
 		
+		await get_tree().process_frame
 		%Preview/Camera2D.position = Vector2.ZERO
 		var ratio = min(
 				%Preview.get_size().x / item.size.x,
