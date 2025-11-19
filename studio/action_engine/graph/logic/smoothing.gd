@@ -42,8 +42,11 @@ func update_value(slot, value):
 		return
 	
 	a = value
-	b = noise_filter.filter(value)
-	slot_updated.emit(0)
-
+	
 func _on_smoothing_value_changed(value: float) -> void:
 	smoothing = value / 100.0
+
+func _process(delta: float) -> void:
+	# smooth the value each frame
+	b = noise_filter.filter(a)
+	slot_updated.emit(0)

@@ -131,5 +131,5 @@ func _on_action_btn_toggled(toggled_on: bool) -> void:
 		editor.active_model = stage.active_model
 		editor.visible = true
 		add_child(editor)
-	else:
+	elif editor:
 		editor.queue_free()

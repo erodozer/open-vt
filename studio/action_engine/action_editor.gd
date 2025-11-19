@@ -38,6 +38,12 @@ func _ready() -> void:
 	%ProfileTabs.current_tab = 0
 	
 	self.title = "Model Bindings [%s]" % active_model.display_name
+	
+	# make sure to clean up the window when models are removed
+	active_model.tree_exited.connect(
+		func ():
+			queue_free()
+	)
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:

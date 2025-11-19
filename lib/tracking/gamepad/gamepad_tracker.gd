@@ -279,8 +279,8 @@ func _process(_delta: float) -> void:
 		"NP_LThumbY": l_thumb.y,
 		"NP_RThumbX": r_thumb.x,
 		"NP_RThumbY": r_thumb.y,
-		"NP_RButtonDown": r_down,
-		"NP_LButtonDown": l_down,
+		"NP_RButtonDown": float(r_down),
+		"NP_LButtonDown": float(l_down),
 	})
 		
 	update(inputs)

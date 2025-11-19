@@ -1,4 +1,4 @@
-extends "res://lib/tracking/tracker.gd"
+extends "res://lib/tracking/interpolated_tracker.gd"
 
 func _ready() -> void:
 	Registry.add_parameter("FacePositionX", Vector2(-15, 15))
@@ -60,3 +60,36 @@ func _ready() -> void:
 	#Registry.add_parameter("HandRightFinger3Middle")
 	#Registry.add_parameter("HandRightFinger4Ring")
 	#Registry.add_parameter("HandRightFinger5Pinky")
+	
+	reset()
+
+func reset():
+	update([
+		"FacePositionX",
+		"FacePositionY",
+		"FacePositionZ",
+		"FaceAngleX",
+		"FaceAngleY",
+		"FaceAngleZ",
+		"MouthSmile",
+		"MouthOpen",
+		"MouthX",
+		"Brows",
+		"TongueOut",
+		"EyeOpenLeft",
+		"EyeOpenRight",
+		"EyeLeftX",
+		"EyeLeftY",
+		"EyeRightX",
+		"EyeRightY",
+		"CheekPuff",
+		"FaceAngry",
+		"BrowLeftY",
+		"BrowRightY",
+		"MouthX",
+	].reduce(
+		func (acc, parameter):
+			acc[parameter] = Registry.get_default(parameter)
+			return acc,
+		{}
+	))

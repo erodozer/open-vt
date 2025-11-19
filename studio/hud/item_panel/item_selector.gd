@@ -47,7 +47,7 @@ func _refresh_visibility():
 	
 	for c in %List.get_children():
 		var i = c.get_meta("model")
-		var name_matches = i.name.to_lower().contains(search) if not search.is_empty() else true
+		var name_matches = i.to_lower().contains(search) if not search.is_empty() else true
 		var type_matches = false
 		if show_png and i in ItemManager.png_items:
 			type_matches = true

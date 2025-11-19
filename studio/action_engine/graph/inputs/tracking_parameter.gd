@@ -22,6 +22,7 @@ var parameter: String = "unset" :
 				return p.id == v
 		)
 		input.select(idx)
+		value = Registry.parameters()[idx].get("default_value", 0.0)
 		
 var value: float = 0.0 :
 	set(v):
@@ -33,6 +34,7 @@ var clamp_enabled: bool = false :
 		return %ClampToggle.button_pressed
 	set(v):
 		%ClampToggle.set_pressed_no_signal(v)
+		
 var clamp_range: Vector2 = Vector2(0, 1) :
 	get():
 		return %Input.value
@@ -86,12 +88,8 @@ func deserialize(data):
 func _on_parameters_updated(parameters, delta):
 	var old_value = value
 	var new_value = parameters.get(parameter, 0.0)
-	
-	if old_value == new_value:
-		return
 		
 	value = new_value
-	
 	slot_updated.emit(0)
 
 func load_from_vts(data: Dictionary):
