@@ -109,6 +109,7 @@ size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_vd640")
 tabs_visible = false
 
+[connection signal="close_requested" from="." to="." method="_on_close_requested"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/AddProfile" to="." method="_on_add_profile_pressed"]
 [connection signal="tab_selected" from="MarginContainer/VBoxContainer/HBoxContainer/ProfileTabs" to="." method="_on_profile_tabs_tab_selected"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/DeleteProfile" to="." method="_on_delete_profile_pressed"]

@@ -120,16 +120,18 @@ func _on_screenshot_btn_pressed() -> void:
 	stage.get_node("ModelLayer")
 	await Screenshot.snap(stage.get_viewport())
 	
-var editor
-func _on_action_btn_toggled(toggled_on: bool) -> void:
+var editor: Window
+func _on_action_btn_pressed() -> void:
 	if editor != null:
-		editor.queue_free()
+		if editor.is_queued_for_deletion():
+			editor = null
+		else:
+			editor.grab_focus()
+			return
 	
-	if toggled_on:
-		var stage = get_tree().get_first_node_in_group("system:stage")
-		editor = preload("res://studio/action_engine/action_editor.tscn").instantiate()
-		editor.active_model = stage.active_model
-		editor.visible = true
-		add_child(editor)
-	elif editor:
-		editor.queue_free()
+	var stage = get_tree().get_first_node_in_group("system:stage")
+	editor = preload("res://studio/action_engine/action_editor.tscn").instantiate()
+	editor.active_model = stage.active_model
+	editor.visible = true
+	add_child(editor)
+	

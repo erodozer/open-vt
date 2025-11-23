@@ -39,7 +39,7 @@ func spawn_model(model: VtModel):
 			if i is VtItem:
 				i.model = null
 				if i.pinned_to != null:
-					i.queue_free()
+					remove_item(i, false)
 		
 		canvas.remove_child.call_deferred(active_model)
 		

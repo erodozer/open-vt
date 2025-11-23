@@ -99,17 +99,20 @@ func _update_transform(_value):
 	item.rotation_degrees = fmod(%Rotation.value, 360.0)
 	_lock_transform = false
 
-var editor
-func _on_edit_bindings_toggled(toggled_on: bool) -> void:
+var editor: Window
+func _on_edit_bindings_pressed() -> void:
 	if editor != null:
-		editor.queue_free()
-		
-	if toggled_on:
-		assert(item.item_type == VtItem.ItemType.MODEL)
-		editor = preload("res://studio/action_engine/action_editor.tscn").instantiate()
-		editor.active_model = item.render as VtModel
-		editor.visible = true
-		add_child(editor)
+		if editor.is_queued_for_deletion():
+			editor = null
+		else:
+			editor.grab_focus()
+			return
+	
+	assert(item.item_type == VtItem.ItemType.MODEL)
+	editor = preload("res://studio/action_engine/action_editor.tscn").instantiate()
+	editor.active_model = item.render as VtModel
+	editor.visible = true
+	add_child(editor)
 
 func _on_expression_menu_confirmed() -> void:
 	assert(item.item_type == VtItem.ItemType.MODEL)
@@ -121,3 +124,5 @@ func _on_pin_selector_confirmed() -> void:
 	var mesh = %PinSelector.mesh
 	vitem.pinned_to = mesh
 	%PinTarget.text = "-" if mesh == null else mesh.name
+
+	pass # Replace with function body.

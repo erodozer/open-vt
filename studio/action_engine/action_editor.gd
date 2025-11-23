@@ -47,8 +47,9 @@ func _ready() -> void:
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
-		# reattach graphs to model before deletion
-		active_model.action_graphs = %Profiles.get_children()
+		if active_model:
+			# reattach graphs to model before deletion
+			active_model.action_graphs = %Profiles.get_children()
 
 func _on_add_hotkey_pressed(node: VtAction, graph: GraphEdit = active_graph, model: VtModel = active_model) -> VtAction:
 	node.model = model
@@ -83,6 +84,9 @@ func _on_profiles_child_exiting_tree(node: Node) -> void:
 		return
 		
 	if not (node is GraphEdit):
+		return
+	
+	if self.is_queued_for_deletion():
 		return
 	
 	for i in %ProfileTabs.tab_count:
@@ -120,3 +124,6 @@ func _on_delete_profile_pressed() -> void:
 
 func _on_palette_create_node(action: GraphNode) -> void:
 	ActionGraphLoader.spawn_action(action, active_graph, active_model)
+
+func _on_close_requested() -> void:
+	queue_free()

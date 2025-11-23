@@ -139,7 +139,6 @@ layout_mode = 2
 tooltip_text = "Configure Model Bindings"
 focus_mode = 0
 mouse_default_cursor_shape = 2
-toggle_mode = true
 icon = ExtResource("7_bomus")
 icon_alignment = 1
 expand_icon = true
@@ -227,6 +226,6 @@ script = ExtResource("17_0k8c4")
 
 [node name="Toast" parent="Debug" instance=ExtResource("17_1vcj3")]
 
-[connection signal="toggled" from="Menu/VBoxContainer/ActionBtn" to="." method="_on_action_btn_toggled"]
+[connection signal="pressed" from="Menu/VBoxContainer/ActionBtn" to="." method="_on_action_btn_pressed"]
 [connection signal="pressed" from="Menu/VBoxContainer/ScreenshotBtn" to="." method="_on_screenshot_btn_pressed"]
 [connection signal="pressed" from="Menu/VBoxContainer/PopoutBtn" to="." method="popout"]

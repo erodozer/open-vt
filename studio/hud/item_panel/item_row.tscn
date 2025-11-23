@@ -185,7 +185,6 @@ layout_mode = 2
 size_flags_horizontal = 8
 tooltip_text = "Edit Bindings"
 focus_mode = 0
-toggle_mode = true
 text = "Edit Bindings"
 icon = ExtResource("8_fvqys")
 alignment = 0
@@ -241,6 +240,6 @@ visible = false
 [connection signal="toggled" from="HBoxContainer/VBoxContainer/PinControls/PinToggle" to="." method="_on_pin_toggle_toggled"]
 [connection signal="toggled" from="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2/LockButton" to="." method="_on_lock_button_toggled"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/ModelControls/Expression" to="ExpressionMenu" method="show"]
-[connection signal="toggled" from="HBoxContainer/VBoxContainer/ModelControls/Bindings" to="." method="_on_edit_bindings_toggled"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/ModelControls/Bindings" to="." method="_on_edit_bindings_pressed"]
 [connection signal="confirmed" from="ExpressionMenu" to="." method="_on_expression_menu_confirmed"]
 [connection signal="confirmed" from="PinSelector" to="." method="_on_pin_selector_confirmed"]
