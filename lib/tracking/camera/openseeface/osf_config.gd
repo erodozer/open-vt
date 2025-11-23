@@ -16,9 +16,8 @@ func _ready() -> void:
 	)
 	
 func _process(_delta: float) -> void:
-	if tracker != null:
-		%FpsCounter.text = "FPS: %d" % tracker.fps
-
+	%FpsCounter.text = "FPS: %d" % max(0, tracker.fps)
+	
 func _on_blink_sync_toggled(toggled_on: bool) -> void:
 	tracker.blink_sync = toggled_on
 

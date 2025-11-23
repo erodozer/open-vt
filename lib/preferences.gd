@@ -16,6 +16,16 @@ func _ready() -> void:
 				)
 	)
 
+func get_setting(path: String, default: Variant) -> Variant:
+	var parts = path.split(".")
+	var cursor = _data
+	for p in parts:
+		if p in cursor:
+			cursor = cursor.get(p)
+		else:
+			return default
+	return cursor
+
 func get_state():
 	return _data.duplicate(true)
 

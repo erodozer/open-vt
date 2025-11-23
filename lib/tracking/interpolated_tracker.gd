@@ -37,7 +37,7 @@ func update(updated_parameters: Dictionary):
 	_previous = _parameters
 	_previous_msec = _latest_msec
 	_latest_msec = now
-	_parameters = {}
+	_parameters = _previous.duplicate()
 
 	for p in updated_parameters:
 		_parameters[p] = lerp(
@@ -47,6 +47,7 @@ func update(updated_parameters: Dictionary):
 		)
 	
 	# estimate avg sample rate
-	var delta = 1.0 / ((_latest_msec - _previous_msec) / 1000.0)
-	fps += delta
-	fps /= 2.0
+	if _latest_msec > _previous_msec:
+		var delta = 1.0 / ((_latest_msec - _previous_msec) / 1000.0)
+		fps += delta
+		fps /= 2.0

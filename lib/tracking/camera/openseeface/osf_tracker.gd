@@ -13,11 +13,6 @@ func _ready():
 	server = UdpTracker.new()
 	server.name = "OSFSocket"
 	server.packet_received.connect(_packet_received)
-	server.connection_status.connect(
-		func (status):
-			if status == UdpTracker.ConnectionStatus.OFF:
-				reset()
-	)
 	data_received.connect(_data_received)
 	add_child(server)
 

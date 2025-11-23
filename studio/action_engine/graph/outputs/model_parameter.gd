@@ -2,8 +2,6 @@ extends "../vt_action.gd"
 
 const Serializers = preload("res://lib/utils/serializers.gd")
 
-const VALUE_SLOT = 1
-
 @onready var input: OptionButton = %Parameters
 
 var parameter: int = -1 :
@@ -44,7 +42,8 @@ var invert_value: bool = false :
 var value: float :
 	set(v):
 		value = v
-		%Input/Value.value = v
+		%Input/Value.set_value_no_signal(v)
+		_dirty = true
 
 var _dirty = false
 	
@@ -55,6 +54,20 @@ func _ready() -> void:
 		input.set_item_metadata(input.item_count - 1, m)
 	input.select(parameter)
 
+func bind(slot: int, node: GraphNode) -> void:
+	if slot == 0:
+		%Input/Value.editable = false
+
+func unbind(slot: int, node: GraphNode) -> void:
+	if slot == 0:
+		%Input/Value.editable = true
+
+func reset_value(slot: int) -> void:
+	if parameter < 0:
+		return
+	var definition = model.parameters.values()[parameter]
+	value = definition.default
+	
 func get_type():
 	return "model_parameter"
 	
@@ -81,10 +94,15 @@ func deserialize(data: Dictionary):
 		clamp_range = value_range
 
 func load_from_vts(data: Dictionary):
-	parameter = model.parameters.values().find_custom(
+	var parameters = model.parameters.values()
+	parameter = parameters.find_custom(
 		func (f):
 			return f.name == data["OutputLive2D"]
 	)
+	if parameter == -1:
+		return
+	
+	var definition = parameters[parameter]
 	
 	var output_range = Vector2(
 		data["OutputRangeLower"],
@@ -97,6 +115,7 @@ func load_from_vts(data: Dictionary):
 		invert_value = false
 		clamp_range = output_range
 	clamp_enabled = data.get("ClampOutput", false)
+	reset_value(0)
 
 func update_value(_slot: int, v: float) -> void:
 	if input.get_selected_metadata() == null:
@@ -111,14 +130,13 @@ func update_value(_slot: int, v: float) -> void:
 		v = clampf(v, clamp_range.x, clamp_range.y)
 	
 	value = v
-	_dirty = true
 	
 func _update_model():
 	if model_parameter.is_empty():
 		return
 	if not _dirty:
 		return
-	
+
 	model.mixer.get_node("Tracking").set(
 		model_parameter, value
 	)
@@ -131,3 +149,6 @@ func _on_reset_button_pressed() -> void:
 	invert_value = false
 	if not model_parameter.is_empty():
 		clamp_range = Vector2(input.get_selected_metadata().min, input.get_selected_metadata().max)
+
+func _on_manual_value_changed(v: float) -> void:
+	value = v

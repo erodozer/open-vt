@@ -211,6 +211,7 @@ func _load_vts_graph(model: VtModel) -> Array:
 		var _x = x
 		if breathing or unbound:
 			input.queue_free()
+			input = null
 		else:
 			_x += input.size.x + 40
 		
@@ -245,9 +246,10 @@ func _load_vts_graph(model: VtModel) -> Array:
 			_x += smoothing.size.x + 40
 			input = smoothing
 		
-		graph._on_connection_request(
-			input.name, 0, output.name, 0
-		)
+		if input != null:
+			graph._on_connection_request(
+				input.name, 0, output.name, 0
+			)
 		
 		output.position_offset = Vector2(_x, y)
 		y += output.size.y + 96

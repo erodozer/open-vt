@@ -64,7 +64,6 @@ size_flags_horizontal = 3
 min_value = -999.0
 max_value = 999.0
 step = 0.01
-editable = false
 
 [node name="Options" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -96,4 +95,5 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Invert"
 
+[connection signal="value_changed" from="Input/Value" to="." method="_on_manual_value_changed"]
 [connection signal="pressed" from="Options/Range/ResetButton" to="." method="_on_reset_button_pressed"]
