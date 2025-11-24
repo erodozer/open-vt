@@ -112,7 +112,7 @@ func update(inputs: Dictionary):
 		for e in ary_parameters:
 			var p_name: String = e["Id"]
 			var blend: String = e["Blend"]
-			var amount: float = e["Value"]
+			var amount: float = float(e["Value"])
 			
 			if not (p_name in parameters):
 				continue
