@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bcxs7fe1yqc6o"]
+[gd_scene load_steps=7 format=3 uid="uid://bcxs7fe1yqc6o"]
 
 [ext_resource type="Script" uid="uid://cc2iuifrx868t" path="res://studio/hud/item_panel/item_panel.gd" id="1_uiugv"]
-[ext_resource type="Texture2D" uid="uid://d0oc7kwqufoqr" path="res://ui/icons/circle-plus.svg" id="2_8x6lw"]
+[ext_resource type="Texture2D" uid="uid://bdb8qf25rndd4" path="res://ui/icons/plus.svg" id="2_y3oiy"]
+[ext_resource type="Texture2D" uid="uid://pd4vy1npck5p" path="res://ui/icons/lock.svg" id="3_86vda"]
 [ext_resource type="PackedScene" uid="uid://cclqov7m5aj47" path="res://studio/hud/item_panel/item_preview.tscn" id="3_eg7ht"]
+[ext_resource type="Texture2D" uid="uid://dvoxi8gjlmu1m" path="res://ui/icons/trash-can.svg" id="3_r3bot"]
 [ext_resource type="PackedScene" uid="uid://dpd03nwwl7x70" path="res://studio/hud/item_panel/item_selector.tscn" id="4_eg7ht"]
 
 [node name="ItemPanel" type="PanelContainer"]
@@ -26,24 +28,21 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
-layout_mode = 2
-theme_type_variation = &"SubPanelContainer"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="DirectoryButton" type="Button" parent="ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer"]
+[node name="DirectoryButton" type="Button" parent="ScrollContainer/VBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 focus_mode = 0
 text = "Open Item Directory"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 
-[node name="SaveButton" type="Button" parent="ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer2"]
+[node name="SaveButton" type="Button" parent="ScrollContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
@@ -51,7 +50,7 @@ size_flags_horizontal = 3
 focus_mode = 0
 text = "Save Scene"
 
-[node name="LoadButton" type="Button" parent="ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer2"]
+[node name="LoadButton" type="Button" parent="ScrollContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
@@ -60,52 +59,60 @@ focus_mode = 0
 text = "Load Scene
 "
 
-[node name="PanelContainer2" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"SubPanelContainer"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer2"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer"]
 layout_mode = 2
+size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="LockAllButton" type="Button" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-text = "Toggle Lock All Items"
-
-[node name="ClearButton" type="Button" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-text = "Clear"
-
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer"]
-layout_mode = 2
-text = "Item are ordered background to foreground"
-horizontal_alignment = 1
-
-[node name="StageItems" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer"]
+[node name="StageItems" type="VBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 24
 
-[node name="AddButton" type="Button" parent="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer"]
-custom_minimum_size = Vector2(0, 48)
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.284, 0.24000001, 0.5294118)
+theme_override_font_sizes/font_size = 12
+text = "Items are ordered background to foreground"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="AddButton" type="Button" parent="ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Add Item"
 focus_mode = 0
-icon = ExtResource("2_8x6lw")
-flat = true
+icon = ExtResource("2_y3oiy")
+icon_alignment = 1
+expand_icon = true
+
+[node name="LockAllButton" type="Button" parent="ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 32)
+layout_mode = 2
+tooltip_text = "Toggle Locks"
+focus_mode = 0
+icon = ExtResource("3_86vda")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ClearButton" type="Button" parent="ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 42)
+layout_mode = 2
+tooltip_text = "Clear All Items"
+focus_mode = 0
+icon = ExtResource("3_r3bot")
 icon_alignment = 1
 expand_icon = true
 
@@ -118,9 +125,9 @@ visible = false
 unique_name_in_owner = true
 visible = false
 
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer/DirectoryButton" to="." method="_on_directory_button_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/HBoxContainer/ClearButton" to="." method="_on_clear_button_pressed"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelContainer2/VBoxContainer/AddButton" to="." method="_on_add_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/VBoxContainer/DirectoryButton" to="." method="_on_directory_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/HBoxContainer/AddButton" to="." method="_on_add_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/HBoxContainer/ClearButton" to="." method="_on_clear_button_pressed"]
 [connection signal="canceled" from="ItemPopup" to="." method="_on_cancel_button_pressed"]
 [connection signal="confirmed" from="ItemPopup" to="." method="_on_spawn_btn_pressed"]
 [connection signal="item_selected" from="ItemSelectPopup" to="ItemPopup" method="show_item"]

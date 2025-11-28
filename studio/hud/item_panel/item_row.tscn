@@ -1,13 +1,14 @@
-[gd_scene load_steps=11 format=3 uid="uid://bmpqgbccg71l2"]
+[gd_scene load_steps=12 format=3 uid="uid://bmpqgbccg71l2"]
 
 [ext_resource type="Script" uid="uid://cvh32s1515wsb" path="res://studio/hud/item_panel/item_row.gd" id="1_31mjc"]
 [ext_resource type="Texture2D" uid="uid://pd4vy1npck5p" path="res://ui/icons/lock.svg" id="2_145ox"]
 [ext_resource type="Texture2D" uid="uid://qky5l021m1dt" path="res://ui/icons/thumbtack.svg" id="2_bacbn"]
 [ext_resource type="Texture2D" uid="uid://bjxnq0slsgn8o" path="res://ui/icons/angle-up.svg" id="3_7b11q"]
+[ext_resource type="Texture2D" uid="uid://jqiaeaslelbe" path="res://studio/hud/icons/person.svg" id="4_gnq47"]
 [ext_resource type="Texture2D" uid="uid://caxe2m44hrqj1" path="res://ui/icons/angle-down.svg" id="4_hbq2x"]
 [ext_resource type="Texture2D" uid="uid://ce5log3qg4jho" path="res://ui/icons/delete-right.svg" id="5_2b7ni"]
 [ext_resource type="Texture2D" uid="uid://cdre4ugwvhbi8" path="res://ui/icons/axes.svg" id="7_e4n0q"]
-[ext_resource type="Texture2D" uid="uid://cbriovdwq4va0" path="res://studio/action_engine/graph/outputs/face-laugh-wink.svg" id="8_17a61"]
+[ext_resource type="Texture2D" uid="uid://cbriovdwq4va0" path="res://lib/blueprints/outputs/face-laugh-wink.svg" id="8_17a61"]
 [ext_resource type="Texture2D" uid="uid://b2152bd2ck2uq" path="res://ui/icons/circle-nodes.svg" id="8_fvqys"]
 [ext_resource type="PackedScene" uid="uid://dmj8spvsnemo2" path="res://studio/hud/item_panel/pin_selector.tscn" id="10_g5kwx"]
 
@@ -52,7 +53,16 @@ size_flags_horizontal = 3
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="ItemName" type="LineEdit" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Icon" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+modulate = Color(0.298039, 0.282353, 0.239216, 1)
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+texture = ExtResource("4_gnq47")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ItemName" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3

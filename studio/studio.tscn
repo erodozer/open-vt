@@ -126,20 +126,6 @@ _data = {
 [node name="Studio" type="Node" groups=["persist"]]
 script = ExtResource("1_o3t2a")
 
-[node name="TrackerSystem" type="Node" parent="." groups=["system:tracking"]]
-script = ExtResource("3_q22or")
-
-[node name="MouseTracker" type="Node" parent="TrackerSystem"]
-script = ExtResource("4_ihfr3")
-smoothing = 0.0
-
-[node name="MicrophoneTracker" parent="TrackerSystem" instance=ExtResource("5_an10b")]
-smoothing = 0.0
-
-[node name="GamepadTracker" type="Node" parent="TrackerSystem"]
-script = ExtResource("6_efmbb")
-smoothing = 0.0
-
 [node name="Stage" parent="." instance=ExtResource("9_oyfbk")]
 
 [node name="Interface" type="CanvasLayer" parent="."]
@@ -208,3 +194,14 @@ libraries = {
 }
 
 [node name="Terms" parent="." instance=ExtResource("14_ylsn8")]
+
+[node name="TrackerSystem" type="Node" parent="." groups=["system:tracking"]]
+script = ExtResource("3_q22or")
+
+[node name="MouseTracker" type="Node" parent="TrackerSystem"]
+script = ExtResource("4_ihfr3")
+
+[node name="MicrophoneTracker" parent="TrackerSystem" instance=ExtResource("5_an10b")]
+
+[node name="GamepadTracker" type="Node" parent="TrackerSystem"]
+script = ExtResource("6_efmbb")

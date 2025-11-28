@@ -2,36 +2,52 @@
 
 [ext_resource type="Script" uid="uid://cc8x0bh5hk0sv" path="res://lib/tracking/camera/vts/vts_config.gd" id="1_ahnfl"]
 
-[node name="VtsConfig" type="PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 212.0
+offset_bottom = 209.0
 script = ExtResource("1_ahnfl")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="HBoxContainer3" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Listening"
+
+[node name="ActiveIndicator" type="Label" parent="HBoxContainer3"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+text = "Off"
+horizontal_alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Hostname"
 
-[node name="Hostname" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+[node name="Hostname" type="LineEdit" parent="HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 placeholder_text = "0.0.0.0"
 editable = false
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Port"
 
-[node name="Port" type="SpinBox" parent="VBoxContainer/HBoxContainer2"]
+[node name="Port" type="SpinBox" parent="HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 min_value = 10000.0
@@ -40,31 +56,20 @@ value = 25565.0
 alignment = 2
 editable = false
 
-[node name="Connect" type="Button" parent="VBoxContainer"]
+[node name="HBoxContainer4" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Connect" type="Button" parent="HBoxContainer4"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Start Server"
 
-[node name="Disconnect" type="Button" parent="VBoxContainer"]
+[node name="Disconnect" type="Button" parent="HBoxContainer4"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Disconnect"
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Listening"
-
-[node name="ActiveIndicator" type="Label" parent="VBoxContainer/HBoxContainer3"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(120, 0)
-layout_mode = 2
-text = "Off"
-horizontal_alignment = 2
-
-[connection signal="pressed" from="VBoxContainer/Connect" to="." method="_on_connect_pressed"]
-[connection signal="pressed" from="VBoxContainer/Disconnect" to="." method="_on_disconnect_pressed"]
+[connection signal="pressed" from="HBoxContainer4/Connect" to="." method="_on_connect_pressed"]
+[connection signal="pressed" from="HBoxContainer4/Disconnect" to="." method="_on_disconnect_pressed"]

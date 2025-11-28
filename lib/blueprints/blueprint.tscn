@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://b808ypa8efs2"]
+
+[ext_resource type="Script" uid="uid://brkuo41f56m82" path="res://lib/blueprints/blueprint.gd" id="1_h6ons"]
+
+[node name="Blueprint" type="GraphEdit"]
+size_flags_vertical = 3
+mouse_force_pass_scroll_events = false
+grid_pattern = 1
+snapping_distance = 25
+right_disconnects = true
+zoom_min = 0.25
+zoom_max = 1.5
+show_grid_buttons = false
+show_minimap_button = false
+show_arrange_button = false
+script = ExtResource("1_h6ons")
+
+[connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
+[connection signal="child_exiting_tree" from="." to="." method="_on_child_exiting_tree"]
+[connection signal="connection_request" from="." to="." method="_on_connection_request"]
+[connection signal="delete_nodes_request" from="." to="." method="_on_delete_nodes_request"]
+[connection signal="disconnection_request" from="." to="." method="_on_disconnection_request"]

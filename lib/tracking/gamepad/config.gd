@@ -44,7 +44,7 @@ func _on_gamepad_index_item_selected(index: int) -> void:
 	if id == 9999: #kb
 		id = -1
 	tracker.gamepad_index = id
-	%KeytoGamepad.visible = id == -1
+	%KeyboardMapping.visible = id == -1
 
 func _on_dpad_mapping_toggled(toggled_on: bool) -> void:
 	tracker.dpad_to_ls = toggled_on

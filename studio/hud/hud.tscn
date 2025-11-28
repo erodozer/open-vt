@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://dijec4c8prced" path="res://studio/hud/model_panel/model_panel.tscn" id="10_6xy5i"]
 [ext_resource type="PackedScene" uid="uid://bcxs7fe1yqc6o" path="res://studio/hud/item_panel/item_panel.tscn" id="11_juv7g"]
 [ext_resource type="PackedScene" uid="uid://crwh7f50woqgu" path="res://studio/hud/camera_panel/camera_panel.tscn" id="12_blrl1"]
-[ext_resource type="PackedScene" uid="uid://bbpykopqsj46s" path="res://studio/action_engine/action_controller.tscn" id="14_67g5m"]
+[ext_resource type="PackedScene" uid="uid://bbpykopqsj46s" path="res://studio/hud/onscreen_buttons/onscreen_buttons.tscn" id="14_67g5m"]
 [ext_resource type="Script" uid="uid://dojlh62kl14nk" path="res://ui/fps_counter.gd" id="17_0k8c4"]
 [ext_resource type="PackedScene" uid="uid://bpwsyuhheohw7" path="res://ui/toast/toast.tscn" id="17_1vcj3"]
 
@@ -173,7 +173,7 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="ActionController" parent="MarginContainer" instance=ExtResource("14_67g5m")]
+[node name="OnscreenButtons" parent="MarginContainer" instance=ExtResource("14_67g5m")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10

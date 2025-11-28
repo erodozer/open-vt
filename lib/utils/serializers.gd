@@ -1,10 +1,8 @@
 extends Object
 
-class JsonSerializer:
-	func to_json(v) -> Dictionary:
-		return {}
-	func from_json(d, fallback = null):
-		return fallback
+@abstract class JsonSerializer:
+	@abstract func to_json(v) -> Dictionary
+	@abstract func from_json(d, fallback = null)
 
 class Vec2SerializerImpl extends JsonSerializer:
 	func to_json(v: Vector2) -> Dictionary:

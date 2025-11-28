@@ -5,7 +5,7 @@ var group: ButtonGroup
 
 @onready var popup_bg = %Bg
 @onready var panels = %Panels
-@onready var action_controller = %ActionController
+@onready var onscreen_buttons = %OnscreenButtons
 @onready var popup_btn = %PopoutBtn
 
 func _ready() -> void:
@@ -24,7 +24,7 @@ func _ready() -> void:
 	on_popout_requested.connect(
 		func ():
 			# get_window().unresizable = true
-			action_controller.popout(true)
+			onscreen_buttons.popout(true)
 			self.size = Vector2i(580, 720)
 			group.allow_unpress = false
 			popup_bg.show()
@@ -50,7 +50,7 @@ func _ready() -> void:
 			for p in panels.get_children():
 				if p is Control:
 					p.offset_right = p.size.x
-			action_controller.restore()
+			onscreen_buttons.restore()
 			open == null
 			_clear_buttons()
 			popup_btn.show()
@@ -130,7 +130,7 @@ func _on_action_btn_pressed() -> void:
 			return
 	
 	var stage = get_tree().get_first_node_in_group("system:stage")
-	editor = preload("res://studio/action_engine/action_editor.tscn").instantiate()
+	editor = preload("res://studio/hud/blueprint_editor/editor.tscn").instantiate()
 	editor.active_model = stage.active_model
 	editor.visible = true
 	add_child(editor)

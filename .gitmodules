@@ -1,6 +1,6 @@
 [submodule "thirdparty/gd_cubism"]
 	path = thirdparty/gd_cubism
-	url = https://github.com/MizunagiKB/gd_cubism
+	url = https://github.com/erodozer/gd_cubism
 [submodule "thirdparty/godot-keylogger"]
 	path = thirdparty/godot-keylogger
 	url = https://github.com/erodozer/godot-keylogger

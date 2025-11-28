@@ -50,7 +50,7 @@ var expression_controller: ExpressionController :
 	get():
 		return mixer.get_node("Expression")
 
-var action_graphs: Array :
+var blueprints: Array :
 	get():
 		return %Actions.get_children()
 	set(graphs):
@@ -130,13 +130,8 @@ func tracking_updated(tracking_data: Dictionary, _delta: float):
 	# pass forward to any format specific handling
 	format_strategy.tracking_updated(tracking_data)
 	
-func hydrate(settings: Dictionary):
+func hydrate(_settings: Dictionary):
 	await _load_model()
-	await _load_graphs()
-	
-func _load_graphs():
-	var graphs = ActionGraphLoader.load_graph(self)
-	self.action_graphs = graphs
 
 ## save bidirectional vts compatible settings
 func _save_to_vts():
@@ -190,7 +185,7 @@ func _load_settings():
 		get_viewport_rect().get_center()
 	)
 
-func save_settings(settings: Dictionary):
+func save_settings(_settings: Dictionary):
 	if not is_initialized():
 		return
 	

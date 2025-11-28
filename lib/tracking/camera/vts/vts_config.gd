@@ -1,4 +1,4 @@
-extends PanelContainer
+extends Control
 
 const SocketTracker = preload("res://lib/tracking/net/socket_tracker.gd")
 

@@ -39,6 +39,13 @@ func _ready() -> void:
 	%Rotation.value_changed.connect(_update_transform)
 	
 	%PinSelector.model = model
+	
+	if item.item_type == VtItem.ItemType.IMAGE:
+		%Icon.texture = preload("./static_image.svg")
+	elif item.item_type == VtItem.ItemType.ANIMATED:
+		%Icon.texture = preload("./animated_image.svg")
+	elif item.item_type == VtItem.ItemType.MODEL:
+		%Icon.texture = preload("./motion.svg")
 
 func _update_pin_name(mesh: MeshInstance2D) -> void:
 	if mesh == null:
@@ -109,7 +116,7 @@ func _on_edit_bindings_pressed() -> void:
 			return
 	
 	assert(item.item_type == VtItem.ItemType.MODEL)
-	editor = preload("res://studio/action_engine/action_editor.tscn").instantiate()
+	editor = preload("res://studio/hud/blueprint_editor/editor.tscn").instantiate()
 	editor.active_model = item.render as VtModel
 	editor.visible = true
 	add_child(editor)

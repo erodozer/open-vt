@@ -1,0 +1,110 @@
+[gd_scene load_steps=5 format=3 uid="uid://toss8jnrs7a8"]
+
+[ext_resource type="Script" uid="uid://db42rl050i8ey" path="res://studio/hud/blueprint_editor/editor.gd" id="1_i8a08"]
+[ext_resource type="PackedScene" uid="uid://dgmc2ouh0pqwh" path="res://studio/hud/blueprint_editor/palette.tscn" id="2_gl8b5"]
+[ext_resource type="Texture2D" uid="uid://bdb8qf25rndd4" path="res://ui/icons/plus.svg" id="2_ira4j"]
+[ext_resource type="Texture2D" uid="uid://dvoxi8gjlmu1m" path="res://ui/icons/trash-can.svg" id="3_n0myf"]
+
+[node name="BlueprintEditor" type="Window" groups=["persist:model"]]
+disable_3d = true
+gui_snap_controls_to_pixels = false
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(1280, 720)
+theme_type_variation = &"FramedPopupPanel"
+script = ExtResource("1_i8a08")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="Control" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(36, 0)
+layout_mode = 2
+
+[node name="AddProfile" type="Button" parent="PanelContainer/HBoxContainer/Control"]
+custom_minimum_size = Vector2(36, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+tooltip_text = "New Profile"
+focus_mode = 0
+icon = ExtResource("2_ira4j")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Palette" parent="PanelContainer/HBoxContainer/Control" instance=ExtResource("2_gl8b5")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_type_variation = &"InsetPanelContainer"
+
+[node name="Profiles" type="TabContainer" parent="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+tabs_position = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Name"
+
+[node name="ProfileName" type="LineEdit" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+placeholder_text = "Default"
+
+[node name="ProfileEnabled" type="CheckBox" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "Enabled"
+flat = true
+
+[node name="Control" type="Control" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+
+[node name="DeleteProfile" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(96, 32)
+layout_mode = 2
+size_flags_horizontal = 10
+tooltip_text = "Delete Profile"
+focus_mode = 0
+text = "Delete"
+icon = ExtResource("3_n0myf")
+expand_icon = true
+
+[connection signal="close_requested" from="." to="." method="_on_close_requested"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/Control/AddProfile" to="." method="_on_add_profile_pressed"]
+[connection signal="create_node" from="PanelContainer/HBoxContainer/Control/Palette" to="." method="_on_palette_create_node"]
+[connection signal="tab_selected" from="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer/Profiles" to="." method="_on_profiles_tab_selected"]
+[connection signal="text_changed" from="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ProfileName" to="." method="_on_profile_name_text_changed"]
+[connection signal="toggled" from="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ProfileEnabled" to="." method="_on_profile_enabled_toggled"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/DeleteProfile" to="." method="_on_delete_profile_pressed"]

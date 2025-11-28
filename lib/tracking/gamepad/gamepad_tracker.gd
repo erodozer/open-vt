@@ -272,7 +272,7 @@ func _process(_delta: float) -> void:
 		inputs.merge({
 			"NP_LStickX": (0.7 if l_thumb.length() > 1.0 else 1.0) * sign(l_thumb.x),
 			"NP_LStickY": (0.7 if l_thumb.length() > 1.0 else 1.0) * sign(l_thumb.y)
-		})
+		}, true)
 	
 	inputs.merge({
 		"NP_LThumbX": l_thumb.x,
