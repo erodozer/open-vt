@@ -58,6 +58,24 @@ func refresh_assets():
 	
 	list_updated.emit(item_cache)
 
+func about_item(path: String) -> Dictionary:
+	if path in png_items:
+		return {
+			"name": path.get_basename(),
+			"type": VtItem.ItemType.IMAGE
+		}
+	elif path in apng_items:
+		return {
+			"name": path.get_basename(),
+			"type": VtItem.ItemType.ANIMATED
+		}
+	elif path in live2d_items:
+		return {
+			"name": path.get_basename(),
+			"type": VtItem.ItemType.MODEL
+		}
+	return {}
+
 func create_item(path: String) -> VtItem:
 	if path not in item_cache:
 		return

@@ -74,19 +74,20 @@ func spawn_model(model: VtModel):
 	if prev_model != null:
 		prev_model.queue_free()
 
-func spawn_item(item: VtItem, animate = true):
+func spawn_item(item: VtItem, animate = true, reposition = true):
 	# do not allow spawning items if there is no active model
 	if active_model == null:
 		return
 		
 	# position to center of screen
-	var viewport_rect = get_viewport().get_visible_rect()
-	item.model = active_model
-	item.scale = Vector2.ONE * min(
-		clampf(viewport_rect.size.y / item.size.y, 0.001, 1.0),
-		1.0
-	)
-	item.global_position = (viewport_rect.size / 2) - (item.scale * item.center)
+	if reposition:
+		var viewport_rect = get_viewport().get_visible_rect()
+		item.model = active_model
+		item.scale = Vector2.ONE * min(
+			clampf(viewport_rect.size.y / item.size.y, 0.001, 1.0),
+			1.0
+		)
+		item.global_position = (viewport_rect.size / 2) - (item.scale * item.center)
 	
 	# simply setting z_index does not work for control nodes, as Input order is not affected by it
 	# instead we'll rely on child order in the stage to define the position
@@ -95,6 +96,7 @@ func spawn_item(item: VtItem, animate = true):
 	else:
 		canvas.add_child(item)
 	item_added.emit(item)
+	item.request_delete.connect(remove_item.bind(item))
 	
 	if not animate:
 		return
@@ -109,8 +111,6 @@ func spawn_item(item: VtItem, animate = true):
 	t.parallel().tween_property(
 		item, "modulate", Color.WHITE, 0.4
 	).from(Color.TRANSPARENT).set_ease(Tween.EASE_IN)
-	
-	item.request_delete.connect(remove_item.bind(item))
 
 func remove_item(item: VtItem, animated = true):
 	if animated:
@@ -129,10 +129,11 @@ func remove_item(item: VtItem, animated = true):
 		item.queue_free()
 	item_removed.emit(item)
 	
-func clear_items():
+func clear_items(group_name: StringName = &"*"):
 	for i in canvas.get_children():
 		if i is VtItem:
-			remove_item(i)
+			if group_name == &"*" or i.group_name == group_name:
+				remove_item(i)
 
 func load_settings(data):
 	if "active_model" in data:

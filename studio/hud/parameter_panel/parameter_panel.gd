@@ -14,11 +14,6 @@ func _ready():
 		stage.model_changed.connect(_on_stage_model_changed)
 		model = stage.active_model
 		
-	%Position/XValue.value_changed.connect(_move_model)
-	%Position/YValue.value_changed.connect(_move_model)
-	%Scale/Value.value_changed.connect(_move_model)
-	%Rotation/Value.value_changed.connect(_move_model)
-		
 	%Movement/XValue.value_changed.connect(_move_model)
 	%Movement/YValue.value_changed.connect(_move_model)
 	%Movement/ZValue.value_changed.connect(_move_model)
@@ -45,7 +40,6 @@ func _on_stage_model_changed(model: VtModel) -> void:
 		if anim == model.get_idle_animation_player().current_animation:
 			%IdleAnimation.selected = %IdleAnimation.item_count - 1
 		
-	_update_transform(model.position, model.scale, model.rotation)
 	%TextureFilter.select(1 if model.filter == TEXTURE_FILTER_LINEAR else 0)
 	%SmoothScaling.set_pressed_no_signal(model.smoothing)
 	%GenerateMipmaps.set_pressed_no_signal(model.mipmaps)
@@ -53,7 +47,6 @@ func _on_stage_model_changed(model: VtModel) -> void:
 	%GenerateMipmaps.disabled = model.filter != TEXTURE_FILTER_LINEAR
 	
 	self.model = model
-	model.transform_updated.connect(_update_transform)
 	
 	%Movement/XValue.set_value_no_signal(model.movement_scale.x)
 	%Movement/YValue.set_value_no_signal(model.movement_scale.y)
@@ -64,32 +57,12 @@ func _move_model(_value):
 		return
 		
 	_pause_signals = true
-	model.position = Vector2(
-		%Position/XValue.value,
-		%Position/YValue.value
-	)
-	model.scale = Vector2.ONE * (%Scale/Value.value / 100.0)
-	model.rotation_degrees = %Rotation/Value.value
 	model.movement_scale = Vector3(
 		%Movement/XValue.value,
 		%Movement/YValue.value,
 		%Movement/ZValue.value
 	)
 	_pause_signals = false
-	
-func _update_transform(pos, scl, rot):
-	if _pause_signals:
-		return
-		
-	%Position/XValue.min_value = int(-get_viewport_rect().size.x)
-	%Position/XValue.max_value = int(get_viewport_rect().size.x * 2)
-	%Position/YValue.min_value = int(-get_viewport_rect().size.y)
-	%Position/YValue.max_value = int(get_viewport_rect().size.y * 2)
-	
-	%Position/XValue.set_value_no_signal(pos.x)
-	%Position/YValue.set_value_no_signal(pos.y)
-	%Scale/Value.set_value_no_signal(scl.x * 100.0)
-	%Rotation/Value.set_value_no_signal(rot)
 	
 func _on_texture_filter_item_selected(index: int) -> void:
 	match index:
@@ -101,28 +74,6 @@ func _on_texture_filter_item_selected(index: int) -> void:
 			model.filter = CanvasItem.TextureFilter.TEXTURE_FILTER_LINEAR
 			%SmoothScaling.disabled = true
 			%GenerateMipmaps.disabled = false
-
-func _on_erase_position_pressed() -> void:
-	model.global_position = model.get_viewport_rect().get_center()
-	_update_transform(model.position, model.scale, model.rotation)
-	
-func _on_erase_scale_pressed() -> void:
-	model.scale = Vector2.ONE * min(1.0, get_viewport_rect().size.y / model.size.y)
-	_update_transform(model.position, model.scale, model.rotation)
-
-func _on_erase_rotate_pressed() -> void:
-	model.rotation = 0
-	_update_transform(model.position, model.scale, model.rotation)
-
-func _on_lock_button_toggled(toggled_on: bool) -> void:
-	if model == null:
-		return
-	model.locked = toggled_on
-	
-	%Position/XValue.editable = !toggled_on
-	%Position/YValue.editable = !toggled_on
-	%Scale/Value.editable = !toggled_on
-	%Rotation/Value.editable = !toggled_on
 
 func _on_smooth_scaling_toggled(toggled_on: bool) -> void:
 	if model == null:

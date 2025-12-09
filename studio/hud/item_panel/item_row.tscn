@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bmpqgbccg71l2"]
+[gd_scene load_steps=14 format=3 uid="uid://bmpqgbccg71l2"]
 
 [ext_resource type="Script" uid="uid://cvh32s1515wsb" path="res://studio/hud/item_panel/item_row.gd" id="1_31mjc"]
 [ext_resource type="Texture2D" uid="uid://pd4vy1npck5p" path="res://ui/icons/lock.svg" id="2_145ox"]
@@ -10,7 +10,9 @@
 [ext_resource type="Texture2D" uid="uid://cdre4ugwvhbi8" path="res://ui/icons/axes.svg" id="7_e4n0q"]
 [ext_resource type="Texture2D" uid="uid://cbriovdwq4va0" path="res://lib/blueprints/outputs/face-laugh-wink.svg" id="8_17a61"]
 [ext_resource type="Texture2D" uid="uid://b2152bd2ck2uq" path="res://ui/icons/circle-nodes.svg" id="8_fvqys"]
-[ext_resource type="PackedScene" uid="uid://dmj8spvsnemo2" path="res://studio/hud/item_panel/pin_selector.tscn" id="10_g5kwx"]
+[ext_resource type="Texture2D" uid="uid://dy1nnckb883g" path="res://ui/icons/arrows-to-dot.svg" id="9_smhi3"]
+[ext_resource type="Texture2D" uid="uid://dy2yryqb16rbw" path="res://ui/icons/arrows-to-circle.svg" id="10_5efeo"]
+[ext_resource type="PackedScene" uid="uid://dmj8spvsnemo2" path="res://studio/hud/item_panel/pin_selector/pin_selector.tscn" id="10_g5kwx"]
 
 [node name="ItemRow" type="PanelContainer"]
 offset_right = 386.0
@@ -71,6 +73,7 @@ size_flags_horizontal = 3
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
+focus_mode = 0
 icon = ExtResource("5_2b7ni")
 icon_alignment = 1
 expand_icon = true
@@ -84,11 +87,13 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 26)
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
 
 [node name="PinToggle" type="Button" parent="HBoxContainer/VBoxContainer/PinControls"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 24)
 layout_mode = 2
+focus_mode = 0
 toggle_mode = true
 icon = ExtResource("2_bacbn")
 icon_alignment = 1
@@ -116,11 +121,32 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Transform"
 
+[node name="Recenter" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+tooltip_text = "Recenter"
+focus_mode = 0
+icon = ExtResource("9_smhi3")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ScaleToFit" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+tooltip_text = "Fit to Screen"
+focus_mode = 0
+icon = ExtResource("10_5efeo")
+icon_alignment = 1
+expand_icon = true
+
 [node name="LockButton" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 tooltip_text = "Lock transform"
+focus_mode = 0
 toggle_mode = true
 icon = ExtResource("2_145ox")
 icon_alignment = 1
@@ -128,6 +154,7 @@ expand_icon = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Transformation"]
 layout_mode = 2
+theme_override_constants/separation = 8
 
 [node name="XValue" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer"]
 unique_name_in_owner = true
@@ -135,7 +162,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 min_value = -9999.0
 max_value = 9999.0
-value = 9999.0
 alignment = 2
 suffix = "X"
 
@@ -150,22 +176,24 @@ suffix = "Y"
 
 [node name="Scale" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(84, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 min_value = 1.0
 max_value = 400.0
 step = 0.01
-value = 1.0
+value = 100.0
 alignment = 2
 suffix = "%"
 
 [node name="Rotation" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(84, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 min_value = -360.0
 max_value = 360.0
 step = 0.01
+value = 359.40999999999997
 allow_greater = true
 allow_lesser = true
 alignment = 2
@@ -248,6 +276,8 @@ visible = false
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/DeleteButton" to="." method="_on_delete_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/PinControls/PinTarget" to="PinSelector" method="show"]
 [connection signal="toggled" from="HBoxContainer/VBoxContainer/PinControls/PinToggle" to="." method="_on_pin_toggle_toggled"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2/Recenter" to="." method="_on_recenter_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2/ScaleToFit" to="." method="_on_scale_to_fit_pressed"]
 [connection signal="toggled" from="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2/LockButton" to="." method="_on_lock_button_toggled"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/ModelControls/Expression" to="ExpressionMenu" method="show"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/ModelControls/Bindings" to="." method="_on_edit_bindings_pressed"]

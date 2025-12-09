@@ -40,6 +40,10 @@ var pin_angle: float = 0
 var pin_mode = PinMode.CENTROID
 var pin_scale: Vector2 = Vector2.ONE
 
+# separate from godot's own group system
+# is used to associate an item with a set of objects within an ItemScene
+var group_name: StringName
+
 signal pin_changed(mesh: MeshInstance2D)
 
 func _process(_delta: float) -> void:

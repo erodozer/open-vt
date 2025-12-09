@@ -53,3 +53,6 @@ func _on_add_button_pressed() -> void:
 	
 func _on_clear_button_pressed() -> void:
 	stage.clear_items()
+
+func _on_load_button_pressed() -> void:
+	%SceneSelectorPopup.show()

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dmj8spvsnemo2"]
 
-[ext_resource type="Script" uid="uid://dvif2mvufo5tp" path="res://studio/hud/item_panel/pin_selector.gd" id="1_wyeex"]
+[ext_resource type="Script" uid="uid://dvif2mvufo5tp" path="res://studio/hud/item_panel/pin_selector/pin_selector.gd" id="1_wyeex"]
 
 [node name="PinSelector" type="ConfirmationDialog"]
 oversampling_override = 1.0

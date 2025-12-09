@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cclqov7m5aj47"]
 
-[ext_resource type="Script" uid="uid://c5s7q8rlkiicv" path="res://studio/hud/item_panel/item_preview.gd" id="1_j8rdi"]
+[ext_resource type="Script" uid="uid://c5s7q8rlkiicv" path="res://studio/hud/item_panel/preview/item_preview.gd" id="1_j8rdi"]
 
 [node name="ItemPopup" type="ConfirmationDialog"]
 oversampling_override = 1.0

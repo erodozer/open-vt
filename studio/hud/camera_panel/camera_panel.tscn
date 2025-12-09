@@ -16,7 +16,6 @@ script = ExtResource("1_qt06k")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 2
-vertical_scroll_mode = 2
 
 [node name="Accordion" type="VBoxContainer" parent="ScrollContainer"]
 layout_mode = 2

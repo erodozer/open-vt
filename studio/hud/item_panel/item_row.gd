@@ -13,40 +13,36 @@ func _ready() -> void:
 	%ItemName.text = item.display_name
 	
 	if item is not VtItem:
-		%LockButton.hide()
 		%PinControls.hide()
 		%ZControls.hide()
 		%DeleteButton.hide()
-		%Transformation.hide()
-		%ModelControls.hide()
-		return
-	
-	if item.item_type != VtItem.ItemType.MODEL:
 		%ModelControls.hide()
 	else:
-		for e in item.render.expressions:
-			var idx = %Expressions.item_count
-			%Expressions.add_item(e)
-			%Expressions.set_item_metadata(idx, e)
+		item.pin_changed.connect(_update_pin_name)
+		%PinToggle.button_pressed = item.pinnable
+		%PinSelector.model = model
+		if item.item_type == VtItem.ItemType.IMAGE:
+			%Icon.texture = preload("./static_image.svg")
+		elif item.item_type == VtItem.ItemType.ANIMATED:
+			%Icon.texture = preload("./animated_image.svg")
+		elif item.item_type == VtItem.ItemType.MODEL:
+			%Icon.texture = preload("./motion.svg")
+
+		if item.item_type != VtItem.ItemType.MODEL:
+			%ModelControls.hide()
+		elif item.item_type == VtItem.ItemType.MODEL:
+			for e in item.render.expressions:
+				var idx = %Expressions.item_count
+				%Expressions.add_item(e)
+				%Expressions.set_item_metadata(idx, e)
 	
 	_on_transform_update(item.position, item.scale, item.rotation_degrees)
-	item.pin_changed.connect(_update_pin_name)
-	%PinToggle.button_pressed = item.pinnable
 	item.transform_updated.connect(_on_transform_update)
 	%XValue.value_changed.connect(_update_transform)
 	%YValue.value_changed.connect(_update_transform)
 	%Scale.value_changed.connect(_update_transform)
 	%Rotation.value_changed.connect(_update_transform)
 	
-	%PinSelector.model = model
-	
-	if item.item_type == VtItem.ItemType.IMAGE:
-		%Icon.texture = preload("./static_image.svg")
-	elif item.item_type == VtItem.ItemType.ANIMATED:
-		%Icon.texture = preload("./animated_image.svg")
-	elif item.item_type == VtItem.ItemType.MODEL:
-		%Icon.texture = preload("./motion.svg")
-
 func _update_pin_name(mesh: MeshInstance2D) -> void:
 	if mesh == null:
 		%PinTarget.text = ""
@@ -132,4 +128,8 @@ func _on_pin_selector_confirmed() -> void:
 	vitem.pinned_to = mesh
 	%PinTarget.text = "-" if mesh == null else mesh.name
 
-	pass # Replace with function body.
+func _on_recenter_pressed() -> void:
+	item.position = item.get_viewport_rect().get_center()
+
+func _on_scale_to_fit_pressed() -> void:
+	item.scale = Vector2.ONE * min(1.0, item.get_viewport_rect().size.y / item.size.y)

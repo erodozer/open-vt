@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dpd03nwwl7x70"]
 
-[ext_resource type="Script" uid="uid://bojwhuguf60vg" path="res://studio/hud/item_panel/item_selector.gd" id="1_6nyon"]
+[ext_resource type="Script" uid="uid://bojwhuguf60vg" path="res://studio/hud/item_panel/item_selector/item_selector.gd" id="1_6nyon"]
 [ext_resource type="Texture2D" uid="uid://clbvp8v3ryv4q" path="res://ui/icons/magnifying-glass.svg" id="1_dfrnd"]
 
 [node name="ItemSelectPopup" type="PopupPanel"]

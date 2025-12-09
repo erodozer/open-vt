@@ -4,7 +4,6 @@ extends "res://ui/draggable.gd"
 @export var sort_order: int = 0 :
 	set(z):
 		sort_order = z
-		z_index = sort_order * 1000
 		
 @export var mirror : bool = false :
 	set(v):

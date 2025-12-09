@@ -1,0 +1,95 @@
+[gd_scene load_steps=2 format=3 uid="uid://cy5x4klaougwu"]
+
+[ext_resource type="Script" uid="uid://cjr68iypsu8xn" path="res://studio/hud/item_panel/scene_selector/scene_selector_popup.gd" id="1_lv7c4"]
+
+[node name="SceneSelectorPopup" type="PopupPanel"]
+oversampling_override = 1.0
+title = "Select a Scene To Load"
+initial_position = 2
+size = Vector2i(800, 600)
+visible = true
+borderless = false
+popup_wm_hint = false
+theme_type_variation = &"FramedPopupPanel"
+script = ExtResource("1_lv7c4")
+
+[node name="HSplitContainer" type="HSplitContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 792.0
+offset_bottom = 592.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="ItemList" type="VBoxContainer" parent="HSplitContainer/ScrollContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HSplitContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="HSplitContainer/VBoxContainer2"]
+layout_mode = 2
+theme_type_variation = &"SubPanelContainer"
+
+[node name="Metadata" type="GridContainer" parent="HSplitContainer/VBoxContainer2/PanelContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/VBoxContainer2/PanelContainer/Metadata"]
+layout_mode = 2
+text = "Model"
+
+[node name="ModelName" type="LineEdit" parent="HSplitContainer/VBoxContainer2/PanelContainer/Metadata"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "If the Scene has Pinned Items, they will be excluded if the active model does not match"
+placeholder_text = "Model Name"
+alignment = 2
+editable = false
+
+[node name="Label3" type="Label" parent="HSplitContainer/VBoxContainer2/PanelContainer/Metadata"]
+layout_mode = 2
+text = "Group"
+
+[node name="GroupName" type="LineEdit" parent="HSplitContainer/VBoxContainer2/PanelContainer/Metadata"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Group Name"
+alignment = 2
+editable = false
+
+[node name="Label" type="Label" parent="HSplitContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Items"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SceneItems" type="VBoxContainer" parent="HSplitContainer/VBoxContainer2/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer/VBoxContainer2"]
+layout_mode = 2
+alignment = 2
+
+[node name="LoadButton" type="Button" parent="HSplitContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Load Scene"
+
+[connection signal="close_requested" from="." to="." method="_on_close_requested"]
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
+[connection signal="pressed" from="HSplitContainer/VBoxContainer2/HBoxContainer/LoadButton" to="." method="_on_load_button_pressed"]
