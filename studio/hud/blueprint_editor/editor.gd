@@ -41,6 +41,23 @@ func _ready() -> void:
 		func ():
 			queue_free()
 	)
+	
+	%AddBlueprint.get_popup().id_pressed.connect(
+		func (id):
+			var graphs = []
+			match id:
+				0:
+					var graph = preload("res://lib/blueprints/blueprint.tscn").instantiate()
+					graph.name = "New Profile"
+					graphs.append(graph)
+				1:
+					graphs = VtsBlueprintLoader.load_graph(active_model)
+				2:
+					graphs = L2dDefaultBlueprintLoader.load_graph(active_model)
+			for graph in graphs:
+				%Profiles.add_child(graph, true)
+			%Profiles.current_tab = %Profiles.get_tab_count() - 1
+	)
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
@@ -64,30 +81,13 @@ func save_settings(model_data: Dictionary):
 	
 func _on_profile_name_text_changed(new_text: String) -> void:
 	active_graph.name = new_text
-
-func _on_add_profile_pressed() -> void:
-	var graph = preload("res://lib/blueprints/blueprint.tscn").instantiate()
-	graph.name = "New Profile"
-	%Profiles.add_child(graph, true)
-	%Profiles.current_tab = %Profiles.get_tab_count() - 1
 	
 func _on_profile_enabled_toggled(toggled_on: bool) -> void:
 	active_graph.process_mode = PROCESS_MODE_INHERIT if toggled_on else PROCESS_MODE_DISABLED
 
 func _on_delete_profile_pressed() -> void:
-	var graph = active_graph
-	var popup = ConfirmationDialog.new()
-	popup.dialog_text = "Delete Profile %s\nThis action is Permanent" % active_graph.name
-	popup.cancel_button_text = "Nevermind"
-	popup.ok_button_text = "Yes, Delete It"
-	popup.confirmed.connect(
-		func ():
-			graph.queue_free()
-			popup.queue_free()
-			await get_tree().process_frame
-	)
-	add_child(popup)
-	popup.popup_centered()
+	%DeleteConfirmation.dialog_text = "Delete Profile %s\nThis action is Permanent" % active_graph.name
+	%DeleteConfirmation.show()
 
 func _on_palette_create_node(action: VtAction) -> void:
 	active_graph.spawn_action(action, active_model)
@@ -100,3 +100,7 @@ func _on_profiles_tab_selected(_tab: int) -> void:
 	%ProfileEnabled.set_pressed_no_signal(
 		%Profiles.get_current_tab_control().process_mode != PROCESS_MODE_DISABLED
 	)
+
+func _on_delete_confirmed() -> void:
+	active_graph.queue_free()
+	await get_tree().process_frame

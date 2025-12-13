@@ -32,15 +32,21 @@ theme_override_constants/separation = 8
 custom_minimum_size = Vector2(36, 0)
 layout_mode = 2
 
-[node name="AddProfile" type="Button" parent="PanelContainer/HBoxContainer/Control"]
+[node name="AddBlueprint" type="MenuButton" parent="PanelContainer/HBoxContainer/Control"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(36, 32)
 layout_mode = 2
-size_flags_horizontal = 4
-tooltip_text = "New Profile"
-focus_mode = 0
 icon = ExtResource("2_ira4j")
+flat = false
 icon_alignment = 1
 expand_icon = true
+item_count = 3
+popup/item_0/text = "New Blueprint"
+popup/item_0/id = 0
+popup/item_1/text = "Reimport VTS Bindings"
+popup/item_1/id = 1
+popup/item_2/text = "Auto-Setup"
+popup/item_2/id = 2
 
 [node name="Palette" parent="PanelContainer/HBoxContainer/Control" instance=ExtResource("2_gl8b5")]
 unique_name_in_owner = true
@@ -101,10 +107,16 @@ text = "Delete"
 icon = ExtResource("3_n0myf")
 expand_icon = true
 
+[node name="DeleteConfirmation" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+initial_position = 2
+ok_button_text = "Yes, Delete It"
+cancel_button_text = "Nevermind"
+
 [connection signal="close_requested" from="." to="." method="_on_close_requested"]
-[connection signal="pressed" from="PanelContainer/HBoxContainer/Control/AddProfile" to="." method="_on_add_profile_pressed"]
 [connection signal="create_node" from="PanelContainer/HBoxContainer/Control/Palette" to="." method="_on_palette_create_node"]
 [connection signal="tab_selected" from="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer/Profiles" to="." method="_on_profiles_tab_selected"]
 [connection signal="text_changed" from="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ProfileName" to="." method="_on_profile_name_text_changed"]
 [connection signal="toggled" from="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ProfileEnabled" to="." method="_on_profile_enabled_toggled"]
 [connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/DeleteProfile" to="." method="_on_delete_profile_pressed"]
+[connection signal="confirmed" from="DeleteConfirmation" to="." method="_on_delete_confirmed"]

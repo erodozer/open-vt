@@ -35,6 +35,7 @@ ModelManager="*res://lib/model_manager.gd"
 ItemManager="*res://lib/item_manager.gd"
 OvtBlueprintLoader="*res://lib/blueprints/loaders/ovt.gd"
 VtsBlueprintLoader="*res://lib/blueprints/loaders/vts.gd"
+L2dDefaultBlueprintLoader="*res://lib/blueprints/loaders/l2d_defaults.gd"
 
 [display]
 

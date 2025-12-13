@@ -20,7 +20,7 @@ var model_parameter : String :
 			if p != null:
 				return p.name
 		return ""
-		
+
 var clamp_enabled: bool :
 	get():
 		return %ClampToggle.button_pressed
