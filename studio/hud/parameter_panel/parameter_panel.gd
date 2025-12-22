@@ -40,11 +40,11 @@ func _on_stage_model_changed(model: VtModel) -> void:
 		if anim == model.get_idle_animation_player().current_animation:
 			%IdleAnimation.selected = %IdleAnimation.item_count - 1
 		
-	%TextureFilter.select(1 if model.filter == TEXTURE_FILTER_LINEAR else 0)
+	%TextureFilter.select(1 if model.filter == TEXTURE_FILTER_LINEAR_WITH_MIPMAPS else 0)
 	%SmoothScaling.set_pressed_no_signal(model.smoothing)
 	%GenerateMipmaps.set_pressed_no_signal(model.mipmaps)
-	%SmoothScaling.disabled = model.filter == TEXTURE_FILTER_LINEAR
-	%GenerateMipmaps.disabled = model.filter != TEXTURE_FILTER_LINEAR
+	%SmoothScaling.disabled = model.filter == TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	%GenerateMipmaps.disabled = model.filter != TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	
 	self.model = model
 	
@@ -67,11 +67,11 @@ func _move_model(_value):
 func _on_texture_filter_item_selected(index: int) -> void:
 	match index:
 		0:
-			model.filter = CanvasItem.TextureFilter.TEXTURE_FILTER_NEAREST
+			model.filter = CanvasItem.TextureFilter.TEXTURE_FILTER_NEAREST_WITH_MIPMAPS
 			%SmoothScaling.disabled = false
 			%GenerateMipmaps.disabled = true
 		_:
-			model.filter = CanvasItem.TextureFilter.TEXTURE_FILTER_LINEAR
+			model.filter = CanvasItem.TextureFilter.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 			%SmoothScaling.disabled = true
 			%GenerateMipmaps.disabled = false
 

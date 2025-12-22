@@ -177,7 +177,7 @@ func _load_settings():
 		clampf(get_viewport_rect().size.y / size.y, 0.001, 2.0)
 	)
 	rotation_degrees = model_preferences.get("transform", {}).get("rotation", 0)
-	filter = TEXTURE_FILTER_NEAREST if model_preferences.get("quality", {}).get("filter", "linear") == "nearest" else TEXTURE_FILTER_LINEAR
+	filter = TEXTURE_FILTER_NEAREST_WITH_MIPMAPS if model_preferences.get("quality", {}).get("filter", "linear") == "nearest" else TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	smoothing = model_preferences.get("quality", {}).get("smooth", false)
 	
 	position = Serializers.Vec2Serializer.from_json(
@@ -193,7 +193,7 @@ func save_settings(_settings: Dictionary):
 	
 	var model_data  = {
 		"quality": {
-			"filter": "nearest" if self.filter != TEXTURE_FILTER_LINEAR else "linear",
+			"filter": "nearest" if self.filter != TEXTURE_FILTER_LINEAR_WITH_MIPMAPS else "linear",
 			"smooth": smoothing
 		},
 		"transform": {

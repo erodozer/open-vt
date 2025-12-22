@@ -154,13 +154,11 @@ func tracking_updated(tracking_data: Dictionary):
 	var movement = moved * get_parent().movement_scale
 	scale = Vector2.ONE + (Vector2.ONE * movement.z)
 	
-func on_filter_update(filter = CanvasItem.TEXTURE_FILTER_LINEAR, smoothing = false):
+func on_filter_update(filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS, smoothing = false):
 	for m in get_meshes():
-		var prev = m.texture_filter
 		m.texture_filter = filter
-		m.set_instance_shader_parameter("filter", filter == TEXTURE_FILTER_LINEAR)
 		
-	if smoothing and filter == CanvasItem.TEXTURE_FILTER_NEAREST:
+	if smoothing and filter == CanvasItem.TEXTURE_FILTER_NEAREST_WITH_MIPMAPS:
 		container.model = live2d_model
 	else:
 		live2d_model.reparent(self, false)
