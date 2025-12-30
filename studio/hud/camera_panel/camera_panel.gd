@@ -1,4 +1,4 @@
-extends "res://ui/popout_panel.gd"
+extends "res://studio/hud/side_panel.gd"
 
 const Tracker = preload("res://lib/tracking/tracker.gd")
 const TrackingSystem = preload("res://lib/tracking/tracking_system.gd")

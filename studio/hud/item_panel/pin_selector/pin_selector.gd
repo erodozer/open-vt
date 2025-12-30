@@ -1,5 +1,6 @@
 extends ConfirmationDialog
 
+const VtItem = preload("res://lib/items/vt_item.gd")
 const VtModel = preload("res://lib/model/vt_model.gd")
 
 var model: VtModel
@@ -33,3 +34,12 @@ func _make_btn(m: MeshInstance2D):
 				mesh = m
 	)
 	return btn
+
+func _on_confirmed() -> void:
+	close_requested.emit()
+
+func _on_canceled() -> void:
+	close_requested.emit()
+
+func _on_close_requested() -> void:
+	queue_free()

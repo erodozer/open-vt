@@ -8,7 +8,7 @@ offset_right = 53.0
 offset_bottom = 24.0
 size_flags_horizontal = 3
 mouse_filter = 2
-theme_type_variation = &"SubPanelContainer"
+theme_type_variation = &"Section"
 script = ExtResource("1_fq7df")
 
 [node name="MeshSetting" type="HBoxContainer" parent="."]

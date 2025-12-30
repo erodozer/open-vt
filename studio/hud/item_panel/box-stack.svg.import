@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cf45v7iftvjkc"
-path="res://.godot/imported/box-stack.svg-169718c432e6d819eba57795d6ccee96.ctex"
+path="res://.godot/imported/box-stack.svg-7fcfb883a7a022db0f46667a1f3d7693.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/icons/box-stack.svg"
-dest_files=["res://.godot/imported/box-stack.svg-169718c432e6d819eba57795d6ccee96.ctex"]
+source_file="res://studio/hud/item_panel/box-stack.svg"
+dest_files=["res://.godot/imported/box-stack.svg-7fcfb883a7a022db0f46667a1f3d7693.ctex"]
 
 [params]
 

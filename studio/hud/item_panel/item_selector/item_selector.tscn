@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dpd03nwwl7x70"]
 
 [ext_resource type="Script" uid="uid://bojwhuguf60vg" path="res://studio/hud/item_panel/item_selector/item_selector.gd" id="1_6nyon"]
-[ext_resource type="Texture2D" uid="uid://clbvp8v3ryv4q" path="res://ui/icons/magnifying-glass.svg" id="1_dfrnd"]
+[ext_resource type="PackedScene" uid="uid://d30mduusp81ch" path="res://ui/search/search.tscn" id="2_4bid1"]
 
 [node name="ItemSelectPopup" type="PopupPanel"]
 oversampling_override = 1.0
@@ -19,23 +19,9 @@ offset_top = 8.0
 offset_right = 416.0
 offset_bottom = 545.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-
-[node name="ItemSearch" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+[node name="Search" parent="VBoxContainer" instance=ExtResource("2_4bid1")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
-placeholder_text = "Search..."
-
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
-modulate = Color(0.298039, 0.282353, 0.239216, 1)
-texture_filter = 2
-custom_minimum_size = Vector2(32, 0)
-layout_mode = 2
-texture = ExtResource("1_dfrnd")
-expand_mode = 1
-stretch_mode = 5
 
 [node name="TypeToggles" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -86,9 +72,10 @@ theme_override_constants/separation = 8
 layout_mode = 2
 text = "Cancel"
 
-[connection signal="item_selected" from="." to="." method="_on_item_selected"]
+[connection signal="close_requested" from="." to="." method="_on_close_requested"]
+[connection signal="popup_hide" from="." to="." method="_on_popup_hide"]
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
-[connection signal="text_changed" from="VBoxContainer/HBoxContainer/ItemSearch" to="." method="_on_item_search_text_changed"]
+[connection signal="text_changed" from="VBoxContainer/Search" to="." method="_on_search_text_changed"]
 [connection signal="toggled" from="VBoxContainer/TypeToggles/ImageType" to="." method="_on_image_type_toggled"]
 [connection signal="toggled" from="VBoxContainer/TypeToggles/AnimatedType" to="." method="_on_animated_type_toggled"]
 [connection signal="toggled" from="VBoxContainer/TypeToggles/ModelType" to="." method="_on_model_type_toggled"]

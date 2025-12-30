@@ -135,6 +135,9 @@ follow_viewport_enabled = true
 [node name="HUD" parent="Interface" instance=ExtResource("10_o8nmr")]
 unique_name_in_owner = true
 
+[node name="Terms" parent="Interface" instance=ExtResource("14_ylsn8")]
+visible = false
+
 [node name="Splash" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 layer = 100
@@ -192,8 +195,6 @@ stretch_mode = 5
 libraries = {
 &"": SubResource("AnimationLibrary_dg77c")
 }
-
-[node name="Terms" parent="." instance=ExtResource("14_ylsn8")]
 
 [node name="TrackerSystem" type="Node" parent="." groups=["system:tracking"]]
 script = ExtResource("3_q22or")

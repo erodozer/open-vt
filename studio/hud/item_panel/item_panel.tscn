@@ -1,13 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://bcxs7fe1yqc6o"]
+[gd_scene load_steps=6 format=3 uid="uid://bcxs7fe1yqc6o"]
 
 [ext_resource type="Script" uid="uid://cc2iuifrx868t" path="res://studio/hud/item_panel/item_panel.gd" id="1_uiugv"]
-[ext_resource type="Texture2D" uid="uid://cf45v7iftvjkc" path="res://ui/icons/box-stack.svg" id="2_xjyov"]
+[ext_resource type="Texture2D" uid="uid://cf45v7iftvjkc" path="res://studio/hud/item_panel/box-stack.svg" id="2_xjyov"]
 [ext_resource type="Texture2D" uid="uid://bdb8qf25rndd4" path="res://ui/icons/plus.svg" id="2_y3oiy"]
 [ext_resource type="Texture2D" uid="uid://pd4vy1npck5p" path="res://ui/icons/lock.svg" id="3_86vda"]
-[ext_resource type="PackedScene" uid="uid://cclqov7m5aj47" path="res://studio/hud/item_panel/preview/item_preview.tscn" id="3_eg7ht"]
 [ext_resource type="Texture2D" uid="uid://dvoxi8gjlmu1m" path="res://ui/icons/trash-can.svg" id="3_r3bot"]
-[ext_resource type="PackedScene" uid="uid://dpd03nwwl7x70" path="res://studio/hud/item_panel/item_selector/item_selector.tscn" id="4_eg7ht"]
-[ext_resource type="PackedScene" uid="uid://cy5x4klaougwu" path="res://studio/hud/item_panel/scene_selector/scene_selector_popup.tscn" id="7_86vda"]
 
 [node name="ItemPanel" type="PanelContainer"]
 custom_minimum_size = Vector2(480, 0)
@@ -15,8 +12,7 @@ anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 308.0
-offset_right = 788.0
+offset_left = -277.0
 grow_horizontal = 0
 grow_vertical = 2
 mouse_force_pass_scroll_events = false
@@ -132,23 +128,7 @@ icon = ExtResource("3_r3bot")
 icon_alignment = 1
 expand_icon = true
 
-[node name="ItemPopup" parent="." instance=ExtResource("3_eg7ht")]
-unique_name_in_owner = true
-initial_position = 2
-visible = false
-
-[node name="ItemSelectPopup" parent="." instance=ExtResource("4_eg7ht")]
-unique_name_in_owner = true
-visible = false
-
-[node name="SceneSelectorPopup" parent="." instance=ExtResource("7_86vda")]
-unique_name_in_owner = true
-visible = false
-
 [connection signal="pressed" from="VBoxContainer/VBoxContainer/DirectoryButton" to="." method="_on_directory_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/VBoxContainer/HBoxContainer2/LoadButton" to="." method="_on_load_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/AddButton" to="." method="_on_add_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/ClearButton" to="." method="_on_clear_button_pressed"]
-[connection signal="canceled" from="ItemPopup" to="." method="_on_cancel_button_pressed"]
-[connection signal="confirmed" from="ItemPopup" to="." method="_on_spawn_btn_pressed"]
-[connection signal="item_selected" from="ItemSelectPopup" to="ItemPopup" method="show_item"]

@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://b2152bd2ck2uq" path="res://ui/icons/circle-nodes.svg" id="8_fvqys"]
 [ext_resource type="Texture2D" uid="uid://dy1nnckb883g" path="res://ui/icons/arrows-to-dot.svg" id="9_smhi3"]
 [ext_resource type="Texture2D" uid="uid://dy2yryqb16rbw" path="res://ui/icons/arrows-to-circle.svg" id="10_5efeo"]
-[ext_resource type="PackedScene" uid="uid://dmj8spvsnemo2" path="res://studio/hud/item_panel/pin_selector/pin_selector.tscn" id="10_g5kwx"]
+[ext_resource type="Texture2D" uid="uid://d1kej52kqrg0g" path="res://ui/icons/eraser.svg" id="13_5efeo"]
 
 [node name="ItemRow" type="PanelContainer"]
 offset_right = 386.0
@@ -201,6 +201,7 @@ suffix = "°"
 
 [node name="ModelControls" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 alignment = 1
 
@@ -228,58 +229,40 @@ icon = ExtResource("8_fvqys")
 alignment = 0
 expand_icon = true
 
-[node name="ExpressionMenu" type="ConfirmationDialog" parent="."]
-unique_name_in_owner = true
-oversampling_override = 1.0
-title = "Set Expression"
-initial_position = 2
-size = Vector2i(320, 119)
-unresizable = true
-
-[node name="VBoxContainer" type="VBoxContainer" parent="ExpressionMenu"]
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 312.0
-offset_bottom = 70.0
-
-[node name="Expressions" type="OptionButton" parent="ExpressionMenu/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="ExpressionMenu/VBoxContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="ExpressionMenu/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Duration"
-
-[node name="Duration" type="SpinBox" parent="ExpressionMenu/VBoxContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-max_value = 10.0
-step = 0.01
-alignment = 2
-suffix = "S"
-
-[node name="Exclusive" type="CheckButton" parent="ExpressionMenu/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Exclusive"
-
-[node name="PinSelector" parent="." instance=ExtResource("10_g5kwx")]
+[node name="AnimControls" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/AnimControls"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Frame Rate"
+
+[node name="FpsValue" type="SpinBox" parent="HBoxContainer/VBoxContainer/AnimControls"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1000.0
+alignment = 2
+
+[node name="ResetFps" type="Button" parent="HBoxContainer/VBoxContainer/AnimControls"]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+icon = ExtResource("13_5efeo")
+icon_alignment = 1
+expand_icon = true
 
 [connection signal="pressed" from="HBoxContainer/ZControls/UpButton" to="." method="_on_up_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/ZControls/DownButton" to="." method="_on_down_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/DeleteButton" to="." method="_on_delete_button_pressed"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/PinControls/PinTarget" to="PinSelector" method="show"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/PinControls/PinTarget" to="." method="_on_pin_target_pressed"]
 [connection signal="toggled" from="HBoxContainer/VBoxContainer/PinControls/PinToggle" to="." method="_on_pin_toggle_toggled"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2/Recenter" to="." method="_on_recenter_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2/ScaleToFit" to="." method="_on_scale_to_fit_pressed"]
 [connection signal="toggled" from="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2/LockButton" to="." method="_on_lock_button_toggled"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/ModelControls/Expression" to="ExpressionMenu" method="show"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/ModelControls/Expression" to="." method="_on_expression_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/ModelControls/Bindings" to="." method="_on_edit_bindings_pressed"]
-[connection signal="confirmed" from="ExpressionMenu" to="." method="_on_expression_menu_confirmed"]
-[connection signal="confirmed" from="PinSelector" to="." method="_on_pin_selector_confirmed"]
+[connection signal="value_changed" from="HBoxContainer/VBoxContainer/AnimControls/FpsValue" to="." method="_on_fps_value_value_changed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/AnimControls/ResetFps" to="." method="_on_reset_fps_pressed"]

@@ -2,21 +2,13 @@ extends PopupPanel
 
 const VtItem = preload("res://lib/items/vt_item.gd")
 
-signal item_selected(item: VtItem)
-
 @onready var list = %List
 
-func _ready() -> void:
-	ItemManager.list_updated.connect(_on_item_manager_list_updated)
-	
-func _on_item_manager_list_updated(models: Array) -> void:
-	for f in list.get_children():
-		f.queue_free()
-	
-	for i in models:
+func _ready():
+	for i in ItemManager.item_cache:
 		var btn = Button.new()
 		btn.set_meta("model", i)
-		var i_name = i.get_file().substr(0, i.find("."))
+		var i_name = i.get_file().substr(0, i.get_file().find("."))
 		btn.name = i_name
 		btn.text = i_name
 		btn.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
@@ -29,25 +21,23 @@ func _on_item_manager_list_updated(models: Array) -> void:
 			func ():
 				var item = await ItemManager.create_item(i)
 				assert(item != null, "could not load item")
-				item_selected.emit(item)
+				
+				var preview = preload("../preview/item_preview.tscn").instantiate()
+				preview.item = item
+				get_parent().add_child(preview)
+				queue_free()
 		)
 		list.add_child(btn)
 
-func _on_visibility_changed() -> void:
-	if not visible:
-		return
-	
-	%ItemSearch.text = ""
-
 func _refresh_visibility():
-	var search = %ItemSearch.text.to_lower().strip_edges()
+	var search = %Search.text
 	var show_png = %ImageType.button_pressed
 	var show_apng = %AnimatedType.button_pressed
 	var show_l2d = %ModelType.button_pressed
 	
 	for c in %List.get_children():
 		var i = c.get_meta("model")
-		var name_matches = i.to_lower().contains(search) if not search.is_empty() else true
+		var name_matches = c.text.to_lower().contains(search) if not search.is_empty() else true
 		var type_matches = false
 		if show_png and i in ItemManager.png_items:
 			type_matches = true
@@ -57,7 +47,7 @@ func _refresh_visibility():
 			type_matches = true
 		c.visible = name_matches and type_matches
 
-func _on_item_search_text_changed(_new_text: String) -> void:
+func _on_search_text_changed(_new_text: String) -> void:
 	_refresh_visibility()
 
 func _on_image_type_toggled(_toggled_on: bool) -> void:
@@ -69,8 +59,11 @@ func _on_animated_type_toggled(_toggled_on: bool) -> void:
 func _on_model_type_toggled(_toggled_on: bool) -> void:
 	_refresh_visibility()
 
-func _on_item_selected(item: Node2D) -> void:
-	hide()
-
 func _on_cancel_button_pressed() -> void:
+	queue_free()
+
+func _on_popup_hide() -> void:
+	queue_free()
+
+func _on_close_requested() -> void:
 	hide()

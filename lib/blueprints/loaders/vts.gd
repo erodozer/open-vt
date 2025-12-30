@@ -157,7 +157,7 @@ func _build_parameter_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint
 				scalar.queue_free()
 				input = blink
 			
-		if float(data.get("Smoothing", 0.0)) > 0.0:
+		if float(data.get("Smoothing", 0.0)) > 0.0 and input != null:
 			var smoothing = graph.spawn_action(&"smoothing", model)
 			smoothing.smoothing = data.get("Smoothing", 0.0) / 100.0
 			graph._on_connection_request(

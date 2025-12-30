@@ -2,6 +2,7 @@ extends Node
 
 const GROUP_NAME = "system:stage"
 
+const VtObject = preload("res://lib/vtobject.gd")
 const VtModel = preload("res://lib/model/vt_model.gd")
 const VtItem = preload("res://lib/items/vt_item.gd")
 
@@ -14,6 +15,10 @@ var active_model: VtModel
 signal model_changed(model: VtModel)
 signal item_added(item: VtItem)
 signal item_removed(item: VtItem)
+
+var objects: Array :
+	get():
+		return canvas.get_children()
 
 func toggle_bg(enabled: bool) -> void:
 	get_tree().root.transparent_bg = enabled

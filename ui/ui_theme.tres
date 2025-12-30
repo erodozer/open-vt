@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=78 format=3 uid="uid://bwesfr5en0lxv"]
+[gd_resource type="Theme" load_steps=80 format=3 uid="uid://bwesfr5en0lxv"]
 
 [ext_resource type="Texture2D" uid="uid://cj047554m680j" path="res://ui/icons/square-check.svg" id="1_5hwks"]
 [ext_resource type="Texture2D" uid="uid://dv7o0g2fot3n3" path="res://ui/icons/toggle-on.svg" id="1_jmxgr"]
@@ -24,6 +24,10 @@ content_margin_bottom = 8.0
 bg_color = Color(0.811765, 0.788235, 0.698039, 1)
 shadow_size = 4
 shadow_offset = Vector2(2, 2)
+
+[sub_resource type="SystemFont" id="SystemFont_4bemj"]
+font_names = PackedStringArray("Adwaita Sans", "Noto Sans", "Sans-Serif")
+font_weight = 800
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qnykt"]
 content_margin_left = 4.0
@@ -486,8 +490,15 @@ bg_color = Color(0.847059, 0.823529, 0.729412, 1)
 shadow_size = 4
 shadow_offset = Vector2(0, 4)
 
+[sub_resource type="SystemFont" id="SystemFont_klrf6"]
+font_names = PackedStringArray("Adwaita Sans", "Noto Sans", "Sans-Serif")
+
 [resource]
+default_font = SubResource("SystemFont_klrf6")
+default_font_size = 16
 AcceptDialog/styles/panel = SubResource("StyleBoxFlat_b7yax")
+BoldLabel/base_type = &"Label"
+BoldLabel/fonts/font = SubResource("SystemFont_4bemj")
 Button/colors/font_color = Color(0.298039, 0.282353, 0.239216, 1)
 Button/colors/font_disabled_color = Color(0.847059, 0.823529, 0.729412, 1)
 Button/colors/font_focus_color = Color(0.788235, 0.764706, 0.670588, 1)
@@ -527,6 +538,7 @@ CheckButton/colors/font_focus_color = Color(0.298039, 0.282353, 0.239216, 1)
 CheckButton/colors/font_hover_color = Color(0.3, 0.284, 0.24, 0.588235)
 CheckButton/colors/font_hover_pressed_color = Color(0.3, 0.284, 0.24, 0.588235)
 CheckButton/colors/font_pressed_color = Color(0.298039, 0.282353, 0.239216, 1)
+CheckButton/constants/align_to_largest_stylebox = 0
 CheckButton/icons/checked = ExtResource("1_jmxgr")
 CheckButton/icons/checked_disabled = ExtResource("4_0e6vk")
 CheckButton/icons/unchecked = ExtResource("2_3w1p0")

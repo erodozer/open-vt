@@ -47,7 +47,7 @@ func load_item_scene(item_scene_cfg: Dictionary):
 		)
 		if i.item_type == VtItem.ItemType.ANIMATED:
 			var render: AnimatedSprite2D = i.render
-			render.sprite_frames.set_animation_speed("default", item.get("FPS", 1.0))
+			render.speed_scale = item.get("FPS", 1.0) / render.sprite_frames.get_animation_speed("default")
 		# convert Unity Units to Pixels
 		var scale = item.get("Size", 0) / Math.UNITY_PPU
 		i.scale = Vector2(-1 if item.get("IsFlipped", false) else 1, 1) * (1.0 + scale)
@@ -65,11 +65,7 @@ func load_item_scene(item_scene_cfg: Dictionary):
 func save_item_scene(item_scene_cfg: String):
 	pass
 
-func _on_visibility_changed() -> void:
-	if visible:
-		refresh_list()
-		
-func refresh_list():
+func _ready() -> void:
 	var scenes = get_scenes()
 	
 	for i in %ItemList.get_children():
@@ -123,3 +119,6 @@ func _on_item_selected(item: Node) -> void:
 
 func _on_close_requested() -> void:
 	hide()
+
+func _on_popup_hide() -> void:
+	queue_free()

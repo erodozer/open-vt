@@ -1,32 +1,43 @@
-[gd_scene load_steps=3 format=3 uid="uid://cwsoe8pnralgm"]
+[gd_scene load_steps=2 format=3 uid="uid://cwsoe8pnralgm"]
 
 [ext_resource type="Script" uid="uid://dt34nat7sttl2" path="res://studio/hud/model_panel/model_selector.gd" id="1_qkfd4"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2xlpb"]
-content_margin_left = 8.0
-content_margin_top = 8.0
-content_margin_right = 8.0
-content_margin_bottom = 8.0
-bg_color = Color(0.0885599, 0.0885599, 0.0885599, 1)
-
 [node name="Model" type="PanelContainer"]
+custom_minimum_size = Vector2(0, 80)
+offset_right = 152.0
+offset_bottom = 78.0
+size_flags_horizontal = 3
+mouse_filter = 1
 mouse_default_cursor_shape = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_2xlpb")
+theme_type_variation = &"ButtonPanel"
 script = ExtResource("1_qkfd4")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="Layout" type="HBoxContainer" parent="."]
 layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
 
-[node name="Icon" type="TextureRect" parent="VBoxContainer"]
+[node name="Icon" type="TextureRect" parent="Layout"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(128, 128)
+texture_filter = 6
+custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 expand_mode = 1
+stretch_mode = 5
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Layout"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Layout/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"BoldLabel"
+theme_override_font_sizes/font_size = 18
 text = "ero_px"
-horizontal_alignment = 1
+
+[node name="LastSaved" type="Label" parent="Layout/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Last Used"
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]

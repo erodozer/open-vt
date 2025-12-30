@@ -3,6 +3,7 @@ extends "res://ui/popout_panel.gd"
 var open
 var group: ButtonGroup
 
+@onready var stage = get_tree().get_first_node_in_group("system:stage")
 @onready var popup_bg = %Bg
 @onready var panels = %Panels
 @onready var onscreen_buttons = %OnscreenButtons
@@ -70,24 +71,34 @@ func _ready() -> void:
 
 func _close_panel():
 	if open != null:
-		open.create_tween().tween_property(
+		var t: Tween = open.create_tween()
+		t.tween_property(
 			open,
 			"offset_right",
 			open.size.x,
 			0.3
 		).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC).from(0)
+		t.tween_callback(open.hide)
+		t.tween_callback(open.teardown)
 		
 		open = null
 
 func _open_panel(panel):
-	if panel != null and panel.has_method("_refresh"):
-		await panel._refresh()
-	
+	if panel != null:
+		# ignore opening panels that require a model when a model isn't present
+		if panel.get_meta("model", false) and stage.active_model == null:
+			return
+			
+		if panel.has_method("_refresh"):
+			await panel._refresh()
+		
 	if panel == open:
 		return
 	
 	_close_panel()
 	if panel != null:
+		panel.show()
+		panel.setup()
 		panel.create_tween().tween_property(
 			panel,
 			"offset_right",
@@ -128,8 +139,9 @@ func _on_action_btn_pressed() -> void:
 		else:
 			editor.grab_focus()
 			return
+	if stage.active_model == null:
+		return
 	
-	var stage = get_tree().get_first_node_in_group("system:stage")
 	editor = preload("res://studio/hud/blueprint_editor/editor.tscn").instantiate()
 	editor.active_model = stage.active_model
 	editor.visible = true

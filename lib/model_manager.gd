@@ -41,10 +41,8 @@ func load_data(path: String) -> ModelMeta:
 	meta.studio_parameters = vt_file
 	meta.openvt_parameters = "%s/%s.ovt.json" % [meta.model.get_base_dir(), base_name]
 	meta.model_parameters = vt_file.get_base_dir().path_join(model_data["FileReferences"]["DisplayInfo"])
-	meta.icon = load("res://branding/monochrome.svg") if vtube_data["FileReferences"].get("Icon", "").is_empty() else \
-		ImageTexture.create_from_image(
-			Image.load_from_file(vt_file.get_base_dir().path_join(vtube_data["FileReferences"]["Icon"]))
-		)
+	meta.icon = "" if vtube_data.get("FileReferences", {}).get("Icon", "").is_empty() else vt_file.get_base_dir().path_join(vtube_data.get("FileReferences", {}).get("Icon", ""))
+	meta.last_updated = String(vtube_data.get("ModelSaveMetadata", {}).get("LastSavedDateUnixMillisecondTimestamp", "0")).to_int() / 1000.0
 	return meta
 	
 func refresh_models():
@@ -59,7 +57,10 @@ func refresh_models():
 		if meta:
 			model_cache[meta.id] = meta
 		
-	list_updated.emit(model_cache.values())
+	var models = model_cache.values()
+	list_updated.emit(models)
+	
+	return models
 
 func make_model(model):
 	var data

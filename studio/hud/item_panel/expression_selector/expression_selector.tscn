@@ -1,0 +1,46 @@
+[gd_scene load_steps=2 format=3 uid="uid://babyba4f3kasj"]
+
+[ext_resource type="Script" uid="uid://c280n371fjx2p" path="res://studio/hud/item_panel/expression_selector/expression_selector.gd" id="1_6363f"]
+
+[node name="ExpressionMenu" type="ConfirmationDialog"]
+oversampling_override = 1.0
+title = "Set Expression"
+initial_position = 2
+size = Vector2i(320, 140)
+unresizable = true
+script = ExtResource("1_6363f")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 312.0
+offset_bottom = 70.0
+
+[node name="Expressions" type="OptionButton" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Duration"
+
+[node name="Duration" type="SpinBox" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 10.0
+step = 0.01
+alignment = 2
+suffix = "S"
+
+[node name="Exclusive" type="CheckButton" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Exclusive"
+
+[connection signal="canceled" from="." to="." method="_on_canceled"]
+[connection signal="close_requested" from="." to="." method="_on_close_requested"]
+[connection signal="confirmed" from="." to="." method="_on_confirmed"]

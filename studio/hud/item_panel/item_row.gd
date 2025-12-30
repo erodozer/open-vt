@@ -16,25 +16,18 @@ func _ready() -> void:
 		%PinControls.hide()
 		%ZControls.hide()
 		%DeleteButton.hide()
-		%ModelControls.hide()
 	else:
 		item.pin_changed.connect(_update_pin_name)
 		%PinToggle.button_pressed = item.pinnable
-		%PinSelector.model = model
 		if item.item_type == VtItem.ItemType.IMAGE:
 			%Icon.texture = preload("./static_image.svg")
 		elif item.item_type == VtItem.ItemType.ANIMATED:
 			%Icon.texture = preload("./animated_image.svg")
+			%AnimControls.show()
+			%FpsValue.value = item.render.speed_scale * item.render.sprite_frames.get_animation_speed("default")
 		elif item.item_type == VtItem.ItemType.MODEL:
 			%Icon.texture = preload("./motion.svg")
-
-		if item.item_type != VtItem.ItemType.MODEL:
-			%ModelControls.hide()
-		elif item.item_type == VtItem.ItemType.MODEL:
-			for e in item.render.expressions:
-				var idx = %Expressions.item_count
-				%Expressions.add_item(e)
-				%Expressions.set_item_metadata(idx, e)
+			%ModelControls.show()
 	
 	_on_transform_update(item.position, item.scale, item.rotation_degrees)
 	item.transform_updated.connect(_on_transform_update)
@@ -112,24 +105,39 @@ func _on_edit_bindings_pressed() -> void:
 			return
 	
 	assert(item.item_type == VtItem.ItemType.MODEL)
-	editor = preload("res://studio/hud/blueprint_editor/editor.tscn").instantiate()
+	editor = load("res://studio/hud/blueprint_editor/editor.tscn").instantiate()
 	editor.active_model = item.render as VtModel
 	editor.visible = true
 	add_child(editor)
-
-func _on_expression_menu_confirmed() -> void:
-	assert(item.item_type == VtItem.ItemType.MODEL)
-	var selected = %Expressions.get_selected_metadata()
-	item.render.toggle_expression(selected, true, %Duration.value, %Exclusive.button_pressed)
-
-func _on_pin_selector_confirmed() -> void:
-	var vitem = item as VtItem
-	var mesh = %PinSelector.mesh
-	vitem.pinned_to = mesh
-	%PinTarget.text = "-" if mesh == null else mesh.name
 
 func _on_recenter_pressed() -> void:
 	item.position = item.get_viewport_rect().get_center()
 
 func _on_scale_to_fit_pressed() -> void:
 	item.scale = Vector2.ONE * min(1.0, item.get_viewport_rect().size.y / item.size.y)
+
+func _on_fps_value_value_changed(value: float) -> void:
+	var frames = item.render.sprite_frames as SpriteFrames
+	var sprite = item.render as AnimatedSprite2D
+	
+	var fps = frames.get_animation_speed("default")
+	sprite.speed_scale = value / float(fps)
+
+func _on_reset_fps_pressed() -> void:
+	var frames = item.render.sprite_frames as SpriteFrames
+	%FpsValue.value = frames.get_animation_speed("default")
+
+func _on_expression_pressed() -> void:
+	var popup = load("res://studio/hud/item_panel/expression_selector/expression_selector.tscn").instantiate()
+	popup.item = item
+	add_child(popup)
+
+func _on_pin_target_pressed() -> void:
+	var popup = load("res://studio/hud/item_panel/pin_selector/pin_selector.tscn").instantiate()
+	popup.model = model
+	popup.confirmed.connect(
+		func ():
+			%PinTarget.text = "-" if popup.mesh == null else popup.mesh.name
+			item.mesh = popup.mesh
+	)
+	add_child(popup)

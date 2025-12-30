@@ -84,7 +84,12 @@ func create_item(path: String) -> VtItem:
 	
 	if path in png_items:
 		var render = Sprite2D.new()
-		var texture = ImageTexture.create_from_image(Image.load_from_file(path))
+		var texture: Texture2D
+		if ResourceLoader.has_cached(path):
+			texture = ResourceLoader.load(path)
+		else:
+			texture = ImageTexture.create_from_image(Image.load_from_file(path))
+			texture.take_over_path(path)
 		render.name = "Render"
 		render.texture = texture
 		render.centered = true
@@ -93,23 +98,33 @@ func create_item(path: String) -> VtItem:
 		vtitem.add_child(render)
 		vtitem.render = render
 	elif path in apng_items:
-		var frames = SpriteFrames.new()
-		frames.set_animation_loop("default", true)
-		var size = Vector2.ZERO
-		for i in DirAccess.get_files_at(path):
-			var fp = path.path_join(i)
-			if fp.ends_with(".png"):
-				var tex = ImageTexture.create_from_image(Image.load_from_file(fp))
-				frames.add_frame(
-					"default",
-					tex
-				)
-				size = Vector2(
-					max(size.x, tex.get_size().x),
-					max(size.y, tex.get_size().y)
-				)
-		frames.set_animation_speed("default", 60.0 / frames.get_frame_count("default"))
+		var frames: SpriteFrames
 		
+		if ResourceLoader.has_cached(path):
+			frames = ResourceLoader.load(path)
+		else:
+			frames = SpriteFrames.new()
+			frames.set_animation_loop("default", true)
+			for i in DirAccess.get_files_at(path):
+				var fp = path.path_join(i)
+				if fp.ends_with(".png"):
+					var tex = ImageTexture.create_from_image(Image.load_from_file(fp))
+					frames.add_frame(
+						"default",
+						tex
+					)
+					
+			frames.set_animation_speed("default", 60.0 / frames.get_frame_count("default"))
+			frames.take_over_path(path)
+		
+		var size = Vector2.ZERO
+		for f in range(frames.get_frame_count("default")):
+			var tex = frames.get_frame_texture("default", f)
+			size = Vector2(
+				max(size.x, tex.get_size().x),
+				max(size.y, tex.get_size().y)
+			)
+			
 		var render = AnimatedSprite2D.new()
 		render.sprite_frames = frames
 		render.play("default")

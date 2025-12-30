@@ -142,6 +142,7 @@ mouse_default_cursor_shape = 2
 icon = ExtResource("7_bomus")
 icon_alignment = 1
 expand_icon = true
+metadata/model = true
 
 [node name="ScreenshotBtn" type="Button" parent="Menu/VBoxContainer"]
 unique_name_in_owner = true
@@ -186,6 +187,7 @@ layer = 5
 
 [node name="ParameterPanel" parent="Panels" instance=ExtResource("9_p03m3")]
 unique_name_in_owner = true
+visible = false
 anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
@@ -195,17 +197,19 @@ grow_horizontal = 0
 
 [node name="ModelPanel" parent="Panels" instance=ExtResource("10_6xy5i")]
 unique_name_in_owner = true
+visible = false
 offset_left = 1548.0
 offset_right = 2028.0
-offset_bottom = 72.0
 
 [node name="ItemPanel" parent="Panels" instance=ExtResource("11_juv7g")]
 unique_name_in_owner = true
+visible = false
 offset_left = 1549.0
 offset_right = 2029.0
 
 [node name="CameraPanel" parent="Panels" instance=ExtResource("12_blrl1")]
 unique_name_in_owner = true
+visible = false
 offset_left = 1550.0
 offset_right = 2030.0
 

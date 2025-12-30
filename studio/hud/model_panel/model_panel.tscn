@@ -16,17 +16,11 @@ script = ExtResource("1_4axdi")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
+theme_override_constants/separation = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
-layout_mode = 2
-theme_type_variation = &"SubPanelContainer"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer"]
-layout_mode = 2
-
-[node name="DirectoryButton" type="Button" parent="VBoxContainer/PanelContainer/VBoxContainer"]
+[node name="DirectoryButton" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 text = "Open Model Directory"
 
@@ -36,10 +30,17 @@ size_flags_vertical = 3
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 
-[node name="ModelList" type="GridContainer" parent="VBoxContainer/ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 4
+
+[node name="ModelList" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 6
-columns = 3
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[connection signal="pressed" from="VBoxContainer/PanelContainer/VBoxContainer/DirectoryButton" to="." method="_on_directory_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/DirectoryButton" to="." method="_on_directory_button_pressed"]

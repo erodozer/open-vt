@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends Popup
 
 var accepted: String
 
@@ -15,6 +15,8 @@ func load_settings(settings: Dictionary):
 	accepted = settings.get("accepted_terms", "")
 	if not accepted.is_empty():
 		queue_free()
+	else:
+		show()
 	
 func _on_accept_pressed() -> void:
 	accepted = "%d" % Time.get_unix_time_from_system()
@@ -22,3 +24,6 @@ func _on_accept_pressed() -> void:
 	
 func _on_reject_pressed() -> void:
 	get_tree().quit()
+
+func _on_close_requested() -> void:
+	_on_reject_pressed()

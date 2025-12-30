@@ -15,11 +15,14 @@ custom_minimum_size = Vector2(320, 360)
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 328.0
-offset_bottom = 368.0
+offset_bottom = 371.0
 
 [node name="Meshes" type="VBoxContainer" parent="ScrollContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
+[connection signal="canceled" from="." to="." method="_on_canceled"]
+[connection signal="close_requested" from="." to="." method="_on_close_requested"]
+[connection signal="confirmed" from="." to="." method="_on_confirmed"]
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
