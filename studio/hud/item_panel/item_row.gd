@@ -138,6 +138,6 @@ func _on_pin_target_pressed() -> void:
 	popup.confirmed.connect(
 		func ():
 			%PinTarget.text = "-" if popup.mesh == null else popup.mesh.name
-			item.mesh = popup.mesh
+			item.pinned_to = popup.mesh
 	)
 	add_child(popup)

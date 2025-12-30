@@ -89,16 +89,13 @@ func _open_panel(panel):
 		if panel.get_meta("model", false) and stage.active_model == null:
 			return
 			
-		if panel.has_method("_refresh"):
-			await panel._refresh()
-		
 	if panel == open:
 		return
 	
 	_close_panel()
 	if panel != null:
 		panel.show()
-		panel.setup()
+		await panel.setup()
 		panel.create_tween().tween_property(
 			panel,
 			"offset_right",

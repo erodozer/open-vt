@@ -14,9 +14,10 @@ const l2d_shaders: Array[Shader] = [
 ]
 
 var live2d_model: GDCubismUserModel
-var container = preload("./pixel_subviewport.tscn").instantiate()
+var container: Node
 
 func _ready() -> void:
+	container = preload("./pixel_subviewport.tscn").instantiate()
 	add_child(container)
 
 func is_initialized() -> bool:

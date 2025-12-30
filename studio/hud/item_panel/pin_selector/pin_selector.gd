@@ -7,35 +7,28 @@ var model: VtModel
 var mesh: MeshInstance2D
 var btn_group = ButtonGroup.new()
 
-func _on_visibility_changed() -> void:
-	if not visible:
-		for i in %Meshes.get_children():
-			i.queue_free()
+func _ready():
+	var btn = _make_btn(null)
+	%Meshes.add_child(btn)
 	
-	if visible:
-		var btn = _make_btn(null)
+	for i in model.get_meshes():
+		if i.get_meta("pinnable", true):
+			btn = _make_btn(i)
 		%Meshes.add_child(btn)
-		
-		for i in model.get_meshes():
-			if i.get_meta("pinnable", true):
-				btn = _make_btn(i)
-			%Meshes.add_child(btn)
-		
-		%Meshes.get_child(0).button_pressed = true
+	
+	%Meshes.get_child(0).button_pressed = true
+	%Search.items = %Meshes.get_children()
 
 func _make_btn(m: MeshInstance2D):
 	var btn = Button.new()
 	btn.text = "-" if m == null else m.name
 	btn.toggle_mode = true
 	btn.button_group = btn_group
-	btn.toggled.connect(
-		func (toggled):
-			if toggled:
-				mesh = m
-	)
+	btn.set_meta("mesh", m)
 	return btn
 
 func _on_confirmed() -> void:
+	mesh = btn_group.get_pressed_button().get_meta("mesh", null)
 	close_requested.emit()
 
 func _on_canceled() -> void:

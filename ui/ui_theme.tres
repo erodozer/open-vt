@@ -26,7 +26,6 @@ shadow_size = 4
 shadow_offset = Vector2(2, 2)
 
 [sub_resource type="SystemFont" id="SystemFont_4bemj"]
-font_names = PackedStringArray("Adwaita Sans", "Noto Sans", "Sans-Serif")
 font_weight = 800
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qnykt"]
@@ -491,7 +490,6 @@ shadow_size = 4
 shadow_offset = Vector2(0, 4)
 
 [sub_resource type="SystemFont" id="SystemFont_klrf6"]
-font_names = PackedStringArray("Adwaita Sans", "Noto Sans", "Sans-Serif")
 
 [resource]
 default_font = SubResource("SystemFont_klrf6")

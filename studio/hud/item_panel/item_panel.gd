@@ -62,11 +62,15 @@ func _on_stage_update_order(objects: Array[Node]) -> void:
 				%StageItems.move_child(c, i)
 
 func _on_add_button_pressed() -> void:
-	if stage.active_model:
-		add_child(preload("./item_selector/item_selector.tscn").instantiate())
+	if not stage.active_model:
+		return
+	
+	var popup = preload("./item_selector/item_selector.tscn").instantiate()
+	add_child(popup)
 	
 func _on_clear_button_pressed() -> void:
 	stage.clear_items()
 
 func _on_load_button_pressed() -> void:
-	add_child(preload("./scene_selector/scene_selector_popup.tscn").instantiate())
+	var popup = preload("./scene_selector/scene_selector_popup.tscn").instantiate()
+	add_child(popup)

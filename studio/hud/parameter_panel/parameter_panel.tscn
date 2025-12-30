@@ -7,9 +7,12 @@
 
 [node name="ParameterPanel" type="PanelContainer"]
 custom_minimum_size = Vector2(480, 0)
-anchors_preset = 9
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 352.0
+offset_left = -16.0
+grow_horizontal = 0
 grow_vertical = 2
 mouse_force_pass_scroll_events = false
 script = ExtResource("1_5864b")
