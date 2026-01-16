@@ -5,7 +5,9 @@ var values = {}
 
 var parameters: Dictionary :
 	get():
-		return get_parent().parameters
+		if get_parent() != null:
+			return get_parent().parameters
+		return {}
 	
 func reset():
 	values.clear()

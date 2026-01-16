@@ -27,7 +27,9 @@ func load_data(path: String) -> ModelMeta:
 		return null
 				
 	var vtube_data = Files.read_json(vt_file)
-	var model_data = Files.read_json(vt_file.get_base_dir().path_join(vtube_data["FileReferences"]["Model"]))
+	var vt_file_refs = vtube_data.get("FileReferences", {})
+	
+	var model_data = Files.read_json(vt_file.get_base_dir().path_join(vt_file_refs.get("Model", "")))
 		
 	var meta = ModelMeta.new()
 	var base_name = vt_file.get_file()
@@ -40,9 +42,14 @@ func load_data(path: String) -> ModelMeta:
 	meta.format = "l2d"
 	meta.studio_parameters = vt_file
 	meta.openvt_parameters = "%s/%s.ovt.json" % [meta.model.get_base_dir(), base_name]
-	meta.model_parameters = vt_file.get_base_dir().path_join(model_data["FileReferences"]["DisplayInfo"])
-	meta.icon = "" if vtube_data.get("FileReferences", {}).get("Icon", "").is_empty() else vt_file.get_base_dir().path_join(vtube_data.get("FileReferences", {}).get("Icon", ""))
 	meta.last_updated = String(vtube_data.get("ModelSaveMetadata", {}).get("LastSavedDateUnixMillisecondTimestamp", "0")).to_int() / 1000.0
+	
+	var file_refs = model_data.get("FileReferences", {})
+	meta.model_parameters = vt_file.get_base_dir().path_join(file_refs["DisplayInfo"])
+	meta.physics = "" if file_refs.get("Physics", "").is_empty() else vt_file.get_base_dir().path_join(file_refs["Physics"])
+	
+	meta.icon = "" if vt_file_refs.get("Icon", "").is_empty() else vt_file.get_base_dir().path_join(vt_file_refs["Icon"])
+	
 	return meta
 	
 func refresh_models():

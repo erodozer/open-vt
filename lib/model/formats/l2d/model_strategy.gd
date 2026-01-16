@@ -111,8 +111,8 @@ func load_model():
 	if not await _rebuild_l2d(meta, smoothing, filter):
 		return false
 		
-	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(meta.studio_parameters))
-	var model_data = JSON.parse_string(FileAccess.get_file_as_string(meta.model))
+	var vtube_data = Files.read_json(meta.studio_parameters)
+	var model_data = Files.read_json(meta.model)
 	
 	var mesh_details = vtube_data.get("ArtMeshDetails", {})
 	for m in get_meshes():
