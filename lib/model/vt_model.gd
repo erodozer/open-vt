@@ -200,8 +200,15 @@ func save_settings(_settings: Dictionary):
 			"position": Serializers.Vec2Serializer.to_json(self.position),
 			"scale": self.scale.x,
 			"rotation": self.rotation_degrees
-		}
+		},
+		"graphs": blueprints.reduce(
+			func (acc, b):
+				acc[b.name] = b.serialize()
+				return acc,
+			{}
+		)
 	}
+	
 	for o in get_tree().get_nodes_in_group("persist:model"):
 		o.save_settings(model_data)
 	Files.write_json(model.openvt_parameters, model_data)

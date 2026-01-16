@@ -15,8 +15,8 @@ var parameter: String = "unset" :
 				return p.id == v
 		)
 		value = Registry.parameters()[idx].get("default_value", 0.0)
-		if input != null:
-			input.select(idx)
+		if input != null and input.selected != idx:
+			input.selected = idx
 		
 var value: float = 0.0 :
 	set(v):
@@ -125,3 +125,6 @@ func get_value(_slot):
 
 func _on_reset_button_pressed() -> void:
 	clamp_range = Registry.get(parameter).range
+
+func _on_input_item_selected(index: int) -> void:
+	parameter = input.get_item_text(index)
