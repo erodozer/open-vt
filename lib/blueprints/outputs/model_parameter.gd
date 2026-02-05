@@ -41,6 +41,8 @@ var invert_value: bool = false :
 			
 var value: float :
 	set(v):
+		if value == v:
+			return
 		value = v
 		%Input/Value.set_value_no_signal(v)
 		_dirty = true
@@ -50,8 +52,9 @@ var _dirty = false
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:	
 	for m in model.parameters.values():
-		input.add_item(m.name)
-		input.set_item_metadata(input.item_count - 1, m)
+		if m.get("bindable", true):
+			input.add_item(m.name)
+			input.set_item_metadata(input.item_count - 1, m)
 	input.select(parameter)
 
 func bind(slot: int, node: GraphNode) -> void:

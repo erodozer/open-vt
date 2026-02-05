@@ -28,9 +28,10 @@ func get_meshes() -> Array:
 		return live2d_model.get_meshes()
 	return []
 	
+var _parameters: Dictionary = {}
 func get_parameters() -> Dictionary:
 	if is_initialized():
-		return live2d_model.parameters
+		return _parameters
 	return {}
 	
 func get_size() -> Vector2:
@@ -99,6 +100,15 @@ func _rebuild_l2d(meta: ModelMeta, smoothing: bool, filter: CanvasItem.TextureFi
 	loaded_model.add_child(physics)
 	physics.name = "Physics"
 	
+	_parameters = {}
+	_parameters.merge(live2d_model.parameters)
+	for key in live2d_model.parts.keys():
+		var part = {
+			"bindable": false
+		}
+		part.merge(live2d_model.parts[key])
+		_parameters[key] = part
+		
 	return true
 
 func load_model():
