@@ -35,12 +35,15 @@ func setup():
 		
 	%IdleAnimation.clear()
 	%IdleAnimation.add_item("None")
-	for anim in model.get_idle_animation_player().get_animation_library("").get_animation_list():
-		if anim == "RESET":
-			continue
-		%IdleAnimation.add_item(anim)
-		if anim == model.get_idle_animation_player().current_animation:
-			%IdleAnimation.selected = %IdleAnimation.item_count - 1
+	var lib = model.get_idle_animation_player().get_animation_library("")
+	if lib:
+		for anim in lib.get_animation_list():
+			if anim == "RESET":
+				continue
+			%IdleAnimation.add_item(anim)
+			if anim == model.get_idle_animation_player().current_animation:
+				%IdleAnimation.selected = %IdleAnimation.item_count - 1
+	%IdleAnimation.disabled = not lib or lib.get_animation_list_size() == 0
 		
 	%TextureFilter.select(1 if model.filter == TEXTURE_FILTER_LINEAR_WITH_MIPMAPS else 0)
 	%SmoothScaling.set_pressed_no_signal(model.smoothing)

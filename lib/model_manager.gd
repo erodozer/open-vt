@@ -17,7 +17,7 @@ func _ready() -> void:
 	
 	formats = [
 		preload("res://lib/model/formats/l2d/model_loader.gd").new(),
-		#preload("res://lib/model/formats/vrm/model_loader.gd").new()
+		preload("res://lib/model/formats/vrm/model_loader.gd").new()
 	]
 	
 func _get(property: StringName) -> Variant:
