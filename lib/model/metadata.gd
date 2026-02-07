@@ -24,8 +24,6 @@ var icon_texture: Texture2D :
 	
 ## path to the moc3.json file as defined in vtube.json
 var model: String
-## typically the path to cdi3 file, as defined in moc3.json
-var model_parameters: String
 ## path to the physics3.json file that l2d models may have
 var physics: String
 ## time the model was last opened/saved

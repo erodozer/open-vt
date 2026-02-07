@@ -107,6 +107,9 @@ func _load_model():
 	parameters = format_strategy.get_parameters()
 	_loading = false
 	loaded.emit()
+	initialized.emit()
+	
+	BlueprintManager.register_graph(self)
 		
 func toggle_expression(expression_name: String, activate: bool = true, duration: float = 1.0, exclusive: bool = false):
 	if expression_name.is_empty():
@@ -135,6 +138,9 @@ func hydrate(_settings: Dictionary):
 
 ## save bidirectional vts compatible settings
 func _save_to_vts():
+	if model.studio_parameters.is_empty():
+		return
+	
 	var vtube_data = Files.read_json(model.studio_parameters)
 	# vtube_data["ParameterSettings"] = studio_parameters.map(func (x): return x.serialize())
 	vtube_data["ArtMeshDetails"]["ArtMeshesExcludedFromPinning"] = get_meshes().filter(
@@ -150,6 +156,9 @@ func _save_to_vts():
 	
 ## load bidirectional vts compatible settings
 func _load_from_vts():
+	if model.studio_parameters.is_empty():
+		return
+	
 	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(model.studio_parameters))
 	
 	var idle_animation = vtube_data["FileReferences"]["IdleAnimation"]

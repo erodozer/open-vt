@@ -3,6 +3,14 @@ extends Node2D
 
 const ModelMeta = preload("../metadata.gd")
 
+@export var parameters: Dictionary :
+	get():
+		return get_parameters()
+
+@export var meshes: Array :
+	get():
+		return get_meshes()
+
 @abstract func is_initialized() -> bool
 
 @abstract func load_model() -> bool

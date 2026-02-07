@@ -175,9 +175,15 @@ const DEFAULT_BINDINGS = {
 
 const spacing = 30
 
+func id() -> StringName:
+	return "l2d"
+	
 ## given a L2D model, create a blueprint using the standard parameter list
 ## https://docs.live2d.com/en/cubism-editor-manual/standard-parameter-list/
 func load_graph(model: VtModel) -> Array[Blueprint]:
+	if model.model.format != "l2d":
+		return []
+	
 	var graph = BlueprintTemplate.instantiate()
 	graph.name = "L2D Standard"
 	
