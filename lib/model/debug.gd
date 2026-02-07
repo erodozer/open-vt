@@ -12,7 +12,7 @@ func _process(_delta: float) -> void:
 	
 func _draw() -> void:
 	for m in model.get_meshes():
-		if not model.pinnable.get(m.name, false):
+		if not model.format_strategy.get_modifiers(m).get("pinnable", {}).get("enabled", true):
 			continue
 			
 		if not m.visible:

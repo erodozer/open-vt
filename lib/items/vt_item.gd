@@ -1,7 +1,6 @@
 extends "res://lib/vtobject.gd"
 
 const VtModel = preload("res://lib/model/vt_model.gd")
-const Math = preload("res://lib/utils/math.gd")
 
 # distance from the center of the item to sample for vertices
 # assuming this is how VTS is deciding which vertices to bind to
@@ -102,7 +101,7 @@ func _on_drag_released() -> void:
 	var pinned = pinned_to
 	pin_vertices = Vector3.ZERO
 	for mesh in meshes:
-		if not mesh.get_meta("pinnable", false):
+		if not is_pinnable(mesh):
 			continue
 		if not mesh.visible:
 			continue
@@ -140,3 +139,6 @@ func _on_drag_pressed() -> void:
 	pinned_to = null
 	pin_offset = Vector2.ZERO
 	pin_changed.emit(null)
+
+func is_pinnable(mesh: Node):
+	return model.format_strategy.get_modifiers(mesh).get("Pin", {}).get("enabled", true)

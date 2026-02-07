@@ -86,18 +86,50 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam" unique_id=1722306373]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam" unique_id=2056027902]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam/HBoxContainer" unique_id=1722306373]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 0
 tooltip_text = "Use microphone input on PC to affect certain
 mouth related tracking parameters"
-text = "Virtual Webcam (V4l2 Loopback Output Device)"
+text = "Virtual Webcam (V4l2 Loopback)"
+vertical_alignment = 1
 
-[node name="Value" type="OptionButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam" unique_id=370618489]
+[node name="V4L2Toggle" type="CheckButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam/HBoxContainer" unique_id=1553025749]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="V4l2OutputStream" type="VirtualCamera" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam" unique_id=1899643308]
+[node name="VirtualCameraDevice" type="OptionButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam" unique_id=370618489]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="NetworkWebcam" type="VBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer" unique_id=2087614332]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/NetworkWebcam" unique_id=642714933]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/NetworkWebcam/HBoxContainer" unique_id=1048819840]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Use microphone input on PC to affect certain
+mouth related tracking parameters"
+text = "NDI"
+
+[node name="NDIToggle" type="CheckButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/NetworkWebcam/HBoxContainer" unique_id=1565843818]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="NDIName" type="LineEdit" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/NetworkWebcam" unique_id=1368655428]
+unique_name_in_owner = true
+layout_mode = 2
+text = "OpenVT"
+editable = false
+
+[node name="V4l2OutputStream" type="VirtualCamera" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/NetworkWebcam" unique_id=2005881638]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer" unique_id=285867131]
 visible = false
@@ -156,5 +188,6 @@ layout_mode = 2
 [connection signal="item_selected" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer3/FPS" to="." method="_on_fps_value_item_selected"]
 [connection signal="toggled" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer2/TransparencyToggle" to="." method="_on_transparency_toggle_toggled"]
 [connection signal="toggled" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer4/MicrophoneToggle" to="." method="_on_microphone_toggle_toggled"]
-[connection signal="item_selected" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam/Value" to="." method="_on_loopback_item_selected"]
+[connection signal="toggled" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam/HBoxContainer/V4L2Toggle" to="." method="_on_v4l2_toggled"]
+[connection signal="item_selected" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam/VirtualCameraDevice" to="." method="_on_loopback_item_selected"]
 [connection signal="color_changed" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer/PreviewBackgroundColor" to="." method="_on_preview_background_color_color_changed"]

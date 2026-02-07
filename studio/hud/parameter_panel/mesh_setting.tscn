@@ -43,25 +43,5 @@ icon = ExtResource("3_0w51m")
 icon_alignment = 1
 expand_icon = true
 
-[node name="ColorMultiply" type="ColorPickerButton" parent="MeshSetting" unique_id=1387958832]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(48, 24)
-layout_mode = 2
-tooltip_text = "Multiply Color"
-color = Color(1, 1, 1, 1)
-edit_intensity = false
-
-[node name="ColorScreen" type="ColorPickerButton" parent="MeshSetting" unique_id=615300082]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(48, 24)
-layout_mode = 2
-tooltip_text = "Screen Color"
-edit_alpha = false
-edit_intensity = false
-
 [connection signal="toggled" from="MeshSetting/PinToggle" to="." method="_on_pin_toggle_toggled"]
 [connection signal="toggled" from="MeshSetting/ColorToggle" to="." method="_on_color_toggle_toggled"]
-[connection signal="color_changed" from="MeshSetting/ColorMultiply" to="." method="_on_color_multiply_color_changed"]
-[connection signal="color_changed" from="MeshSetting/ColorScreen" to="." method="_on_color_screen_color_changed"]

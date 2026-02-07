@@ -20,6 +20,9 @@ var objects: Array :
 	get():
 		return canvas.get_children()
 
+func toggle_ndi(enabled: bool) -> void:
+	%NDIOutput.enable_video_output = enabled
+
 func toggle_bg(enabled: bool) -> void:
 	get_tree().root.transparent_bg = enabled
 	get_window().transparent = true

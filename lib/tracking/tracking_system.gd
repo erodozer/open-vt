@@ -37,6 +37,7 @@ func _process(delta: float) -> void:
 	parameters.merge(
 		{
 			"VoiceVolumePlusMouthOpen": Registry.clamp_to_range(parameters.get("MouthOpen", 0) + parameters.get("VoiceVolume", 0), "MouthOpen"),
+			"VoiceFrequencyPlusMouthSmile": Registry.clamp_to_range(parameters.get("MouthSmile", 0) + parameters.get("VoiceFrequency", 0), "MouthSmile"),
 		}, true
 	)
 	

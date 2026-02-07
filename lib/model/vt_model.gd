@@ -8,7 +8,6 @@ const ExpressionController = preload("./parameters/expression_value_provider.gd"
 const Tracker = preload("res://lib/tracking/tracker.gd")
 const ModelMeta = preload("./metadata.gd")
 const Serializers = preload("res://lib/utils/serializers.gd")
-const Math = preload("res://lib/utils/math.gd")
 
 var model: ModelMeta
 @onready var mixer = %Mixer
@@ -34,14 +33,11 @@ var mipmaps: bool = false :
 	set(v):
 		mipmaps = v
 		
-var parameters: Dictionary :
+var parameters: Dictionary[String, Dictionary] :
 	get():
 		if is_initialized():
 			return format_strategy.get_parameters()
-		return {}
-	set(values):
-		if is_initialized():
-			format_strategy.apply_parameters(values)
+		return {} as Dictionary[String, Dictionary]
 		
 var expressions: Array :
 	get():
@@ -61,6 +57,10 @@ var blueprints: Array :
 			else:
 				%Actions.add_child(g)
 			g.visible = false
+			
+var texture : Texture2D :
+	get():
+		return format_strategy.get_texture()
 
 # item pinning
 var rest_anchors: Dictionary = {}
@@ -101,13 +101,23 @@ func _load_model():
 	_load_settings()
 	
 	size = format_strategy.get_size()
+	transform_updated.connect(
+		func (pos, rot, scl, offset, ypr):
+			# some formats will have their size/bounds change based on
+			# drag transformations.  As such, make sure we always
+			# have the most up to date size after dragging
+			size = format_strategy.get_size()
+	)
+	
 	rotation_degrees = 0
 	# pivot_offset = size / 2
 	# spawn off screen
 	
-	parameters = format_strategy.get_parameters()
 	_loading = false
 	loaded.emit()
+	initialized.emit()
+	
+	BlueprintManager.register_graph(self)
 		
 func toggle_expression(expression_name: String, activate: bool = true, duration: float = 1.0, exclusive: bool = false):
 	if expression_name.is_empty():
@@ -136,6 +146,9 @@ func hydrate(_settings: Dictionary):
 
 ## save bidirectional vts compatible settings
 func _save_to_vts():
+	if model.studio_parameters.is_empty():
+		return
+	
 	var vtube_data = Files.read_json(model.studio_parameters)
 	# vtube_data["ParameterSettings"] = studio_parameters.map(func (x): return x.serialize())
 	vtube_data["ArtMeshDetails"]["ArtMeshesExcludedFromPinning"] = get_meshes().filter(
@@ -164,6 +177,9 @@ func _save_to_vts():
 	
 ## load bidirectional vts compatible settings
 func _load_from_vts():
+	if model.studio_parameters.is_empty():
+		return
+	
 	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(model.studio_parameters))
 	
 	var idle_animation = vtube_data["FileReferences"]["IdleAnimation"]

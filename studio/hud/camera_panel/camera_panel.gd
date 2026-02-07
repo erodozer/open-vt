@@ -12,6 +12,7 @@ signal update_bg_color(color: Color)
 @onready var fps_option: OptionButton = %FPS
 
 @onready var parameter_list = %ParameterList
+@onready var v4l2_stream: VirtualCamera = get_tree().get_first_node_in_group("output:v4l2")
 
 func _get_title():
 	return "Settings"
@@ -57,17 +58,14 @@ func _ready() -> void:
 		)
 		
 	if OS.has_feature("linux"):
-		CameraServer.set_monitoring_feeds(true)
-		await get_tree().process_frame
-		var feeds = CameraServer.feeds()
-		for i in feeds:
-			var id = i.get_id()
-			var name = i.get_name()
-			%VirtualWebcam/Value.add_item(i.get_name(), i.get_id() + 1)
+		var feeds = v4l2_stream.get_devices()
+		
+		for feed in v4l2_stream.get_devices():
+			%VirtualCameraDevice.add_item(feed.name)
+			%VirtualCameraDevice.set_item_metadata(%VirtualCameraDevice.item_count - 1, feed.id)
 		if len(feeds) > 0:
-			%VirtualWebcam/Value.select(0)
+			%VirtualCameraDevice.select(0)
 		var vp = get_tree().get_first_node_in_group("system:stage").capture_viewport
-		%VirtualWebcam/V4l2OutputStream.viewport = vp
 	else:
 		%VirtualWebcam.queue_free()
 
@@ -132,6 +130,12 @@ func _on_microphone_toggle_toggled(toggled_on: bool) -> void:
 	tracking_system.get_node("MicrophoneTracker").enabled = toggled_on
 
 func _on_loopback_item_selected(index: int) -> void:
-	var device_id = %VirtualWebcam/Value.get_item_id(index)
-	print("selected /dev/video%d" % device_id)
-	%VirtualWebcam/V4l2OutputStream.set_loopback_device("/dev/video%d" % [device_id])
+	_on_v4l2_toggled(%V4L2Toggle.button_pressed)
+
+func _on_v4l2_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		var index = %VirtualCameraDevice.selected
+		var device_id = %VirtualCameraDevice.get_item_metadata(index)
+		v4l2_stream.loopback_device = device_id
+	else:
+		v4l2_stream.loopback_device = ""

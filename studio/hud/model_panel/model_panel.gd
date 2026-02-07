@@ -27,4 +27,4 @@ func setup():
 		list.add_child(btn)
 
 func _on_directory_button_pressed() -> void:
-	OS.shell_open(ProjectSettings.globalize_path(ModelManager.FILE_DIR))
+	OS.shell_open(ProjectSettings.globalize_path("user://"))

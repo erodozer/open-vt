@@ -4,12 +4,11 @@ const VtModel = preload("res://lib/model/vt_model.gd")
 const VtItem = preload("res://lib/items/vt_item.gd")
 
 const FILE_DIR = "user://Items"
-const MODEL_DIR = preload("res://lib/model_manager.gd").FILE_DIR
 
 var item_cache: Array[String] = []
 var png_items: Array[String] = []
 var apng_items: Array[String] = []
-var live2d_items: Array[String] = []
+var model_items: Array[String] = []
 
 signal list_updated(items: Array)
 
@@ -22,25 +21,25 @@ func refresh_assets():
 	
 	png_items = []
 	apng_items = []
-	live2d_items = []
+	model_items = []
 	
 	for i in DirAccess.get_directories_at(FILE_DIR):
 		var fp = FILE_DIR.path_join(i)
 		
 		var files = Array(DirAccess.get_files_at(fp))
 		
-		var is_live2d: bool = false
+		var is_model: bool = false
 		var is_apng: bool = false
 
 		for f in files:
-			if f.ends_with(".model3.json"):
-				is_live2d = true
+			if f.ends_with(ModelManager["loader/l2d"].supported_extension()):
+				is_model = true
 				break
 			if f.ends_with(".png"):
 				is_apng = true
 		
-		if is_live2d:
-			live2d_items.append(fp)
+		if is_model:
+			model_items.append(fp)
 		elif is_apng:
 			apng_items.append(fp)
 		
@@ -50,11 +49,11 @@ func refresh_assets():
 			png_items.append(fp)
 			
 	# also include the ability to spawn any model as an item
-	for i in DirAccess.get_directories_at(MODEL_DIR):
-		var fp = MODEL_DIR.path_join(i)
-		live2d_items.append(fp)
+	for i in DirAccess.get_directories_at(ModelManager["loader/l2d"].model_directory()):
+		var fp = ModelManager["loader/l2d"].model_directory().path_join(i)
+		model_items.append(fp)
 		
-	item_cache = png_items + apng_items + live2d_items
+	item_cache = png_items + apng_items + model_items
 	
 	list_updated.emit(item_cache)
 
@@ -69,7 +68,7 @@ func about_item(path: String) -> Dictionary:
 			"name": path.get_basename(),
 			"type": VtItem.ItemType.ANIMATED
 		}
-	elif path in live2d_items:
+	elif path in model_items:
 		return {
 			"name": path.get_basename(),
 			"type": VtItem.ItemType.MODEL
@@ -133,7 +132,7 @@ func create_item(path: String) -> VtItem:
 		vtitem.add_child(render)
 		vtitem.item_type = VtItem.ItemType.ANIMATED
 		vtitem.render = render
-	elif path in live2d_items:
+	elif path in model_items:
 		var model = ModelManager.make_model(path)
 		model.name = "Render"
 		model.position = Vector2.INF

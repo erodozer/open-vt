@@ -29,7 +29,7 @@ func _ready() -> void:
 			%Icon.texture = preload("./motion.svg")
 			%ModelControls.show()
 	
-	_on_transform_update(item.position, item.scale, item.rotation_degrees)
+	_on_transform_update(item.position, item.scale, item.rotation_degrees, Vector2.ZERO, Vector3.ZERO)
 	item.transform_updated.connect(_on_transform_update)
 	%XValue.value_changed.connect(_update_transform)
 	%YValue.value_changed.connect(_update_transform)
@@ -76,7 +76,7 @@ func _on_up_button_pressed() -> void:
 func _on_down_button_pressed() -> void:
 	_reorder(1, true)
 
-func _on_transform_update(position: Vector2, scale: Vector2, rotation: float) -> void:
+func _on_transform_update(position: Vector2, scale: Vector2, rotation: float, offset: Vector2 = Vector2.ZERO, ypr: Vector3 = Vector3.ZERO) -> void:
 	%XValue.set_value_no_signal(position.x)
 	%YValue.set_value_no_signal(position.y)
 	%Scale.set_value_no_signal(scale.x * 100.0)

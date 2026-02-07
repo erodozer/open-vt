@@ -3,17 +3,16 @@ extends Node
 @export_range(0.0, 1.0, 0.001) var weight: float = 1.0
 var values = {}
 
-var parameters: Dictionary :
-	get():
-		if get_parent() != null:
-			return get_parent().parameters
-		return {}
+func parameters() -> Dictionary[String, Dictionary] :
+	if get_parent() != null:
+		return get_parent().parameters()
+	return {}
 	
 func reset():
 	values.clear()
 	
 func _set(property: StringName, value: Variant) -> bool:
-	if parameters != null and parameters.has(property):
+	if parameters().has(property):
 		values[property] = float(value)
 		return true
 	return false
@@ -37,13 +36,14 @@ func _get_property_list():
 		}
 	)
 	
-	for p in parameters:
+	var params = parameters()
+	for p in params:
 		properties.append(
 			{
 				"name": p,
 				"type": TYPE_FLOAT,
 				"hint": PROPERTY_HINT_RANGE,
-				"hint_string": "%f,%f" % [parameters[p]["min"], parameters[p]["max"]],
+				"hint_string": "%f,%f" % [params[p]["min"], params[p]["max"]],
 			}
 		)
 		
@@ -54,11 +54,12 @@ func apply(inputs: Dictionary):
 		return
 
 	var ary_parameters = self.values.keys()
+	var params = parameters()
 	for p_name in ary_parameters:
-		if not (p_name in parameters):
+		if not (p_name in params):
 			continue
 			
-		var param: Dictionary = parameters[p_name]
+		var param: Dictionary = params[p_name]
 		var default_value: float = param["default"]
 
 		var from_v = inputs.get(p_name, default_value)

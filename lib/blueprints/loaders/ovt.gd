@@ -2,6 +2,9 @@ extends "./blueprint_loader.gd"
 
 const Serializers = preload("res://lib/utils/serializers.gd")
 
+func id() -> StringName:
+	return "ovt"
+	
 func load_graph(model: VtModel) -> Array:
 	var ovt_data: Dictionary = Files.read_json(model.model.openvt_parameters)
 	if ovt_data.is_empty():

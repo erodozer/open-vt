@@ -13,9 +13,15 @@ const ModelMeta = preload("../metadata.gd")
 
 @abstract func get_meshes() -> Array
 
-@abstract func get_parameters() -> Dictionary
+@abstract func get_parameters() -> Dictionary[String, Dictionary]
 
-@abstract func apply_parameters(values)
+@abstract func apply_parameters(values: Dictionary[String, float])
+
+@abstract func apply_modifier(part: Node, modifier: Dictionary)
+
+@abstract func get_modifiers(part: Node)
+
+@abstract func get_texture() -> Texture2D
 
 @abstract func on_filter_update(filter, smoothing)
 

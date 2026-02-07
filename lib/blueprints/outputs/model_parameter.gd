@@ -18,7 +18,7 @@ var model_parameter : String :
 		if input:
 			var p = input.get_selected_metadata()
 			if p != null:
-				return p.name
+				return p.id
 		return ""
 
 var clamp_enabled: bool :

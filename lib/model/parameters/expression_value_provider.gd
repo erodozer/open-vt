@@ -96,6 +96,7 @@ func update(inputs: Dictionary):
 	var modified = {}
 	var _order = order.duplicate()
 	
+	var params = parameters()
 	var n = 0
 	for i in range(len(_order)):
 		var exp_name: StringName = _order[i]
@@ -114,10 +115,10 @@ func update(inputs: Dictionary):
 			var blend: String = e["Blend"]
 			var amount: float = float(e["Value"])
 			
-			if not (p_name in parameters):
+			if not (p_name in params):
 				continue
 			
-			var param: Dictionary = parameters[p_name];
+			var param: Dictionary = params[p_name];
 			
 			var v: float = inputs.get(p_name, param["default"])
 			var to_v: float = v;
@@ -157,8 +158,9 @@ func apply(inputs: Dictionary):
 	update(modified)
 	
 	var ary_parameters = modified.keys()
+	var params = parameters()
 	for p_name in ary_parameters:
-		var param: Dictionary = self.parameters[String(p_name)]
+		var param: Dictionary = params[String(p_name)]
 		var default_value: float = param["default"]
 
 		var from_v = inputs.get(p_name, default_value)

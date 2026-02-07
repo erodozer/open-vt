@@ -2,6 +2,9 @@ extends "./blueprint_loader.gd"
 
 const spacing = 30
 	
+func id() -> StringName:
+	return "vts"
+	
 func _build_hotkey_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint:
 	var graph = BlueprintTemplate.instantiate()
 	graph.name = "VTS_Hotkeys"
@@ -187,6 +190,8 @@ func _build_parameter_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint
 ## adapts bindings from VTS into our action graph
 func load_graph(model: VtModel) -> Array[Blueprint]:
 	# load vts hotkey settings
+	if not model.model.studio_parameters:
+		return []
 	var vtube_data = Files.read_json(model.model.studio_parameters)
 	
 	return [

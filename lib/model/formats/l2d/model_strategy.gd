@@ -4,6 +4,7 @@ extends "../model_strategy.gd"
 
 const Math = preload("res://lib/utils/math.gd")
 const Files = preload("res://lib/utils/files.gd")
+const Collections = preload("res://lib/utils/collections.gd")
 const Tracker = preload("res://lib/tracking/tracker.gd")
 
 const l2d_shaders: Array[Shader] = [
@@ -28,11 +29,11 @@ func get_meshes() -> Array:
 		return live2d_model.get_meshes()
 	return []
 	
-var _parameters: Dictionary = {}
-func get_parameters() -> Dictionary:
+var _parameters: Dictionary[String, Dictionary] = {}
+func get_parameters() -> Dictionary[String, Dictionary]:
 	if is_initialized():
 		return _parameters
-	return {}
+	return {} as Dictionary[String, Dictionary]
 	
 func get_size() -> Vector2:
 	return live2d_model.size
@@ -101,7 +102,11 @@ func _rebuild_l2d(meta: ModelMeta, smoothing: bool, filter: CanvasItem.TextureFi
 	physics.name = "Physics"
 	
 	_parameters = {}
-	_parameters.merge(live2d_model.parameters)
+	for pkey in live2d_model.parameters.keys():
+		var param = live2d_model.parameters[pkey]
+		_parameters[pkey] = param.merged(
+			{ "id": param.name }, true
+		)
 	for key in live2d_model.parts.keys():
 		var part = {
 			"bindable": false
@@ -126,7 +131,13 @@ func load_model():
 	
 	var mesh_details = vtube_data.get("ArtMeshDetails", {})
 	for m in get_meshes():
-		m.set_meta("pinnable", m.name not in mesh_details.get("ArtMeshesExcludedFromPinning", []))
+		apply_modifier(
+			m,
+			{
+				"type": "Pin",
+				"enabled": m.name not in mesh_details.get("ArtMeshesExcludedFromPinning", [])
+			}
+		)
 
 		var center = Math.v32xy(Math.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
 		m.set_meta("centroid", center)
@@ -175,3 +186,56 @@ func on_filter_update(filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS, sm
 		live2d_model.reparent(self, false)
 		live2d_model.position = live2d_model.origin
 		container.model = null
+
+func get_texture() -> Texture2D:
+	if container is SubViewportContainer:
+		return (container.get_child(0) as SubViewport).get_texture()
+	return null
+
+func apply_modifier(part: Node, modifier: Dictionary):
+	var modifiers = get_modifiers(part)
+	
+	if modifier.type == "Color":
+		var prev = modifiers.get("Color", {})
+		var multiply: Color = Collections.get_deep([modifier, prev], "colors.multiply", Color.WHITE)
+		var screen: Color = Collections.get_deep([modifier, prev], "colors.screen", Color.BLACK)
+		var enabled: bool = Collections.get_deep([modifier, prev], "enabled", false)
+		modifiers["Color"] = {
+			"enabled": enabled,
+			"colors": {
+				"multiply": multiply,
+				"screen": screen
+			}
+		}
+		part.set_instance_shader_parameter("color_override", enabled)
+		part.set_instance_shader_parameter("color_multiply", multiply)
+		part.set_instance_shader_parameter("color_screen", screen)
+	if modifier.type == "Pin":
+		var prev = modifiers.get("Pin", {})
+		var enabled: bool = Collections.get_deep([modifier, prev], "enabled", false)
+		var item: Node = Collections.get_deep([modifier, prev], "item", null)
+		modifiers["Pin"] = {
+			"enabled": enabled,
+			"item": item
+		}
+	
+	part.set_meta("modifiers", modifiers)
+	
+func get_modifiers(part: Node):
+	return part.get_meta(
+		"modifiers", 
+		{
+			"Color": {
+				"enabled": false,
+				"colors": {
+					"multiply": Color.WHITE,
+					"screen": Color.BLACK,
+				}
+			},
+			"Pin": {
+				"enabled": true,
+				"item": null
+			}
+		}
+	)
+	

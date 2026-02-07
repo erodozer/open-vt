@@ -51,9 +51,9 @@ func _ready() -> void:
 					graph.name = "New Profile"
 					graphs.append(graph)
 				1:
-					graphs = VtsBlueprintLoader.load_graph(active_model)
+					graphs = BlueprintManager["loader/vts"].load_graph(active_model)
 				2:
-					graphs = L2dDefaultBlueprintLoader.load_graph(active_model)
+					graphs = BlueprintManager["loader/l2d"].load_graph(active_model)
 			for graph in graphs:
 				%Profiles.add_child(graph, true)
 			%Profiles.current_tab = %Profiles.get_tab_count() - 1

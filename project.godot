@@ -8,6 +8,10 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="open-vt"
@@ -28,15 +32,13 @@ driver/enable_input=true
 
 [autoload]
 
-GlobalInput="*res://addons/keylogger/keylogger.tscn"
+GlobalInput="*uid://deu6y3amwkivh"
 Screenshot="*res://lib/screenshot.gd"
 Registry="*res://lib/tracking/parameter_registry.gd"
 Preferences="*res://lib/preferences.gd"
 ModelManager="*res://lib/model_manager.gd"
 ItemManager="*res://lib/item_manager.gd"
-OvtBlueprintLoader="*res://lib/blueprints/loaders/ovt.gd"
-VtsBlueprintLoader="*res://lib/blueprints/loaders/vts.gd"
-L2dDefaultBlueprintLoader="*res://lib/blueprints/loaders/l2d_defaults.gd"
+BlueprintManager="*uid://dridhda34w6dx"
 
 [display]
 
@@ -49,7 +51,7 @@ window/per_pixel_transparency/allowed=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/keylogger/plugin.cfg")
+enabled=PackedStringArray("res://addons/Godot-MToon-Shader/plugin.cfg", "res://addons/keylogger/plugin.cfg", "res://addons/vrm/plugin.cfg")
 
 [global_group]
 

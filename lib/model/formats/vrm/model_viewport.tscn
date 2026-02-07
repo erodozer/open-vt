@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://cfcj6tj6rniph"]
+
+[sub_resource type="Environment" id="Environment_ghfw6"]
+background_mode = 1
+background_color = Color(0, 0, 0, 0)
+
+[node name="Node" type="Node" unique_id=554358072]
+
+[node name="ModelViewport" type="SubViewportContainer" parent="." unique_id=144579088]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="ModelViewport" unique_id=358267758]
+unique_name_in_owner = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="ModelViewport/SubViewport" unique_id=1536418873]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+environment = SubResource("Environment_ghfw6")
+current = true
+fov = 37.849285

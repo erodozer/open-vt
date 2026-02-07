@@ -43,7 +43,7 @@ func _refresh_visibility():
 			type_matches = true
 		if show_apng and i in ItemManager.apng_items:
 			type_matches = true
-		if show_l2d and i in ItemManager.live2d_items:
+		if show_l2d and i in ItemManager.model_items:
 			type_matches = true
 		c.visible = name_matches and type_matches
 
