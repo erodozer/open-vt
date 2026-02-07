@@ -89,7 +89,7 @@ func _get_property_list() -> Array[Dictionary]:
 	properties.append(super._get_property_list())
 	return properties
 
-func update(inputs: Dictionary):
+func update(inputs: Dictionary, _delta: float):
 	var now: float = Time.get_unix_time_from_system()
 	
 	#apply expressions to parameters, with the parameter value being the set by the most recently activated expression
@@ -149,12 +149,12 @@ func update(inputs: Dictionary):
 	
 	inputs.merge(modified, true)
 
-func apply(inputs: Dictionary):
+func apply(inputs: Dictionary, delta: float):
 	if weight == 0.0:
 		return
 	
 	var modified = inputs.duplicate()
-	update(modified)
+	update(modified, delta)
 	
 	var ary_parameters = modified.keys()
 	for p_name in ary_parameters:

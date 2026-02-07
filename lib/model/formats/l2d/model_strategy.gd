@@ -5,6 +5,7 @@ extends "../model_strategy.gd"
 const Math = preload("res://lib/utils/math.gd")
 const Files = preload("res://lib/utils/files.gd")
 const Tracker = preload("res://lib/tracking/tracker.gd")
+const L2dPhysics = preload("./physics_value_provider.gd")
 
 const l2d_shaders: Array[Shader] = [
 	preload("res://addons/gd_cubism/res/shader/2d_cubism_norm_add.gdshader"),
@@ -96,9 +97,22 @@ func _rebuild_l2d(meta: ModelMeta, smoothing: bool, filter: CanvasItem.TextureFi
 		os_lib.add_animation(anim, os_a)
 	get_parent().get_animation_player().add_animation_library("", os_lib)
 	
-	var physics = GDCubismEffectPhysics.new()
-	loaded_model.add_child(physics)
-	physics.name = "Physics"
+	if not meta.physics.is_empty():
+		var physics_data: Dictionary = Files.read_json(meta.physics)
+		for settings in physics_data.get("PhysicsSettings", []):
+			var id = settings.Id
+			var physics = L2dPhysics.new()
+			physics.name = id
+			physics.group = physics_data.Meta.PhysicsDictionary.reduce(
+					func (acc, e):
+						if e.Id == id:
+							return StringName(e.Name)
+						return acc,
+					StringName("")
+				)
+			physics.load_from_json(settings, physics_data.Meta)
+			
+			get_parent().mixer.add_child(physics)
 	
 	_parameters = {}
 	_parameters.merge(live2d_model.parameters)

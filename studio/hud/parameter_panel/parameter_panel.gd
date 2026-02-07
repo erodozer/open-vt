@@ -2,9 +2,11 @@ extends "res://studio/hud/side_panel.gd"
 
 const VtModel = preload("res://lib/model/vt_model.gd")
 const Stage = preload("res://studio/stage/stage.gd")
+const PhysicsValueProvider = preload("res://lib/model/formats/l2d/physics_value_provider.gd")
 
 @onready var stage = get_tree().get_first_node_in_group("system:stage")
 @onready var meshes = %MeshItems
+@onready var physics = %PhysicsItems
 var model: VtModel
 
 var _pause_signals = false
@@ -19,6 +21,8 @@ func teardown():
 	model = null
 	for c in meshes.get_children():
 		c.queue_free()
+	for c in physics.get_children():
+		c.queue_free()
 	
 func setup():
 	model = stage.active_model
@@ -32,7 +36,13 @@ func setup():
 		control.name = mesh.name
 		meshes.add_child(control)
 	# _model.renderer.transform_updated.connect(_update_transform)
-		
+	
+	for physics in model.mixer.get_children():
+		if physics is PhysicsValueProvider:
+			var setting = preload("./physics_setting.tscn").instantiate()
+			setting.provider = physics
+			%PhysicsItems.add_child(setting)
+			
 	%IdleAnimation.clear()
 	%IdleAnimation.add_item("None")
 	for anim in model.get_idle_animation_player().get_animation_library("").get_animation_list():

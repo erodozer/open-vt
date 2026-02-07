@@ -6,7 +6,7 @@ var parameters : Dictionary :
 	get():
 		return get_parent().parameters
 	
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if get_parent() == null or not get_parent().is_initialized():
 		return
 		
@@ -17,7 +17,7 @@ func _process(_delta: float) -> void:
 	var modified = {}
 	for i in get_children():
 		var provider: Provider = i
-		provider.apply(modified)
+		provider.apply(modified, delta)
 	
 	values.merge(modified, true);
 	

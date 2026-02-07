@@ -143,6 +143,31 @@ focus_mode = 0
 text_overrun_behavior = 3
 fit_to_longest_item = false
 
+[node name="Physics Settings" type="PanelContainer" parent="ScrollContainer/Accordion"]
+layout_mode = 2
+theme_type_variation = &"SubPanelContainer"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/Accordion/Physics Settings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/Accordion/Physics Settings/VBoxContainer"]
+layout_mode = 2
+text = "Gravity Strength"
+
+[node name="Gravity" type="HSlider" parent="ScrollContainer/Accordion/Physics Settings/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="ScrollContainer/Accordion/Physics Settings/VBoxContainer"]
+layout_mode = 2
+text = "Wind Strength"
+
+[node name="Wind" type="HSlider" parent="ScrollContainer/Accordion/Physics Settings/VBoxContainer"]
+layout_mode = 2
+
+[node name="PhysicsItems" type="VBoxContainer" parent="ScrollContainer/Accordion/Physics Settings/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
 [node name="Mesh Settings" type="PanelContainer" parent="ScrollContainer/Accordion"]
 custom_minimum_size = Vector2(0, 600)
 layout_mode = 2

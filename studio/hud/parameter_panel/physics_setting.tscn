@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://b15008uqvkj6c"]
+
+[ext_resource type="Script" uid="uid://djyo6vlvqoxax" path="res://studio/hud/parameter_panel/physics_setting.gd" id="1_r38sy"]
+
+[node name="PhysicsSetting" type="PanelContainer"]
+theme_type_variation = &"Section"
+script = ExtResource("1_r38sy")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="GroupName" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Strength" type="HSlider" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 2.0
+step = 0.01
+value = 1.0
+
+[connection signal="value_changed" from="VBoxContainer/Strength" to="." method="_on_strength_value_changed"]

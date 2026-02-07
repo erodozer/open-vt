@@ -14,7 +14,11 @@ func reset():
 	
 func _set(property: StringName, value: Variant) -> bool:
 	if parameters != null and parameters.has(property):
-		values[property] = float(value)
+		values[property] = clampf(
+			float(value),
+			parameters[property].min,
+			parameters[property].max
+		)
 		return true
 	return false
 	
@@ -49,10 +53,16 @@ func _get_property_list():
 		
 	return properties
 
-func apply(inputs: Dictionary):
+func update(inputs: Dictionary, delta: float):
+	pass
+
+func apply(inputs: Dictionary, delta: float):
 	if weight == 0.0:
 		return
-
+	
+	var modified = inputs.duplicate()
+	update(modified, delta)
+	
 	var ary_parameters = self.values.keys()
 	for p_name in ary_parameters:
 		if not (p_name in parameters):
@@ -61,7 +71,7 @@ func apply(inputs: Dictionary):
 		var param: Dictionary = parameters[p_name]
 		var default_value: float = param["default"]
 
-		var from_v = inputs.get(p_name, default_value)
+		var from_v = modified.get(p_name, default_value)
 		var to_v = self.values[p_name]
 		inputs[p_name] = lerp(
 			from_v,
