@@ -30,6 +30,14 @@ static func v23xz(v: Vector2) -> Vector3:
 		v.x, 0, v.y
 	)
 	
+static func v4rgba(v) -> Color:
+	if v is Color:
+		return v
+	assert(v is Vector4)
+	return Color(
+		v.x, v.y, v.z, v.w
+	)
+	
 ## Naive centroid calculation by looking for the average position of all vertices.[br]
 ## If you want an actual weighted centroid that considers the surface area and shape of a convex hull
 ## this is not the implementation you want.

@@ -8,6 +8,7 @@ const ExpressionController = preload("./parameters/expression_value_provider.gd"
 const Tracker = preload("res://lib/tracking/tracker.gd")
 const ModelMeta = preload("./metadata.gd")
 const Serializers = preload("res://lib/utils/serializers.gd")
+const Math = preload("res://lib/utils/math.gd")
 
 var model: ModelMeta
 @onready var mixer = %Mixer
@@ -144,6 +145,19 @@ func _save_to_vts():
 		func (mesh):
 			return mesh.name
 	)
+	vtube_data["ArtMeshDetails"]["ArtMeshMultiplyAndScreenColors"] = get_meshes().filter(
+		func (mesh):
+			return mesh.get_instance_shader_parameter("color_override") == true
+	).map(
+		func (mesh):
+			return {
+				"ID": mesh.name,
+				"Value": "%s|%s" % [
+					Math.v4rgba(mesh.get_instance_shader_parameter("color_multiply")).to_html(true),
+					Math.v4rgba(mesh.get_instance_shader_parameter("color_screen")).to_html(true)
+				]
+			}
+	)
 	vtube_data["FileReferences"]["IdleAnimation"] = get_idle_animation_player().current_animation
 	
 	Files.write_json(model.studio_parameters, vtube_data)
@@ -164,10 +178,28 @@ func _load_from_vts():
 	#	inverse_lerp(0.0, 10.0, movement_settings.get("Y", 0.0)),
 	#	inverse_lerp(0.0, 10.0, movement_settings.get("Z", 0.0))
 	#)
-	var pin_settings = vtube_data.get("ArtMeshDetails", {}).get("ArtMeshesExcludedFromPinning", [])
+	
+	var mesh_details = vtube_data.get("ArtMeshDetails", {})
+	var pin_settings = mesh_details.get("ArtMeshesExcludedFromPinning", [])
+		
+	# color settings
+	var tint = {}
+	for v in mesh_details.get("ArtMeshMultiplyAndScreenColors", []):
+		var colors = v.Value.split("|")
+		tint[v.ID] = {
+			"multiply": Color(colors[0]),
+			"screen": Color(colors[1])
+		}
+	
 	for mesh in get_meshes():
 		var exclude = mesh.name in pin_settings
 		mesh.set_meta("pinnable", not exclude)
+		
+		if mesh.name in tint:
+			var colors = tint[mesh.name]
+			mesh.set_instance_shader_parameter("color_override", true)
+			mesh.set_instance_shader_parameter("color_multiply", colors.multiply)
+			mesh.set_instance_shader_parameter("color_screen", colors.screen)
 
 ## load open-vt specific settings
 func _load_settings():

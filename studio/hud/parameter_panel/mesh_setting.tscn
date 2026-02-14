@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://c7vk0klv5gfev"]
+[gd_scene format=3 uid="uid://c7vk0klv5gfev"]
 
 [ext_resource type="Script" uid="uid://ic6qqciq8f18" path="res://studio/hud/parameter_panel/mesh_setting.gd" id="1_fq7df"]
 [ext_resource type="Texture2D" uid="uid://qky5l021m1dt" path="res://ui/icons/thumbtack.svg" id="2_yeggh"]
+[ext_resource type="Texture2D" uid="uid://bq5hf64q6sqpa" path="res://ui/icons/color.svg" id="3_0w51m"]
 
-[node name="PanelContainer" type="PanelContainer"]
+[node name="PanelContainer" type="PanelContainer" unique_id=452542660]
 offset_right = 53.0
 offset_bottom = 24.0
 size_flags_horizontal = 3
@@ -11,15 +12,16 @@ mouse_filter = 2
 theme_type_variation = &"Section"
 script = ExtResource("1_fq7df")
 
-[node name="MeshSetting" type="HBoxContainer" parent="."]
+[node name="MeshSetting" type="HBoxContainer" parent="." unique_id=756910015]
 layout_mode = 2
 
-[node name="PartName" type="Label" parent="MeshSetting"]
+[node name="PartName" type="Label" parent="MeshSetting" unique_id=214893822]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+text_overrun_behavior = 1
 
-[node name="PinToggle" type="Button" parent="MeshSetting"]
+[node name="PinToggle" type="Button" parent="MeshSetting" unique_id=2140789167]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
@@ -30,11 +32,36 @@ icon = ExtResource("2_yeggh")
 icon_alignment = 1
 expand_icon = true
 
-[node name="Color" type="ColorPickerButton" parent="MeshSetting"]
+[node name="ColorToggle" type="Button" parent="MeshSetting" unique_id=1385005281]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+tooltip_text = "Toggle Item Pinning"
+focus_mode = 0
+toggle_mode = true
+icon = ExtResource("3_0w51m")
+icon_alignment = 1
+expand_icon = true
+
+[node name="ColorMultiply" type="ColorPickerButton" parent="MeshSetting" unique_id=1387958832]
+unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(48, 24)
 layout_mode = 2
-tooltip_text = "Tint ArtMesh"
+tooltip_text = "Multiply Color"
+color = Color(1, 1, 1, 1)
+edit_intensity = false
+
+[node name="ColorScreen" type="ColorPickerButton" parent="MeshSetting" unique_id=615300082]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(48, 24)
+layout_mode = 2
+tooltip_text = "Screen Color"
+edit_alpha = false
+edit_intensity = false
 
 [connection signal="toggled" from="MeshSetting/PinToggle" to="." method="_on_pin_toggle_toggled"]
-[connection signal="color_changed" from="MeshSetting/Color" to="." method="_on_color_changed"]
+[connection signal="toggled" from="MeshSetting/ColorToggle" to="." method="_on_color_toggle_toggled"]
+[connection signal="color_changed" from="MeshSetting/ColorMultiply" to="." method="_on_color_multiply_color_changed"]
+[connection signal="color_changed" from="MeshSetting/ColorScreen" to="." method="_on_color_screen_color_changed"]
