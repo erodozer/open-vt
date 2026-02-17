@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bcxs7fe1yqc6o"]
+[gd_scene format=3 uid="uid://bcxs7fe1yqc6o"]
 
 [ext_resource type="Script" uid="uid://cc2iuifrx868t" path="res://studio/hud/item_panel/item_panel.gd" id="1_uiugv"]
 [ext_resource type="Texture2D" uid="uid://cf45v7iftvjkc" path="res://studio/hud/item_panel/box-stack.svg" id="2_xjyov"]
@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://pd4vy1npck5p" path="res://ui/icons/lock.svg" id="3_86vda"]
 [ext_resource type="Texture2D" uid="uid://dvoxi8gjlmu1m" path="res://ui/icons/trash-can.svg" id="3_r3bot"]
 
-[node name="ItemPanel" type="PanelContainer"]
+[node name="ItemPanel" type="PanelContainer" unique_id=2000214744]
 custom_minimum_size = Vector2(480, 0)
 anchors_preset = 11
 anchor_left = 1.0
@@ -18,25 +18,25 @@ grow_vertical = 2
 mouse_force_pass_scroll_events = false
 script = ExtResource("1_uiugv")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2114814641]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer" unique_id=1816726359]
 layout_mode = 2
 
-[node name="DirectoryButton" type="Button" parent="VBoxContainer/VBoxContainer"]
+[node name="DirectoryButton" type="Button" parent="VBoxContainer/VBoxContainer" unique_id=778554712]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 focus_mode = 0
 text = "Open Item Directory"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer" unique_id=747187258]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=321830455]
 modulate = Color(0.298039, 0.282353, 0.239216, 1)
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
@@ -45,14 +45,14 @@ texture = ExtResource("2_xjyov")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1916454536]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 size_flags_vertical = 5
 text = "Item Scene"
 vertical_alignment = 1
 
-[node name="SaveButton" type="Button" parent="VBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="SaveButton" type="Button" parent="VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1570415063]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
@@ -60,7 +60,7 @@ size_flags_horizontal = 3
 focus_mode = 0
 text = "Save"
 
-[node name="LoadButton" type="Button" parent="VBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="LoadButton" type="Button" parent="VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=255359168]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
@@ -69,36 +69,36 @@ focus_mode = 0
 text = "Load
 "
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=2142864229]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/ScrollContainer" unique_id=1683819254]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="StageItems" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer2"]
+[node name="StageItems" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/VBoxContainer2" unique_id=766169634]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 24
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=1992577208]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.3, 0.284, 0.24000001, 0.5294118)
 theme_override_font_sizes/font_size = 12
 text = "Items are ordered background to foreground"
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=563307573]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="AddButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="AddButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=2046650369]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -108,7 +108,7 @@ icon = ExtResource("2_y3oiy")
 icon_alignment = 1
 expand_icon = true
 
-[node name="LockAllButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="LockAllButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1399150197]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 32)
 layout_mode = 2
@@ -118,7 +118,7 @@ icon = ExtResource("3_86vda")
 icon_alignment = 1
 expand_icon = true
 
-[node name="ClearButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="ClearButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1879756400]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 42)
 layout_mode = 2

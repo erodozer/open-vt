@@ -1,19 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://hpg52fgw7kdc"]
+[gd_scene format=3 uid="uid://hpg52fgw7kdc"]
 
 [ext_resource type="Script" uid="uid://b2xehcufh87w7" path="res://studio/hud/input_recorder/input_rec_popup.gd" id="1_px4rr"]
 
-[node name="InputRecPopup" type="PanelContainer"]
+[node name="InputRecPopup" type="PanelContainer" unique_id=1794330894]
 auto_translate_mode = 1
 offset_right = 480.0
 offset_bottom = 100.0
 theme_type_variation = &"SubPanelContainer"
 script = ExtResource("1_px4rr")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=625574862]
 layout_mode = 2
 theme_override_constants/separation = 24
 
-[node name="PressedInput" type="LineEdit" parent="VBoxContainer"]
+[node name="PressedInput" type="LineEdit" parent="VBoxContainer" unique_id=1643315073]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
@@ -22,7 +22,7 @@ alignment = 1
 editable = false
 selecting_enabled = false
 
-[node name="Label2" type="Label" parent="VBoxContainer"]
+[node name="Label2" type="Label" parent="VBoxContainer" unique_id=1143029235]
 layout_mode = 2
 text = "Press ESCAPE to clear binding"
 horizontal_alignment = 1

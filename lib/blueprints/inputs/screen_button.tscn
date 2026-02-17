@@ -1,11 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://dwyu5dbc3akkx"]
+[gd_scene format=3 uid="uid://dwyu5dbc3akkx"]
 
 [ext_resource type="Script" uid="uid://d0fk3ki15n3pf" path="res://lib/blueprints/inputs/screen_button.gd" id="1_gusss"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_abhho"]
 allow_unpress = true
 
-[node name="ScreenButton" type="GraphNode"]
+[node name="ScreenButton" type="GraphNode" unique_id=965781598]
 custom_minimum_size = Vector2(185, 185)
 title = "On-screen Button"
 slot/0/left_enabled = false
@@ -30,7 +30,7 @@ script = ExtResource("1_gusss")
 button_group = SubResource("ButtonGroup_abhho")
 metadata/type = "screen_button"
 
-[node name="Mapping" type="GridContainer" parent="."]
+[node name="Mapping" type="GridContainer" parent="." unique_id=1112520316]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -38,55 +38,55 @@ theme_override_constants/h_separation = 6
 theme_override_constants/v_separation = 6
 columns = 4
 
-[node name="CheckBox" type="Button" parent="Mapping"]
+[node name="CheckBox" type="Button" parent="Mapping" unique_id=228970255]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 toggle_mode = true
 button_group = SubResource("ButtonGroup_abhho")
 
-[node name="CheckBox2" type="Button" parent="Mapping"]
+[node name="CheckBox2" type="Button" parent="Mapping" unique_id=1796358644]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 toggle_mode = true
 button_group = SubResource("ButtonGroup_abhho")
 
-[node name="CheckBox3" type="Button" parent="Mapping"]
+[node name="CheckBox3" type="Button" parent="Mapping" unique_id=497719007]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 toggle_mode = true
 button_group = SubResource("ButtonGroup_abhho")
 
-[node name="CheckBox4" type="Button" parent="Mapping"]
+[node name="CheckBox4" type="Button" parent="Mapping" unique_id=134078181]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 toggle_mode = true
 button_group = SubResource("ButtonGroup_abhho")
 
-[node name="CheckBox5" type="Button" parent="Mapping"]
+[node name="CheckBox5" type="Button" parent="Mapping" unique_id=1479475984]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 toggle_mode = true
 button_group = SubResource("ButtonGroup_abhho")
 
-[node name="CheckBox6" type="Button" parent="Mapping"]
+[node name="CheckBox6" type="Button" parent="Mapping" unique_id=128146520]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 toggle_mode = true
 button_group = SubResource("ButtonGroup_abhho")
 
-[node name="CheckBox7" type="Button" parent="Mapping"]
+[node name="CheckBox7" type="Button" parent="Mapping" unique_id=753771992]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 toggle_mode = true
 button_group = SubResource("ButtonGroup_abhho")
 
-[node name="CheckBox8" type="Button" parent="Mapping"]
+[node name="CheckBox8" type="Button" parent="Mapping" unique_id=1281769859]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 toggle_mode = true
 button_group = SubResource("ButtonGroup_abhho")
 
-[node name="Pressed" type="Label" parent="."]
+[node name="Pressed" type="Label" parent="." unique_id=972679266]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
@@ -95,7 +95,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 metadata/slot_type = "trigger"
 
-[node name="ColorRect" type="ColorRect" parent="Pressed"]
+[node name="ColorRect" type="ColorRect" parent="Pressed" unique_id=500345782]
 modulate = Color(1, 1, 1, 0)
 show_behind_parent = true
 layout_mode = 1

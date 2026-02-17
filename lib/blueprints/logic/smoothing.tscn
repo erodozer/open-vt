@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://ckixji58acmx6"]
+[gd_scene format=3 uid="uid://ckixji58acmx6"]
 
 [ext_resource type="Script" uid="uid://c3oqulicy2825" path="res://lib/blueprints/logic/smoothing.gd" id="1_na4p6"]
 
-[node name="Smoothing" type="GraphNode"]
+[node name="Smoothing" type="GraphNode" unique_id=2090624270]
 custom_minimum_size = Vector2(290, 120)
 offset_right = 106.0
 offset_bottom = 88.0
@@ -27,32 +27,32 @@ slot/1/right_icon = null
 slot/1/draw_stylebox = true
 script = ExtResource("1_na4p6")
 
-[node name="Options" type="VBoxContainer" parent="."]
+[node name="Options" type="VBoxContainer" parent="." unique_id=747944045]
 layout_mode = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Options"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Options" unique_id=1385105065]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Options/HBoxContainer2"]
+[node name="Label" type="Label" parent="Options/HBoxContainer2" unique_id=1438175952]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Weight"
 
-[node name="Smoothing" type="SpinBox" parent="Options/HBoxContainer2"]
+[node name="Smoothing" type="SpinBox" parent="Options/HBoxContainer2" unique_id=1223945774]
 unique_name_in_owner = true
 layout_mode = 2
 alignment = 2
 suffix = "%"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=632955756]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=156993033]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 text = "In"
 
-[node name="Input" type="SpinBox" parent="HBoxContainer"]
+[node name="Input" type="SpinBox" parent="HBoxContainer" unique_id=1826249344]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
@@ -62,7 +62,7 @@ step = 0.01
 value = 0.10000000000002274
 editable = false
 
-[node name="Output" type="SpinBox" parent="HBoxContainer"]
+[node name="Output" type="SpinBox" parent="HBoxContainer" unique_id=1113992443]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
@@ -72,7 +72,7 @@ step = 0.01
 value = 0.10000000000002274
 editable = false
 
-[node name="Label2" type="Label" parent="HBoxContainer"]
+[node name="Label2" type="Label" parent="HBoxContainer" unique_id=1313820656]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 text = "Out"

@@ -1,37 +1,37 @@
-[gd_scene load_steps=2 format=3 uid="uid://unvpk1s2sv57"]
+[gd_scene format=3 uid="uid://unvpk1s2sv57"]
 
 [ext_resource type="Script" uid="uid://cc8x0bh5hk0sv" path="res://lib/tracking/camera/vts/vts_config.gd" id="1_qckmn"]
 
-[node name="VtsConfig" type="PanelContainer"]
+[node name="VtsConfig" type="PanelContainer" unique_id=1548912856]
 script = ExtResource("1_qckmn")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1374717089]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=997498802]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=934372694]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Hostname (Phone)"
 
-[node name="Hostname" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+[node name="Hostname" type="LineEdit" parent="VBoxContainer/HBoxContainer" unique_id=1083077498]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 placeholder_text = "0.0.0.0"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer" unique_id=1844645304]
 visible = false
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2" unique_id=828633715]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Port"
 
-[node name="Port" type="SpinBox" parent="VBoxContainer/HBoxContainer2"]
+[node name="Port" type="SpinBox" parent="VBoxContainer/HBoxContainer2" unique_id=1528815344]
 unique_name_in_owner = true
 layout_mode = 2
 min_value = 10000.0
@@ -40,26 +40,26 @@ value = 21412.0
 alignment = 2
 editable = false
 
-[node name="Connect" type="Button" parent="VBoxContainer"]
+[node name="Connect" type="Button" parent="VBoxContainer" unique_id=1649450394]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Connect to Mobile"
 
-[node name="Disconnect" type="Button" parent="VBoxContainer"]
+[node name="Disconnect" type="Button" parent="VBoxContainer" unique_id=759688804]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Disconnect"
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer" unique_id=1827472192]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer3"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer3" unique_id=1798834822]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Listening"
 
-[node name="ActiveIndicator" type="Label" parent="VBoxContainer/HBoxContainer3"]
+[node name="ActiveIndicator" type="Label" parent="VBoxContainer/HBoxContainer3" unique_id=695715869]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2

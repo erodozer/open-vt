@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://dijec4c8prced"]
+[gd_scene format=3 uid="uid://dijec4c8prced"]
 
 [ext_resource type="Script" uid="uid://783uu10u2fy6" path="res://studio/hud/model_panel/model_panel.gd" id="1_4axdi"]
 
-[node name="ModelPanel" type="PanelContainer"]
+[node name="ModelPanel" type="PanelContainer" unique_id=1294066606]
 custom_minimum_size = Vector2(480, 0)
 anchors_preset = 11
 anchor_left = 1.0
@@ -14,30 +14,30 @@ grow_vertical = 2
 mouse_force_pass_scroll_events = false
 script = ExtResource("1_4axdi")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=790615039]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="DirectoryButton" type="Button" parent="VBoxContainer"]
+[node name="DirectoryButton" type="Button" parent="VBoxContainer" unique_id=1548537743]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 text = "Open Model Directory"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=1971570335]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ScrollContainer" unique_id=2081135742]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 4
 
-[node name="ModelList" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer"]
+[node name="ModelList" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer" unique_id=2110912010]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3

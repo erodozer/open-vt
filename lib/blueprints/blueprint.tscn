@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://b808ypa8efs2"]
+[gd_scene format=3 uid="uid://b808ypa8efs2"]
 
 [ext_resource type="Script" uid="uid://brkuo41f56m82" path="res://lib/blueprints/blueprint.gd" id="1_h6ons"]
 
-[node name="Blueprint" type="GraphEdit"]
+[node name="Blueprint" type="GraphEdit" unique_id=1362802985]
 size_flags_vertical = 3
 mouse_force_pass_scroll_events = false
 grid_pattern = 1

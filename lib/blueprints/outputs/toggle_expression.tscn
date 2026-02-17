@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://cow7c85xiw0xr"]
+[gd_scene format=3 uid="uid://cow7c85xiw0xr"]
 
 [ext_resource type="Script" uid="uid://23b7fjigst08" path="res://lib/blueprints/outputs/toggle_expression.gd" id="1_jwwti"]
 
-[node name="ToggleExpression" type="GraphNode"]
+[node name="ToggleExpression" type="GraphNode" unique_id=47841078]
 custom_minimum_size = Vector2(250, 0)
 offset_right = 180.0
 offset_bottom = 287.0
@@ -45,11 +45,11 @@ slot/3/right_icon = null
 slot/3/draw_stylebox = true
 script = ExtResource("1_jwwti")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1353910699]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="Expression" type="OptionButton" parent="VBoxContainer"]
+[node name="Expression" type="OptionButton" parent="VBoxContainer" unique_id=239428251]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
@@ -58,55 +58,55 @@ item_count = 1
 popup/item_0/text = "Clear Expressions"
 popup/item_0/id = 0
 
-[node name="Active" type="CheckButton" parent="VBoxContainer"]
+[node name="Active" type="CheckButton" parent="VBoxContainer" unique_id=1959268511]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 mouse_filter = 2
 text = "Active"
 
-[node name="Fade" type="HBoxContainer" parent="VBoxContainer"]
+[node name="Fade" type="HBoxContainer" parent="VBoxContainer" unique_id=1451100843]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/Fade"]
+[node name="Label" type="Label" parent="VBoxContainer/Fade" unique_id=1949358513]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Fade"
 
-[node name="Value" type="SpinBox" parent="VBoxContainer/Fade"]
+[node name="Value" type="SpinBox" parent="VBoxContainer/Fade" unique_id=2355259]
 layout_mode = 2
 size_flags_horizontal = 3
 max_value = 5000.0
 value = 100.0
 suffix = "ms"
 
-[node name="Exclusive" type="CheckButton" parent="VBoxContainer/Fade"]
+[node name="Exclusive" type="CheckButton" parent="VBoxContainer/Fade" unique_id=1563689464]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 text = "Exclusive"
 
-[node name="Toggle" type="HBoxContainer" parent="."]
+[node name="Toggle" type="HBoxContainer" parent="." unique_id=341107044]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Toggle"]
+[node name="Label" type="Label" parent="Toggle" unique_id=1966006490]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "Toggle"
 vertical_alignment = 1
 metadata/slot_type = "trigger"
 
-[node name="On" type="Label" parent="."]
+[node name="On" type="Label" parent="." unique_id=1868692829]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "On"
 vertical_alignment = 1
 metadata/slot_type = "trigger"
 
-[node name="Off" type="Label" parent="."]
+[node name="Off" type="Label" parent="." unique_id=1478653991]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "Off"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bpwsyuhheohw7"]
+[gd_scene format=3 uid="uid://bpwsyuhheohw7"]
 
 [ext_resource type="Script" uid="uid://c13ymjxlrcs7g" path="res://ui/toast/toast.gd" id="1_srrfs"]
 
@@ -39,7 +39,7 @@ _data = {
 &"show": SubResource("Animation_0k8c4")
 }
 
-[node name="Toast" type="PanelContainer" groups=["system:alert"]]
+[node name="Toast" type="PanelContainer" unique_id=721551712 groups=["system:alert"]]
 custom_minimum_size = Vector2(320, 32)
 anchors_preset = 7
 anchor_left = 0.5
@@ -52,11 +52,9 @@ grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("1_srrfs")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=984290829]
 root_node = NodePath("../../..")
-libraries = {
-&"": SubResource("AnimationLibrary_8qqt6")
-}
+libraries/ = SubResource("AnimationLibrary_8qqt6")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=1334325584]
 layout_mode = 2

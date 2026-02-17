@@ -1,10 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://rx1k71lk3xi2"]
+[gd_scene format=3 uid="uid://rx1k71lk3xi2"]
 
 [ext_resource type="Script" uid="uid://ddqdj7ehf48j5" path="res://lib/tracking/gamepad/config.gd" id="1_ya4c7"]
 [ext_resource type="PackedScene" uid="uid://d2a67yxp08esv" path="res://ui/modal/modal.tscn" id="1_yo73d"]
 [ext_resource type="PackedScene" uid="uid://hpg52fgw7kdc" path="res://studio/hud/input_recorder/input_rec_popup.tscn" id="2_ya4c7"]
 
-[node name="Config" type="PanelContainer"]
+[node name="Config" type="PanelContainer" unique_id=1348548932]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -13,18 +13,18 @@ grow_vertical = 2
 theme_type_variation = &"SubPanelContainer"
 script = ExtResource("1_ya4c7")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=917561980]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1709487591]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=2064655887]
 layout_mode = 2
 text = "Gamepad"
 
-[node name="GamepadIndex" type="OptionButton" parent="VBoxContainer/HBoxContainer"]
+[node name="GamepadIndex" type="OptionButton" parent="VBoxContainer/HBoxContainer" unique_id=1392673557]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -34,43 +34,43 @@ item_count = 1
 popup/item_0/text = "Keyboard"
 popup/item_0/id = 9999
 
-[node name="DpadMapping" type="CheckButton" parent="VBoxContainer"]
+[node name="DpadMapping" type="CheckButton" parent="VBoxContainer" unique_id=433042912]
 layout_mode = 2
 text = "Map DPad to Left Stick"
 
-[node name="KeyboardMapping" type="PanelContainer" parent="VBoxContainer"]
+[node name="KeyboardMapping" type="PanelContainer" parent="VBoxContainer" unique_id=1576301438]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"Section"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/KeyboardMapping"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/KeyboardMapping" unique_id=257857436]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="VBoxContainer/KeyboardMapping/VBoxContainer"]
+[node name="Label2" type="Label" parent="VBoxContainer/KeyboardMapping/VBoxContainer" unique_id=1711146659]
 layout_mode = 2
 text = "Keyboard Mapping"
 
-[node name="KeytoGamepad" type="GridContainer" parent="VBoxContainer/KeyboardMapping/VBoxContainer"]
+[node name="KeytoGamepad" type="GridContainer" parent="VBoxContainer/KeyboardMapping/VBoxContainer" unique_id=723544459]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/h_separation = 12
 theme_override_constants/v_separation = 8
 columns = 4
 
-[node name="Modal" parent="." instance=ExtResource("1_yo73d")]
+[node name="Modal" parent="." unique_id=2034342186 instance=ExtResource("1_yo73d")]
 unique_name_in_owner = true
 layer = 10
 visible = false
 
-[node name="CenterContainer" type="CenterContainer" parent="Modal"]
+[node name="CenterContainer" type="CenterContainer" parent="Modal" unique_id=1752796665]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="InputRecPopup" parent="Modal/CenterContainer" instance=ExtResource("2_ya4c7")]
+[node name="InputRecPopup" parent="Modal/CenterContainer" unique_id=1839867214 instance=ExtResource("2_ya4c7")]
 unique_name_in_owner = true
 layout_mode = 2
 allow_modifiers = false

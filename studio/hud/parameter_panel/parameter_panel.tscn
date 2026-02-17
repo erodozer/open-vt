@@ -1,11 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://dpw8au0ueatrg"]
+[gd_scene format=3 uid="uid://dpw8au0ueatrg"]
 
 [ext_resource type="Script" uid="uid://ctgn3ir4rc6ap" path="res://studio/hud/parameter_panel/parameter_panel.gd" id="1_5864b"]
 [ext_resource type="Script" uid="uid://08yyvfky7ack" path="res://ui/accordion/accordion.gd" id="2_57r6x"]
 [ext_resource type="Texture2D" uid="uid://pd4vy1npck5p" path="res://ui/icons/lock.svg" id="3_ng4r4"]
 [ext_resource type="PackedScene" uid="uid://d30mduusp81ch" path="res://ui/search/search.tscn" id="4_lquxl"]
 
-[node name="ParameterPanel" type="PanelContainer"]
+[node name="ParameterPanel" type="PanelContainer" unique_id=1950998816]
 custom_minimum_size = Vector2(480, 0)
 anchors_preset = 11
 anchor_left = 1.0
@@ -18,31 +18,31 @@ mouse_force_pass_scroll_events = false
 script = ExtResource("1_5864b")
 metadata/model = true
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1078189097]
 layout_mode = 2
 
-[node name="Accordion" type="VBoxContainer" parent="ScrollContainer"]
+[node name="Accordion" type="VBoxContainer" parent="ScrollContainer" unique_id=1064750201]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("2_57r6x")
 
-[node name="Model Settings" type="PanelContainer" parent="ScrollContainer/Accordion"]
+[node name="Model Settings" type="PanelContainer" parent="ScrollContainer/Accordion" unique_id=107486899]
 layout_mode = 2
 theme_type_variation = &"SubPanelContainer"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/Accordion/Model Settings"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/Accordion/Model Settings" unique_id=2072307643]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer" unique_id=2098644346]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer" unique_id=392614344]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Filter Mode"
 
-[node name="TextureFilter" type="OptionButton" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer"]
+[node name="TextureFilter" type="OptionButton" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer" unique_id=1361643613]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
@@ -53,7 +53,7 @@ popup/item_0/id = 0
 popup/item_1/text = "Bilinear"
 popup/item_1/id = 1
 
-[node name="SmoothScaling" type="CheckButton" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer"]
+[node name="SmoothScaling" type="CheckButton" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer" unique_id=1422724724]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Improves scaling quality when using Nearest Neighbor filtering
@@ -64,7 +64,7 @@ Recommended when using Pixel Models"
 focus_mode = 0
 text = "Smooth Scaling"
 
-[node name="GenerateMipmaps" type="CheckButton" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer"]
+[node name="GenerateMipmaps" type="CheckButton" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer" unique_id=1755111029]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Reduces aliasing when scaling a model.  Increases VRAM usage on average by 33%.
@@ -74,26 +74,26 @@ focus_mode = 0
 button_pressed = true
 text = "Generate Mipmaps"
 
-[node name="PreserveTransform" type="CheckButton" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer"]
+[node name="PreserveTransform" type="CheckButton" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer" unique_id=619668540]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 focus_mode = 0
 text = "Save Transform"
 
-[node name="Movement" type="HBoxContainer" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer"]
+[node name="Movement" type="HBoxContainer" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer" unique_id=1504558836]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/Movement"]
+[node name="Label" type="Label" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/Movement" unique_id=20872099]
 layout_mode = 2
 text = "Movement"
 
-[node name="Control" type="Control" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/Movement"]
+[node name="Control" type="Control" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/Movement" unique_id=1845791395]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="XValue" type="SpinBox" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/Movement"]
+[node name="XValue" type="SpinBox" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/Movement" unique_id=1522277637]
 layout_mode = 2
 min_value = -2.0
 max_value = 2.0
@@ -101,7 +101,7 @@ step = 0.1
 alignment = 2
 suffix = "X"
 
-[node name="YValue" type="SpinBox" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/Movement"]
+[node name="YValue" type="SpinBox" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/Movement" unique_id=610796000]
 layout_mode = 2
 min_value = -2.0
 max_value = 2.0
@@ -109,7 +109,7 @@ step = 0.1
 alignment = 2
 suffix = "Y"
 
-[node name="ZValue" type="SpinBox" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/Movement"]
+[node name="ZValue" type="SpinBox" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/Movement" unique_id=580431904]
 layout_mode = 2
 min_value = -2.0
 max_value = 2.0
@@ -117,7 +117,7 @@ step = 0.1
 alignment = 2
 suffix = "Z"
 
-[node name="LockButton" type="Button" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/Movement"]
+[node name="LockButton" type="Button" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/Movement" unique_id=1257546654]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 tooltip_text = "Lock transform"
@@ -127,15 +127,15 @@ icon = ExtResource("3_ng4r4")
 icon_alignment = 1
 expand_icon = true
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer" unique_id=2917476]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer2" unique_id=413710397]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Idle Animation"
 
-[node name="IdleAnimation" type="OptionButton" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer2"]
+[node name="IdleAnimation" type="OptionButton" parent="ScrollContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer2" unique_id=1772323784]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -143,23 +143,23 @@ focus_mode = 0
 text_overrun_behavior = 3
 fit_to_longest_item = false
 
-[node name="Mesh Settings" type="PanelContainer" parent="ScrollContainer/Accordion"]
+[node name="Mesh Settings" type="PanelContainer" parent="ScrollContainer/Accordion" unique_id=510507732]
 custom_minimum_size = Vector2(0, 600)
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"SubPanelContainer"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/Accordion/Mesh Settings"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/Accordion/Mesh Settings" unique_id=1796698312]
 layout_mode = 2
 
-[node name="Search" parent="ScrollContainer/Accordion/Mesh Settings/VBoxContainer" instance=ExtResource("4_lquxl")]
+[node name="Search" parent="ScrollContainer/Accordion/Mesh Settings/VBoxContainer" unique_id=1595392485 instance=ExtResource("4_lquxl")]
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="ScrollContainer/Accordion/Mesh Settings/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="ScrollContainer/Accordion/Mesh Settings/VBoxContainer" unique_id=1365973347]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="MeshItems" type="VBoxContainer" parent="ScrollContainer/Accordion/Mesh Settings/VBoxContainer/ScrollContainer"]
+[node name="MeshItems" type="VBoxContainer" parent="ScrollContainer/Accordion/Mesh Settings/VBoxContainer/ScrollContainer" unique_id=1603591342]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3

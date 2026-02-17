@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bmpqgbccg71l2"]
+[gd_scene format=3 uid="uid://bmpqgbccg71l2"]
 
 [ext_resource type="Script" uid="uid://cvh32s1515wsb" path="res://studio/hud/item_panel/item_row.gd" id="1_31mjc"]
 [ext_resource type="Texture2D" uid="uid://pd4vy1npck5p" path="res://ui/icons/lock.svg" id="2_145ox"]
@@ -14,21 +14,21 @@
 [ext_resource type="Texture2D" uid="uid://dy2yryqb16rbw" path="res://ui/icons/arrows-to-circle.svg" id="10_5efeo"]
 [ext_resource type="Texture2D" uid="uid://d1kej52kqrg0g" path="res://ui/icons/eraser.svg" id="13_5efeo"]
 
-[node name="ItemRow" type="PanelContainer"]
+[node name="ItemRow" type="PanelContainer" unique_id=1239255716]
 offset_right = 386.0
 offset_bottom = 200.0
 size_flags_horizontal = 3
 theme_type_variation = &"Section"
 script = ExtResource("1_31mjc")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=777930270]
 layout_mode = 2
 
-[node name="ZControls" type="VBoxContainer" parent="HBoxContainer"]
+[node name="ZControls" type="VBoxContainer" parent="HBoxContainer" unique_id=1727578586]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="UpButton" type="Button" parent="HBoxContainer/ZControls"]
+[node name="UpButton" type="Button" parent="HBoxContainer/ZControls" unique_id=557597242]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
@@ -36,11 +36,11 @@ icon = ExtResource("3_7b11q")
 icon_alignment = 1
 expand_icon = true
 
-[node name="Control" type="Control" parent="HBoxContainer/ZControls"]
+[node name="Control" type="Control" parent="HBoxContainer/ZControls" unique_id=592926984]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="DownButton" type="Button" parent="HBoxContainer/ZControls"]
+[node name="DownButton" type="Button" parent="HBoxContainer/ZControls" unique_id=1004252471]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
@@ -48,14 +48,14 @@ icon = ExtResource("4_hbq2x")
 icon_alignment = 1
 expand_icon = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=1481264432]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=745172468]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Icon" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1072054020]
 unique_name_in_owner = true
 modulate = Color(0.298039, 0.282353, 0.239216, 1)
 custom_minimum_size = Vector2(28, 0)
@@ -64,12 +64,12 @@ texture = ExtResource("4_gnq47")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ItemName" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="ItemName" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1960321267]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="DeleteButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="DeleteButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1074688000]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
@@ -78,18 +78,18 @@ icon = ExtResource("5_2b7ni")
 icon_alignment = 1
 expand_icon = true
 
-[node name="PinControls" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="PinControls" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=909856421]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="PinTarget" type="Button" parent="HBoxContainer/VBoxContainer/PinControls"]
+[node name="PinTarget" type="Button" parent="HBoxContainer/VBoxContainer/PinControls" unique_id=1880489654]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 26)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
 
-[node name="PinToggle" type="Button" parent="HBoxContainer/VBoxContainer/PinControls"]
+[node name="PinToggle" type="Button" parent="HBoxContainer/VBoxContainer/PinControls" unique_id=1073433084]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 24)
 layout_mode = 2
@@ -99,15 +99,15 @@ icon = ExtResource("2_bacbn")
 icon_alignment = 1
 expand_icon = true
 
-[node name="Transformation" type="VBoxContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="Transformation" type="VBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1014468991]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Transformation"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Transformation" unique_id=356612089]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2" unique_id=446385170]
 modulate = Color(0.298039, 0.282353, 0.239216, 1)
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
@@ -116,12 +116,12 @@ texture = ExtResource("7_e4n0q")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2" unique_id=65494233]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Transform"
 
-[node name="Recenter" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2"]
+[node name="Recenter" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2" unique_id=1322542272]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
@@ -131,7 +131,7 @@ icon = ExtResource("9_smhi3")
 icon_alignment = 1
 expand_icon = true
 
-[node name="ScaleToFit" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2"]
+[node name="ScaleToFit" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2" unique_id=1416681519]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
@@ -141,7 +141,7 @@ icon = ExtResource("10_5efeo")
 icon_alignment = 1
 expand_icon = true
 
-[node name="LockButton" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2"]
+[node name="LockButton" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2" unique_id=140177945]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
@@ -152,11 +152,11 @@ icon = ExtResource("2_145ox")
 icon_alignment = 1
 expand_icon = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Transformation"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Transformation" unique_id=1101285371]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="XValue" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer"]
+[node name="XValue" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer" unique_id=1176478406]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -165,7 +165,7 @@ max_value = 9999.0
 alignment = 2
 suffix = "X"
 
-[node name="YValue" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer"]
+[node name="YValue" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer" unique_id=129745496]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -174,7 +174,7 @@ max_value = 9999.0
 alignment = 2
 suffix = "Y"
 
-[node name="Scale" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer"]
+[node name="Scale" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer" unique_id=1301806987]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(84, 0)
 layout_mode = 2
@@ -186,7 +186,7 @@ value = 100.0
 alignment = 2
 suffix = "%"
 
-[node name="Rotation" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer"]
+[node name="Rotation" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer" unique_id=763646850]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(84, 0)
 layout_mode = 2
@@ -199,13 +199,13 @@ allow_lesser = true
 alignment = 2
 suffix = "°"
 
-[node name="ModelControls" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="ModelControls" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1838614656]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 alignment = 1
 
-[node name="Expression" type="Button" parent="HBoxContainer/VBoxContainer/ModelControls"]
+[node name="Expression" type="Button" parent="HBoxContainer/VBoxContainer/ModelControls" unique_id=1422558834]
 custom_minimum_size = Vector2(150, 32)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -217,7 +217,7 @@ icon = ExtResource("8_17a61")
 alignment = 0
 expand_icon = true
 
-[node name="Bindings" type="Button" parent="HBoxContainer/VBoxContainer/ModelControls"]
+[node name="Bindings" type="Button" parent="HBoxContainer/VBoxContainer/ModelControls" unique_id=1012326904]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 32)
 layout_mode = 2
@@ -229,25 +229,25 @@ icon = ExtResource("8_fvqys")
 alignment = 0
 expand_icon = true
 
-[node name="AnimControls" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="AnimControls" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=283757506]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/AnimControls"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/AnimControls" unique_id=1312306943]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Frame Rate"
 
-[node name="FpsValue" type="SpinBox" parent="HBoxContainer/VBoxContainer/AnimControls"]
+[node name="FpsValue" type="SpinBox" parent="HBoxContainer/VBoxContainer/AnimControls" unique_id=134213800]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 max_value = 1000.0
 alignment = 2
 
-[node name="ResetFps" type="Button" parent="HBoxContainer/VBoxContainer/AnimControls"]
+[node name="ResetFps" type="Button" parent="HBoxContainer/VBoxContainer/AnimControls" unique_id=2037810428]
 custom_minimum_size = Vector2(28, 0)
 layout_mode = 2
 icon = ExtResource("13_5efeo")

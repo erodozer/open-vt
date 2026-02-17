@@ -131,7 +131,6 @@ func _on_microphone_toggle_toggled(toggled_on: bool) -> void:
 		return
 	tracking_system.get_node("MicrophoneTracker").enabled = toggled_on
 
-
 func _on_loopback_item_selected(index: int) -> void:
 	var device_id = %VirtualWebcam/Value.get_item_id(index)
 	print("selected /dev/video%d" % device_id)

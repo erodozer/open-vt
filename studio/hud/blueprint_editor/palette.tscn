@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dgmc2ouh0pqwh"]
+[gd_scene format=3 uid="uid://dgmc2ouh0pqwh"]
 
 [ext_resource type="Script" uid="uid://bbwsxqduu3dap" path="res://studio/hud/blueprint_editor/palette.gd" id="1_87dy3"]
 [ext_resource type="Texture2D" uid="uid://degtf3o1bgig0" path="res://lib/blueprints/inputs/keyboard.svg" id="1_mavpt"]
@@ -22,14 +22,14 @@
 [ext_resource type="Texture2D" uid="uid://dnoy3sguwj6m5" path="res://lib/blueprints/outputs/person-running.svg" id="17_3ghld"]
 [ext_resource type="PackedScene" uid="uid://bijxdkq5d5x8f" path="res://lib/blueprints/outputs/model_parameter.tscn" id="18_ryi2a"]
 
-[node name="Palette" type="FlowContainer"]
+[node name="Palette" type="FlowContainer" unique_id=42573514]
 offset_right = 48.0
 offset_bottom = 380.0
 size_flags_horizontal = 8
 size_flags_vertical = 8
 script = ExtResource("1_87dy3")
 
-[node name="Hotkey" type="Button" parent="."]
+[node name="Hotkey" type="Button" parent="." unique_id=734898577]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -41,7 +41,7 @@ icon_alignment = 1
 expand_icon = true
 metadata/action = ExtResource("2_87dy3")
 
-[node name="ScreenButton" type="Button" parent="."]
+[node name="ScreenButton" type="Button" parent="." unique_id=422515698]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -53,7 +53,7 @@ icon_alignment = 1
 expand_icon = true
 metadata/action = ExtResource("4_d27ip")
 
-[node name="TrackingParameter" type="Button" parent="."]
+[node name="TrackingParameter" type="Button" parent="." unique_id=1652824069]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -65,11 +65,11 @@ icon_alignment = 1
 expand_icon = true
 metadata/action = ExtResource("6_1h2ht")
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=862103928]
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
 
-[node name="Math" type="Button" parent="."]
+[node name="Math" type="Button" parent="." unique_id=525899053]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -81,7 +81,7 @@ icon_alignment = 1
 expand_icon = true
 metadata/action = ExtResource("8_rog7t")
 
-[node name="Smoothing" type="Button" parent="."]
+[node name="Smoothing" type="Button" parent="." unique_id=907281668]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -93,7 +93,7 @@ icon_alignment = 1
 expand_icon = true
 metadata/action = ExtResource("11_d27ip")
 
-[node name="Breathe" type="Button" parent="."]
+[node name="Breathe" type="Button" parent="." unique_id=1910577611]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -105,7 +105,7 @@ icon_alignment = 1
 expand_icon = true
 metadata/action = ExtResource("10_woji1")
 
-[node name="Blink" type="Button" parent="."]
+[node name="Blink" type="Button" parent="." unique_id=1625019620]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -117,11 +117,11 @@ icon_alignment = 1
 expand_icon = true
 metadata/action = ExtResource("12_m3pyl")
 
-[node name="Control2" type="Control" parent="."]
+[node name="Control2" type="Control" parent="." unique_id=815026235]
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
 
-[node name="SetExpression" type="Button" parent="."]
+[node name="SetExpression" type="Button" parent="." unique_id=43236201]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -133,7 +133,7 @@ icon_alignment = 1
 expand_icon = true
 metadata/action = ExtResource("14_8pyru")
 
-[node name="PlayAnimation" type="Button" parent="."]
+[node name="PlayAnimation" type="Button" parent="." unique_id=570096998]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -145,7 +145,7 @@ icon_alignment = 1
 expand_icon = true
 metadata/action = ExtResource("16_vs2tt")
 
-[node name="ModelParameter" type="Button" parent="."]
+[node name="ModelParameter" type="Button" parent="." unique_id=1045502564]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 tooltip_text = "Set Model Parameter"

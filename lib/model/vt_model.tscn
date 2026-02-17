@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bkm4lgw38g4di"]
+[gd_scene format=3 uid="uid://bkm4lgw38g4di"]
 
 [ext_resource type="Script" uid="uid://bxp75jugxppgv" path="res://lib/model/vt_model.gd" id="1_bvpwh"]
 [ext_resource type="Script" uid="uid://d10aurevaucml" path="res://lib/model/debug.gd" id="3_nwsty"]
@@ -6,41 +6,41 @@
 [ext_resource type="Script" uid="uid://bwfq4xc1atg7r" path="res://lib/model/parameters/parameter_value_provider.gd" id="4_g0dve"]
 [ext_resource type="Script" uid="uid://rnu42w2adnxt" path="res://lib/model/parameters/expression_value_provider.gd" id="5_7xpjp"]
 
-[node name="VtModel" type="Node2D" groups=["persist", "vtmodel"]]
+[node name="VtModel" type="Node2D" unique_id=572855347 groups=["persist", "vtmodel"]]
 texture_filter = 2
 script = ExtResource("1_bvpwh")
 centered = true
 
-[node name="Debug" type="Node2D" parent="." node_paths=PackedStringArray("model")]
+[node name="Debug" type="Node2D" parent="." unique_id=1097418190 node_paths=PackedStringArray("model")]
 unique_name_in_owner = true
 visible = false
 z_index = 1000
 script = ExtResource("3_nwsty")
 model = NodePath("..")
 
-[node name="HotKeys" type="Node" parent="."]
+[node name="HotKeys" type="Node" parent="." unique_id=738212186]
 unique_name_in_owner = true
 
-[node name="Mixer" type="Node" parent="."]
+[node name="Mixer" type="Node" parent="." unique_id=1889963806]
 unique_name_in_owner = true
 script = ExtResource("3_srq5n")
 
-[node name="IdleMotion" type="Node" parent="Mixer"]
+[node name="IdleMotion" type="Node" parent="Mixer" unique_id=919739727]
 script = ExtResource("4_g0dve")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Mixer/IdleMotion"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Mixer/IdleMotion" unique_id=1544526273]
 deterministic = true
 
-[node name="Tracking" type="Node" parent="Mixer"]
+[node name="Tracking" type="Node" parent="Mixer" unique_id=1156908974]
 script = ExtResource("4_g0dve")
 
-[node name="Expression" type="Node" parent="Mixer"]
+[node name="Expression" type="Node" parent="Mixer" unique_id=1215636123]
 script = ExtResource("5_7xpjp")
 
-[node name="OneShotMotion" type="Node" parent="Mixer"]
+[node name="OneShotMotion" type="Node" parent="Mixer" unique_id=1996337969]
 script = ExtResource("4_g0dve")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Mixer/OneShotMotion"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Mixer/OneShotMotion" unique_id=1798112804]
 
-[node name="Actions" type="Node" parent="."]
+[node name="Actions" type="Node" parent="." unique_id=1467033893]
 unique_name_in_owner = true

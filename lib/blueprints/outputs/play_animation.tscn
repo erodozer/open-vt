@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://dcqnjvju4erad"]
+[gd_scene format=3 uid="uid://dcqnjvju4erad"]
 
 [ext_resource type="Script" uid="uid://cfh0yy8wrqoab" path="res://lib/blueprints/outputs/play_animation.gd" id="1_qs8q2"]
 
-[node name="PlayAnimation" type="GraphNode"]
+[node name="PlayAnimation" type="GraphNode" unique_id=1520816118]
 custom_minimum_size = Vector2(180, 0)
 offset_left = -1.0
 offset_top = 5.0
@@ -47,28 +47,28 @@ slot/3/right_icon = null
 slot/3/draw_stylebox = true
 script = ExtResource("1_qs8q2")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=648619190]
 layout_mode = 2
 
-[node name="Animation" type="OptionButton" parent="VBoxContainer"]
+[node name="Animation" type="OptionButton" parent="VBoxContainer" unique_id=1688717127]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1490525821]
 layout_mode = 2
 
-[node name="Speed" type="HBoxContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="Speed" type="HBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=626723233]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Speed"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Speed" unique_id=1286573084]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Speed"
 
-[node name="Value" type="SpinBox" parent="VBoxContainer/HBoxContainer/Speed"]
+[node name="Value" type="SpinBox" parent="VBoxContainer/HBoxContainer/Speed" unique_id=1880938298]
 layout_mode = 2
 size_flags_horizontal = 3
 min_value = 1.0
@@ -76,17 +76,17 @@ max_value = 250.0
 value = 100.0
 suffix = "%"
 
-[node name="Fade" type="HBoxContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="Fade" type="HBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=1054079252]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Fade"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Fade" unique_id=677367557]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Fade"
 
-[node name="Value" type="SpinBox" parent="VBoxContainer/HBoxContainer/Fade"]
+[node name="Value" type="SpinBox" parent="VBoxContainer/HBoxContainer/Fade" unique_id=926249462]
 layout_mode = 2
 size_flags_horizontal = 3
 min_value = 1.0
@@ -94,21 +94,21 @@ max_value = 250.0
 value = 100.0
 suffix = "%"
 
-[node name="Trigger" type="Label" parent="."]
+[node name="Trigger" type="Label" parent="." unique_id=1397033666]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "Play"
 vertical_alignment = 1
 metadata/slot_type = "trigger"
 
-[node name="Trigger2" type="Label" parent="."]
+[node name="Trigger2" type="Label" parent="." unique_id=1124769400]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "Stop"
 vertical_alignment = 1
 metadata/slot_type = "trigger"
 
-[node name="Trigger3" type="Label" parent="."]
+[node name="Trigger3" type="Label" parent="." unique_id=1308368861]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "Completed"

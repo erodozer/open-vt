@@ -1,13 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://dl4qsr0b30vwp"]
+[gd_scene format=3 uid="uid://dl4qsr0b30vwp"]
 
 [ext_resource type="Script" uid="uid://vasgewecltts" path="res://lib/items/vt_item.gd" id="1_pu6sx"]
 [ext_resource type="Script" uid="uid://bmmiyww6t4reo" path="res://lib/items/debug.gd" id="3_wpqse"]
 
-[node name="VtItem" type="Node2D"]
+[node name="VtItem" type="Node2D" unique_id=803589653]
 script = ExtResource("1_pu6sx")
 centered = true
 
-[node name="Debug" type="Node2D" parent="."]
+[node name="Debug" type="Node2D" parent="." unique_id=58054392]
 visible = false
 script = ExtResource("3_wpqse")
 

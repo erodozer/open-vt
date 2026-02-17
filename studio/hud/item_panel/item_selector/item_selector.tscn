@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://dpd03nwwl7x70"]
+[gd_scene format=3 uid="uid://dpd03nwwl7x70"]
 
 [ext_resource type="Script" uid="uid://bojwhuguf60vg" path="res://studio/hud/item_panel/item_selector/item_selector.gd" id="1_6nyon"]
 [ext_resource type="PackedScene" uid="uid://d30mduusp81ch" path="res://ui/search/search.tscn" id="2_4bid1"]
 
-[node name="ItemSelectPopup" type="PopupPanel"]
+[node name="ItemSelectPopup" type="PopupPanel" unique_id=1031384911]
 oversampling_override = 1.0
 title = "Select Item"
 initial_position = 2
@@ -13,20 +13,20 @@ borderless = false
 theme_type_variation = &"FramedPopupPanel"
 script = ExtResource("1_6nyon")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1329371113]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 416.0
 offset_bottom = 545.0
 
-[node name="Search" parent="VBoxContainer" instance=ExtResource("2_4bid1")]
+[node name="Search" parent="VBoxContainer" unique_id=993312173 instance=ExtResource("2_4bid1")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="TypeToggles" type="HBoxContainer" parent="VBoxContainer"]
+[node name="TypeToggles" type="HBoxContainer" parent="VBoxContainer" unique_id=2115157822]
 layout_mode = 2
 
-[node name="ImageType" type="CheckBox" parent="VBoxContainer/TypeToggles"]
+[node name="ImageType" type="CheckBox" parent="VBoxContainer/TypeToggles" unique_id=2033207897]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -34,7 +34,7 @@ button_pressed = true
 text = "Static"
 flat = true
 
-[node name="AnimatedType" type="CheckBox" parent="VBoxContainer/TypeToggles"]
+[node name="AnimatedType" type="CheckBox" parent="VBoxContainer/TypeToggles" unique_id=576389756]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -42,7 +42,7 @@ button_pressed = true
 text = "Animated"
 flat = true
 
-[node name="ModelType" type="CheckBox" parent="VBoxContainer/TypeToggles"]
+[node name="ModelType" type="CheckBox" parent="VBoxContainer/TypeToggles" unique_id=1536734299]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -50,25 +50,25 @@ button_pressed = true
 text = "Model"
 flat = true
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=243703075]
 custom_minimum_size = Vector2(400, 400)
 layout_mode = 2
 size_flags_vertical = 3
 vertical_scroll_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ScrollContainer" unique_id=1263502649]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/margin_right = 4
 
-[node name="List" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer"]
+[node name="List" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer" unique_id=533842075]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="CancelButton" type="Button" parent="VBoxContainer"]
+[node name="CancelButton" type="Button" parent="VBoxContainer" unique_id=608413782]
 layout_mode = 2
 text = "Cancel"
 

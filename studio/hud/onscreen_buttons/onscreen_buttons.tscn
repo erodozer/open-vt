@@ -1,70 +1,70 @@
-[gd_scene load_steps=2 format=3 uid="uid://bbpykopqsj46s"]
+[gd_scene format=3 uid="uid://bbpykopqsj46s"]
 
 [ext_resource type="Script" uid="uid://7m7d6kwossfv" path="res://studio/hud/onscreen_buttons/onscreen_buttons.gd" id="1_kkpfd"]
 
-[node name="OnscreenController" type="PanelContainer" groups=["persist", "system:hotkey"]]
+[node name="OnscreenController" type="PanelContainer" unique_id=1537948229 groups=["persist", "system:hotkey"]]
 offset_right = 288.0
 offset_bottom = 150.0
 script = ExtResource("1_kkpfd")
 title = "Action Controller"
 
-[node name="Buttons" type="GridContainer" parent="."]
+[node name="Buttons" type="GridContainer" parent="." unique_id=153744500]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/h_separation = 6
 theme_override_constants/v_separation = 8
 columns = 4
 
-[node name="Button" type="Button" parent="Buttons"]
+[node name="Button" type="Button" parent="Buttons" unique_id=672212469]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 focus_mode = 0
 mouse_filter = 1
 action_mode = 0
 
-[node name="Button2" type="Button" parent="Buttons"]
+[node name="Button2" type="Button" parent="Buttons" unique_id=1770166883]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 focus_mode = 0
 mouse_filter = 1
 action_mode = 0
 
-[node name="Button3" type="Button" parent="Buttons"]
+[node name="Button3" type="Button" parent="Buttons" unique_id=732765983]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 focus_mode = 0
 mouse_filter = 1
 action_mode = 0
 
-[node name="Button4" type="Button" parent="Buttons"]
+[node name="Button4" type="Button" parent="Buttons" unique_id=1428522066]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 focus_mode = 0
 mouse_filter = 1
 action_mode = 0
 
-[node name="Button5" type="Button" parent="Buttons"]
+[node name="Button5" type="Button" parent="Buttons" unique_id=2025438922]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 focus_mode = 0
 mouse_filter = 1
 action_mode = 0
 
-[node name="Button6" type="Button" parent="Buttons"]
+[node name="Button6" type="Button" parent="Buttons" unique_id=378798930]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 focus_mode = 0
 mouse_filter = 1
 action_mode = 0
 
-[node name="Button7" type="Button" parent="Buttons"]
+[node name="Button7" type="Button" parent="Buttons" unique_id=796145384]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 focus_mode = 0
 mouse_filter = 1
 action_mode = 0
 
-[node name="Button8" type="Button" parent="Buttons"]
+[node name="Button8" type="Button" parent="Buttons" unique_id=1721806246]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 focus_mode = 0

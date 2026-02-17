@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://d2a67yxp08esv"]
 
-[node name="Modal" type="CanvasLayer"]
+[node name="Modal" type="CanvasLayer" unique_id=360995822]
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=593852400]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

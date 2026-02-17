@@ -1,11 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://toss8jnrs7a8"]
+[gd_scene format=3 uid="uid://toss8jnrs7a8"]
 
 [ext_resource type="Script" uid="uid://db42rl050i8ey" path="res://studio/hud/blueprint_editor/editor.gd" id="1_i8a08"]
 [ext_resource type="PackedScene" uid="uid://dgmc2ouh0pqwh" path="res://studio/hud/blueprint_editor/palette.tscn" id="2_gl8b5"]
 [ext_resource type="Texture2D" uid="uid://bdb8qf25rndd4" path="res://ui/icons/plus.svg" id="2_ira4j"]
 [ext_resource type="Texture2D" uid="uid://dvoxi8gjlmu1m" path="res://ui/icons/trash-can.svg" id="3_n0myf"]
 
-[node name="BlueprintEditor" type="Window" groups=["persist:model"]]
+[node name="BlueprintEditor" type="Window" unique_id=1090118760 groups=["persist:model"]]
 disable_3d = true
 gui_snap_controls_to_pixels = false
 oversampling_override = 1.0
@@ -14,7 +14,7 @@ size = Vector2i(1280, 720)
 theme_type_variation = &"FramedPopupPanel"
 script = ExtResource("1_i8a08")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=381194291]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -23,16 +23,16 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer" unique_id=2083305834]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 8
 
-[node name="Control" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
+[node name="Control" type="VBoxContainer" parent="PanelContainer/HBoxContainer" unique_id=1210906801]
 custom_minimum_size = Vector2(36, 0)
 layout_mode = 2
 
-[node name="AddBlueprint" type="MenuButton" parent="PanelContainer/HBoxContainer/Control"]
+[node name="AddBlueprint" type="MenuButton" parent="PanelContainer/HBoxContainer/Control" unique_id=1624265802]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(36, 32)
 layout_mode = 2
@@ -48,56 +48,56 @@ popup/item_1/id = 1
 popup/item_2/text = "Auto-Setup"
 popup/item_2/id = 2
 
-[node name="Palette" parent="PanelContainer/HBoxContainer/Control" instance=ExtResource("2_gl8b5")]
+[node name="Palette" parent="PanelContainer/HBoxContainer/Control" unique_id=76400097 instance=ExtResource("2_gl8b5")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer" unique_id=599234808]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 12
 
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/HBoxContainer/VBoxContainer" unique_id=1442164832]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_type_variation = &"InsetPanelContainer"
 
-[node name="Profiles" type="TabContainer" parent="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer"]
+[node name="Profiles" type="TabContainer" parent="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer" unique_id=1071180202]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 tabs_position = 1
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer" unique_id=901989625]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1526299830]
 layout_mode = 2
 text = "Name"
 
-[node name="ProfileName" type="LineEdit" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="ProfileName" type="LineEdit" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1690751980]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(360, 0)
 layout_mode = 2
 placeholder_text = "Default"
 
-[node name="ProfileEnabled" type="CheckBox" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="ProfileEnabled" type="CheckBox" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1404180144]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 text = "Enabled"
 flat = true
 
-[node name="Control" type="Control" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="Control" type="Control" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=605194430]
 layout_mode = 2
 
-[node name="DeleteProfile" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="DeleteProfile" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=991546284]
 custom_minimum_size = Vector2(96, 32)
 layout_mode = 2
 size_flags_horizontal = 10
@@ -107,7 +107,7 @@ text = "Delete"
 icon = ExtResource("3_n0myf")
 expand_icon = true
 
-[node name="DeleteConfirmation" type="ConfirmationDialog" parent="."]
+[node name="DeleteConfirmation" type="ConfirmationDialog" parent="." unique_id=418585485]
 unique_name_in_owner = true
 initial_position = 2
 ok_button_text = "Yes, Delete It"

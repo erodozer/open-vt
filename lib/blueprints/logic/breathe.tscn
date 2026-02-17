@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://dyittcs286rby"]
+[gd_scene format=3 uid="uid://dyittcs286rby"]
 
 [ext_resource type="Script" uid="uid://0q0liewe0th2" path="res://lib/blueprints/logic/breathe.gd" id="1_7ad3g"]
 
@@ -6,7 +6,7 @@
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[node name="Breathe" type="GraphNode"]
+[node name="Breathe" type="GraphNode" unique_id=2121359892]
 custom_minimum_size = Vector2(215, 120)
 offset_right = 25.0
 offset_bottom = 55.0
@@ -32,22 +32,22 @@ slot/1/draw_stylebox = true
 script = ExtResource("1_7ad3g")
 curve = SubResource("Curve_7ad3g")
 
-[node name="ProgressBar" type="ProgressBar" parent="."]
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=2054717645]
 unique_name_in_owner = true
 layout_mode = 2
 max_value = 1.0
 step = 0.001
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1241055388]
 layout_mode = 2
 theme_override_constants/separation = 24
 
-[node name="Label" type="Label" parent="HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=698488344]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Frequency"
 
-[node name="TimeScale" type="SpinBox" parent="HBoxContainer"]
+[node name="TimeScale" type="SpinBox" parent="HBoxContainer" unique_id=622000165]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(90, 0)
 layout_mode = 2

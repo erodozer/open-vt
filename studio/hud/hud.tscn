@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cmd2d6iiryvk4"]
+[gd_scene format=3 uid="uid://cmd2d6iiryvk4"]
 
 [ext_resource type="Script" uid="uid://pso4m0hd1wo3" path="res://studio/hud/hud.gd" id="1_t0mli"]
 [ext_resource type="Texture2D" uid="uid://ddqu1ma3rgo08" path="res://studio/hud/icons/aperture.svg" id="2_vysue"]
@@ -33,7 +33,7 @@ content_margin_bottom = 8.0
 [sub_resource type="ButtonGroup" id="ButtonGroup_42qc0"]
 allow_unpress = true
 
-[node name="HUD" type="HBoxContainer" groups=["hide_screenshot", "persist"]]
+[node name="HUD" type="HBoxContainer" unique_id=1933738597 groups=["hide_screenshot", "persist"]]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -43,12 +43,12 @@ mouse_filter = 2
 script = ExtResource("1_t0mli")
 title = "open-vt (Controls)"
 
-[node name="Bg" type="CanvasLayer" parent="."]
+[node name="Bg" type="CanvasLayer" parent="." unique_id=1349299431]
 unique_name_in_owner = true
 layer = -1
 visible = false
 
-[node name="Gradient" type="TextureRect" parent="Bg"]
+[node name="Gradient" type="TextureRect" parent="Bg" unique_id=1942214844]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -56,7 +56,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_kr4px")
 
-[node name="Grid" type="TextureRect" parent="Bg"]
+[node name="Grid" type="TextureRect" parent="Bg" unique_id=1612435698]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -65,18 +65,18 @@ grow_vertical = 2
 texture = ExtResource("8_i4b50")
 stretch_mode = 1
 
-[node name="Menu" type="PanelContainer" parent="."]
+[node name="Menu" type="PanelContainer" parent="." unique_id=507694953]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
 theme_type_variation = &"ButtonPanel"
 theme_override_styles/panel = SubResource("StyleBoxEmpty_goisu")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Menu"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu" unique_id=129719950]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="CameraBtn" type="Button" parent="Menu/VBoxContainer"]
+[node name="CameraBtn" type="Button" parent="Menu/VBoxContainer" unique_id=1535069087]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
@@ -90,7 +90,7 @@ icon_alignment = 1
 expand_icon = true
 metadata/panel = NodePath("../../../Panels/CameraPanel")
 
-[node name="ModelBtn" type="Button" parent="Menu/VBoxContainer"]
+[node name="ModelBtn" type="Button" parent="Menu/VBoxContainer" unique_id=1301796430]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
@@ -104,7 +104,7 @@ icon_alignment = 1
 expand_icon = true
 metadata/panel = NodePath("../../../Panels/ModelPanel")
 
-[node name="ItemBtn" type="Button" parent="Menu/VBoxContainer"]
+[node name="ItemBtn" type="Button" parent="Menu/VBoxContainer" unique_id=1092610433]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
@@ -118,7 +118,7 @@ icon_alignment = 1
 expand_icon = true
 metadata/panel = NodePath("../../../Panels/ItemPanel")
 
-[node name="ParameterBtn" type="Button" parent="Menu/VBoxContainer"]
+[node name="ParameterBtn" type="Button" parent="Menu/VBoxContainer" unique_id=1442291964]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
@@ -132,7 +132,7 @@ icon_alignment = 1
 expand_icon = true
 metadata/panel = NodePath("../../../Panels/ParameterPanel")
 
-[node name="ActionBtn" type="Button" parent="Menu/VBoxContainer"]
+[node name="ActionBtn" type="Button" parent="Menu/VBoxContainer" unique_id=1083827544]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
@@ -144,7 +144,7 @@ icon_alignment = 1
 expand_icon = true
 metadata/model = true
 
-[node name="ScreenshotBtn" type="Button" parent="Menu/VBoxContainer"]
+[node name="ScreenshotBtn" type="Button" parent="Menu/VBoxContainer" unique_id=1335475815]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
@@ -155,7 +155,7 @@ focus_mode = 0
 icon = ExtResource("2_vysue")
 expand_icon = true
 
-[node name="PopoutBtn" type="Button" parent="Menu/VBoxContainer"]
+[node name="PopoutBtn" type="Button" parent="Menu/VBoxContainer" unique_id=1922774639]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
@@ -165,7 +165,7 @@ focus_mode = 0
 icon = ExtResource("7_wochk")
 expand_icon = true
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1139720699]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
@@ -174,49 +174,45 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="OnscreenButtons" parent="MarginContainer" instance=ExtResource("14_67g5m")]
+[node name="OnscreenButtons" parent="MarginContainer" unique_id=1717601108 instance=ExtResource("14_67g5m")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 8
 title = "Action Palette"
 
-[node name="Panels" type="CanvasLayer" parent="." groups=["hide_screenshot"]]
+[node name="Panels" type="CanvasLayer" parent="." unique_id=913944957 groups=["hide_screenshot"]]
 unique_name_in_owner = true
 layer = 5
 
-[node name="ParameterPanel" parent="Panels" instance=ExtResource("9_p03m3")]
+[node name="ParameterPanel" parent="Panels" unique_id=1105496622 instance=ExtResource("9_p03m3")]
 unique_name_in_owner = true
 visible = false
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
 offset_left = 1541.0
 offset_right = 2021.0
-grow_horizontal = 0
 
-[node name="ModelPanel" parent="Panels" instance=ExtResource("10_6xy5i")]
+[node name="ModelPanel" parent="Panels" unique_id=1512003189 instance=ExtResource("10_6xy5i")]
 unique_name_in_owner = true
 visible = false
 offset_left = 1548.0
 offset_right = 2028.0
 
-[node name="ItemPanel" parent="Panels" instance=ExtResource("11_juv7g")]
+[node name="ItemPanel" parent="Panels" unique_id=1318537345 instance=ExtResource("11_juv7g")]
 unique_name_in_owner = true
 visible = false
 offset_left = 1549.0
 offset_right = 2029.0
 
-[node name="CameraPanel" parent="Panels" instance=ExtResource("12_blrl1")]
+[node name="CameraPanel" parent="Panels" unique_id=41043332 instance=ExtResource("12_blrl1")]
 unique_name_in_owner = true
 visible = false
 offset_left = 1550.0
 offset_right = 2030.0
 
-[node name="Debug" type="CanvasLayer" parent="."]
+[node name="Debug" type="CanvasLayer" parent="." unique_id=1340795754]
 layer = 99
 
-[node name="FPSCounter" type="Label" parent="Debug"]
+[node name="FPSCounter" type="Label" parent="Debug" unique_id=2032256373]
 visible = false
 anchors_preset = 1
 anchor_left = 1.0
@@ -228,7 +224,7 @@ text = "FPS: 0"
 horizontal_alignment = 2
 script = ExtResource("17_0k8c4")
 
-[node name="Toast" parent="Debug" instance=ExtResource("17_1vcj3")]
+[node name="Toast" parent="Debug" unique_id=564213872 instance=ExtResource("17_1vcj3")]
 
 [connection signal="pressed" from="Menu/VBoxContainer/ActionBtn" to="." method="_on_action_btn_pressed"]
 [connection signal="pressed" from="Menu/VBoxContainer/ScreenshotBtn" to="." method="_on_screenshot_btn_pressed"]

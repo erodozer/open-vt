@@ -1,11 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://c3g40vlt2ne32"]
+[gd_scene format=3 uid="uid://c3g40vlt2ne32"]
 
 [ext_resource type="Script" uid="uid://chwlfxhy87aae" path="res://lib/tracking/camera/openseeface/osf_debug.gd" id="1_a10jp"]
 [ext_resource type="Script" uid="uid://crd8sp7fnpfdy" path="res://lib/tracking/camera/openseeface/osf_config.gd" id="1_l2brn"]
 
 [sub_resource type="PlaceholderMesh" id="PlaceholderMesh_w8rkj"]
 
-[node name="OsfConfig" type="VBoxContainer"]
+[node name="OsfConfig" type="VBoxContainer" unique_id=1382956259]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 215.0
@@ -13,7 +13,7 @@ offset_bottom = 409.0
 size_flags_horizontal = 3
 script = ExtResource("1_l2brn")
 
-[node name="PointPreview" type="Panel" parent="."]
+[node name="PointPreview" type="Panel" parent="." unique_id=1136600110]
 unique_name_in_owner = true
 clip_contents = true
 custom_minimum_size = Vector2(0, 256)
@@ -21,7 +21,7 @@ layout_mode = 2
 script = ExtResource("1_a10jp")
 mirror = true
 
-[node name="FpsCounter" type="Label" parent="PointPreview"]
+[node name="FpsCounter" type="Label" parent="PointPreview" unique_id=1948382023]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 0
@@ -32,13 +32,13 @@ offset_bottom = 23.0
 theme_type_variation = &"ValueLabel"
 text = "FPS: 0"
 
-[node name="FaceMesh" type="MeshInstance2D" parent="PointPreview"]
+[node name="FaceMesh" type="MeshInstance2D" parent="PointPreview" unique_id=1340307203]
 unique_name_in_owner = true
 position = Vector2(216, 128)
 scale = Vector2(128, 128)
 mesh = SubResource("PlaceholderMesh_w8rkj")
 
-[node name="ActiveIndicator" type="Label" parent="PointPreview"]
+[node name="ActiveIndicator" type="Label" parent="PointPreview" unique_id=1097379140]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 1
@@ -53,20 +53,20 @@ theme_type_variation = &"ValueLabel"
 text = "Off"
 horizontal_alignment = 1
 
-[node name="BlinkSync" type="CheckButton" parent="."]
+[node name="BlinkSync" type="CheckButton" parent="." unique_id=1339010894]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Link Eye Blinking"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+[node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=1281158963]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer2"]
+[node name="Label" type="Label" parent="HBoxContainer2" unique_id=1565707797]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "OSF Port"
 
-[node name="Port" type="SpinBox" parent="HBoxContainer2"]
+[node name="Port" type="SpinBox" parent="HBoxContainer2" unique_id=431934722]
 unique_name_in_owner = true
 layout_mode = 2
 min_value = 10000.0
@@ -74,21 +74,21 @@ max_value = 64335.0
 value = 11573.0
 alignment = 2
 
-[node name="AutoConnect" type="CheckButton" parent="."]
+[node name="AutoConnect" type="CheckButton" parent="." unique_id=718183635]
 visible = false
 layout_mode = 2
 text = "Auto Connect"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1728590766]
 layout_mode = 2
 
-[node name="Connect" type="Button" parent="HBoxContainer"]
+[node name="Connect" type="Button" parent="HBoxContainer" unique_id=262924836]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Connect"
 
-[node name="Disconnect" type="Button" parent="HBoxContainer"]
+[node name="Disconnect" type="Button" parent="HBoxContainer" unique_id=646788445]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3

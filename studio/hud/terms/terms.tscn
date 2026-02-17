@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://idtkx4rstmqq"]
+[gd_scene format=3 uid="uid://idtkx4rstmqq"]
 
 [ext_resource type="Script" uid="uid://cmjo3qex0fdfd" path="res://studio/hud/terms/terms.gd" id="2_v6mkw"]
 
-[node name="Terms" type="PopupPanel" groups=["persist"]]
+[node name="Terms" type="PopupPanel" unique_id=291461920 groups=["persist"]]
 oversampling_override = 1.0
 title = "Terms of Use"
 initial_position = 1
@@ -12,29 +12,29 @@ transient_to_focused = true
 borderless = false
 script = ExtResource("2_v6mkw")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2001856906]
 offset_left = 10.0
 offset_top = 10.0
 offset_right = 486.0
 offset_bottom = 586.0
 
-[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer" unique_id=1277347701]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1382132539]
 layout_mode = 2
 alignment = 1
 
-[node name="Reject" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="Reject" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1669653018]
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Reject Terms"
 
-[node name="Accept" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="Accept" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1273530967]
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
 size_flags_horizontal = 4

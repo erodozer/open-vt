@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bbh7pj5wq0sii"]
+[gd_scene format=3 uid="uid://bbh7pj5wq0sii"]
 
 [ext_resource type="Script" uid="uid://bq0aow0vnq1i6" path="res://studio/studio.gd" id="1_o3t2a"]
 [ext_resource type="Script" uid="uid://c3dhmb2w6nvr0" path="res://lib/tracking/tracking_system.gd" id="3_q22or"]
@@ -123,28 +123,28 @@ _data = {
 &"clear": SubResource("Animation_4c57u")
 }
 
-[node name="Studio" type="Node" groups=["persist"]]
+[node name="Studio" type="Node" unique_id=1319246631 groups=["persist"]]
 script = ExtResource("1_o3t2a")
 
-[node name="Stage" parent="." instance=ExtResource("9_oyfbk")]
+[node name="Stage" parent="." unique_id=1832089703 instance=ExtResource("9_oyfbk")]
 
-[node name="Interface" type="CanvasLayer" parent="."]
+[node name="Interface" type="CanvasLayer" parent="." unique_id=669714754]
 layer = 2
 follow_viewport_enabled = true
 
-[node name="HUD" parent="Interface" instance=ExtResource("10_o8nmr")]
+[node name="HUD" parent="Interface" unique_id=831684815 instance=ExtResource("10_o8nmr")]
 unique_name_in_owner = true
 
-[node name="Terms" parent="Interface" instance=ExtResource("14_ylsn8")]
+[node name="Terms" parent="Interface" unique_id=2098445916 instance=ExtResource("14_ylsn8")]
 visible = false
 
-[node name="Splash" type="CanvasLayer" parent="."]
+[node name="Splash" type="CanvasLayer" parent="." unique_id=131694603]
 unique_name_in_owner = true
 layer = 100
 
-[node name="CanvasGroup" type="CanvasGroup" parent="Splash"]
+[node name="CanvasGroup" type="CanvasGroup" parent="Splash" unique_id=1395497276]
 
-[node name="Logo" type="TextureRect" parent="Splash/CanvasGroup"]
+[node name="Logo" type="TextureRect" parent="Splash/CanvasGroup" unique_id=541960113]
 custom_minimum_size = Vector2(1280, 720)
 offset_right = 1280.0
 offset_bottom = 720.0
@@ -152,7 +152,7 @@ texture = ExtResource("11_jnoo6")
 expand_mode = 1
 stretch_mode = 3
 
-[node name="ColorRect" type="ColorRect" parent="Splash/CanvasGroup/Logo"]
+[node name="ColorRect" type="ColorRect" parent="Splash/CanvasGroup/Logo" unique_id=1297688370]
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = 15
@@ -162,7 +162,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="Live2D Logo" type="TextureRect" parent="Splash/CanvasGroup/Logo"]
+[node name="Live2D Logo" type="TextureRect" parent="Splash/CanvasGroup/Logo" unique_id=2089854491]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 3
@@ -178,7 +178,7 @@ texture = ExtResource("12_phb3q")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Godot Logo" type="TextureRect" parent="Splash/CanvasGroup/Logo"]
+[node name="Godot Logo" type="TextureRect" parent="Splash/CanvasGroup/Logo" unique_id=513853145]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 2
@@ -191,18 +191,16 @@ texture = ExtResource("13_elko7")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Splash"]
-libraries = {
-&"": SubResource("AnimationLibrary_dg77c")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Splash" unique_id=992200835]
+libraries/ = SubResource("AnimationLibrary_dg77c")
 
-[node name="TrackerSystem" type="Node" parent="." groups=["system:tracking"]]
+[node name="TrackerSystem" type="Node" parent="." unique_id=890340566 groups=["system:tracking"]]
 script = ExtResource("3_q22or")
 
-[node name="MouseTracker" type="Node" parent="TrackerSystem"]
+[node name="MouseTracker" type="Node" parent="TrackerSystem" unique_id=2140682791]
 script = ExtResource("4_ihfr3")
 
-[node name="MicrophoneTracker" parent="TrackerSystem" instance=ExtResource("5_an10b")]
+[node name="MicrophoneTracker" parent="TrackerSystem" unique_id=763256297 instance=ExtResource("5_an10b")]
 
-[node name="GamepadTracker" type="Node" parent="TrackerSystem"]
+[node name="GamepadTracker" type="Node" parent="TrackerSystem" unique_id=250471779]
 script = ExtResource("6_efmbb")

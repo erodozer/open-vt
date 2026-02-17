@@ -1,10 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://bijxdkq5d5x8f"]
+[gd_scene format=3 uid="uid://bijxdkq5d5x8f"]
 
 [ext_resource type="Script" uid="uid://d3800yrntrfgb" path="res://lib/blueprints/outputs/model_parameter.gd" id="1_s81k7"]
 [ext_resource type="PackedScene" uid="uid://dqwhus4y0one8" path="res://ui/range_input/input.tscn" id="2_pybyp"]
 [ext_resource type="Texture2D" uid="uid://d1kej52kqrg0g" path="res://ui/icons/eraser.svg" id="3_rnnsk"]
 
-[node name="ModelParameter" type="GraphNode"]
+[node name="ModelParameter" type="GraphNode" unique_id=2086647960]
 process_priority = 1
 custom_minimum_size = Vector2(180, 0)
 offset_left = -1.0
@@ -41,38 +41,38 @@ slot/2/right_icon = null
 slot/2/draw_stylebox = true
 script = ExtResource("1_s81k7")
 
-[node name="Parameters" type="OptionButton" parent="."]
+[node name="Parameters" type="OptionButton" parent="." unique_id=1879129309]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 text_overrun_behavior = 3
 fit_to_longest_item = false
 
-[node name="Input" type="HBoxContainer" parent="."]
+[node name="Input" type="HBoxContainer" parent="." unique_id=400654383]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Input"]
+[node name="Label" type="Label" parent="Input" unique_id=119794768]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Value"
 
-[node name="Value" type="SpinBox" parent="Input"]
+[node name="Value" type="SpinBox" parent="Input" unique_id=890248783]
 layout_mode = 2
 size_flags_horizontal = 3
 min_value = -999.0
 max_value = 999.0
 step = 0.01
 
-[node name="Options" type="VBoxContainer" parent="."]
+[node name="Options" type="VBoxContainer" parent="." unique_id=24504612]
 layout_mode = 2
 
-[node name="Range" parent="Options" instance=ExtResource("2_pybyp")]
+[node name="Range" parent="Options" unique_id=1121388961 instance=ExtResource("2_pybyp")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="ResetButton" type="Button" parent="Options/Range"]
+[node name="ResetButton" type="Button" parent="Options/Range" unique_id=1115559045]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
@@ -80,16 +80,16 @@ focus_mode = 0
 icon = ExtResource("3_rnnsk")
 expand_icon = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Options"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Options" unique_id=1077179498]
 layout_mode = 2
 
-[node name="ClampToggle" type="CheckButton" parent="Options/HBoxContainer"]
+[node name="ClampToggle" type="CheckButton" parent="Options/HBoxContainer" unique_id=2095259893]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Clamp"
 
-[node name="InvertToggle" type="CheckButton" parent="Options/HBoxContainer"]
+[node name="InvertToggle" type="CheckButton" parent="Options/HBoxContainer" unique_id=756685490]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3

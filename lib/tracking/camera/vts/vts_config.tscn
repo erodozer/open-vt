@@ -1,53 +1,53 @@
-[gd_scene load_steps=2 format=3 uid="uid://bnjqry5p851qa"]
+[gd_scene format=3 uid="uid://bnjqry5p851qa"]
 
 [ext_resource type="Script" uid="uid://cc8x0bh5hk0sv" path="res://lib/tracking/camera/vts/vts_config.gd" id="1_ahnfl"]
 
-[node name="VBoxContainer" type="VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" unique_id=1618521285]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 212.0
 offset_bottom = 209.0
 script = ExtResource("1_ahnfl")
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="."]
+[node name="HBoxContainer3" type="HBoxContainer" parent="." unique_id=811406716]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer3"]
+[node name="Label" type="Label" parent="HBoxContainer3" unique_id=1039646248]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Listening"
 
-[node name="ActiveIndicator" type="Label" parent="HBoxContainer3"]
+[node name="ActiveIndicator" type="Label" parent="HBoxContainer3" unique_id=1158657409]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 text = "Off"
 horizontal_alignment = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1824633906]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=268077732]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Hostname"
 
-[node name="Hostname" type="LineEdit" parent="HBoxContainer"]
+[node name="Hostname" type="LineEdit" parent="HBoxContainer" unique_id=1386416110]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 placeholder_text = "0.0.0.0"
 editable = false
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+[node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=229503339]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer2"]
+[node name="Label" type="Label" parent="HBoxContainer2" unique_id=706614814]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Port"
 
-[node name="Port" type="SpinBox" parent="HBoxContainer2"]
+[node name="Port" type="SpinBox" parent="HBoxContainer2" unique_id=827534216]
 unique_name_in_owner = true
 layout_mode = 2
 min_value = 10000.0
@@ -56,16 +56,16 @@ value = 25565.0
 alignment = 2
 editable = false
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="."]
+[node name="HBoxContainer4" type="HBoxContainer" parent="." unique_id=1701620560]
 layout_mode = 2
 
-[node name="Connect" type="Button" parent="HBoxContainer4"]
+[node name="Connect" type="Button" parent="HBoxContainer4" unique_id=609051845]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Start Server"
 
-[node name="Disconnect" type="Button" parent="HBoxContainer4"]
+[node name="Disconnect" type="Button" parent="HBoxContainer4" unique_id=756440143]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3

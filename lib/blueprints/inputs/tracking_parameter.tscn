@@ -1,10 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://bgc5frfweklsv"]
+[gd_scene format=3 uid="uid://bgc5frfweklsv"]
 
 [ext_resource type="Script" uid="uid://i6jx5wudxlhx" path="res://lib/blueprints/inputs/tracking_parameter.gd" id="1_fhsw5"]
 [ext_resource type="PackedScene" uid="uid://dqwhus4y0one8" path="res://ui/range_input/input.tscn" id="2_ko45s"]
 [ext_resource type="Texture2D" uid="uid://d1kej52kqrg0g" path="res://ui/icons/eraser.svg" id="3_7y14m"]
 
-[node name="Tracking" type="GraphNode"]
+[node name="Tracking" type="GraphNode" unique_id=1373402909]
 custom_minimum_size = Vector2(360, 215)
 offset_right = 180.0
 offset_bottom = 132.0
@@ -29,20 +29,20 @@ slot/1/right_icon = null
 slot/1/draw_stylebox = true
 script = ExtResource("1_fhsw5")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=744526875]
 layout_mode = 2
 
-[node name="Parameter" type="OptionButton" parent="VBoxContainer"]
+[node name="Parameter" type="OptionButton" parent="VBoxContainer" unique_id=1156455508]
 unique_name_in_owner = true
 layout_mode = 2
 text_overrun_behavior = 3
 fit_to_longest_item = false
 
-[node name="Input" parent="VBoxContainer" instance=ExtResource("2_ko45s")]
+[node name="Input" parent="VBoxContainer" unique_id=1475438299 instance=ExtResource("2_ko45s")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="ResetButton" type="Button" parent="VBoxContainer/Input"]
+[node name="ResetButton" type="Button" parent="VBoxContainer/Input" unique_id=1996094914]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
@@ -50,26 +50,26 @@ focus_mode = 0
 icon = ExtResource("3_7y14m")
 expand_icon = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1087440615]
 layout_mode = 2
 
-[node name="ClampToggle" type="CheckButton" parent="VBoxContainer/HBoxContainer"]
+[node name="ClampToggle" type="CheckButton" parent="VBoxContainer/HBoxContainer" unique_id=1559140837]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Clamp"
 
-[node name="InvertToggle" type="CheckButton" parent="VBoxContainer/HBoxContainer"]
+[node name="InvertToggle" type="CheckButton" parent="VBoxContainer/HBoxContainer" unique_id=20751204]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Invert"
 
-[node name="Output" type="HBoxContainer" parent="."]
+[node name="Output" type="HBoxContainer" parent="." unique_id=784221299]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="RawValue" type="SpinBox" parent="Output"]
+[node name="RawValue" type="SpinBox" parent="Output" unique_id=643847324]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 size_flags_horizontal = 10
@@ -79,14 +79,14 @@ step = 0.01
 alignment = 2
 editable = false
 
-[node name="Label2" type="Label" parent="Output"]
+[node name="Label2" type="Label" parent="Output" unique_id=1212287783]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Raw"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Value" type="SpinBox" parent="Output"]
+[node name="Value" type="SpinBox" parent="Output" unique_id=1399481019]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 size_flags_horizontal = 10
@@ -96,7 +96,7 @@ step = 0.01
 alignment = 2
 editable = false
 
-[node name="Label" type="Label" parent="Output"]
+[node name="Label" type="Label" parent="Output" unique_id=822520181]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Value"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://c773w6vc4nnrr"]
+[gd_scene format=3 uid="uid://c773w6vc4nnrr"]
 
 [ext_resource type="Script" uid="uid://17187ovs368q" path="res://studio/stage/stage.gd" id="1_ptuf8"]
 [ext_resource type="Texture2D" uid="uid://b401bri37hvvq" path="res://studio/stage/grid.png" id="2_yiyxu"]
@@ -10,14 +10,14 @@ colors = PackedColorArray(0.298039, 0.282353, 0.239216, 1, 0.67451, 0.654902, 0.
 gradient = SubResource("Gradient_joccq")
 fill_from = Vector2(0, 1)
 
-[node name="Stage" type="Node" groups=["persist", "system:stage"]]
+[node name="Stage" type="Node" unique_id=1822790790 groups=["persist", "system:stage"]]
 script = ExtResource("1_ptuf8")
 
-[node name="Bg" type="CanvasLayer" parent="." groups=["hide_screenshot"]]
+[node name="Bg" type="CanvasLayer" parent="." unique_id=411945016 groups=["hide_screenshot"]]
 unique_name_in_owner = true
 layer = -1
 
-[node name="BgFill" type="TextureRect" parent="Bg"]
+[node name="BgFill" type="TextureRect" parent="Bg" unique_id=1209091148]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -25,7 +25,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_kr4px")
 
-[node name="BgFill2" type="TextureRect" parent="Bg"]
+[node name="BgFill2" type="TextureRect" parent="Bg" unique_id=1306490965]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -34,9 +34,9 @@ grow_vertical = 2
 texture = ExtResource("2_yiyxu")
 stretch_mode = 1
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=707448220]
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer" unique_id=1741800294]
 texture_filter = 2
 anchors_preset = 15
 anchor_right = 1.0
@@ -45,7 +45,7 @@ grow_horizontal = 2
 grow_vertical = 2
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer" unique_id=980610513]
 unique_name_in_owner = true
 transparent_bg = true
 handle_input_locally = false
@@ -55,7 +55,7 @@ use_taa = true
 size = Vector2i(1280, 720)
 render_target_update_mode = 4
 
-[node name="ModelLayer" type="CanvasLayer" parent="CanvasLayer/SubViewportContainer/SubViewport"]
+[node name="ModelLayer" type="CanvasLayer" parent="CanvasLayer/SubViewportContainer/SubViewport" unique_id=800326305]
 unique_name_in_owner = true
 
 [connection signal="child_order_changed" from="CanvasLayer/SubViewportContainer/SubViewport/ModelLayer" to="." method="_on_model_layer_child_order_changed"]

@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://dmj8spvsnemo2"]
+[gd_scene format=3 uid="uid://dmj8spvsnemo2"]
 
 [ext_resource type="Script" uid="uid://dvif2mvufo5tp" path="res://studio/hud/item_panel/pin_selector/pin_selector.gd" id="1_wyeex"]
 [ext_resource type="PackedScene" uid="uid://d30mduusp81ch" path="res://ui/search/search.tscn" id="2_52rq1"]
 
-[node name="PinSelector" type="ConfirmationDialog"]
+[node name="PinSelector" type="ConfirmationDialog" unique_id=858611778]
 oversampling_override = 1.0
 title = "Pin to Mesh"
 initial_position = 2
@@ -11,7 +11,7 @@ size = Vector2i(336, 459)
 visible = true
 script = ExtResource("1_wyeex")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1299010716]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 328.0
@@ -20,15 +20,15 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="Search" parent="VBoxContainer" instance=ExtResource("2_52rq1")]
+[node name="Search" parent="VBoxContainer" unique_id=1363226643 instance=ExtResource("2_52rq1")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=1283608199]
 custom_minimum_size = Vector2(320, 360)
 layout_mode = 2
 
-[node name="Meshes" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
+[node name="Meshes" type="VBoxContainer" parent="VBoxContainer/ScrollContainer" unique_id=131172707]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3

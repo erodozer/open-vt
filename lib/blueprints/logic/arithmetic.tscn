@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://bpgxly1q2f3tc"]
+[gd_scene format=3 uid="uid://bpgxly1q2f3tc"]
 
 [ext_resource type="Script" uid="uid://igqs3ahumtq1" path="res://lib/blueprints/logic/arithmetic.gd" id="1_i62ip"]
 
-[node name="Arithmetic" type="GraphNode"]
+[node name="Arithmetic" type="GraphNode" unique_id=2051610489]
 offset_right = 106.0
 offset_bottom = 88.0
 title = "Arithmetic"
@@ -44,7 +44,7 @@ slot/3/right_icon = null
 slot/3/draw_stylebox = true
 script = ExtResource("1_i62ip")
 
-[node name="Operator" type="OptionButton" parent="."]
+[node name="Operator" type="OptionButton" parent="." unique_id=671488355]
 unique_name_in_owner = true
 layout_mode = 2
 alignment = 1
@@ -61,15 +61,15 @@ popup/item_3/id = 3
 popup/item_4/text = "Mod"
 popup/item_4/id = 4
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1594522762]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=1945700212]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 text = "A"
 
-[node name="InputA" type="SpinBox" parent="HBoxContainer"]
+[node name="InputA" type="SpinBox" parent="HBoxContainer" unique_id=1313949354]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
@@ -78,15 +78,15 @@ max_value = 999.9
 step = 0.01
 value = 0.10000000000002274
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+[node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=966230471]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="HBoxContainer2"]
+[node name="Label2" type="Label" parent="HBoxContainer2" unique_id=965248495]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 text = "B"
 
-[node name="InputB" type="SpinBox" parent="HBoxContainer2"]
+[node name="InputB" type="SpinBox" parent="HBoxContainer2" unique_id=1714002477]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
@@ -95,7 +95,7 @@ max_value = 999.9
 step = 0.01
 value = 0.10000000000002274
 
-[node name="Output" type="Label" parent="."]
+[node name="Output" type="Label" parent="." unique_id=559556553]
 layout_mode = 2
 text = "Output"
 horizontal_alignment = 2

@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=80 format=3 uid="uid://bwesfr5en0lxv"]
+[gd_resource type="Theme" format=3 uid="uid://bwesfr5en0lxv"]
 
 [ext_resource type="Texture2D" uid="uid://cj047554m680j" path="res://ui/icons/square-check.svg" id="1_5hwks"]
 [ext_resource type="Texture2D" uid="uid://dv7o0g2fot3n3" path="res://ui/icons/toggle-on.svg" id="1_jmxgr"]
@@ -27,6 +27,7 @@ shadow_offset = Vector2(2, 2)
 
 [sub_resource type="SystemFont" id="SystemFont_4bemj"]
 font_weight = 800
+subpixel_positioning = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qnykt"]
 content_margin_left = 4.0
@@ -490,6 +491,7 @@ shadow_size = 4
 shadow_offset = Vector2(0, 4)
 
 [sub_resource type="SystemFont" id="SystemFont_klrf6"]
+subpixel_positioning = 0
 
 [resource]
 default_font = SubResource("SystemFont_klrf6")

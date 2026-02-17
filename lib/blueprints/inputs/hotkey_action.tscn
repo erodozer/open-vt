@@ -1,11 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://uagdego7pt02"]
+[gd_scene format=3 uid="uid://uagdego7pt02"]
 
 [ext_resource type="Script" uid="uid://dvbxj8xftt1ei" path="res://lib/blueprints/inputs/hotkey_action.gd" id="1_0733d"]
 [ext_resource type="Script" uid="uid://pejy6s53go63" path="res://lib/blueprints/inputs/hotkey_binding.gd" id="2_wanp4"]
 [ext_resource type="PackedScene" uid="uid://d2a67yxp08esv" path="res://ui/modal/modal.tscn" id="3_ggeq4"]
 [ext_resource type="PackedScene" uid="uid://hpg52fgw7kdc" path="res://studio/hud/input_recorder/input_rec_popup.tscn" id="4_ti7i4"]
 
-[node name="HotkeyInput" type="GraphNode"]
+[node name="HotkeyInput" type="GraphNode" unique_id=628173125]
 custom_minimum_size = Vector2(180, 200)
 offset_right = 125.0
 offset_bottom = 182.0
@@ -39,13 +39,13 @@ slot/2/right_icon = null
 slot/2/draw_stylebox = true
 script = ExtResource("1_0733d")
 
-[node name="Input" type="Button" parent="."]
+[node name="Input" type="Button" parent="." unique_id=1498609911]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 text = "..."
 
-[node name="Pressed" type="Label" parent="."]
+[node name="Pressed" type="Label" parent="." unique_id=891793497]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
@@ -54,7 +54,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 metadata/slot_type = "trigger"
 
-[node name="ColorRect" type="ColorRect" parent="Pressed"]
+[node name="ColorRect" type="ColorRect" parent="Pressed" unique_id=2080965562]
 modulate = Color(1, 1, 1, 0)
 show_behind_parent = true
 layout_mode = 1
@@ -65,7 +65,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.847059, 0.823529, 0.729412, 1)
 
-[node name="Released" type="Label" parent="."]
+[node name="Released" type="Label" parent="." unique_id=2082368000]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
@@ -74,7 +74,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 metadata/slot_type = "trigger"
 
-[node name="ColorRect" type="ColorRect" parent="Released"]
+[node name="ColorRect" type="ColorRect" parent="Released" unique_id=1057595327]
 modulate = Color(1, 1, 1, 0)
 show_behind_parent = true
 layout_mode = 1
@@ -85,23 +85,23 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.847059, 0.823529, 0.729412, 1)
 
-[node name="Handler" type="Node" parent="."]
+[node name="Handler" type="Node" parent="." unique_id=929992179]
 unique_name_in_owner = true
 script = ExtResource("2_wanp4")
 
-[node name="Modal" parent="." instance=ExtResource("3_ggeq4")]
+[node name="Modal" parent="." unique_id=495648624 instance=ExtResource("3_ggeq4")]
 unique_name_in_owner = true
 layer = 10
 visible = false
 
-[node name="CenterContainer" type="CenterContainer" parent="Modal"]
+[node name="CenterContainer" type="CenterContainer" parent="Modal" unique_id=1067782796]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="InputRecPopup" parent="Modal/CenterContainer" instance=ExtResource("4_ti7i4")]
+[node name="InputRecPopup" parent="Modal/CenterContainer" unique_id=1775609623 instance=ExtResource("4_ti7i4")]
 unique_name_in_owner = true
 layout_mode = 2
 
