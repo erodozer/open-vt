@@ -30,7 +30,7 @@ build_gdcubism () {
 	
 	cp $NATIVELIB $ADDONDIR/bin/linux/x86_64/libLive2DCubismCore.so
 
-	cp LICENSE.en.adoc $ADDONDIR/LICENSE.en.adoc
+	cp LICENSE.en.adoc $PROJ_ROOT/license/LICENSE.gdcubism.adoc
 	cp README.en.adoc $ADDONDIR/README.en.adoc
 	
 	echo "*" > $ADDONDIR/.gitignore
@@ -51,7 +51,7 @@ build_virtualcamera () {
 	
 	scons platform=linux arch=x86_64 target=template_debug debug_symbols=yes
 	cp -r $WORKDIR/demo/bin/* $ADDONDIR
-	cp LICENSE.md $ADDONDIR/LICENSE.md
+	cp LICENSE.md $PROJ_ROOT/license/LICENSE.gdvirtualcamera.md
 	cp README.md $ADDONDIR/README.md
 	echo "*" > $ADDONDIR/.gitignore
 	
@@ -73,7 +73,8 @@ build_keylogger() {
 
 	cp -r $WORKDIR/godot/addons/keylogger/* $ADDONDIR
 	echo "*" > $ADDONDIR/.gitignore
-
+	cp LICENSE.md $PROJ_ROOT/license/LICENSE.gdkeylogger.md
+	
 	# log completion
 	find $ADDONDIR -type f
 
