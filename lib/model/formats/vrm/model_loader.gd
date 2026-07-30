@@ -9,8 +9,8 @@ func model_format() -> StringName:
 func supported_extension() -> String:
 	return ".vrm"
 
-func strategy() -> ModelStrategy:
-	return preload("res://lib/model/formats/vrm/model_strategy.gd").new()
+func strategy() -> Script:
+	return preload("./model.gd")
 
 func load_data(path: String) -> ModelMeta:
 	var model_file: String = ""

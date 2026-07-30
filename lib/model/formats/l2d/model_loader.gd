@@ -9,8 +9,8 @@ func model_format() -> StringName:
 func supported_extension() -> String:
 	return ".model3.json"
 
-func strategy() -> ModelStrategy:
-	return preload("res://lib/model/formats/l2d/model_strategy.gd").new()
+func strategy() -> Script:
+	return preload("./model.gd")
 
 func load_data(path: String) -> ModelMeta:
 	var meta = ModelMeta.new()

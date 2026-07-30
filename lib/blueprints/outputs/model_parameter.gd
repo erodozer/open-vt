@@ -16,9 +16,7 @@ var parameter: int = -1 :
 var model_parameter : String :
 	get():
 		if input:
-			var p = input.get_selected_metadata()
-			if p != null:
-				return p.id
+			return input.get_item_text(parameter)
 		return ""
 
 var clamp_enabled: bool :
@@ -50,10 +48,10 @@ var value: float :
 var _dirty = false
 	
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:	
-	for m in model.parameters.values():
-		if m.get("bindable", true):
-			input.add_item(m.name)
+func _ready() -> void:
+	for m in model.get_property_list():
+		if m.name.begins_with("parameters/"):
+			input.add_item(m.name.trim_prefix("parameters/"))
 			input.set_item_metadata(input.item_count - 1, m)
 	input.select(parameter)
 
@@ -66,10 +64,10 @@ func unbind(slot: int, node: GraphNode) -> void:
 		%Input/Value.editable = true
 
 func reset_value(slot: int) -> void:
-	if parameter < 0:
+	if parameter < 0 or model_parameter.is_empty():
 		return
-	var definition = model.parameters.values()[parameter]
-	value = definition.default
+	var id = "parameters/%s" % model_parameter
+	value = model.property_get_revert(id)
 	
 func get_type() -> StringName:
 	return &"model_parameter"
@@ -97,20 +95,31 @@ func deserialize(data: Dictionary):
 		clamp_range = value_range
 
 func load_from_vts(data: Dictionary):
-	var parameters = model.parameters.values()
-	parameter = parameters.find_custom(
-		func (f):
-			return f.name == data["OutputLive2D"]
+	var parameters = model.get_property_list().filter(
+		func (prop):
+			return (prop.name as String).begins_with("parameters/")
+	).map(
+		func (prop):
+			var hint: PackedStringArray = prop.hint_string.split(",")
+			var value_range = Vector2(hint[0].to_float(), hint[1].to_float())
+			return {
+				"name": prop.name.trim_prefix("parameters/"),
+				"value_range": value_range
+			}
+	).reduce(
+		func (acc, p):
+			acc[p.name] = p
+			return acc,
+		{}
 	)
+	parameter = parameters.keys().find(data["OutputLive2D"])
 	if parameter == -1:
 		return
 	
-	var definition = parameters[parameter]
+	var definition = parameters.values()[parameter]
+	model_parameter = definition.name
 	
-	var output_range = Vector2(
-		data["OutputRangeLower"],
-		data["OutputRangeUpper"],
-	)
+	var output_range = definition.value_range
 	if output_range.x > output_range.y:
 		invert_value = true
 		clamp_range = Vector2(output_range.y, output_range.x)
@@ -140,9 +149,7 @@ func _update_model():
 	if not _dirty:
 		return
 
-	model.mixer.get_node("Tracking").set(
-		model_parameter, value
-	)
+	model.set(model_parameter, value)
 	_dirty = false
 	
 func _process(_delta: float) -> void:

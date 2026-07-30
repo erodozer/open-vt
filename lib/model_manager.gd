@@ -6,31 +6,34 @@ const ModelLoader = preload("res://lib/model/formats/model_loader.gd")
 const VtModel = preload("res://lib/model/vt_model.gd")
 const TrackingSystem = preload("res://lib/tracking/tracking_system.gd")
 
-var formats: Array[ModelLoader] = []
+var formats: Dictionary[String, ModelLoader] = {}
 
 var model_cache: Dictionary = {}
 signal list_updated(models: Array)
+
+# default model directory
+const model_directory = "user://Live2DModels"
 
 func _ready() -> void:
 	refresh_models.call_deferred()
 	add_to_group("system:model")
 	
-	formats = [
-		preload("res://lib/model/formats/l2d/model_loader.gd").new(),
-		preload("res://lib/model/formats/vrm/model_loader.gd").new()
-	]
+	formats = {
+		"l2d": preload("res://lib/model/formats/l2d/model_loader.gd").new(),
+		"vrm": preload("res://lib/model/formats/vrm/model_loader.gd").new(),
+	}
 	
 func _get(property: StringName) -> Variant:
-	for f in formats:
-		if "loader/%s" % [f.model_format()] == property:
+	for f in formats.keys():
+		if "loader/%s" % [f] == property:
 			return f
 	return null
 
 func refresh_models():
 	model_cache = {}
 
-	for fmt in formats:
-		var dir = fmt.model_directory()
+	for fmt in formats.values():
+		var dir = model_directory
 		if not DirAccess.dir_exists_absolute(ProjectSettings.globalize_path(dir)):
 			DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(dir))
 		
@@ -51,7 +54,7 @@ func make_model(model):
 	if model in model_cache:
 		data = model_cache[model]
 	else:
-		for fmt in formats:
+		for fmt in formats.values():
 			data = fmt.load_data(model)
 			if data != null:
 				break
@@ -59,15 +62,12 @@ func make_model(model):
 	if data == null:
 		return
 	
-	var new_model: VtModel = preload("res://lib/model/vt_model.tscn").instantiate()
+	var new_model = preload("./model/vt_model.tscn").instantiate()
 	for fmt in formats:
-		if data.format == fmt.model_format():
-			var strategy = fmt.strategy()
-			new_model.format_strategy = strategy
-			new_model.model = data
-			strategy.name = "FormatStrategy"
-			new_model.add_child(strategy)
-			new_model.render = strategy
+		if data.format == fmt:
+			var strategy = formats[fmt].strategy()
+			new_model.set_script(strategy)
+			new_model.modelmeta = data
 			break
 	
 	var tracking: TrackingSystem = get_tree().get_first_node_in_group("system:tracking")

@@ -8,42 +8,29 @@ var mesh: Node
 
 func _ready():
 	%PartName.text = mesh.name
-	%PinToggle.button_pressed = mesh.get_meta("pinnable", true)
+	%PinToggle.button_pressed = model.get("modifiers/meshes/%s/pinnable" % [mesh.name])
 	
-	var color_modifier: Dictionary = model.format_strategy.get_modifiers(mesh).get("Color", {})
-	var colors = color_modifier.get("colors", {})
-	for k in colors.keys():
+	for k in ["screen_color", "multiply_color"]:
 		var color = ColorPickerButton.new()
 		$MeshSetting.add_child(color)
 		color.custom_minimum_size = Vector2i(48, 0)
-		color.color = colors[k]
+		color.color = model.get("modifiers/meshes/%s/%s" % [mesh.name, k])
 		color.color_changed.connect(
 			_on_color_changed.bind(k)
 		)
 		color.tooltip_text = k
 		color.visible = false
 		
-	%ColorToggle.button_pressed = color_modifier.get("enabled", false)
+	%ColorToggle.button_pressed = model.get("modifiers/meshes/%s/color_override" % mesh.name)
 
 func _on_pin_toggle_toggled(toggled_on: bool) -> void:
-	model.format_strategy.apply_modifier(mesh, {
-		"type": "Pin",
-		"enabled": toggled_on,
-	})
-
+	model.set("modifiers/meshes/%s/pinnable" % mesh.name, toggled_on)
+	
 func _on_color_changed(color: Color, key: String) -> void:
-	model.format_strategy.apply_modifier(mesh, {
-		"type": "Color",
-		"colors": {
-			key: color
-		}
-	})
+	model.set("modifiers/meshes/%s/%s" % [mesh.name, key], color)
 
 func _on_color_toggle_toggled(toggled_on: bool) -> void:
 	for c in $MeshSetting.get_children():
 		if c is ColorPickerButton:
 			c.visible = toggled_on
-	model.format_strategy.apply_modifier(mesh, {
-		"type": "Color",
-		"enabled": toggled_on
-	})
+	model.set("modifiers/meshes/%s/color_override" % mesh.name, toggled_on)

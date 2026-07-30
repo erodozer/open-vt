@@ -2,9 +2,7 @@
 
 const Files = preload("res://lib/utils/files.gd")
 const ModelMeta = preload("res://lib/model/metadata.gd")
-const ModelStrategy = preload("res://lib/model/formats/model_strategy.gd")
-
-@abstract func model_directory() -> String
+const VtModel = preload("res://lib/model/vt_model.gd")
 
 @abstract func load_data(path: String) -> ModelMeta
 
@@ -12,4 +10,4 @@ const ModelStrategy = preload("res://lib/model/formats/model_strategy.gd")
 
 @abstract func supported_extension() -> String
 
-@abstract func strategy() -> ModelStrategy
+@abstract func strategy() -> Script

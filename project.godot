@@ -16,7 +16,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 config/name="open-vt"
 run/main_scene="res://studio/studio.tscn"
-config/features=PackedStringArray("4.6", "Forward Plus")
+config/features=PackedStringArray("4.7", "Forward Plus")
 run/max_fps=60
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/stretch_mode=0
@@ -39,6 +39,7 @@ Preferences="*res://lib/preferences.gd"
 ModelManager="*res://lib/model_manager.gd"
 ItemManager="*res://lib/item_manager.gd"
 BlueprintManager="*uid://dridhda34w6dx"
+BlendRegistry="*uid://dmhw76skp73u3"
 
 [display]
 

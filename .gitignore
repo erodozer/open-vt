@@ -4,7 +4,11 @@
 .godot/
 /android/
 
+# build output
 bin/*
-Live2DModels/
+license/*.md
 
+# development project samples
+Live2DModels/
 VrmModels/
+

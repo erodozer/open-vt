@@ -44,7 +44,7 @@ func invoke_trigger(slot: int) -> void:
 		os_player.play(
 			animation, 0, speed_scale
 		)
-		var provider = model.mixer.get_node("OneShotMotion")
+		var provider = model.get_animation_player()
 		var fade = %Fade/Value.value / 1000.0
 		var duration = os_player.get_animation(animation).length
 		var t = provider.create_tween()

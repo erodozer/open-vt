@@ -5,7 +5,7 @@ const MAX_QUALITY = Vector2(4096, 4096)
 
 @onready var viewport: SubViewport = $SubViewport
 @onready var parent: CanvasItem = get_parent()
-@export var model: GDCubismUserModel :
+@export var model: AyagamiModel :
 	set(m):
 		if m == null:
 			viewport.size = Vector2i.ONE

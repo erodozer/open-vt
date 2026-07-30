@@ -2,59 +2,30 @@
 
 PROJ_ROOT=$(pwd)
 
-pyenv local 3.13.0
+# scons is needed for cpp extensions
+pyenv local 3.13
 pip install pipx scons --quiet
 	
-# build gd_cubism
-build_gdcubism () {
-	echo -e "\n#### Preparing gd_cubism\n\n"
+build_ayagami () {
+	echo -e "\n#### Preparing ayagami-gd\n\n"
 
-	WORKDIR=$PROJ_ROOT/thirdparty/gd_cubism
-	ADDONDIR=$PROJ_ROOT/addons/gd_cubism
-	NATIVELIB=$(find $WORKDIR/thirdparty -type f -iwholename "*/linux/x86_64/libLive2DCubismCore.so" | head -n 1)
-
-	if [ -z "$NATIVELIB" ]; then
-		cat <<- xx
-		CUBISM NATIVE LIBRARY: not found
-
-
-		Cubism SDK must be acquired and prepared ahead of time
-		Agreeing to terms of use are required for all developers building with the SDK
-	
-		https://www.live2d.com/en/sdk/download/native/
-
-
-		xx
-
-		return 1
-	fi
-
-	echo "CUBISM NATIVE LIBRARY:" $NATIVELIB
+	WORKDIR=$PROJ_ROOT/thirdparty/ayagami
+	ADDONDIR=$PROJ_ROOT/addons
 
 	mkdir -p $ADDONDIR
 	
 	cd $WORKDIR
 	
-	## Cubism SDK must be acquired and prepared ahead of time
-	## Agreeing to terms of use are required for all developers building with the SDK
-	##
-	## https://www.live2d.com/en/sdk/download/native/
-	##
-	## OpenVT is currently developed against Native version 5 R4.1
-	scons platform=linux arch=x86_64 target=template_debug debug_symbols=yes GDCUBISM_DYLIB=1
-	cp -r $WORKDIR/demo/addons/gd_cubism/bin $ADDONDIR
-	cp -r $WORKDIR/demo/addons/gd_cubism/res $ADDONDIR
-	cp $WORKDIR/demo/addons/gd_cubism/gd_cubism.gdextension $ADDONDIR/gd_cubism.gdextension
-	
-	cp $NATIVELIB $ADDONDIR/bin/linux/x86_64/libLive2DCubismCore.so
+	make package
+	cp -r $WORKDIR/addons/ayagami $ADDONDIR
 
-	cp LICENSE.en.adoc $PROJ_ROOT/license/LICENSE.gdcubism.adoc
-	cp README.en.adoc $ADDONDIR/README.en.adoc
+	cp $WORKDIR/LICENSE $PROJ_ROOT/license/LICENSE.ayagami.md
+	cp $WORKDIR/README.md $ADDONDIR/ayagami/README.md
 	
-	echo "*" > $ADDONDIR/.gitignore
+	echo "*" > $ADDONDIR/ayagami/.gitignore
 	
 	# log completion
-	find $ADDONDIR -type f
+	find $ADDONDIR/ayagami -type f
 
 	cd $PROJ_ROOT
 }
@@ -69,7 +40,7 @@ build_virtualcamera () {
 	
 	cd $WORKDIR
 	
-	scons platform=linux arch=x86_64 target=template_debug debug_symbols=yes
+	scons -Q platform=linux arch=x86_64 target=template_debug debug_symbols=yes
 	cp -r $WORKDIR/demo/bin/* $ADDONDIR
 	cp LICENSE.md $PROJ_ROOT/license/LICENSE.gdvirtualcamera.md
 	cp README.md $ADDONDIR/README.md
@@ -103,9 +74,17 @@ build_keylogger() {
 	cd $PROJ_ROOT
 }
 
+build_vrm () {
+    cp -r $PROJ_ROOT/thirdparty/godot-vrm/addons $PROJ_ROOT
+	cp $PROJ_ROOT/thirdparty/godot-vrm/LICENSE $PROJ_ROOT/license/LICENSE.godotvrm.md
+	echo "*" > $ADDONDIR/vrm/.gitignore
+	echo "*" > $ADDONDIR/Godot-MToon-Shader/.gitignore
+}
+
 # fetch submodules if they haven't been already
 git submodule update --init --recursive
 
-build_gdcubism
+build_ayagami
+build_vrm
 build_virtualcamera
 build_keylogger

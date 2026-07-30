@@ -3,7 +3,7 @@ extends Node
 const Provider = preload("./parameter_value_provider.gd")
 
 func parameters() -> Dictionary[String, Dictionary] :
-	return get_parent().parameters
+	return {}
 	
 func _process(_delta: float) -> void:
 	if get_parent() == null or not get_parent().is_initialized():
@@ -21,4 +21,4 @@ func _process(_delta: float) -> void:
 	
 	values.merge(modified, true);
 	
-	get_parent().format_strategy.apply_parameters(values)
+	get_parent().apply_parameters(values)

@@ -1,5 +1,15 @@
 extends Object
 
+static func extract_property_name(collection: Array, pattern: String):
+	return collection.filter(
+		func (v):
+			return v.name.begins_with(pattern)
+	).map(
+		func (v):
+			return v.name.trim_prefix(pattern)
+	)
+		
+
 ## fetch values from nested dictionaries using dot-path traversal
 static func path(dict: Dictionary, key: String, defaultValue: Variant = null) -> Variant:
 	var levels = key.split(".")

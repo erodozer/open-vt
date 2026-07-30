@@ -26,10 +26,10 @@ func _emit_list_update():
 		parameter_list_changed.emit()
 		_dirty = false
 
-func add_parameter(parameter_name: StringName, range: Vector2 = Vector2(0, 1), default: float = 0.0):
+func add_parameter(parameter_name: StringName, value_range: Vector2 = Vector2(0, 1), default: float = 0.0):
 	_registry[parameter_name] = {
 		"id": parameter_name,
-		"range": range,
+		"range": value_range,
 		"default_value": default
 	}
 	_dirty = true

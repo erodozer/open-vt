@@ -49,8 +49,8 @@ func refresh_assets():
 			png_items.append(fp)
 			
 	# also include the ability to spawn any model as an item
-	for i in DirAccess.get_directories_at(ModelManager["loader/l2d"].model_directory()):
-		var fp = ModelManager["loader/l2d"].model_directory().path_join(i)
+	for i in DirAccess.get_directories_at(ModelManager.model_directory):
+		var fp = ModelManager.model_directory.path_join(i)
 		model_items.append(fp)
 		
 	item_cache = png_items + apng_items + model_items

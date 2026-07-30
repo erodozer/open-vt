@@ -1,51 +1,24 @@
 # System for loading models from VTubeStudio's format
 # and spawning them into the scene to be managed
-extends "res://lib/vtobject.gd"
+@abstract extends "res://lib/vtobject.gd"
 
 const Files = preload("res://lib/utils/files.gd")
-const ModelFormatStrategy = preload("./formats/model_strategy.gd")
 const ExpressionController = preload("./parameters/expression_value_provider.gd")
 const Tracker = preload("res://lib/tracking/tracker.gd")
 const ModelMeta = preload("./metadata.gd")
 const Serializers = preload("res://lib/utils/serializers.gd")
 
-var model: ModelMeta
+var modelmeta: ModelMeta
 @onready var mixer = %Mixer
-@onready var format_strategy: ModelFormatStrategy
 
 var motions: Array :
 	get():
-		return get_animation_player().get_animation_list()
+		var anim = get_animation_player()
+		if anim == null:
+			return []
+		return anim.get_animation_list()
 
-var filter: CanvasItem.TextureFilter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS :
-	set(v):
-		filter = v
-		if is_initialized():
-			format_strategy.on_filter_update(v, smoothing)
-			
-var smoothing: bool = false :
-	set(v):
-		smoothing = v
-		if is_initialized():
-			format_strategy.on_filter_update(filter, v)
-			
-var mipmaps: bool = false :
-	set(v):
-		mipmaps = v
-		
-var parameters: Dictionary[String, Dictionary] :
-	get():
-		if is_initialized():
-			return format_strategy.get_parameters()
-		return {} as Dictionary[String, Dictionary]
-		
-var expressions: Array :
-	get():
-		return expression_controller.expression_library.keys()
-		
-var expression_controller: ExpressionController :
-	get():
-		return mixer.get_node("Expression")
+var filter: CanvasItem.TextureFilter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 
 var blueprints: Array :
 	get():
@@ -58,18 +31,12 @@ var blueprints: Array :
 				%Actions.add_child(g)
 			g.visible = false
 			
-var texture : Texture2D :
-	get():
-		return format_strategy.get_texture()
-
+var texture : Texture2D
 # item pinning
 var rest_anchors: Dictionary = {}
 
 # movement transforms
-var movement_enabled: bool = false :
-	set(value):
-		movement_enabled = value
-		
+var movement_enabled: bool = false
 var movement_scale: Vector3 = Vector3.ZERO
 
 signal initialized
@@ -77,13 +44,10 @@ signal loaded
 
 var _loading = false
 
-func is_initialized():
-	return format_strategy != null and format_strategy.is_initialized()
+@abstract func is_initialized()
+@abstract func get_meshes() -> Array
 
-func get_meshes() -> Array:
-	if is_initialized():
-		return format_strategy.get_meshes()
-	return []
+@abstract func _build_model()
 
 func is_bound(parameter: Dictionary) -> bool:
 	return has_node(parameter.id)
@@ -91,7 +55,7 @@ func is_bound(parameter: Dictionary) -> bool:
 func _load_model():
 	_loading = true
 	
-	if not (await format_strategy.load_model()):
+	if not (await _build_model()):
 		queue_free()
 		_loading = false
 		loaded.emit()
@@ -100,19 +64,6 @@ func _load_model():
 	_load_from_vts()
 	_load_settings()
 	
-	size = format_strategy.get_size()
-	transform_updated.connect(
-		func (pos, rot, scl, offset, ypr):
-			# some formats will have their size/bounds change based on
-			# drag transformations.  As such, make sure we always
-			# have the most up to date size after dragging
-			size = format_strategy.get_size()
-	)
-	
-	rotation_degrees = 0
-	# pivot_offset = size / 2
-	# spawn off screen
-	
 	_loading = false
 	loaded.emit()
 	initialized.emit()
@@ -120,6 +71,9 @@ func _load_model():
 	BlueprintManager.register_graph(self)
 		
 func toggle_expression(expression_name: String, activate: bool = true, duration: float = 1.0, exclusive: bool = false):
+	var expression_controller = get_node("ExpressionController")
+	if expression_controller == null:
+		return
 	if expression_name.is_empty():
 		expression_controller.clear(duration)
 	elif activate:
@@ -129,27 +83,19 @@ func toggle_expression(expression_name: String, activate: bool = true, duration:
 	else:
 		expression_controller.deactivate_expression(expression_name, duration)
 		
-func get_idle_animation_player() -> AnimationPlayer:
-	return mixer.get_node("IdleMotion/AnimationPlayer")
-
-func get_animation_player() -> AnimationPlayer:
-	return mixer.get_node("OneShotMotion/AnimationPlayer")
-
-func tracking_updated(tracking_data: Dictionary, _delta: float):
-	if not is_initialized():
-		return
-	# pass forward to any format specific handling
-	format_strategy.tracking_updated(tracking_data)
+@abstract func get_idle_animation_player() -> AnimationPlayer
+@abstract func get_animation_player() -> AnimationPlayer
+@abstract func tracking_updated(tracking_data: Dictionary, _delta: float)
 	
 func hydrate(_settings: Dictionary):
 	await _load_model()
 
 ## save bidirectional vts compatible settings
 func _save_to_vts():
-	if model.studio_parameters.is_empty():
+	if modelmeta.studio_parameters.is_empty():
 		return
 	
-	var vtube_data = Files.read_json(model.studio_parameters)
+	var vtube_data = Files.read_json(modelmeta.studio_parameters)
 	# vtube_data["ParameterSettings"] = studio_parameters.map(func (x): return x.serialize())
 	vtube_data["ArtMeshDetails"]["ArtMeshesExcludedFromPinning"] = get_meshes().filter(
 		func (mesh):
@@ -173,14 +119,14 @@ func _save_to_vts():
 	)
 	vtube_data["FileReferences"]["IdleAnimation"] = get_idle_animation_player().current_animation
 	
-	Files.write_json(model.studio_parameters, vtube_data)
+	Files.write_json(modelmeta.studio_parameters, vtube_data)
 	
 ## load bidirectional vts compatible settings
 func _load_from_vts():
-	if model.studio_parameters.is_empty():
+	if modelmeta.studio_parameters.is_empty():
 		return
 	
-	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(model.studio_parameters))
+	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(modelmeta.studio_parameters))
 	
 	var idle_animation = vtube_data["FileReferences"]["IdleAnimation"]
 	if idle_animation:
@@ -219,14 +165,13 @@ func _load_from_vts():
 
 ## load open-vt specific settings
 func _load_settings():
-	var model_preferences = Files.read_json(model.openvt_parameters)
+	var model_preferences = Files.read_json(modelmeta.openvt_parameters)
 	scale = Vector2.ONE * model_preferences.get("transform", {}).get(
 		"scale", 
 		clampf(get_viewport_rect().size.y / size.y, 0.001, 2.0)
 	)
 	rotation_degrees = model_preferences.get("transform", {}).get("rotation", 0)
-	filter = TEXTURE_FILTER_NEAREST_WITH_MIPMAPS if model_preferences.get("quality", {}).get("filter", "linear") == "nearest" else TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
-	smoothing = model_preferences.get("quality", {}).get("smooth", false)
+	texture_filter = TEXTURE_FILTER_NEAREST_WITH_MIPMAPS if model_preferences.get("quality", {}).get("filter", "linear") == "nearest" else TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	
 	position = Serializers.Vec2Serializer.from_json(
 		model_preferences.get("transform", {}).get("position", {}),
@@ -241,8 +186,7 @@ func save_settings(_settings: Dictionary):
 	
 	var model_data  = {
 		"quality": {
-			"filter": "nearest" if self.filter != TEXTURE_FILTER_LINEAR_WITH_MIPMAPS else "linear",
-			"smooth": smoothing
+			"filter": "nearest" if self.texture_filter != TEXTURE_FILTER_LINEAR_WITH_MIPMAPS else "linear",
 		},
 		"transform": {
 			"position": Serializers.Vec2Serializer.to_json(self.position),
@@ -259,4 +203,4 @@ func save_settings(_settings: Dictionary):
 	
 	for o in get_tree().get_nodes_in_group("persist:model"):
 		o.save_settings(model_data)
-	Files.write_json(model.openvt_parameters, model_data)
+	Files.write_json(modelmeta.openvt_parameters, model_data)

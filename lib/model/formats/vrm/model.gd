@@ -1,7 +1,6 @@
-extends "../model_strategy.gd"
+extends "../../vt_model.gd"
 
 const Collections = preload("res://lib/utils/collections.gd")
-const Math = preload("res://lib/utils/math.gd")
 
 const VRM_BLENDSHAPES : PackedStringArray = [
 	# emotions
@@ -37,6 +36,29 @@ var camera: Camera3D
 
 var blendshapes_meshes = {}
 
+
+func load_data(path: String) -> ModelMeta:
+	var model_file: String = ""
+	for file in Array(DirAccess.get_files_at(path)):
+		if file.ends_with(".vrm"):
+			model_file = path.path_join(file)
+	
+	if model_file.is_empty():
+		return null
+	
+	var meta = ModelMeta.new()
+	
+	var base_name = ""
+	base_name = model_file.get_file()
+	meta.name = base_name
+	meta.id = base_name
+	meta.model = model_file
+	meta.path = path
+	meta.format = "vrm"
+	meta.openvt_parameters = "%s/%s.ovt.json" % [meta.model.get_base_dir(), base_name]
+	
+	return meta
+	
 func _ready() -> void:
 	container = preload("./model_viewport.tscn").instantiate()
 	vp = container.get_node("%SubViewport")
@@ -75,10 +97,8 @@ func load_vrm(path: String):
 	
 	return vrm
 	
-func load_model():
-	var meta: ModelMeta = get_parent().model
-	
-	model = load_vrm(meta.model)
+func _build_model():
+	model = load_vrm(modelmeta.model)
 	await get_tree().process_frame
 	
 	if model == null:
@@ -182,15 +202,10 @@ var _parameters: Dictionary[String, Dictionary] = {}
 func get_parameters() -> Dictionary[String, Dictionary]:
 	return _parameters
 	
-func on_filter_update(filter, smoothing):
-	# container.texture_filter = filter
-	pass
-	
-func tracking_updated(tracking_data: Dictionary):
+func tracking_updated(tracking_data: Dictionary, delta: float):
 	pass
 	
 func apply_parameters(values: Dictionary[String, float]):
-	
 	# transform parameters into VRM blendshapes
 	for blend_shape in values.keys():
 		var blend_meshes = blendshapes_meshes.get(blend_shape, [])
@@ -265,3 +280,10 @@ func get_modifiers(part: Node):
 			}
 		}
 	})
+
+func get_idle_animation_player() -> AnimationPlayer:
+	return get_node("AnimationPlayer")
+	
+func get_animation_player() -> AnimationPlayer:
+	return null
+	
