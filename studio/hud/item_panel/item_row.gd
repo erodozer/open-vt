@@ -16,6 +16,7 @@ func _ready() -> void:
 		%PinControls.hide()
 		%ZControls.hide()
 		%DeleteButton.hide()
+		%ModelControls.show()
 	else:
 		item.pin_changed.connect(_update_pin_name)
 		%PinToggle.button_pressed = item.pinnable
@@ -104,9 +105,9 @@ func _on_edit_bindings_pressed() -> void:
 			editor.grab_focus()
 			return
 	
-	assert(item.item_type == VtItem.ItemType.MODEL)
+	assert(item is VtModel or item.item_type == VtItem.ItemType.MODEL)
 	editor = load("res://studio/hud/blueprint_editor/editor.tscn").instantiate()
-	editor.active_model = item.render as VtModel
+	editor.active_model = item if item is VtModel else item.render as VtModel
 	editor.visible = true
 	add_child(editor)
 
@@ -140,4 +141,9 @@ func _on_pin_target_pressed() -> void:
 			%PinTarget.text = "-" if popup.mesh == null else popup.mesh.name
 			item.pinned_to = popup.mesh
 	)
+	add_child(popup)
+
+func _on_model_settings_pressed() -> void:
+	var popup = preload("./model_settings/panel.tscn").instantiate()
+	popup.model = model
 	add_child(popup)

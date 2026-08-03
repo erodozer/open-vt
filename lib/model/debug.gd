@@ -2,7 +2,7 @@ extends Node2D
 
 const VtModel = preload("res://lib/model/vt_model.gd")
 
-@export var model: VtModel
+@onready var model: VtModel = get_parent()
 
 func _process(_delta: float) -> void:
 	if not visible:
@@ -12,10 +12,10 @@ func _process(_delta: float) -> void:
 	
 func _draw() -> void:
 	for m in model.get_meshes():
-		if not model.format_strategy.get_modifiers(m).get("pinnable", {}).get("enabled", true):
+		if not model.get("modifiers/meshes/%s/pinnable" % [m.name]):
 			continue
 			
 		if not m.visible:
 			continue
 		
-		draw_circle(m.get_meta("centroid"), 2, Color.BLUE, true, -1.0, true)
+		draw_circle(m.get_meta("centroid", Vector2.ZERO), 2, Color.BLUE, true, -1.0, true)

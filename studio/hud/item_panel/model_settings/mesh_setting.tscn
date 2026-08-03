@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://c7vk0klv5gfev"]
 
-[ext_resource type="Script" uid="uid://ic6qqciq8f18" path="res://studio/hud/parameter_panel/mesh_setting.gd" id="1_fq7df"]
-[ext_resource type="Texture2D" uid="uid://qky5l021m1dt" path="res://ui/icons/thumbtack.svg" id="2_yeggh"]
-[ext_resource type="Texture2D" uid="uid://bq5hf64q6sqpa" path="res://ui/icons/color.svg" id="3_0w51m"]
+[ext_resource type="Script" uid="uid://ic6qqciq8f18" path="res://studio/hud/item_panel/model_settings/mesh_setting.gd" id="1_s1y6r"]
+[ext_resource type="Texture2D" uid="uid://qky5l021m1dt" path="res://ui/icons/thumbtack.svg" id="2_emvi3"]
+[ext_resource type="Texture2D" uid="uid://bq5hf64q6sqpa" path="res://ui/icons/color.svg" id="3_ps3c0"]
 
 [node name="PanelContainer" type="PanelContainer" unique_id=452542660]
 offset_right = 53.0
@@ -10,7 +10,7 @@ offset_bottom = 24.0
 size_flags_horizontal = 3
 mouse_filter = 2
 theme_type_variation = &"Section"
-script = ExtResource("1_fq7df")
+script = ExtResource("1_s1y6r")
 
 [node name="MeshSetting" type="HBoxContainer" parent="." unique_id=756910015]
 layout_mode = 2
@@ -28,7 +28,7 @@ layout_mode = 2
 tooltip_text = "Toggle Item Pinning"
 focus_mode = 0
 toggle_mode = true
-icon = ExtResource("2_yeggh")
+icon = ExtResource("2_emvi3")
 icon_alignment = 1
 expand_icon = true
 
@@ -39,7 +39,7 @@ layout_mode = 2
 tooltip_text = "Toggle Item Pinning"
 focus_mode = 0
 toggle_mode = true
-icon = ExtResource("3_0w51m")
+icon = ExtResource("3_ps3c0")
 icon_alignment = 1
 expand_icon = true
 

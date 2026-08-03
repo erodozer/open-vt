@@ -4,9 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://degtf3o1bgig0" path="res://lib/blueprints/inputs/keyboard.svg" id="1_mavpt"]
 [ext_resource type="PackedScene" uid="uid://uagdego7pt02" path="res://lib/blueprints/inputs/hotkey_action.tscn" id="2_87dy3"]
 [ext_resource type="Texture2D" uid="uid://cwws2r8ygckrj" path="res://lib/blueprints/inputs/sidebar-flip.svg" id="3_fo0kw"]
+[ext_resource type="PackedScene" uid="uid://bdn6bn1khac44" path="res://lib/blueprints/inputs/tracker_input.tscn" id="3_rtnke"]
 [ext_resource type="PackedScene" uid="uid://dwyu5dbc3akkx" path="res://lib/blueprints/inputs/screen_button.tscn" id="4_d27ip"]
 [ext_resource type="Texture2D" uid="uid://bi47la4lgog0c" path="res://lib/blueprints/inputs/face-viewfinder.svg" id="5_5ng8c"]
-[ext_resource type="PackedScene" uid="uid://bgc5frfweklsv" path="res://lib/blueprints/inputs/tracking_parameter.tscn" id="6_1h2ht"]
 [ext_resource type="Texture2D" uid="uid://lto72ierstpg" path="res://lib/blueprints/logic/calculator-simple.svg" id="7_n4xfi"]
 [ext_resource type="PackedScene" uid="uid://bpgxly1q2f3tc" path="res://lib/blueprints/logic/arithmetic.tscn" id="8_rog7t"]
 [ext_resource type="Texture2D" uid="uid://dquygailhgfka" path="res://lib/blueprints/logic/face-exhaling.svg" id="9_cbf0x"]
@@ -20,7 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://deu302jii4nsk" path="res://lib/blueprints/outputs/film-simple.svg" id="15_jnorj"]
 [ext_resource type="PackedScene" uid="uid://dcqnjvju4erad" path="res://lib/blueprints/outputs/play_animation.tscn" id="16_vs2tt"]
 [ext_resource type="Texture2D" uid="uid://dnoy3sguwj6m5" path="res://lib/blueprints/outputs/person-running.svg" id="17_3ghld"]
-[ext_resource type="PackedScene" uid="uid://bijxdkq5d5x8f" path="res://lib/blueprints/outputs/model_parameter.tscn" id="18_ryi2a"]
+[ext_resource type="PackedScene" uid="uid://c375vta43nviw" path="res://lib/blueprints/outputs/model_output.tscn" id="22_3fswu"]
 
 [node name="Palette" type="FlowContainer" unique_id=42573514]
 offset_right = 48.0
@@ -28,6 +28,16 @@ offset_bottom = 380.0
 size_flags_horizontal = 8
 size_flags_vertical = 8
 script = ExtResource("1_87dy3")
+
+[node name="AddTracker" type="MenuButton" parent="." unique_id=1248585394]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+icon = ExtResource("5_5ng8c")
+flat = false
+icon_alignment = 1
+expand_icon = true
+metadata/action = ExtResource("3_rtnke")
 
 [node name="Hotkey" type="Button" parent="." unique_id=734898577]
 custom_minimum_size = Vector2(32, 32)
@@ -52,18 +62,6 @@ icon = ExtResource("3_fo0kw")
 icon_alignment = 1
 expand_icon = true
 metadata/action = ExtResource("4_d27ip")
-
-[node name="TrackingParameter" type="Button" parent="." unique_id=1652824069]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 6
-tooltip_text = "Add Tracking Parameter"
-focus_mode = 0
-icon = ExtResource("5_5ng8c")
-icon_alignment = 1
-expand_icon = true
-metadata/action = ExtResource("6_1h2ht")
 
 [node name="Control" type="Control" parent="." unique_id=862103928]
 custom_minimum_size = Vector2(12, 12)
@@ -145,10 +143,10 @@ icon_alignment = 1
 expand_icon = true
 metadata/action = ExtResource("16_vs2tt")
 
-[node name="ModelParameter" type="Button" parent="." unique_id=1045502564]
+[node name="ModelOutput" type="Button" parent="." unique_id=993683122]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 tooltip_text = "Set Model Parameter"
 icon = ExtResource("17_3ghld")
 expand_icon = true
-metadata/action = ExtResource("18_ryi2a")
+metadata/action = ExtResource("22_3fswu")

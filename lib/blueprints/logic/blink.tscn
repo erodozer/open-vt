@@ -98,7 +98,7 @@ value = 200.0
 alignment = 2
 suffix = "ms"
 
-[node name="ProgressBar" type="ProgressBar" parent="." unique_id=2094450612]
+[node name="Value" type="ProgressBar" parent="." unique_id=2094450612]
 unique_name_in_owner = true
 layout_mode = 2
 max_value = 1.0

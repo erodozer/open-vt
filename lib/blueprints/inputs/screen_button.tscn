@@ -106,4 +106,4 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.847059, 0.823529, 0.729412, 1)
 
-[connection signal="slot_updated" from="." to="." method="_on_slot_updated"]
+[connection signal="updated" from="." to="." method="_on_updated"]

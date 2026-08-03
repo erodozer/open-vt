@@ -12,6 +12,30 @@ func serialize():
 		"buttons": [hotkey.button_1, hotkey.button_2, hotkey.button_3]
 	}
 	
+func get_input_slot_by_port(port: int) -> int:
+	return -1
+	
+func get_input_port_by_name(slot: StringName) -> int:
+	return -1
+	
+func get_output_slot_by_port(port: int) -> int:
+	match port:
+		0:
+			return 0
+		1:
+			return 1
+		_:
+			return -1
+	
+func get_output_port_by_name(slot: StringName) -> int:
+	match slot.to_lower():
+		"pressed":
+			return 0
+		"released":
+			return 1
+		_:
+			return -1
+
 func deserialize(data: Dictionary):
 	var binding = data.get("buttons", ["", "", ""])
 	hotkey.button_1 = binding[0]

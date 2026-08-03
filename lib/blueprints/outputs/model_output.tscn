@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://c375vta43nviw"]
+
+[ext_resource type="Script" uid="uid://dv6ira5btt7hg" path="res://lib/blueprints/outputs/model_output.gd" id="1_50kec"]
+
+[node name="ModelOutput" type="GraphNode" unique_id=2086647960]
+process_priority = 1
+custom_minimum_size = Vector2(180, 0)
+offset_left = -1.0
+offset_top = 5.0
+offset_right = 179.0
+offset_bottom = 187.0
+title = "Model Parameters"
+script = ExtResource("1_50kec")

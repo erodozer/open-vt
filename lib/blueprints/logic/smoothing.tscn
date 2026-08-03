@@ -44,15 +44,15 @@ layout_mode = 2
 alignment = 2
 suffix = "%"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=632955756]
+[node name="Value" type="HBoxContainer" parent="." unique_id=632955756]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer" unique_id=156993033]
+[node name="Label" type="Label" parent="Value" unique_id=156993033]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 text = "In"
 
-[node name="Input" type="SpinBox" parent="HBoxContainer" unique_id=1826249344]
+[node name="Input" type="SpinBox" parent="Value" unique_id=1826249344]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
@@ -62,7 +62,7 @@ step = 0.01
 value = 0.10000000000002274
 editable = false
 
-[node name="Output" type="SpinBox" parent="HBoxContainer" unique_id=1113992443]
+[node name="Output" type="SpinBox" parent="Value" unique_id=1113992443]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
@@ -72,7 +72,7 @@ step = 0.01
 value = 0.10000000000002274
 editable = false
 
-[node name="Label2" type="Label" parent="HBoxContainer" unique_id=1313820656]
+[node name="Label2" type="Label" parent="Value" unique_id=1313820656]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 text = "Out"

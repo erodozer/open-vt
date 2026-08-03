@@ -206,6 +206,7 @@ func _build_model():
 	on_filter_update(filter)
 	
 	position = -model.size / 2 # align to top-left
+	size = model.size
 			
 	return true
 

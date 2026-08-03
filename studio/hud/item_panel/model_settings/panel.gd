@@ -1,4 +1,4 @@
-extends "res://studio/hud/side_panel.gd"
+extends Window
 
 const VtModel = preload("res://lib/model/vt_model.gd")
 const Stage = preload("res://studio/stage/stage.gd")
@@ -10,21 +10,12 @@ var model: VtModel
 var _pause_signals = false
 
 func _ready():
+	assert(model != null)
 	%Movement/XValue.value_changed.connect(_move_model)
 	%Movement/YValue.value_changed.connect(_move_model)
 	%Movement/ZValue.value_changed.connect(_move_model)
 	%Movement/LockButton.toggled.connect(_on_movement_lock_button_toggled)
 
-func teardown():
-	model = null
-	for c in meshes.get_children():
-		c.queue_free()
-	
-func setup():
-	model = stage.active_model
-	if model == null:
-		return
-	
 	for mesh in model.get_meshes():
 		var control = preload("./mesh_setting.tscn").instantiate()
 		control.model = model
@@ -45,17 +36,17 @@ func setup():
 				%IdleAnimation.selected = %IdleAnimation.item_count - 1
 	%IdleAnimation.disabled = not lib or lib.get_animation_list_size() == 0
 		
-	%TextureFilter.select(1 if model.filter == TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC else 0)
+	%TextureFilter.select(1 if model.texture_filter == CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC else 0)
 	#%SmoothScaling.set_pressed_no_signal(model.smoothing)
 	#%GenerateMipmaps.set_pressed_no_signal(model.mipmaps)
 	#%SmoothScaling.disabled = model.filter == TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	#%GenerateMipmaps.disabled = model.filter != TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	
-	self.model = model
-	
 	%Movement/XValue.set_value_no_signal(model.movement_scale.x)
 	%Movement/YValue.set_value_no_signal(model.movement_scale.y)
 	%Movement/ZValue.set_value_no_signal(model.movement_scale.z)
+	
+	model.request_delete.connect(close_requested.emit)
 	
 func _move_model(_value):
 	if not model:
@@ -81,18 +72,12 @@ func _on_texture_filter_item_selected(index: int) -> void:
 			%GenerateMipmaps.disabled = false
 
 func _on_smooth_scaling_toggled(toggled_on: bool) -> void:
-	if model == null:
-		return
 	model.smoothing = toggled_on
 
 func _on_generate_mipmaps_toggled(toggled_on: bool) -> void:
-	if model == null:
-		return
 	model.mipmaps = toggled_on
 
 func _on_idle_animation_item_selected(index: int) -> void:
-	if model == null:
-		return
 	if index <= 0:
 		model.get_idle_animation_player().stop()
 		model.get_idle_animation_player().play("RESET")
@@ -101,8 +86,6 @@ func _on_idle_animation_item_selected(index: int) -> void:
 	model.get_idle_animation_player().play(anim)
 
 func _on_movement_lock_button_toggled(toggled_on: bool) -> void:
-	if model == null:
-		return
 	model.movement_enabled = !toggled_on
 	
 	%Movement/XValue.editable = !toggled_on
@@ -113,3 +96,6 @@ func _on_search_text_changed(new_text: String) -> void:
 	var search = new_text.to_lower().strip_edges()
 	for i in meshes.get_children():
 		i.visible = i.name.to_lower().contains(search) or search.is_empty()
+
+func _on_close_requested() -> void:
+	queue_free()

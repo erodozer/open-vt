@@ -33,6 +33,34 @@ func deserialize(data: Dictionary):
 		if input.get_item_text(i) == data.get("name"):
 			input.select(i)
 
+func get_input_slot_by_port(port: int) -> int:
+	match port:
+		0:
+			return 1
+		1:
+			return 2
+		2:
+			return 3
+		_:
+			return -1
+
+func get_input_port_by_name(slot: StringName) -> int:
+	match slot.to_lower():
+		"toggle":
+			return 0
+		"on":
+			return 1
+		"off":
+			return 2
+		_:
+			return -1
+
+func get_output_slot_by_port(port: int) -> int:
+	return -1
+
+func get_output_port_by_name(slot: StringName) -> int:
+	return -1
+
 func invoke_trigger(slot: int) -> void:
 	var activate: bool
 	if expression.is_empty():

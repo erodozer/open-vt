@@ -7,12 +7,19 @@ var _registry = {
 		"default_value": 0.0
 	}
 }
+var _groups = {}
 var _dirty = false
 
 signal parameter_list_changed
 
 func parameters() -> Array:
 	return _registry.values()
+	
+func parameter_groups() -> Array:
+	return _groups.keys()
+
+func parameters_in_group(group: String) -> Array:
+	return _groups.get(group, []).duplicate()
 
 func _get(param: StringName) -> Variant:
 	if param not in _registry:
@@ -26,12 +33,15 @@ func _emit_list_update():
 		parameter_list_changed.emit()
 		_dirty = false
 
-func add_parameter(parameter_name: StringName, value_range: Vector2 = Vector2(0, 1), default: float = 0.0):
+func add_parameter(parameter_name: StringName, value_range: Vector2 = Vector2(0, 1), default: float = 0.0, group = "Camera"):
 	_registry[parameter_name] = {
 		"id": parameter_name,
 		"range": value_range,
 		"default_value": default
 	}
+	var params = _groups.get_or_add(group, [])
+	params.append(parameter_name)
+	_groups[group] = params
 	_dirty = true
 	# debounce changes
 	_emit_list_update.call_deferred()

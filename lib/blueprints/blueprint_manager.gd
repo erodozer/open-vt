@@ -7,8 +7,8 @@ var formats: Array[BlueprintLoader]
 
 func _ready() -> void:
 	formats = [
-		preload("./loaders/vts.gd").new(),
 		preload("./loaders/ovt.gd").new(),
+		preload("./loaders/vts.gd").new(),
 		preload("./loaders/l2d_defaults.gd").new(),
 	]
 	
@@ -28,4 +28,4 @@ func register_graph(model: VtModel):
 	for f in formats:
 		if not model.blueprints.is_empty():
 			return
-		model.blueprints = f.load_graph(model)
+		model.blueprints = await f.load_graph(model)

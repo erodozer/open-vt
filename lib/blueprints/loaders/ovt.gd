@@ -6,7 +6,7 @@ func id() -> StringName:
 	return "ovt"
 	
 func load_graph(model: VtModel) -> Array:
-	var ovt_data: Dictionary = Files.read_json(model.model.openvt_parameters)
+	var ovt_data: Dictionary = Files.read_json(model.modelmeta.openvt_parameters)
 	if ovt_data.is_empty():
 		return []
 		
@@ -41,9 +41,13 @@ func _deserialize(graph: Blueprint, model: VtModel, data: Dictionary):
 		
 	for i in data.get("bindings", []):
 		if i.src in graph.graph_elements and i.dst in graph.graph_elements:
+			var from_node: VtAction = graph.graph_elements[i.src]
+			var to_node: VtAction = graph.graph_elements[i.dst]
+			var src_port = from_node.get_output_port_by_name(i.src_slot)
+			var dst_port = to_node.get_input_port_by_name(i.dst_slot)
 			graph._on_connection_request.call_deferred(
-				graph.graph_elements[i.src].name, i.src_slot,
-				graph.graph_elements[i.dst].name, i.dst_slot
+				from_node.name, src_port,
+				to_node.name, dst_port
 			)
 			
 	graph.process_mode = PROCESS_MODE_INHERIT if data.get("enabled", true) else PROCESS_MODE_DISABLED

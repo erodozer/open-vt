@@ -94,21 +94,24 @@ max_value = 250.0
 value = 100.0
 suffix = "%"
 
-[node name="Trigger" type="Label" parent="." unique_id=1397033666]
+[node name="Play" type="Label" parent="." unique_id=1397033666]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "Play"
 vertical_alignment = 1
 metadata/slot_type = "trigger"
 
-[node name="Trigger2" type="Label" parent="." unique_id=1124769400]
+[node name="Stop" type="Label" parent="." unique_id=1124769400]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "Stop"
 vertical_alignment = 1
 metadata/slot_type = "trigger"
 
-[node name="Trigger3" type="Label" parent="." unique_id=1308368861]
+[node name="Completed" type="Label" parent="." unique_id=1308368861]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "Completed"

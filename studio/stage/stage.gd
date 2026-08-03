@@ -153,8 +153,8 @@ func load_settings(data):
 	toggle_bg(data.get("window", {}).get("transparent", false))
 	
 func save_settings(data):
-	if active_model != null and active_model.model != null:
-		data["active_model"] = active_model.model.id
+	if active_model != null and active_model.modelmeta != null:
+		data["active_model"] = active_model.modelmeta.id
 	
 	var window_settings = data.get("window", {})
 	window_settings["transparent"] = %Bg.visible

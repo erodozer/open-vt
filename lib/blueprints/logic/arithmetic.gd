@@ -26,6 +26,38 @@ var b : float :
 	set(v):
 		%InputB.value = v
 
+func get_input_slot_by_port(port: int) -> int:
+	match port:
+		0:
+			return 1
+		1:
+			return 2
+		_:
+			return -1
+
+func get_input_port_by_name(slot: StringName) -> int:
+	match slot.to_lower():
+		"a":
+			return 0
+		"b":
+			return 1
+		_:
+			return -1
+
+func get_output_slot_by_port(port: int) -> int:
+	match port:
+		0:
+			return 3
+		_:
+			return 0
+
+func get_output_port_by_name(slot: StringName) -> int:
+	match slot.to_lower():
+		"value":
+			return 0
+		_:
+			return -1
+
 func get_type() -> StringName:
 	return &"arithmetic"
 	
@@ -59,15 +91,18 @@ func get_value(_slot):
 			return a / b
 		Operator.Modulo:
 			return fmod(a, b)
+		_:
+			return INF
 
 func update_value(slot, value):
 	var dirty = false
-	if slot == 0 and a != value:
+	if slot == %A.get_index() and a != value:
 		a = value
 		dirty = true
-	if slot == 1 and b != value:
+	elif slot == %B.get_index() and b != value:
 		b = value
 		dirty = true
+		
 	
 	if dirty:
 		slot_updated.emit(0)

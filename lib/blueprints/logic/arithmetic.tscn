@@ -61,15 +61,16 @@ popup/item_3/id = 3
 popup/item_4/text = "Mod"
 popup/item_4/id = 4
 
-[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1594522762]
+[node name="A" type="HBoxContainer" parent="." unique_id=1594522762]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer" unique_id=1945700212]
+[node name="Label" type="Label" parent="A" unique_id=1945700212]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 text = "A"
 
-[node name="InputA" type="SpinBox" parent="HBoxContainer" unique_id=1313949354]
+[node name="InputA" type="SpinBox" parent="A" unique_id=1313949354]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
@@ -78,15 +79,16 @@ max_value = 999.9
 step = 0.01
 value = 0.10000000000002274
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=966230471]
+[node name="B" type="HBoxContainer" parent="." unique_id=966230471]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="HBoxContainer2" unique_id=965248495]
+[node name="Label2" type="Label" parent="B" unique_id=965248495]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 text = "B"
 
-[node name="InputB" type="SpinBox" parent="HBoxContainer2" unique_id=1714002477]
+[node name="InputB" type="SpinBox" parent="B" unique_id=1714002477]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
@@ -95,7 +97,8 @@ max_value = 999.9
 step = 0.01
 value = 0.10000000000002274
 
-[node name="Output" type="Label" parent="." unique_id=559556553]
+[node name="Value" type="Label" parent="." unique_id=559556553]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Output"
 horizontal_alignment = 2

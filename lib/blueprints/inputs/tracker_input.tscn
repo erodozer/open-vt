@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bdn6bn1khac44"]
+
+[ext_resource type="Script" uid="uid://cgy5aivnq8uu8" path="res://lib/blueprints/inputs/tracker_input.gd" id="1_jybgn"]
+
+[node name="Tracking" type="GraphNode" unique_id=1373402909]
+custom_minimum_size = Vector2(360, 215)
+offset_right = 180.0
+offset_bottom = 132.0
+title = "Tracking"
+script = ExtResource("1_jybgn")

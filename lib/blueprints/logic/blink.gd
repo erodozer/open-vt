@@ -48,6 +48,26 @@ func deserialize(data):
 	frequency = Serializers.RangeSerializer.from_json(data.get("frequency"), Vector2(500.0, 5000.0))
 	speed = data.get("speed", 200.0)
 
+func get_input_slot_by_port(port: int) -> int:
+	return -1
+
+func get_input_port_by_name(slot: StringName) -> int:
+	return -1
+
+func get_output_slot_by_port(port: int) -> int:
+	match port:
+		0:
+			return 1
+		_:
+			return -1
+
+func get_output_port_by_name(slot: StringName) -> int:
+	match slot.to_lower():
+		"value":
+			return 0
+		_:
+			return -1
+
 func get_value(_slot) -> float:
 	return progress
 
@@ -56,5 +76,5 @@ func _process(_delta: float) -> void:
 	if blinking < now:
 		blinking = now + randf_range(frequency.x, frequency.y) + speed
 	
-	%ProgressBar.value = progress
+	%Value.value = progress
 	slot_updated.emit(0)

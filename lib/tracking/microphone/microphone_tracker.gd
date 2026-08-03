@@ -14,17 +14,17 @@ var enabled = true :
 		return mic.playing
 
 func _ready() -> void:
-	Registry.add_parameter("VoiceVolume", Vector2(0, 1), 0.0)
-	Registry.add_parameter("VoiceFrequency", Vector2(0, 1), 0.0)
-	Registry.add_parameter("VoiceVolumePlusMouthOpen", Vector2(0, 1), 0.0)
-	Registry.add_parameter("VoiceFrequencyPlusMouthSmile", Vector2(0, 1), 0.0)
+	Registry.add_parameter("VoiceVolume", Vector2(0, 1), 0.0, "Microphone")
+	Registry.add_parameter("VoiceFrequency", Vector2(0, 1), 0.0, "Microphone")
+	Registry.add_parameter("VoiceVolumePlusMouthOpen", Vector2(0, 1), 0.0, "Microphone")
+	Registry.add_parameter("VoiceFrequencyPlusMouthSmile", Vector2(0, 1), 0.0, "Microphone")
 	
-	Registry.add_parameter("VoiceA", Vector2(0, 1), 0.0)
-	Registry.add_parameter("VoiceE", Vector2(0, 1), 0.0)
-	Registry.add_parameter("VoiceI", Vector2(0, 1), 0.0)
-	Registry.add_parameter("VoiceO", Vector2(0, 1), 0.0)
-	Registry.add_parameter("VoiceU", Vector2(0, 1), 0.0)
-	Registry.add_parameter("VoiceSilence", Vector2(0, 1), 0.0)
+	Registry.add_parameter("VoiceA", Vector2(0, 1), 0.0, "Microphone")
+	Registry.add_parameter("VoiceE", Vector2(0, 1), 0.0, "Microphone")
+	Registry.add_parameter("VoiceI", Vector2(0, 1), 0.0, "Microphone")
+	Registry.add_parameter("VoiceO", Vector2(0, 1), 0.0, "Microphone")
+	Registry.add_parameter("VoiceU", Vector2(0, 1), 0.0, "Microphone")
+	Registry.add_parameter("VoiceSilence", Vector2(0, 1), 0.0, "Microphone")
 	
 func _process(_delta: float) -> void:
 	var vol = AudioServer.get_bus_peak_volume_left_db(bus, 0)

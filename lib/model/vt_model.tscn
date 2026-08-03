@@ -6,12 +6,11 @@
 [node name="VtModel" type="Node2D" unique_id=572855347 groups=["persist", "vtmodel"]]
 texture_filter = 2
 
-[node name="Debug" type="Node2D" parent="." unique_id=1097418190 node_paths=PackedStringArray("model")]
+[node name="Debug" type="Node2D" parent="." unique_id=1097418190]
 unique_name_in_owner = true
 visible = false
 z_index = 1000
 script = ExtResource("3_nwsty")
-model = NodePath("..")
 
 [node name="HotKeys" type="Node" parent="." unique_id=738212186]
 unique_name_in_owner = true

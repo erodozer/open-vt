@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://dy1nnckb883g" path="res://ui/icons/arrows-to-dot.svg" id="9_smhi3"]
 [ext_resource type="Texture2D" uid="uid://dy2yryqb16rbw" path="res://ui/icons/arrows-to-circle.svg" id="10_5efeo"]
 [ext_resource type="Texture2D" uid="uid://d1kej52kqrg0g" path="res://ui/icons/eraser.svg" id="13_5efeo"]
+[ext_resource type="Texture2D" uid="uid://blil5brl4i0qh" path="res://studio/hud/icons/gear.svg" id="13_6pmn3"]
 
 [node name="ItemRow" type="PanelContainer" unique_id=1239255716]
 offset_right = 386.0
@@ -214,7 +215,6 @@ focus_mode = 0
 toggle_mode = true
 text = "Set Expression"
 icon = ExtResource("8_17a61")
-alignment = 0
 expand_icon = true
 
 [node name="Bindings" type="Button" parent="HBoxContainer/VBoxContainer/ModelControls" unique_id=1012326904]
@@ -226,7 +226,17 @@ tooltip_text = "Edit Bindings"
 focus_mode = 0
 text = "Edit Bindings"
 icon = ExtResource("8_fvqys")
-alignment = 0
+expand_icon = true
+
+[node name="Settings" type="Button" parent="HBoxContainer/VBoxContainer/ModelControls" unique_id=409748124]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 32)
+layout_mode = 2
+size_flags_horizontal = 8
+tooltip_text = "Edit Bindings"
+focus_mode = 0
+text = "Settings"
+icon = ExtResource("13_6pmn3")
 expand_icon = true
 
 [node name="AnimControls" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=283757506]
@@ -264,5 +274,6 @@ expand_icon = true
 [connection signal="toggled" from="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2/LockButton" to="." method="_on_lock_button_toggled"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/ModelControls/Expression" to="." method="_on_expression_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/ModelControls/Bindings" to="." method="_on_edit_bindings_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/ModelControls/Settings" to="." method="_on_model_settings_pressed"]
 [connection signal="value_changed" from="HBoxContainer/VBoxContainer/AnimControls/FpsValue" to="." method="_on_fps_value_value_changed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/AnimControls/ResetFps" to="." method="_on_reset_fps_pressed"]

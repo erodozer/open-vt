@@ -7,12 +7,12 @@ const VtAction = preload("./vt_action.gd")
 static var _action_types: Array[PackedScene] = [
 	preload("res://lib/blueprints/inputs/hotkey_action.tscn"),
 	preload("res://lib/blueprints/inputs/screen_button.tscn"),
-	preload("res://lib/blueprints/inputs/tracking_parameter.tscn"),
+	preload("res://lib/blueprints/inputs/tracker_input.tscn"),
 	preload("res://lib/blueprints/logic/arithmetic.tscn"),
 	preload("res://lib/blueprints/logic/blink.tscn"),
 	preload("res://lib/blueprints/logic/breathe.tscn"),
 	preload("res://lib/blueprints/logic/smoothing.tscn"),
-	preload("res://lib/blueprints/outputs/model_parameter.tscn"),
+	preload("res://lib/blueprints/outputs/model_output.tscn"),
 	preload("res://lib/blueprints/outputs/play_animation.tscn"),
 	preload("res://lib/blueprints/outputs/toggle_expression.tscn")
 ]
@@ -42,18 +42,28 @@ func spawn_action(action_type, model: VtModel) -> VtAction:
 
 var graph_elements: Dictionary[String, GraphNode] = {}
 
+func _ready() -> void:
+	add_valid_connection_type(VtAction.SlotType.VECTOR, VtAction.SlotType.NUMERIC)
+
 func _on_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
 	if not is_node_ready():
 		await self.ready
 		
-	var n1 = get_node(NodePath(from_node))
-	var n2 = get_node(NodePath(to_node))
+	var n1: VtAction = get_node(NodePath(from_node))
+	var n2: VtAction = get_node(NodePath(to_node))
 	
-	var slot_type = n2.get_input_type(to_port)
+	var s1: int = n1.get_output_slot_by_port(from_port)
+	var s2: int = n2.get_input_slot_by_port(to_port)
+	
+	var slot_type = n2.get_input_type(s1)
+	# fail to connect
+	if slot_type == -1:
+		return
+		
 	var count = get_connection_count(to_node, to_port)
 	
-	# only allow one binding for numeric, allow takeover
-	if slot_type == VtAction.SlotType.NUMERIC and count > 0:
+	# only allow more than one binding for Trigger type
+	if slot_type != VtAction.SlotType.TRIGGER and count > 0:
 		var disconnected = connections.filter(
 			func (f):
 				return f.to_node == to_node and f.to_port == to_port
@@ -62,50 +72,61 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 			disconnect_node(i.from_node, i.from_port, to_node, to_port)
 		
 	connect_node(from_node, from_port, to_node, to_port)
-	n2.bind(to_port, n1)
+	n2.bind(s1, n1)
 
 func _on_disconnection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
 	disconnect_node(from_node, from_port, to_node, to_port)
 
-	var source = get_node(NodePath(from_node))
-	var target = get_node(NodePath(to_node))
+	var source: VtAction = get_node(NodePath(from_node))
+	var target: VtAction = get_node(NodePath(to_node))
 	if target != null:
-		target.unbind(to_port, source)
-		target.reset_value(to_port)
+		var field = target.get_input_port_slot(to_port)
+		target.unbind(field, source)
+		target.reset_value(field)
 
 func _on_child_entered_tree(node: Node) -> void:
-	if node is VtAction:
-		var id = node.get_meta("id", "")
-		if id.is_empty():
-			id = "%s" % rid_allocate_id()
-			node.set_meta("id", id)
+	if node is not VtAction:
+		return
 	
-		graph_elements[id] = node
-		node.slot_updated.connect(_on_action.bind(node))
+	var id = node.get_meta("id", "")
+	if id.is_empty():
+		id = "%s" % rid_allocate_id()
+		node.set_meta("id", id)
+	
+	graph_elements[id] = node
+	node.slot_updated.connect(_on_action.bind(node))
 	
 func _on_child_exiting_tree(node: Node) -> void:
-	if node is VtAction:
-		var id = node.get_meta("id", "")
-		if not id.is_empty() and id in graph_elements:
-			graph_elements.erase(id)
-		node.slot_updated.disconnect(_on_action.bind(node))
+	if node is not VtAction:
+		return
+	
+	var id = node.get_meta("id", "")
+	if not id.is_empty() and id in graph_elements:
+		graph_elements.erase(id)
+	node.slot_updated.disconnect(_on_action.bind(node))
 		
-func _on_action(slot: int, node: VtAction):
+func _on_action(from_port: int, node: VtAction):
 	for conn in get_connection_list():
-		if not (conn.from_node == node.name and conn.from_port == slot):
+		if not (conn.from_node == node.name and conn.from_port == from_port):
 			continue
 			
-		var target = get_node(NodePath(conn.to_node))
+		var target: VtAction = get_node(NodePath(conn.to_node))
 		if target == null:
 			continue
 			
-		var output = node.get_output_type(slot)
+		var from_slot = node.get_output_slot_by_port(from_port)
+		var output = node.get_output_type(from_slot)
+		var to_slot = target.get_input_slot_by_port(conn.to_port)
+		var input = target.get_input_type(to_slot)
 		match output:
 			VtAction.SlotType.TRIGGER:
-				target.invoke_trigger(conn.to_port)
+				target.invoke_trigger(to_slot)
 			_:
-				var value = node.get_value(slot)
-				target.update_value(conn.to_port, value)
+				var value = node.get_value(from_slot)
+				if input == VtAction.SlotType.NUMERIC and output == VtAction.SlotType.VECTOR:
+					target.update_value(to_slot, value.z)
+				else:
+					target.update_value(to_slot, value)
 
 func _on_delete_nodes_request(nodes: Array[StringName]) -> void:
 	for i in nodes:
@@ -126,13 +147,19 @@ func serialize() -> Dictionary:
 		nodes.append(node)
 	
 	for i in connections:
-		var from_node = get_node(NodePath(i.from_node)).get_meta("id")
-		var to_node = get_node(NodePath(i.to_node)).get_meta("id")
+		var from_node: VtAction = get_node(NodePath(i.from_node))
+		var from_id = from_node.get_meta("id")
+		var to_node: VtAction = get_node(NodePath(i.to_node))
+		var to_id = to_node.get_meta("id")
+		var from_slot = from_node.get_output_slot_by_port(i.from_port)
+		var to_slot = to_node.get_input_slot_by_port(i.to_port)
+		var from_name = from_node.get_slot_name(from_slot)
+		var to_name = to_node.get_slot_name(to_slot)
 		bindings.append({
-			"src": from_node,
-			"dst": to_node,
-			"src_slot": i.from_port,
-			"dst_slot": i.to_port,
+			"src": from_id,
+			"dst": to_id,
+			"src_slot": from_name,
+			"dst_slot": to_name,
 		})
 		
 	return {

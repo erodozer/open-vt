@@ -32,7 +32,7 @@ slot/1/draw_stylebox = true
 script = ExtResource("1_7ad3g")
 curve = SubResource("Curve_7ad3g")
 
-[node name="ProgressBar" type="ProgressBar" parent="." unique_id=2054717645]
+[node name="Value" type="ProgressBar" parent="." unique_id=2054717645]
 unique_name_in_owner = true
 layout_mode = 2
 max_value = 1.0

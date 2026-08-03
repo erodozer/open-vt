@@ -9,7 +9,6 @@
 [ext_resource type="Texture2D" uid="uid://b2152bd2ck2uq" path="res://ui/icons/circle-nodes.svg" id="7_bomus"]
 [ext_resource type="Texture2D" uid="uid://b3m3xj1ms8rss" path="res://ui/icons/square-arrow-up-left.svg" id="7_wochk"]
 [ext_resource type="Texture2D" uid="uid://b401bri37hvvq" path="res://studio/stage/grid.png" id="8_i4b50"]
-[ext_resource type="PackedScene" uid="uid://dpw8au0ueatrg" path="res://studio/hud/parameter_panel/parameter_panel.tscn" id="9_p03m3"]
 [ext_resource type="PackedScene" uid="uid://dijec4c8prced" path="res://studio/hud/model_panel/model_panel.tscn" id="10_6xy5i"]
 [ext_resource type="PackedScene" uid="uid://bcxs7fe1yqc6o" path="res://studio/hud/item_panel/item_panel.tscn" id="11_juv7g"]
 [ext_resource type="PackedScene" uid="uid://crwh7f50woqgu" path="res://studio/hud/camera_panel/camera_panel.tscn" id="12_blrl1"]
@@ -120,6 +119,7 @@ metadata/panel = NodePath("../../../Panels/ItemPanel")
 
 [node name="ParameterBtn" type="Button" parent="Menu/VBoxContainer" unique_id=1442291964]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 tooltip_text = "Configure Model Settings"
@@ -130,10 +130,11 @@ button_group = SubResource("ButtonGroup_42qc0")
 icon = ExtResource("5_1vcj3")
 icon_alignment = 1
 expand_icon = true
-metadata/panel = NodePath("../../../Panels/ParameterPanel")
+metadata/panel = NodePath("")
 
 [node name="ActionBtn" type="Button" parent="Menu/VBoxContainer" unique_id=1083827544]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 tooltip_text = "Configure Model Bindings"
@@ -184,12 +185,6 @@ title = "Action Palette"
 [node name="Panels" type="CanvasLayer" parent="." unique_id=913944957 groups=["hide_screenshot"]]
 unique_name_in_owner = true
 layer = 5
-
-[node name="ParameterPanel" parent="Panels" unique_id=1105496622 instance=ExtResource("9_p03m3")]
-unique_name_in_owner = true
-visible = false
-offset_left = 1541.0
-offset_right = 2021.0
 
 [node name="ModelPanel" parent="Panels" unique_id=1512003189 instance=ExtResource("10_6xy5i")]
 unique_name_in_owner = true

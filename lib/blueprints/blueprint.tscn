@@ -8,6 +8,13 @@ mouse_force_pass_scroll_events = false
 grid_pattern = 1
 snapping_distance = 25
 right_disconnects = true
+type_names = {
+0: "Trigger",
+1: "Numeric",
+2: "String",
+3: "Bool",
+4: "Vector"
+}
 zoom_min = 0.25
 zoom_max = 1.5
 show_grid_buttons = false

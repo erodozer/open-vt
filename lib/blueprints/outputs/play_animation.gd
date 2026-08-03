@@ -27,6 +27,38 @@ func deserialize(data: Dictionary):
 func on_animation_completed():
 	slot_updated.emit(0)
 
+func get_input_slot_by_port(port: int) -> int:
+	match port:
+		0:
+			return 1
+		1:
+			return 2
+		_:
+			return -1
+
+func get_input_port_by_name(slot: StringName) -> int:
+	match slot.to_lower():
+		"play":
+			return 0
+		"stop":
+			return 1
+		_:
+			return -1
+	
+func get_output_slot_by_port(port: int) -> int:
+	match port:
+		0:
+			return 3
+		_:
+			return -1
+	
+func get_output_port_by_name(slot: StringName) -> int:
+	match slot:
+		"completed":
+			return 0
+		_:
+			return -1
+
 func invoke_trigger(slot: int) -> void:
 	var animation = input.get_selected_metadata()
 	if animation == null:

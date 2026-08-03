@@ -34,13 +34,38 @@ func serialize():
 func deserialize(data):
 	smoothing = data.get("smoothing", 0)
 
+func get_input_slot_by_port(port: int) -> int:
+	match port:
+		0:
+			return 1
+		_:
+			return -1
+
+func get_input_port_by_name(slot: StringName) -> int:
+	match slot.to_lower():
+		"value":
+			return 0
+		_:
+			return -1
+	
+func get_output_slot_by_port(port: int) -> int:
+	match port:
+		0:
+			return 1
+		_:
+			return -1
+
+func get_output_port_by_name(slot: StringName) -> int:
+	match slot.to_lower():
+		"value":
+			return 0
+		_:
+			return -1
+
 func get_value(_slot):
 	return b
 
-func update_value(slot, value):
-	if slot != 0:
-		return
-	
+func update_value(_slot, value):
 	a = value
 	
 func _on_smoothing_value_changed(value: float) -> void:
