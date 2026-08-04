@@ -26,7 +26,7 @@ func _ready() -> void:
 func _get(property: StringName) -> Variant:
 	for f in formats.keys():
 		if "loader/%s" % [f] == property:
-			return f
+			return formats[f]
 	return null
 
 func refresh_models():

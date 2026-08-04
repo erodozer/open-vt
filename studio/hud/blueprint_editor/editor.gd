@@ -51,9 +51,9 @@ func _ready() -> void:
 					graph.name = "New Profile"
 					graphs.append(graph)
 				1:
-					graphs = BlueprintManager["loader/vts"].load_graph(active_model)
+					graphs = await BlueprintManager["loader/vts"].load_graph(active_model)
 				2:
-					graphs = BlueprintManager["loader/l2d"].load_graph(active_model)
+					graphs = await BlueprintManager["loader/l2d"].load_graph(active_model)
 			for graph in graphs:
 				%Profiles.add_child(graph, true)
 			%Profiles.current_tab = %Profiles.get_tab_count() - 1
@@ -86,6 +86,8 @@ func _on_profile_enabled_toggled(toggled_on: bool) -> void:
 	active_graph.process_mode = PROCESS_MODE_INHERIT if toggled_on else PROCESS_MODE_DISABLED
 
 func _on_delete_profile_pressed() -> void:
+	if active_graph == null:
+		return
 	%DeleteConfirmation.dialog_text = "Delete Profile %s\nThis action is Permanent" % active_graph.name
 	%DeleteConfirmation.show()
 

@@ -107,6 +107,7 @@ layout_mode = 2
 
 [node name="NetworkWebcam" type="VBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer" unique_id=2087614332]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/NetworkWebcam" unique_id=642714933]
@@ -128,8 +129,6 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "OpenVT"
 editable = false
-
-[node name="V4l2OutputStream" type="VirtualCamera" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/NetworkWebcam" unique_id=2005881638]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer" unique_id=285867131]
 visible = false

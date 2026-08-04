@@ -12,7 +12,7 @@ signal update_bg_color(color: Color)
 @onready var fps_option: OptionButton = %FPS
 
 @onready var parameter_list = %ParameterList
-@onready var v4l2_stream = get_tree().get_first_node_in_group("output:v4l2")
+@onready var v4l2_stream: VirtualCamera = get_tree().get_first_node_in_group("output:v4l2")
 
 func _get_title():
 	return "Settings"
@@ -60,7 +60,7 @@ func _ready() -> void:
 	if OS.has_feature("linux") and v4l2_stream:
 		var feeds = v4l2_stream.get_devices()
 		
-		for feed in v4l2_stream.get_devices():
+		for feed in feeds:
 			%VirtualCameraDevice.add_item(feed.name)
 			%VirtualCameraDevice.set_item_metadata(%VirtualCameraDevice.item_count - 1, feed.id)
 		if len(feeds) > 0:
@@ -135,7 +135,8 @@ func _on_loopback_item_selected(index: int) -> void:
 func _on_v4l2_toggled(toggled_on: bool) -> void:
 	if toggled_on:
 		var index = %VirtualCameraDevice.selected
-		var device_id = %VirtualCameraDevice.get_item_metadata(index)
-		v4l2_stream.loopback_device = device_id
-	else:
-		v4l2_stream.loopback_device = ""
+		if index >= 0:
+			var device_id: String = %VirtualCameraDevice.get_item_metadata(index)
+			v4l2_stream.loopback_device = device_id
+			return
+	v4l2_stream.loopback_device = ""

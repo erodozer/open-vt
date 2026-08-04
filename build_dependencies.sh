@@ -34,20 +34,21 @@ build_virtualcamera () {
 	echo -e "\n#### Preparing gd-virtualcamera\n\n"
 
 	WORKDIR=$PROJ_ROOT/thirdparty/gd-virtualcamera
-	ADDONDIR=$PROJ_ROOT/addons/gd-virtualcamera
+	ADDONDIR=$PROJ_ROOT/addons
 
 	mkdir -p $ADDONDIR
 	
 	cd $WORKDIR
 	
-	scons -Q platform=linux arch=x86_64 target=template_debug debug_symbols=yes
-	cp -r $WORKDIR/demo/bin/* $ADDONDIR
+	make package
+	cp -r $WORKDIR/addons/virtualcamera $ADDONDIR
+
 	cp LICENSE.md $PROJ_ROOT/license/LICENSE.gdvirtualcamera.md
-	cp README.md $ADDONDIR/README.md
-	echo "*" > $ADDONDIR/.gitignore
+	cp README.md $ADDONDIR/virtualcamera/README.md
+	echo "*" > $ADDONDIR/virtualcamera/.gitignore
 	
 	# log completion
-	find $ADDONDIR -type f
+	find $ADDONDIR/virtualcamera -type f
 
 	cd $PROJ_ROOT
 }
