@@ -57,17 +57,18 @@ build_keylogger() {
 	echo -e "\n#### Preparing godot-keylogger\n\n"
 
 	WORKDIR=$PROJ_ROOT/thirdparty/godot-keylogger
-	ADDONDIR=$PROJ_ROOT/addons/keylogger
+	ADDONDIR=$PROJ_ROOT/addons
 
 	mkdir -p $ADDONDIR
-
+	
 	cd $WORKDIR
+	
+	make package
+	cp -r $WORKDIR/addons/keylogger $ADDONDIR
 
-	$WORKDIR/build.sh
-
-	cp -r $WORKDIR/godot/addons/keylogger/* $ADDONDIR
-	echo "*" > $ADDONDIR/.gitignore
-	cp LICENSE.md $PROJ_ROOT/license/LICENSE.gdkeylogger.md
+	cp LICENSE.md $PROJ_ROOT/license/LICENSE.keylogger.md
+	cp README.md $ADDONDIR/keylogger/README.md
+	echo "*" > $ADDONDIR/keylogger/.gitignore
 	
 	# log completion
 	find $ADDONDIR -type f
