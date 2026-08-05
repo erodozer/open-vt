@@ -31,7 +31,7 @@ static func create_action(type: StringName) -> VtAction:
 		return node
 	return null
 	
-func spawn_action(action_type, model: VtModel) -> VtAction:
+func spawn_action(action_type, model: VtModel, id: String = "") -> VtAction:
 	var node: VtAction
 	if action_type is VtAction:
 		node = action_type
@@ -43,6 +43,10 @@ func spawn_action(action_type, model: VtModel) -> VtAction:
 		
 	node.graph = self
 	node.model = model
+	
+	if id.is_empty():
+		id = "%d" % rid_allocate_id()
+	node.set_meta("id", id)
 		
 	add_child(node, true)
 	node.position_offset = (scroll_offset + size / 2) / zoom - node.size / 2
@@ -97,9 +101,7 @@ func _on_child_entered_tree(node: Node) -> void:
 		return
 	
 	var id = node.get_meta("id", "")
-	if id.is_empty():
-		id = "%s" % rid_allocate_id()
-		node.set_meta("id", id)
+	assert(not id.is_empty(), "node has invalid id")
 	
 	graph_elements[id] = node
 	node.slot_updated.connect(_on_action.bind(node))

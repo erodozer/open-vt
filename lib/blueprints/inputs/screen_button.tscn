@@ -105,5 +105,3 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.847059, 0.823529, 0.729412, 1)
-
-[connection signal="updated" from="." to="." method="_on_updated"]

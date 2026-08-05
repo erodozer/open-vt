@@ -31,14 +31,14 @@ func _deserialize(graph: Blueprint, model: VtModel, data: Dictionary):
 		var id = i.get("id", "")
 		if id.is_empty():
 			continue
-		var n = graph.spawn_action(StringName(i.type), model)
+		var n = graph.spawn_action(StringName(i.type), model, id)
 		if n == null:
 			push_error("invalid action type (%s), clearing graph" % i.type)
 			graph.clear_connections()
 			for c in graph.get_children():
 				c.queue_free()
 			return 
-		n.set_meta("id", i.get("id", rid_allocate_id()))
+		
 		
 		n.deserialize(i.get("parameters", {}))
 		n.position_offset = Serializers.Vec2Serializer.from_json(i.get("position"), Vector2.ZERO)

@@ -66,21 +66,30 @@ func _ready():
 				control.value = model.get(property.name)
 				control.step = 0.01
 				control.name = field
-				control.value_changed.connect(model.set.bind(property.name))
+				control.value_changed.connect(
+					func (v):
+						model.set(property.name, v)
+				)
 				f.add_child(control)
 			Variant.Type.TYPE_COLOR:
 				var control = ColorPickerButton.new()
 				control.custom_minimum_size = Vector2i(48, 0)
 				control.color = model.get(property.name)
-				control.color_changed.connect(model.set.bind(property.name))
 				control.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+				control.color_changed.connect(
+					func (c):
+						model.set(property.name, c)
+				)
 				f.add_child(control)
 			Variant.Type.TYPE_BOOL:
 				var control = CheckBox.new()
 				control.custom_minimum_size = Vector2i(48, 0)
 				control.set_pressed_no_signal(model.get(property.name))
-				control.toggled.connect(model.set.bind(property.name))
 				control.size_flags_horizontal = Control.SIZE_SHRINK_END
+				control.toggled.connect(
+					func (t):
+						model.set(property.name, t)
+				)
 				f.add_child(control)
 			_:
 				continue

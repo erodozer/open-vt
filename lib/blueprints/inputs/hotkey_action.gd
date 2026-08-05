@@ -21,9 +21,9 @@ func get_input_port_by_name(slot: StringName) -> int:
 func get_output_slot_by_port(port: int) -> int:
 	match port:
 		0:
-			return 0
-		1:
 			return 1
+		1:
+			return 2
 		_:
 			return -1
 	

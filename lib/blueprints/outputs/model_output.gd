@@ -89,9 +89,9 @@ func build_slots():
 		# will be cleared after first update
 		bindings[property] = meta.default
 		
-		var hidden = model.get("modifiers/parameters/%s/hidden" % property)
-		box.visible = not hidden
-		if not hidden:
+		var vis = model.get("modifiers/parameters/%s/visible" % property)
+		box.visible = vis
+		if vis:
 			i += 1
 			
 	# readjust sizes for columns to match
@@ -127,9 +127,9 @@ func refresh_fields():
 	ports.clear()
 	slots.clear()
 	for param in model.get_parameters():
-		var hidden = model.get("modifiers/parameters/%s/hidden" % param)
-		get_node(NodePath(param)).visible = not hidden
-		if not hidden:
+		var vis = model.get("modifiers/parameters/%s/visible" % param)
+		get_node(NodePath(param)).visible = vis
+		if vis:
 			ports[param.to_lower()] = i
 			slots[i] = n
 			i += 1
@@ -144,6 +144,7 @@ func refresh_fields():
 				c.to_node, new_port
 			)
 	_refresh = false
+	size.y = 0
 
 func unbind(slot: int, node: GraphNode) -> void:
 	var param = get_slot_name(get_input_slot_by_port(slot))
