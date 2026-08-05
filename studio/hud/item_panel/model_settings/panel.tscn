@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://ctgn3ir4rc6ap" path="res://studio/hud/item_panel/model_settings/panel.gd" id="1_jq7pc"]
 [ext_resource type="Script" uid="uid://08yyvfky7ack" path="res://ui/accordion/accordion.gd" id="2_ew1m6"]
 [ext_resource type="Texture2D" uid="uid://pd4vy1npck5p" path="res://ui/icons/lock.svg" id="3_uedqu"]
-[ext_resource type="PackedScene" uid="uid://d30mduusp81ch" path="res://ui/search/search.tscn" id="4_26pn5"]
 
 [node name="ModelSettings" type="Window" unique_id=653453700]
 oversampling_override = 1.0
@@ -24,6 +23,7 @@ grow_vertical = 2
 layout_mode = 2
 
 [node name="Accordion" type="VBoxContainer" parent="PanelContainer/ScrollContainer" unique_id=1064750201]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -134,52 +134,6 @@ size_flags_horizontal = 3
 focus_mode = 0
 text_overrun_behavior = 3
 fit_to_longest_item = false
-
-[node name="Mesh Settings" type="PanelContainer" parent="PanelContainer/ScrollContainer/Accordion" unique_id=510507732]
-custom_minimum_size = Vector2(0, 600)
-layout_mode = 2
-size_flags_vertical = 3
-theme_type_variation = &"SubPanelContainer"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/ScrollContainer/Accordion/Mesh Settings" unique_id=1796698312]
-layout_mode = 2
-
-[node name="Search" parent="PanelContainer/ScrollContainer/Accordion/Mesh Settings/VBoxContainer" unique_id=1595392485 node_paths=PackedStringArray("list") instance=ExtResource("4_26pn5")]
-layout_mode = 2
-list = NodePath("../ScrollContainer/MeshItems")
-
-[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/ScrollContainer/Accordion/Mesh Settings/VBoxContainer" unique_id=1365973347]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="MeshItems" type="VBoxContainer" parent="PanelContainer/ScrollContainer/Accordion/Mesh Settings/VBoxContainer/ScrollContainer" unique_id=1603591342]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Part Settings" type="PanelContainer" parent="PanelContainer/ScrollContainer/Accordion" unique_id=682226300]
-custom_minimum_size = Vector2(0, 600)
-layout_mode = 2
-size_flags_vertical = 3
-theme_type_variation = &"SubPanelContainer"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/ScrollContainer/Accordion/Part Settings" unique_id=1434480828]
-layout_mode = 2
-
-[node name="Search" parent="PanelContainer/ScrollContainer/Accordion/Part Settings/VBoxContainer" unique_id=1218506196 node_paths=PackedStringArray("list") instance=ExtResource("4_26pn5")]
-layout_mode = 2
-list = NodePath("../ScrollContainer/PartItems")
-
-[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/ScrollContainer/Accordion/Part Settings/VBoxContainer" unique_id=1869372894]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="PartItems" type="VBoxContainer" parent="PanelContainer/ScrollContainer/Accordion/Part Settings/VBoxContainer/ScrollContainer" unique_id=335594906]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
 [connection signal="close_requested" from="." to="." method="_on_close_requested"]
 [connection signal="item_selected" from="PanelContainer/ScrollContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer/TextureFilter" to="." method="_on_texture_filter_item_selected"]

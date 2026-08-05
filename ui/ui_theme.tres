@@ -26,7 +26,8 @@ shadow_size = 4
 shadow_offset = Vector2(2, 2)
 
 [sub_resource type="SystemFont" id="SystemFont_4bemj"]
-font_weight = 800
+font_names = PackedStringArray("Sans-Serif")
+font_weight = 600
 subpixel_positioning = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qnykt"]
@@ -92,7 +93,17 @@ shadow_color = Color(0, 0, 0, 0.196078)
 shadow_size = 2
 shadow_offset = Vector2(2, 2)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5hwks"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4bemj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_klrf6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_61t3q"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cd8m4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_atl1g"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ltwbl"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2ihb8"]
 content_margin_left = 4.0
@@ -129,6 +140,9 @@ content_margin_left = 4.0
 content_margin_top = 4.0
 content_margin_right = 4.0
 content_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6xxyg"]
+content_margin_left = 24.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cd8m4"]
 content_margin_left = 8.0
@@ -491,6 +505,8 @@ shadow_size = 4
 shadow_offset = Vector2(0, 4)
 
 [sub_resource type="SystemFont" id="SystemFont_klrf6"]
+font_names = PackedStringArray("Sans-Serif")
+font_weight = 500
 subpixel_positioning = 0
 
 [resource]
@@ -531,7 +547,12 @@ CheckBox/icons/radio_checked_disabled = null
 CheckBox/icons/radio_unchecked = ExtResource("3_2pmx3")
 CheckBox/icons/unchecked = ExtResource("2_v5cbu")
 CheckBox/icons/unchecked_disabled = ExtResource("2_v5cbu")
-CheckBox/styles/focus = SubResource("StyleBoxEmpty_5hwks")
+CheckBox/styles/disabled = SubResource("StyleBoxEmpty_4bemj")
+CheckBox/styles/focus = SubResource("StyleBoxEmpty_klrf6")
+CheckBox/styles/hover = SubResource("StyleBoxEmpty_61t3q")
+CheckBox/styles/hover_pressed = SubResource("StyleBoxEmpty_cd8m4")
+CheckBox/styles/normal = SubResource("StyleBoxEmpty_atl1g")
+CheckBox/styles/pressed = SubResource("StyleBoxEmpty_ltwbl")
 CheckButton/colors/font_color = Color(0.298039, 0.282353, 0.239216, 1)
 CheckButton/colors/font_disabled_color = Color(0.67451, 0.654902, 0.580392, 1)
 CheckButton/colors/font_focus_color = Color(0.298039, 0.282353, 0.239216, 1)
@@ -549,6 +570,8 @@ CheckButton/styles/hover = SubResource("StyleBoxEmpty_uf5kg")
 CheckButton/styles/hover_pressed = SubResource("StyleBoxEmpty_egow3")
 CheckButton/styles/normal = SubResource("StyleBoxEmpty_b5jbl")
 CheckButton/styles/pressed = SubResource("StyleBoxEmpty_ssym2")
+FieldLabel/base_type = &"Label"
+FieldLabel/styles/normal = SubResource("StyleBoxEmpty_6xxyg")
 FramedPopupPanel/base_type = &"PopupPanel"
 FramedPopupPanel/styles/panel = SubResource("StyleBoxFlat_cd8m4")
 GraphEdit/styles/panel = SubResource("StyleBoxFlat_ihp3y")

@@ -16,22 +16,76 @@ func _ready():
 	%Movement/YValue.value_changed.connect(_move_model)
 	%Movement/ZValue.value_changed.connect(_move_model)
 	%Movement/LockButton.toggled.connect(_on_movement_lock_button_toggled)
-
-	for mesh in model.get_meshes():
-		var control = preload("./mesh_setting.tscn").instantiate()
-		control.model = model
-		control.mesh = mesh as Node
-		control.name = mesh.name
-		meshes.add_child(control)
+	
+	# mesh modifier controls
+	var categories = {}
+	for property in model.get_property_list():
+		if not property.name.begins_with("modifiers/"):
+			continue
+		var segments = property.name.trim_prefix("modifiers/").split("/")
+		var category: String = segments[0]
+		var part: String = segments[1]
+		var field: String = segments[2]
 		
-	for part in Collections.select(model.get_property_list(), "name", RegEx.create_from_string("^parts/")):
-		var control = preload("./part_setting.tscn").instantiate()
-		var part_name = part.name.trim_prefix("parts/")
-		control.model = model
-		control.part = part_name
-		control.name = part_name
-		%PartItems.add_child(control)
+		if category not in categories:
+			var panel = preload("./modifier_settings.tscn").instantiate()
+			panel.name = "%s Settings" % category.capitalize()
+			%Accordion.add_child(panel)
+			categories[category] = panel.get_node("%Items")
+			
+		var list = categories[category]
+		if not list.has_node(part):
+			var frame = PanelContainer.new()
+			frame.name = part
+			frame.theme_type_variation = "Section"
+			var box = VBoxContainer.new()
+			box.name = "Properties"
+			var label = Label.new()
+			label.text = part
+			label.theme_type_variation = "BoldLabel"
 		
+			box.add_child(label)
+			frame.add_child(box)
+			list.add_child(frame)
+		
+		var fields = list.get_node("%s/Properties" % part)
+		var f = HBoxContainer.new()
+		var label = Label.new()
+		label.text = field.replace("_", " ").capitalize()
+		label.clip_text = true
+		label.theme_type_variation = "FieldLabel"
+		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		f.add_child(label)
+		match property.type:
+			Variant.Type.TYPE_FLOAT:
+				var range: PackedStringArray = property.hint_string.split(",")
+				var control = SpinBox.new()
+				control.alignment = HORIZONTAL_ALIGNMENT_RIGHT
+				control.min_value = range[0].to_float()
+				control.max_value = range[1].to_float()
+				control.value = model.get(property.name)
+				control.step = 0.01
+				control.name = field
+				control.value_changed.connect(model.set.bind(property.name))
+				f.add_child(control)
+			Variant.Type.TYPE_COLOR:
+				var control = ColorPickerButton.new()
+				control.custom_minimum_size = Vector2i(48, 0)
+				control.color = model.get(property.name)
+				control.color_changed.connect(model.set.bind(property.name))
+				control.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+				f.add_child(control)
+			Variant.Type.TYPE_BOOL:
+				var control = CheckBox.new()
+				control.custom_minimum_size = Vector2i(48, 0)
+				control.set_pressed_no_signal(model.get(property.name))
+				control.toggled.connect(model.set.bind(property.name))
+				control.size_flags_horizontal = Control.SIZE_SHRINK_END
+				f.add_child(control)
+			_:
+				continue
+		fields.add_child(f)
+			
 	# _model.renderer.transform_updated.connect(_update_transform)
 		
 	%IdleAnimation.clear()

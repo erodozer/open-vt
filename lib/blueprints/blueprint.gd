@@ -27,7 +27,8 @@ static var palette: Dictionary[StringName, PackedScene] = _action_types.reduce(
 
 static func create_action(type: StringName) -> VtAction:
 	if type in palette:
-		return palette[type].instantiate()
+		var node = palette[type].instantiate()
+		return node
 	return null
 	
 func spawn_action(action_type, model: VtModel) -> VtAction:
@@ -36,9 +37,14 @@ func spawn_action(action_type, model: VtModel) -> VtAction:
 		node = action_type
 	elif action_type is StringName:
 		node = create_action(action_type)
+		
+	if node == null:
+		return null
+		
+	node.graph = self
 	node.model = model
-	
-	add_child(node)
+		
+	add_child(node, true)
 	node.position_offset = (scroll_offset + size / 2) / zoom - node.size / 2
 	return node
 
@@ -120,6 +126,8 @@ func _on_action(from_port: int, node: VtAction):
 		var output = node.get_output_type(from_slot)
 		var to_slot = target.get_input_slot_by_port(conn.to_port)
 		var input = target.get_input_type(to_slot)
+		if to_slot == -1:
+			continue
 		match output:
 			VtAction.SlotType.TRIGGER:
 				target.invoke_trigger(to_slot)

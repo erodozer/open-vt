@@ -7,8 +7,19 @@ const Collections = preload("res://lib/utils/collections.gd")
 var model: AyagamiModel
 var container: Node
 
-var part_settings = {}
-var mesh_settings = {}
+const ModelModifier = preload("../../modifier.gd")
+const ParameterModifier = preload("./modifiers/parameter_modifier.gd")
+const PartModifier = preload("./modifiers/part_modifier.gd")
+const MeshModifier = preload("./modifiers/mesh_modifier.gd")
+
+var param_settings: Dictionary[StringName, ModelModifier] = {}
+var part_settings: Dictionary[StringName, ModelModifier] = {}
+var mesh_settings: Dictionary[StringName, ModelModifier] = {}
+var modifier_map = {
+	"modifiers/parts/": part_settings,
+	"modifiers/meshes/": mesh_settings,
+	"modifiers/parameters/": param_settings
+}
 
 func _ready() -> void:
 	container = preload("./pixel_subviewport.tscn").instantiate()
@@ -19,6 +30,9 @@ func is_initialized() -> bool:
 	
 func get_meshes() -> Array:
 	return model.get_node("Meshes").get_children()
+	
+func get_parts() -> Array:
+	return model.get_parts()
 	
 func get_size() -> Vector2:
 	return model.size
@@ -40,64 +54,56 @@ func get_parameters() -> Dictionary:
 func _get(property: StringName) -> Variant:
 	if property.begins_with("parameters/") or property.begins_with("parts/"):
 		return model.get(property)
-	if property.begins_with("modifiers/parts/"):
-		var part_name = property.trim_prefix("modifiers/parts/")
-		if part_name.ends_with("/opacity"):
-			part_name = part_name.trim_suffix("/opacity")
-			return model.get("parts/%s" % part_name)
-	if property.begins_with("modifiers/meshes/"):
-		var parts = property.trim_prefix("modifiers/meshes/").split("/")
-		var mesh_name = parts[0]
-		var field = parts[1]
-		var modifier = mesh_settings.get(mesh_name, {})
-		return modifier.get(field, property_get_revert(property))
+	for prefix in modifier_map:
+		if not property.begins_with(prefix):
+			continue
+		var modifiers = modifier_map[prefix]
+		var segments = property.trim_prefix(prefix).split("/")
+		var part = segments[0]
+		var field = segments[1]
+		var modifier: ModelModifier = modifiers.get(part)
+		if modifier:
+			return modifier.get(field)
 	return null
 
 func _property_get_revert(property: StringName) -> Variant:
 	if property.begins_with("parameters/") or property.begins_with("parts/"):
 		return model.property_get_revert(property)
-	if property.begins_with("modifiers/meshes/"):
-		var parts = property.trim_prefix("modifiers/meshes/").split("/")
-		var field = parts[1]
-		match field:
-			"screen_color":
-				return Color.BLACK
-			"multiply_color":
-				return Color.WHITE
-			"color_override":
-				return false
-			"pinnable":
-				return true
-			"pinned":
-				return null
+	
+	for prefix in modifier_map:
+		if not property.begins_with(prefix):
+			continue
+		
+		var segments = property.trim_prefix(prefix).split("/")
+		var part = segments[0]
+		var field = segments[1]
+		
+		var settings: ModelModifier = modifier_map[prefix][part]
+		return settings.property_get_revert(field)
+		
 	return null
 
 func _set(property: StringName, value: Variant) -> bool:
-	if property.begins_with("parameters/") or property.begins_with("parts/"):
+	if property.begins_with("parameters/"):
 		if not property.ends_with("/range") and not property.ends_with("/default"):
 			model.set(property, value)
-		return true
-	if property.begins_with("modifiers/meshes"):
-		var parts = property.trim_prefix("modifiers/meshes/").split("/")
-		var mesh_name = parts[0]
+			return true
+	
+	for p in modifier_map:
+		if not property.begins_with(p):
+			continue
+		var parts = property.trim_prefix(p).split("/")
+		var param = parts[0]
 		var field = parts[1]
-		var modifier = mesh_settings.get(mesh_name, {})
-		var mesh: MeshInstance2D = model.get_node("Meshes/%s" % [mesh_name])
-		match field:
-			"screen_color":
-				modifier.set(field, value)
-				mesh.set_instance_shader_parameter("color_screen", value)
-			"multiply_color":
-				modifier.set(field, value)
-				mesh.set_instance_shader_parameter("color_multiply", value)
-			"color_override":
-				modifier.set(field, value)
-				mesh.set_instance_shader_parameter("color_override", value)
-			_:
-				return false
-		mesh_settings.set(mesh_name, modifier)
-		return true
-		
+		var modifier: ModelModifier = modifier_map[p].get(param)
+		if modifier:
+			var old_value = modifier.get(field)
+			modifier.set(field, value)
+			modifier_updated.emit.call_deferred(
+				property, value, old_value
+			)
+			return true
+
 	if property == "texture_filter":
 		texture_filter = value
 		_adjust_filter()
@@ -116,42 +122,18 @@ func _get_property_list() -> Array[Dictionary]:
 	var properties: Array[Dictionary] = []
 	var base_properties = model.get_property_list()
 	
-	for part in Collections.select(base_properties, "name", RegEx.create_from_string("^parts/")):
-		properties.append(part)
-	
 	for param in Collections.select(base_properties, "name", RegEx.create_from_string("^parameters/")):
+		var p_name = param.name.trim_prefix("parameters/")
 		properties.append(param)
-		
-	for mesh in get_meshes():
-		if (mesh as MeshInstance2D).mesh.get_surface_count() <= 0:
-			continue
-		
-		var n = mesh.name
-		properties.append({
-			"name": "modifiers/meshes/%s/screen_color" % [mesh.name],
-			"type": TYPE_COLOR,
-			"usage": PropertyUsageFlags.PROPERTY_USAGE_STORAGE | PropertyUsageFlags.PROPERTY_USAGE_EDITOR
-		})
-		properties.append({
-			"name": "modifiers/meshes/%s/multiply_color" % [mesh.name],
-			"type": TYPE_COLOR,
-			"usage": PropertyUsageFlags.PROPERTY_USAGE_STORAGE | PropertyUsageFlags.PROPERTY_USAGE_EDITOR
-		})
-		properties.append({
-			"name": "modifiers/meshes/%s/color_override" % [mesh.name],
-			"type": TYPE_BOOL,
-			"usage": PropertyUsageFlags.PROPERTY_USAGE_STORAGE | PropertyUsageFlags.PROPERTY_USAGE_EDITOR
-		})
-		properties.append({
-			"name": "modifiers/meshes/%s/pinnable" % [mesh.name],
-			"type": TYPE_BOOL,
-			"usage": PropertyUsageFlags.PROPERTY_USAGE_STORAGE | PropertyUsageFlags.PROPERTY_USAGE_EDITOR
-		})
-		properties.append({
-			"name": "modifiers/meshes/%s/pinned" % [mesh.name],
-			"type": TYPE_NODE_PATH,
-			"usage": PropertyUsageFlags.PROPERTY_USAGE_STORAGE | PropertyUsageFlags.PROPERTY_USAGE_EDITOR
-		})
+	
+	for prefix in modifier_map:
+		var settings = modifier_map[prefix]
+		for p in settings:
+			var modifier = settings[p]
+			for prop in modifier.get_property_list():
+				properties.append(prop.merged({
+					"name": "{0}{1}/{2}".format([prefix, p, prop.name])
+				}, true))
 	
 	return properties
 	
@@ -209,20 +191,21 @@ func _build_model():
 	#loaded_model.add_child(physics)
 	#physics.name = "Physics"
 	
-	var vtube_data = Files.read_json(modelmeta.studio_parameters)
-	var ovt_data = Files.read_json(modelmeta.openvt_parameters)
-	var model_data = Files.read_json(modelmeta.model)
-	
-	var mesh_details = vtube_data.get("ArtMeshDetails", {})
 	for m in get_meshes():
 		if (m as MeshInstance2D).mesh.get_surface_count() <= 0:
 			continue
 		
-		set("modifiers/%s/pinnable" % [m.name], m.name not in mesh_details.get("ArtMeshesExcludedFromPinning", []))
-
 		var center = Math.v32xy(Math.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
 		m.set_meta("centroid", center)
 		m.set_meta("start_centroid", center)
+		
+		mesh_settings[m.name] = MeshModifier.new(m)
+		
+	for p in get_parameters():
+		param_settings[p] = ParameterModifier.new()
+	
+	for p in get_parts():
+		part_settings[p] = PartModifier.new(self, p)
 					
 	await get_tree().process_frame
 	
@@ -282,3 +265,120 @@ func toggle_expression(expression_name: String, activate: bool = true, duration:
 	else:
 		expression_controller.set("active/%s" % expression_name, false)
 		
+
+## save bidirectional vts compatible settings
+func _save_to_vts():
+	if modelmeta.studio_parameters.is_empty():
+		return
+	
+	var vtube_data = Files.read_json(modelmeta.studio_parameters)
+	# vtube_data["ParameterSettings"] = studio_parameters.map(func (x): return x.serialize())
+	vtube_data["ArtMeshDetails"]["ArtMeshesExcludedFromPinning"] = get_meshes().reduce(
+		func (acc, mesh):
+			if mesh.name not in mesh_settings:
+				return acc
+			var pinnable = get("modifiers/meshes/%s/pinnable" % mesh.name)
+			if pinnable:
+				acc.append(mesh.name)
+			return acc,
+		[]
+	)
+	vtube_data["ArtMeshDetails"]["ArtMeshMultiplyAndScreenColors"] = get_meshes().reduce(
+		func (acc, mesh):
+			if mesh.name not in mesh_settings:
+				return acc
+			var override = get("modifiers/meshes/%s/color_override" % mesh.name)
+			if override:
+				acc.append({
+					"ID": mesh.name,
+					"Value": "%s|%s" % [
+						(get("modifiers/meshes/%s/multiply_color" % mesh.name) as Color).to_html(true),
+						(get("modifiers/meshes/%s/screen_color" % mesh.name) as Color).to_html(true),
+					]
+				})
+			return acc,
+		[]
+	)
+	vtube_data["FileReferences"]["IdleAnimation"] = get_idle_animation_player().current_animation
+	
+	Files.write_json(modelmeta.studio_parameters, vtube_data)
+	
+## load bidirectional vts compatible settings
+func _load_from_vts():
+	if modelmeta.studio_parameters.is_empty():
+		return
+	
+	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(modelmeta.studio_parameters))
+	
+	var idle_animation = vtube_data["FileReferences"]["IdleAnimation"]
+	if idle_animation:
+		get_idle_animation_player().play(idle_animation)
+		
+	var movement_settings = vtube_data.get("ModelPositionMovement", {})
+	movement_enabled = movement_settings.get("Use", false)
+	# vts movement based on 10 = +100% scale
+	#movement_scale = Vector3(
+	#	inverse_lerp(0.0, 10.0, movement_settings.get("X", 0.0)),
+	#	inverse_lerp(0.0, 10.0, movement_settings.get("Y", 0.0)),
+	#	inverse_lerp(0.0, 10.0, movement_settings.get("Z", 0.0))
+	#)
+
+	var mesh_details = vtube_data.get("ArtMeshDetails", {})
+	var pin_settings = mesh_details.get("ArtMeshesExcludedFromPinning", [])
+		
+	# color settings
+	var tint = {}
+	for v in mesh_details.get("ArtMeshMultiplyAndScreenColors", []):
+		var colors = v.Value.split("|")
+		tint[v.ID] = {
+			"multiply": Color(colors[0]),
+			"screen": Color(colors[1])
+		}
+	
+	for mesh in get_meshes():
+		if name not in mesh_settings:
+			continue
+		var settings = mesh_settings[mesh]
+		var exclude = mesh.name in pin_settings
+		settings.pinnable = not exclude
+		
+		settings.color_override = mesh.name in tint
+		if mesh.name in tint:
+			var colors = tint[mesh.name]
+			settings.multiply_color = colors.multiply
+			settings.screen_color = colors.creen
+
+func save_model_settings(settings: Dictionary):
+	super.save_model_settings(settings)
+	
+	var serializer = Serializers.ObjSerializer
+	settings["modifiers"] = {
+		"parameters": Collections.remap(param_settings, func (v): return Serializers.ObjSerializer.to_json(v)),
+		"meshes": Collections.remap(mesh_settings, func (v): return Serializers.ObjSerializer.to_json(v)),
+		"parts": Collections.remap(part_settings, func (v): return Serializers.ObjSerializer.to_json(v))
+	}
+	
+	_save_to_vts()
+	
+func load_model_settings(settings: Dictionary):
+	_load_from_vts()
+	super.load_model_settings(settings)
+
+	for p in self.get_parameters():
+		var modifier = param_settings[StringName(p)]
+		var saved = settings.get("modifiers", {}).get("parameters", {}).get(p, {})
+		Serializers.ObjSerializer.from_json(saved, modifier)
+	
+	for m in self.get_meshes():
+		if m.name not in mesh_settings:
+			continue
+		var modifier = mesh_settings[m.name]
+		var saved = settings.get("modifiers", {}).get("meshes", {}).get(m.name, {})
+		# fallback to what's loaded from vts
+		Serializers.ObjSerializer.from_json(saved, modifier)
+		
+	for p in self.get_parts():
+		var modifier = part_settings[p]
+		var saved = settings.get("modifiers", {}).get("parts", {}).get(p, {})
+		Serializers.ObjSerializer.from_json(saved, modifier)
+	

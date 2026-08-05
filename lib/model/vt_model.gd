@@ -47,6 +47,8 @@ signal loaded
 
 var _loading = false
 
+signal modifier_updated(field: StringName, new_value: Variant, old_value: Variant)
+
 @abstract func is_initialized()
 @abstract func get_meshes() -> Array
 
@@ -64,7 +66,6 @@ func _load_model():
 		loaded.emit()
 		return 
 	
-	_load_from_vts()
 	_load_settings()
 	
 	_loading = false
@@ -83,102 +84,22 @@ func _adjust_filter():
 func hydrate(_settings: Dictionary):
 	await _load_model()
 
-## save bidirectional vts compatible settings
-func _save_to_vts():
-	if modelmeta.studio_parameters.is_empty():
-		return
-	
-	var vtube_data = Files.read_json(modelmeta.studio_parameters)
-	# vtube_data["ParameterSettings"] = studio_parameters.map(func (x): return x.serialize())
-	vtube_data["ArtMeshDetails"]["ArtMeshesExcludedFromPinning"] = get_meshes().filter(
-		func (mesh):
-			return mesh.get_meta("pinnable", false) == false
-	).map(
-		func (mesh):
-			return mesh.name
-	)
-	vtube_data["ArtMeshDetails"]["ArtMeshMultiplyAndScreenColors"] = get_meshes().filter(
-		func (mesh):
-			return mesh.get_instance_shader_parameter("color_override") == true
-	).map(
-		func (mesh):
-			return {
-				"ID": mesh.name,
-				"Value": "%s|%s" % [
-					Math.v4rgba(mesh.get_instance_shader_parameter("color_multiply")).to_html(true),
-					Math.v4rgba(mesh.get_instance_shader_parameter("color_screen")).to_html(true)
-				]
-			}
-	)
-	vtube_data["FileReferences"]["IdleAnimation"] = get_idle_animation_player().current_animation
-	
-	Files.write_json(modelmeta.studio_parameters, vtube_data)
-	
-## load bidirectional vts compatible settings
-func _load_from_vts():
-	if modelmeta.studio_parameters.is_empty():
-		return
-	
-	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(modelmeta.studio_parameters))
-	
-	var idle_animation = vtube_data["FileReferences"]["IdleAnimation"]
-	if idle_animation:
-		get_idle_animation_player().play(idle_animation)
-		
-	var movement_settings = vtube_data.get("ModelPositionMovement", {})
-	movement_enabled = movement_settings.get("Use", false)
-	# vts movement based on 10 = +100% scale
-	#movement_scale = Vector3(
-	#	inverse_lerp(0.0, 10.0, movement_settings.get("X", 0.0)),
-	#	inverse_lerp(0.0, 10.0, movement_settings.get("Y", 0.0)),
-	#	inverse_lerp(0.0, 10.0, movement_settings.get("Z", 0.0))
-	#)
-	
-	var mesh_details = vtube_data.get("ArtMeshDetails", {})
-	var pin_settings = mesh_details.get("ArtMeshesExcludedFromPinning", [])
-		
-	# color settings
-	var tint = {}
-	for v in mesh_details.get("ArtMeshMultiplyAndScreenColors", []):
-		var colors = v.Value.split("|")
-		tint[v.ID] = {
-			"multiply": Color(colors[0]),
-			"screen": Color(colors[1])
-		}
-	
-	for mesh in get_meshes():
-		var exclude = mesh.name in pin_settings
-		mesh.set_meta("pinnable", not exclude)
-		
-		if mesh.name in tint:
-			var colors = tint[mesh.name]
-			mesh.set_instance_shader_parameter("color_override", true)
-			mesh.set_instance_shader_parameter("color_multiply", colors.multiply)
-			mesh.set_instance_shader_parameter("color_screen", colors.screen)
-
-## load open-vt specific settings
-func _load_settings():
-	var model_preferences = Files.read_json(modelmeta.openvt_parameters)
-	self.scale = Vector2.ONE * model_preferences.get("transform", {}).get(
+func load_model_settings(settings: Dictionary):
+	self.scale = Vector2.ONE * settings.get("transform", {}).get(
 		"scale", 
 		clampf(get_viewport_rect().size.y / size.y, 0.001, 2.0)
 	)
-	self.rotation_degrees = model_preferences.get("transform", {}).get("rotation", 0)
-	self.texture_filter = TEXTURE_FILTER_NEAREST_WITH_MIPMAPS_ANISOTROPIC if model_preferences.get("quality", {}).get("filter", "linear") == "nearest" else TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
-	self.smoothing = model_preferences.get("quality", {}).get("smoothing", false)
+	self.rotation_degrees = settings.get("transform", {}).get("rotation", 0)
+	self.texture_filter = TEXTURE_FILTER_NEAREST_WITH_MIPMAPS_ANISOTROPIC if settings.get("quality", {}).get("filter", "linear") == "nearest" else TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+	self.smoothing = settings.get("quality", {}).get("smoothing", false)
 		
 	self.position = Serializers.Vec2Serializer.from_json(
-		model_preferences.get("transform", {}).get("position", {}),
+		settings.get("transform", {}).get("position", {}),
 		get_viewport_rect().get_center()
 	)
-
-func save_settings(_settings: Dictionary):
-	if not is_initialized():
-		return
 	
-	_save_to_vts()
-	
-	var model_data  = {
+func save_model_settings(settings: Dictionary):
+	settings.merge({
 		"quality": {
 			"filter": "nearest" if self.texture_filter != TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC else "linear",
 		},
@@ -193,8 +114,21 @@ func save_settings(_settings: Dictionary):
 				return acc,
 			{}
 		)
-	}
+	})
+
+## load open-vt specific settings
+func _load_settings():
+	var model_preferences = Files.read_json(modelmeta.openvt_parameters)
+	load_model_settings(model_preferences)
+
+func save_settings(_settings: Dictionary):
+	if not is_initialized():
+		return
 	
+	var model_data = {}
+	
+	self.save_model_settings(model_data)
 	for o in get_tree().get_nodes_in_group("persist:model"):
 		o.save_settings(model_data)
+	
 	Files.write_json(modelmeta.openvt_parameters, model_data)

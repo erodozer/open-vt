@@ -10,12 +10,15 @@ enum SlotType {
 	VECTOR
 }
 
-# handy reference to the stage is directly available to all VtActions
+## reference to the bound model is directly available to all VtActions
 var model: VtModel:
 	set = set_model
 
 func set_model(m: VtModel):
 	model = m
+
+## quick name access to the graph this action belongs to
+@onready var graph: GraphEdit = get_parent()
 
 # port mappings
 # Slot index != Port Index, slots are the children while ports are enabled children

@@ -31,3 +31,40 @@ class RangeSerializerImpl extends JsonSerializer:
 		)
 
 static var RangeSerializer: JsonSerializer = RangeSerializerImpl.new()
+
+class ObjSerializerImpl extends JsonSerializer:
+	func to_json(v: Object) -> Dictionary:
+		var out = {}
+		var props = v.get_property_list()
+		for p in props:
+			if not (p.usage & PropertyUsageFlags.PROPERTY_USAGE_STORAGE):
+				continue
+			if p.usage & PropertyUsageFlags.PROPERTY_USAGE_INTERNAL:
+				continue
+			var value = v.get(p.name)
+			if p.type == Variant.Type.TYPE_COLOR:
+				value = (value as Color).to_html(true)
+			if p.type == Variant.Type.TYPE_VECTOR2:
+				value = Vec2SerializerImpl.new().to_json(value)
+			out[p.name] = value
+		return out
+		
+	func from_json(v: Dictionary, assign = null):
+		var props = assign.get_property_list()
+		for p in props:
+			if not (p.usage & PropertyUsageFlags.PROPERTY_USAGE_STORAGE):
+				continue
+			if p.usage & PropertyUsageFlags.PROPERTY_USAGE_INTERNAL:
+				continue
+			var existing = assign.get(p.name)
+			var value = v.get(p.name)
+			if p.type == Variant.Type.TYPE_COLOR:
+				value = Color.from_string(value, existing as Color)
+			if p.type == Variant.Type.TYPE_VECTOR2:
+				value = Vec2SerializerImpl.new().from_json(value, existing as Vector2)
+			if value == null:
+				value = existing
+			assign.set(p.name, value)
+		return assign
+	
+static var ObjSerializer: JsonSerializer = ObjSerializerImpl.new()

@@ -15,6 +15,13 @@ static func select(collection: Array, field: String, pattern: RegEx):
 			return pattern.search(v.get(field)) != null
 	)
 
+static func remap(collection: Dictionary, mapper: Callable):
+	return collection.keys().reduce(
+		func (acc, k):
+			acc[k] = mapper.call(collection[k])
+			return acc,
+		{}
+	)
 
 ## fetch values from nested dictionaries using dot-path traversal
 static func path(dict: Dictionary, key: String, defaultValue: Variant = null) -> Variant:
