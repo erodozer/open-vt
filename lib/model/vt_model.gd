@@ -73,6 +73,7 @@ func _load_model():
 	
 	BlueprintManager.register_graph(self)
 		
+@abstract func get_parameters() -> Dictionary
 @abstract func get_idle_animation_player() -> AnimationPlayer
 @abstract func get_animation_player() -> AnimationPlayer
 @abstract func tracking_updated(tracking_data: Dictionary, _delta: float)

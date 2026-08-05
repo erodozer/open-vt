@@ -128,18 +128,16 @@ func _build_parameter_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint
 	kbm_tracker.name = "KbmTracker"
 	kbm_tracker.kind = &"KBM"
 	
-	var model_output: VtAction = graph.spawn_action(&"model_output", model)
+	var tracker_bound = {
+		camera_tracker: false,
+		mic_tracker: false,
+		gamepad_tracker: false,
+		kbm_tracker: false,
+		breathe: false,
+		blink: false
+	}
 	
-	# rearrange nodes in graph for more readable spacing
-	# these node types are known for having dynamic sizes, so we must wait for
-	# their real dimensions to be updated before repositioning
-	await get_tree().process_frame
-	camera_tracker.position_offset = Vector2(0, 0)
-	mic_tracker.position_offset = Vector2(0, camera_tracker.size.y + PAD)
-	kbm_tracker.position_offset = mic_tracker.position_offset + Vector2(0, mic_tracker.size.y + PAD)
-	gamepad_tracker.position_offset = kbm_tracker.position_offset + Vector2(0, kbm_tracker.size.y + PAD)
-	breathe.position_offset = gamepad_tracker.position_offset + Vector2(0, gamepad_tracker.size.y + PAD)
-	blink.position_offset = breathe.position_offset + Vector2(0, breathe.size.y + PAD)
+	var model_output: VtAction = graph.spawn_action(&"model_output", model)
 	
 	var column_width = 0
 	var x = max(
@@ -156,6 +154,7 @@ func _build_parameter_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint
 			input = t
 			input_slot = t.get_output_port_by_name(input_binding)
 			if input_slot != -1:
+				tracker_bound[t] = true
 				break
 
 		var output = model_output
@@ -169,11 +168,13 @@ func _build_parameter_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint
 		
 		# VTS's breathe behavior overrides any input parameter setting
 		if breathing:
+			tracker_bound[breathe] = true
 			input = breathe
 			input_slot = breathe.get_output_port_by_name("value")
 			_y = max(_y, input.size.y)
 			
 		if blinking:
+			tracker_bound[blink] = true
 			var scalar: VtAction = graph.spawn_action(&"arithmetic", model)
 			scalar.operator = 1
 			if breathing or not unbound:
@@ -217,6 +218,21 @@ func _build_parameter_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint
 			
 	x += column_width
 	model_output.position_offset = Vector2(x, 0)
+	
+	# rearrange nodes in graph for more readable spacing
+	# these node types are known for having dynamic sizes, so we must wait for
+	# their real dimensions to be updated before repositioning
+	await get_tree().process_frame
+	
+	y = 0
+	for t in tracker_bound:
+		if tracker_bound[t] == false:
+			t.queue_free()
+			continue
+		
+		t.position_offset = Vector2(0, y)
+		y += t.size.y + PAD
+	
 	remove_child(graph)
 	return graph
 	

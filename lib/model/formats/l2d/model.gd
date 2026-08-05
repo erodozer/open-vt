@@ -26,6 +26,17 @@ func get_size() -> Vector2:
 func get_origin() -> Vector2:
 	return model.origin
 	
+func get_parameters() -> Dictionary:
+	return model.get_parameters().reduce(
+		func (acc, p):
+			acc[p] = {
+				"default": model.get("parameters/%s/default" % p),
+				"range": model.get("parameters/%s/range" % p) 
+			}
+			return acc,
+		{}
+	)
+	
 func _get(property: StringName) -> Variant:
 	if property.begins_with("parameters/") or property.begins_with("parts/"):
 		return model.get(property)
@@ -63,7 +74,8 @@ func _property_get_revert(property: StringName) -> Variant:
 
 func _set(property: StringName, value: Variant) -> bool:
 	if property.begins_with("parameters/") or property.begins_with("parts/"):
-		model.set(property, value)
+		if not property.ends_with("/range") and not property.ends_with("/default"):
+			model.set(property, value)
 		return true
 	if property.begins_with("modifiers/meshes"):
 		var parts = property.trim_prefix("modifiers/meshes/").split("/")
@@ -109,15 +121,6 @@ func _get_property_list() -> Array[Dictionary]:
 	
 	for param in Collections.select(base_properties, "name", RegEx.create_from_string("^parameters/")):
 		properties.append(param)
-	
-	for part in Collections.extract_property_name(base_properties, "parts/"):
-		properties.append({
-			"name": "modifiers/parts/%s/opacity",
-			"type": TYPE_FLOAT,
-			"hint": PropertyHint.PROPERTY_HINT_NONE,
-			"hint_string": "rgba",
-			"usage": PropertyUsageFlags.PROPERTY_USAGE_STORAGE | PropertyUsageFlags.PROPERTY_USAGE_EDITOR
-		})
 		
 	for mesh in get_meshes():
 		if (mesh as MeshInstance2D).mesh.get_surface_count() <= 0:

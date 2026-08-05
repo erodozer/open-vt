@@ -21,30 +21,30 @@ var kind = &"Camera" :
 			l.size_flags_stretch_ratio = 2.0
 			box.add_child(l)
 			var value_box = HBoxContainer.new()
+			var value_range = Registry[p].range
 			var min_value = SpinBox.new()
 			min_value.step = 0.01
-			min_value.rounded = false
-			min_value.max_value = INF
-			min_value.min_value = -INF
-			min_value.value = Registry[p].range.x
+			min_value.allow_greater = true
+			min_value.allow_lesser = true
+			min_value.value = value_range.x
 			min_value.suffix = "min"
 			min_value.alignment = HORIZONTAL_ALIGNMENT_RIGHT
 			min_value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			min_value.editable = false
 			value_box.add_child(min_value)
 			var max_value = SpinBox.new()
-			max_value.max_value = INF
-			max_value.min_value = -INF
+			max_value.allow_greater = true
+			max_value.allow_lesser = true
 			min_value.step = 0.01
-			max_value.value = Registry[p].range.y
+			max_value.value = value_range.y
 			max_value.suffix = "max"
 			max_value.alignment = HORIZONTAL_ALIGNMENT_RIGHT
 			max_value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			max_value.editable = false
 			value_box.add_child(max_value)
 			var current_value = SpinBox.new()
-			current_value.max_value = INF
-			current_value.min_value = -INF
+			current_value.allow_greater = true
+			current_value.allow_lesser = true
 			current_value.step = 0.01
 			current_value.value = Registry.get_default(p)
 			current_value.alignment = HORIZONTAL_ALIGNMENT_RIGHT
@@ -107,4 +107,4 @@ func get_value(slot: int):
 	var out: float = values[parameter]
 	var value_range = Registry.get(parameter).range
 	
-	return Vector3(value_range.x, value_range.y, out)
+	return Vector4(value_range.x, value_range.y, out, inverse_lerp(value_range.x, value_range.y, out))

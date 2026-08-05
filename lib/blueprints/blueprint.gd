@@ -126,7 +126,8 @@ func _on_action(from_port: int, node: VtAction):
 			_:
 				var value = node.get_value(from_slot)
 				if input == VtAction.SlotType.NUMERIC and output == VtAction.SlotType.VECTOR:
-					target.update_value(to_slot, value.z)
+					var vec4 = value as Vector4
+					target.update_value(to_slot, vec4.w)
 				else:
 					target.update_value(to_slot, value)
 

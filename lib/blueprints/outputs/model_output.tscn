@@ -9,5 +9,5 @@ offset_left = -1.0
 offset_top = 5.0
 offset_right = 179.0
 offset_bottom = 187.0
-title = "Model Parameters"
+title = "Output Model Parameters"
 script = ExtResource("1_50kec")
