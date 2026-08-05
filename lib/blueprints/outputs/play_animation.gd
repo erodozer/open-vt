@@ -67,7 +67,7 @@ func invoke_trigger(slot: int) -> void:
 	var idle_player: AnimationPlayer = model.get_idle_animation_player()
 	var os_player: AnimationPlayer = model.get_animation_player()
 
-	if slot == 0: #play
+	if slot == 1: #play
 		if not os_player.has_animation(animation):
 			return
 			
@@ -81,11 +81,12 @@ func invoke_trigger(slot: int) -> void:
 		var duration = os_player.get_animation(animation).length
 		var t = provider.create_tween()
 		t.set_speed_scale(speed_scale)
-		t.tween_property(provider, "weight", 1.0, fade)
+		#t.tween_property(provider, "weight", 1.0, fade)
 		t.tween_callback(idle_player.stop)
-		t.tween_property(provider, "weight", 0.0, fade).set_delay(duration - fade)
+		t.tween_interval(duration - fade)
+		#t.tween_property(provider, "weight", 0.0, fade).set_delay(duration - fade)
 		t.tween_callback(idle_player.play)
 		# t.tween_callback(provider.reset)
-	elif slot == 1: #stop
+	elif slot == 2: #stop
 		if os_player.current_animation == animation:
 			os_player.stop()

@@ -28,13 +28,11 @@ func get_type() -> StringName:
 	
 func serialize():
 	return {
-		"name": input.get_selected_metadata(),
+		"name": self.expression,
 	}
 	
 func deserialize(data: Dictionary):
-	for i in input.item_count:
-		if input.get_item_text(i) == data.get("name"):
-			input.select(i)
+	self.expression = data.get("name")
 
 func get_input_slot_by_port(port: int) -> int:
 	match port:
@@ -68,11 +66,11 @@ func invoke_trigger(slot: int) -> void:
 	var activate: bool
 	if expression.is_empty():
 		activate = false
-	elif slot == 0:
-		activate = not model.get_expression_controller().is_activated(StringName(expression))
 	elif slot == 1:
-		activate = true
+		activate = not model.get_expression_controller().is_activated(StringName(expression))
 	elif slot == 2:
+		activate = true
+	elif slot == 3:
 		activate = false
 		
 	model.toggle_expression(

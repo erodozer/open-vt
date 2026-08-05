@@ -5,7 +5,6 @@ const VtModel = preload("res://lib/model/vt_model.gd")
 const Stage = preload("res://studio/stage/stage.gd")
 
 @onready var stage = get_tree().get_first_node_in_group("system:stage")
-@onready var meshes = %MeshItems
 var model: VtModel
 
 var _pause_signals = false

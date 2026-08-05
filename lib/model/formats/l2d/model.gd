@@ -261,9 +261,9 @@ func toggle_expression(expression_name: String, activate: bool = true, duration:
 	if expression_name.is_empty():
 		expression_controller.reset()
 	elif activate:
-		expression_controller.set("active/%s" % expression_name, true)
+		expression_controller.set("expressions/%s" % expression_name, true)
 	else:
-		expression_controller.set("active/%s" % expression_name, false)
+		expression_controller.set("expressions/%s" % expression_name, false)
 		
 
 ## save bidirectional vts compatible settings
