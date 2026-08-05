@@ -1,10 +1,13 @@
 [gd_scene format=3 uid="uid://bkm4lgw38g4di"]
 
+[ext_resource type="Script" uid="uid://bpxx757d1eu2u" path="res://lib/vtobject.gd" id="1_srq5n"]
 [ext_resource type="Script" uid="uid://d10aurevaucml" path="res://lib/model/debug.gd" id="3_nwsty"]
 [ext_resource type="Script" uid="uid://upm0dm5yhv7y" path="res://lib/model/parameters/parameter_mixer.gd" id="3_srq5n"]
 
 [node name="VtModel" type="Node2D" unique_id=572855347 groups=["persist", "vtmodel"]]
 texture_filter = 2
+script = ExtResource("1_srq5n")
+centered = true
 
 [node name="Debug" type="Node2D" parent="." unique_id=1097418190]
 unique_name_in_owner = true

@@ -75,7 +75,7 @@ func _build_hotkey_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint:
 				var e_name: String = hotkey.File
 				var duration = hotkey.FadeSecondsAmount * 1000.0
 				if hotkey.Action == "ToggleExpression":
-					output.expression = e_name
+					output.expression = e_name.trim_suffix(".exp3.json")
 				output.get_node("%Fade/Value").value = duration
 				output.position_offset = Vector2(x + _x, y)
 				_x += output.size.x + PAD
@@ -116,12 +116,16 @@ func _build_parameter_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint
 	var breathe: VtAction = graph.spawn_action(&"breathe", model)
 	var blink: VtAction = graph.spawn_action(&"blink", model)
 	var camera_tracker: VtAction = graph.spawn_action(&"tracking_input", model)
+	camera_tracker.name = "CameraTracker"
 	camera_tracker.kind = &"Camera"
 	var mic_tracker: VtAction = graph.spawn_action(&"tracking_input", model)
+	mic_tracker.name = "MicrophoneTracker"
 	mic_tracker.kind = &"Microphone"
 	var gamepad_tracker: VtAction = graph.spawn_action(&"tracking_input", model)
+	gamepad_tracker.name = "GamepadTracker"
 	gamepad_tracker.kind = &"Gamepad"
 	var kbm_tracker: VtAction = graph.spawn_action(&"tracking_input", model)
+	kbm_tracker.name = "KbmTracker"
 	kbm_tracker.kind = &"KBM"
 	
 	var model_output: VtAction = graph.spawn_action(&"model_output", model)

@@ -32,6 +32,12 @@ func _deserialize(graph: Blueprint, model: VtModel, data: Dictionary):
 		if id.is_empty():
 			continue
 		var n = graph.create_action(StringName(i.type))
+		if n == null:
+			push_error("invalid action type (%s), clearing graph" % i.type)
+			graph.clear_connections()
+			for c in graph.get_children():
+				c.queue_free()
+			return 
 		n.set_meta("id", i.get("id", rid_allocate_id()))
 		n.model = model
 		graph.add_child(n, true)
@@ -43,8 +49,18 @@ func _deserialize(graph: Blueprint, model: VtModel, data: Dictionary):
 		if i.src in graph.graph_elements and i.dst in graph.graph_elements:
 			var from_node: VtAction = graph.graph_elements[i.src]
 			var to_node: VtAction = graph.graph_elements[i.dst]
-			var src_port = from_node.get_output_port_by_name(i.src_slot)
-			var dst_port = to_node.get_input_port_by_name(i.dst_slot)
+			if from_node == null or to_node == null:
+				continue
+			var src_slot = "{0}".format([i.src_slot])
+			var dst_slot = "{0}".format([i.dst_slot])
+			var src_port = from_node.get_output_port_by_name(src_slot)
+			var dst_port = to_node.get_input_port_by_name(dst_slot)
+			if src_port == -1:
+				push_error("invalid slot in graph connection (node: {0}, src: {1})".format([from_node.name, src_slot]))
+				continue
+			if src_port == -1:
+				push_error("invalid slot in graph connection (node: {0}, dst: {1})".format([to_node.name, dst_slot]))
+				continue
 			graph._on_connection_request.call_deferred(
 				from_node.name, src_port,
 				to_node.name, dst_port

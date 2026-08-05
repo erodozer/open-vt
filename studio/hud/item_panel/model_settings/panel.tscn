@@ -66,16 +66,6 @@ Recommended when using Pixel Models"
 focus_mode = 0
 text = "Smooth Scaling"
 
-[node name="GenerateMipmaps" type="CheckButton" parent="PanelContainer/ScrollContainer/Accordion/Model Settings/VBoxContainer" unique_id=1755111029]
-unique_name_in_owner = true
-layout_mode = 2
-tooltip_text = "Reduces aliasing when scaling a model.  Increases VRAM usage on average by 33%.
-Disabled when using Nearest Filtering
-Recommended: On"
-focus_mode = 0
-button_pressed = true
-text = "Generate Mipmaps"
-
 [node name="PreserveTransform" type="CheckButton" parent="PanelContainer/ScrollContainer/Accordion/Model Settings/VBoxContainer" unique_id=619668540]
 unique_name_in_owner = true
 visible = false
@@ -154,8 +144,9 @@ theme_type_variation = &"SubPanelContainer"
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/ScrollContainer/Accordion/Mesh Settings" unique_id=1796698312]
 layout_mode = 2
 
-[node name="Search" parent="PanelContainer/ScrollContainer/Accordion/Mesh Settings/VBoxContainer" unique_id=1595392485 instance=ExtResource("4_26pn5")]
+[node name="Search" parent="PanelContainer/ScrollContainer/Accordion/Mesh Settings/VBoxContainer" unique_id=1595392485 node_paths=PackedStringArray("list") instance=ExtResource("4_26pn5")]
 layout_mode = 2
+list = NodePath("../ScrollContainer/MeshItems")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/ScrollContainer/Accordion/Mesh Settings/VBoxContainer" unique_id=1365973347]
 layout_mode = 2
@@ -167,9 +158,30 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="Part Settings" type="PanelContainer" parent="PanelContainer/ScrollContainer/Accordion" unique_id=682226300]
+custom_minimum_size = Vector2(0, 600)
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"SubPanelContainer"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/ScrollContainer/Accordion/Part Settings" unique_id=1434480828]
+layout_mode = 2
+
+[node name="Search" parent="PanelContainer/ScrollContainer/Accordion/Part Settings/VBoxContainer" unique_id=1218506196 node_paths=PackedStringArray("list") instance=ExtResource("4_26pn5")]
+layout_mode = 2
+list = NodePath("../ScrollContainer/PartItems")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/ScrollContainer/Accordion/Part Settings/VBoxContainer" unique_id=1869372894]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PartItems" type="VBoxContainer" parent="PanelContainer/ScrollContainer/Accordion/Part Settings/VBoxContainer/ScrollContainer" unique_id=335594906]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
 [connection signal="close_requested" from="." to="." method="_on_close_requested"]
 [connection signal="item_selected" from="PanelContainer/ScrollContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer/TextureFilter" to="." method="_on_texture_filter_item_selected"]
 [connection signal="toggled" from="PanelContainer/ScrollContainer/Accordion/Model Settings/VBoxContainer/SmoothScaling" to="." method="_on_smooth_scaling_toggled"]
-[connection signal="toggled" from="PanelContainer/ScrollContainer/Accordion/Model Settings/VBoxContainer/GenerateMipmaps" to="." method="_on_generate_mipmaps_toggled"]
 [connection signal="item_selected" from="PanelContainer/ScrollContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer2/IdleAnimation" to="." method="_on_idle_animation_item_selected"]
-[connection signal="text_changed" from="PanelContainer/ScrollContainer/Accordion/Mesh Settings/VBoxContainer/Search" to="." method="_on_search_text_changed"]

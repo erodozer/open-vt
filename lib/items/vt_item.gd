@@ -141,4 +141,4 @@ func _on_drag_pressed() -> void:
 	pin_changed.emit(null)
 
 func is_pinnable(mesh: Node):
-	return model.format_strategy.get_modifiers(mesh).get("Pin", {}).get("enabled", true)
+	return model.get("modifiers/meshes/%s/pinnable" % [mesh.name])

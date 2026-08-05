@@ -10,7 +10,6 @@ func _ready() -> void:
 	
 	Registry.add_parameter("MouthSmile", Vector2(0, 1))
 	Registry.add_parameter("MouthOpen", Vector2(0, 1))
-	Registry.add_parameter("MouthX", Vector2(-1, 1))
 	
 	Registry.add_parameter("Brows", Vector2(0, 1))
 	

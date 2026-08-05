@@ -27,7 +27,7 @@ func get_origin() -> Vector2:
 	return model.origin
 	
 func _get(property: StringName) -> Variant:
-	if property.begins_with("parameters/"):
+	if property.begins_with("parameters/") or property.begins_with("parts/"):
 		return model.get(property)
 	if property.begins_with("modifiers/parts/"):
 		var part_name = property.trim_prefix("modifiers/parts/")
@@ -43,7 +43,7 @@ func _get(property: StringName) -> Variant:
 	return null
 
 func _property_get_revert(property: StringName) -> Variant:
-	if property.begins_with("parameters/"):
+	if property.begins_with("parameters/") or property.begins_with("parts/"):
 		return model.property_get_revert(property)
 	if property.begins_with("modifiers/meshes/"):
 		var parts = property.trim_prefix("modifiers/meshes/").split("/")
@@ -62,7 +62,7 @@ func _property_get_revert(property: StringName) -> Variant:
 	return null
 
 func _set(property: StringName, value: Variant) -> bool:
-	if property.begins_with("parameters/"):
+	if property.begins_with("parameters/") or property.begins_with("parts/"):
 		model.set(property, value)
 		return true
 	if property.begins_with("modifiers/meshes"):
@@ -87,21 +87,30 @@ func _set(property: StringName, value: Variant) -> bool:
 		return true
 		
 	if property == "texture_filter":
-		if value == CanvasItem.TEXTURE_FILTER_NEAREST_WITH_MIPMAPS:
-			container.model = model
-		else:
-			model.reparent(self, false)
-			model.position = model.origin
-			container.model = null
+		texture_filter = value
+		_adjust_filter()
 		return true
+
 	return false
+		
+func _adjust_filter():
+	if texture_filter == CanvasItem.TEXTURE_FILTER_NEAREST_WITH_MIPMAPS_ANISOTROPIC and smoothing:
+		container.model = model
+	else:
+		model.reparent(self, false)
+		container.model = null
 		
 func _get_property_list() -> Array[Dictionary]:
 	var properties: Array[Dictionary] = []
 	var base_properties = model.get_property_list()
 	
-	var parts = Collections.extract_property_name(base_properties, "parts/")
-	for part in parts:
+	for part in Collections.select(base_properties, "name", RegEx.create_from_string("^parts/")):
+		properties.append(part)
+	
+	for param in Collections.select(base_properties, "name", RegEx.create_from_string("^parameters/")):
+		properties.append(param)
+	
+	for part in Collections.extract_property_name(base_properties, "parts/"):
 		properties.append({
 			"name": "modifiers/parts/%s/opacity",
 			"type": TYPE_FLOAT,
@@ -109,8 +118,11 @@ func _get_property_list() -> Array[Dictionary]:
 			"hint_string": "rgba",
 			"usage": PropertyUsageFlags.PROPERTY_USAGE_STORAGE | PropertyUsageFlags.PROPERTY_USAGE_EDITOR
 		})
-	
+		
 	for mesh in get_meshes():
+		if (mesh as MeshInstance2D).mesh.get_surface_count() <= 0:
+			continue
+		
 		var n = mesh.name
 		properties.append({
 			"name": "modifiers/meshes/%s/screen_color" % [mesh.name],
@@ -137,8 +149,6 @@ func _get_property_list() -> Array[Dictionary]:
 			"type": TYPE_NODE_PATH,
 			"usage": PropertyUsageFlags.PROPERTY_USAGE_STORAGE | PropertyUsageFlags.PROPERTY_USAGE_EDITOR
 		})
-		
-	properties.append_array(base_properties)
 	
 	return properties
 	
@@ -159,6 +169,8 @@ func _build_model():
 	await get_tree().process_frame # wait for the model to initialize
 	
 	for m in get_meshes():
+		if (m as MeshInstance2D).mesh.get_surface_count() <= 0:
+			continue
 		var center = Math.v32xy(Math.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
 		m.set_meta("centroid", center)
 		m.set_meta("start_centroid", center)
@@ -170,9 +182,13 @@ func _build_model():
 	idle_anim.add_animation_library("", anim_lib)
 	
 	# emotion controller
-	#var expression_library = AyagamiLoader.load_expression_library(modelmeta.model.get_base_dir())
+	var expression_library = AyagamiLoader.load_expression_library(modelmeta.model.get_base_dir())
 	var expression_controller: AyagamiExpressionMutator = model.get_node("ExpressionController")
-	#expression_controller.expressions = expression_library
+	expression_controller.expressions = expression_library.keys()
+	for e in expression_library.keys():
+		var group = expression_library[e]
+		if group != "":
+			expression_controller.set("expression_groups/%s" % e.get_name(), group)
 	
 	# add ONE_SHOT animation player
 	var os_lib = AnimationLibrary.new()
@@ -184,17 +200,21 @@ func _build_model():
 	var one_shot = AyagamiMotionMutator.new()
 	one_shot.add_animation_library("", os_lib)
 	one_shot.name = "OneshotMotionController"
-	#model.add_child(one_shot)
+	model.add_child(one_shot)
 	
 	#var physics = GDCubismEffectPhysics.new()
 	#loaded_model.add_child(physics)
 	#physics.name = "Physics"
 	
 	var vtube_data = Files.read_json(modelmeta.studio_parameters)
+	var ovt_data = Files.read_json(modelmeta.openvt_parameters)
 	var model_data = Files.read_json(modelmeta.model)
 	
 	var mesh_details = vtube_data.get("ArtMeshDetails", {})
 	for m in get_meshes():
+		if (m as MeshInstance2D).mesh.get_surface_count() <= 0:
+			continue
+		
 		set("modifiers/%s/pinnable" % [m.name], m.name not in mesh_details.get("ArtMeshesExcludedFromPinning", []))
 
 		var center = Math.v32xy(Math.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
@@ -203,10 +223,9 @@ func _build_model():
 					
 	await get_tree().process_frame
 	
-	on_filter_update(filter)
-	
-	position = -model.size / 2 # align to top-left
+	model.position = Vector2.ZERO
 	size = model.size
+	centered = true
 			
 	return true
 
@@ -233,17 +252,7 @@ func tracking_updated(tracking_data: Dictionary, _delta: float):
 		)
 	)
 	var movement = moved * movement_scale
-	scale = Vector2.ONE + (Vector2.ONE * movement.z)
-	
-func on_filter_update(filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS, smoothing = false):
-	model.texture_filter = filter
-		
-	if smoothing and filter == CanvasItem.TEXTURE_FILTER_NEAREST_WITH_MIPMAPS:
-		container.model = model
-	else:
-		model.reparent(self, false)
-		model.position = Vector2.ZERO
-		container.model = null
+	model.scale = Vector2.ONE + (Vector2.ONE * movement.z)
 
 func get_texture() -> Texture2D:
 	if container is SubViewportContainer:
@@ -256,3 +265,17 @@ func get_idle_animation_player() -> AnimationPlayer:
 func get_animation_player() -> AnimationPlayer:
 	return model.get_node("OneshotMotionController")
 	
+func get_expression_controller() -> AyagamiExpressionMutator:
+	return model.get_node("ExpressionController")
+
+func toggle_expression(expression_name: String, activate: bool = true, duration: float = 1.0, exclusive: bool = false):
+	var expression_controller = get_expression_controller()
+	if expression_controller == null:
+		return
+	if expression_name.is_empty():
+		expression_controller.reset()
+	elif activate:
+		expression_controller.set("active/%s" % expression_name, true)
+	else:
+		expression_controller.set("active/%s" % expression_name, false)
+		

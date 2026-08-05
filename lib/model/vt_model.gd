@@ -18,7 +18,10 @@ var motions: Array :
 			return []
 		return anim.get_animation_list()
 
-var filter: CanvasItem.TextureFilter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+@export var smoothing: bool = false :
+	set(v):
+		smoothing = v
+		_adjust_filter()
 
 var blueprints: Array :
 	get():
@@ -70,22 +73,11 @@ func _load_model():
 	
 	BlueprintManager.register_graph(self)
 		
-func toggle_expression(expression_name: String, activate: bool = true, duration: float = 1.0, exclusive: bool = false):
-	var expression_controller = get_node("ExpressionController")
-	if expression_controller == null:
-		return
-	if expression_name.is_empty():
-		expression_controller.clear(duration)
-	elif activate:
-		if exclusive:
-			expression_controller.clear(duration)
-		expression_controller.activate_expression(expression_name, duration)
-	else:
-		expression_controller.deactivate_expression(expression_name, duration)
-		
 @abstract func get_idle_animation_player() -> AnimationPlayer
 @abstract func get_animation_player() -> AnimationPlayer
 @abstract func tracking_updated(tracking_data: Dictionary, _delta: float)
+func _adjust_filter():
+	pass
 	
 func hydrate(_settings: Dictionary):
 	await _load_model()
@@ -166,14 +158,15 @@ func _load_from_vts():
 ## load open-vt specific settings
 func _load_settings():
 	var model_preferences = Files.read_json(modelmeta.openvt_parameters)
-	scale = Vector2.ONE * model_preferences.get("transform", {}).get(
+	self.scale = Vector2.ONE * model_preferences.get("transform", {}).get(
 		"scale", 
 		clampf(get_viewport_rect().size.y / size.y, 0.001, 2.0)
 	)
-	rotation_degrees = model_preferences.get("transform", {}).get("rotation", 0)
-	texture_filter = TEXTURE_FILTER_NEAREST_WITH_MIPMAPS if model_preferences.get("quality", {}).get("filter", "linear") == "nearest" else TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
-	
-	position = Serializers.Vec2Serializer.from_json(
+	self.rotation_degrees = model_preferences.get("transform", {}).get("rotation", 0)
+	self.texture_filter = TEXTURE_FILTER_NEAREST_WITH_MIPMAPS_ANISOTROPIC if model_preferences.get("quality", {}).get("filter", "linear") == "nearest" else TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+	self.smoothing = model_preferences.get("quality", {}).get("smoothing", false)
+		
+	self.position = Serializers.Vec2Serializer.from_json(
 		model_preferences.get("transform", {}).get("position", {}),
 		get_viewport_rect().get_center()
 	)
@@ -186,7 +179,7 @@ func save_settings(_settings: Dictionary):
 	
 	var model_data  = {
 		"quality": {
-			"filter": "nearest" if self.texture_filter != TEXTURE_FILTER_LINEAR_WITH_MIPMAPS else "linear",
+			"filter": "nearest" if self.texture_filter != TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC else "linear",
 		},
 		"transform": {
 			"position": Serializers.Vec2Serializer.to_json(self.position),

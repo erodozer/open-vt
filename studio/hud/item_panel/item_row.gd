@@ -130,7 +130,7 @@ func _on_reset_fps_pressed() -> void:
 
 func _on_expression_pressed() -> void:
 	var popup = load("res://studio/hud/item_panel/expression_selector/expression_selector.tscn").instantiate()
-	popup.item = item
+	popup.item = model
 	add_child(popup)
 
 func _on_pin_target_pressed() -> void:

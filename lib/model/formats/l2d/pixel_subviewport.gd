@@ -11,22 +11,19 @@ const MAX_QUALITY = Vector2(4096, 4096)
 			viewport.size = Vector2i.ONE
 			if model != null:
 				model.scale = Vector2.ONE
-				model.position = model.origin
+				model.position = Vector2.ZERO
 				model = m
 			return
 			
 		model = m
 		model.reparent(viewport, false)
-		model.position = Vector2.ZERO
-		model.scale = Vector2.ONE
+		model.position = model.size / 2
 		var canvas_size: Vector2 = Vector2(model.get_size())
 		var scaled = canvas_size
 		var ratio = Vector2.ONE
 		if canvas_size.x > MAX_QUALITY.x || canvas_size.y > MAX_QUALITY.y:
 			ratio = Vector2.ONE * min(MAX_QUALITY.x / canvas_size.x, MAX_QUALITY.y / canvas_size.y)
 			scaled = canvas_size * ratio
-			model.scale *= ratio
 		viewport.size = scaled
-		model.position = scaled / 2
+		viewport.canvas_transform = Transform2D(0, ratio, 0, Vector2.ZERO)
 		scale = Vector2.ONE / ratio
-		

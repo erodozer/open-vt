@@ -5,6 +5,7 @@ PROJ_ROOT=$(pwd)
 # scons is needed for cpp extensions
 pyenv local 3.13
 pip install pipx scons --quiet
+TARGET="${target:-x86_64-unknown-linux-gnu}"
 	
 build_ayagami () {
 	echo -e "\n#### Preparing ayagami-gd\n\n"
@@ -16,7 +17,7 @@ build_ayagami () {
 	
 	cd $WORKDIR
 	
-	make package
+	make package target=$TARGET
 	cp -r $WORKDIR/addons/ayagami $ADDONDIR
 
 	cp $WORKDIR/LICENSE $PROJ_ROOT/license/LICENSE.ayagami.md

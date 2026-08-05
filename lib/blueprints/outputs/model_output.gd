@@ -83,7 +83,7 @@ func get_input_slot_by_port(port: int) -> int:
 	return port
 	
 func get_input_port_by_name(slot: StringName) -> int:
-	return ports[slot.to_lower()]
+	return ports.get(slot.to_lower(), -1)
 
 func get_output_slot_by_port(port: int) -> int:
 	return -1

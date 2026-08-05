@@ -26,7 +26,9 @@ static var palette: Dictionary[StringName, PackedScene] = _action_types.reduce(
 )
 
 static func create_action(type: StringName) -> VtAction:
-	return palette[type].instantiate()
+	if type in palette:
+		return palette[type].instantiate()
+	return null
 	
 func spawn_action(action_type, model: VtModel) -> VtAction:
 	var node: VtAction

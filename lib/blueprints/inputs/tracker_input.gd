@@ -9,9 +9,7 @@ var kind = &"Camera" :
 	set(g):
 		kind = g
 		self.title = "%s Tracking" % [g]
-		for c in get_children():
-			c.queue_free()
-			
+		
 		var i = 0
 		for p in Registry.parameters_in_group(g):
 			var box = VBoxContainer.new()

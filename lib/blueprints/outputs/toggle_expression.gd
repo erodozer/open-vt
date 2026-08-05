@@ -6,18 +6,21 @@ var expression: String = "" :
 	set(e):
 		expression = e
 		if input:
-			var expressions = model.expression_controller.expression_library.keys()
-			var idx = expressions.find(e) + 1
+			var expressions = model.get_expression_controller().expressions
+			var idx = expressions.find_custom(func (x): return x.get_name() == e) + 1
 			input.select(idx)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	var expressions = model.expressions
+	var controller = model.get_expression_controller()
+	var expressions = model.get_expression_controller().expressions
 	for m in expressions:
-		input.add_item(m)
+		var name = m.get_name()
+		input.add_item(name)
 		input.set_item_metadata(input.item_count - 1, m)
-		%Active.button_pressed = model.expression_controller.is_activated(m)
-		if expression == m:
+		var active = controller.is_activated(name)
+		%Active.button_pressed = active
+		if expression == name:
 			input.selected = input.item_count - 1
 
 func get_type() -> StringName:
@@ -66,7 +69,7 @@ func invoke_trigger(slot: int) -> void:
 	if expression.is_empty():
 		activate = false
 	elif slot == 0:
-		activate = not model.expression_controller.is_activated(StringName(expression))
+		activate = not model.get_expression_controller().is_activated(StringName(expression))
 	elif slot == 1:
 		activate = true
 	elif slot == 2:
@@ -75,8 +78,7 @@ func invoke_trigger(slot: int) -> void:
 	model.toggle_expression(
 		expression,
 		activate,
-		%Fade/Value.value / 1000.0,
-		%Exclusive.button_pressed
+		%Fade/Value.value / 1000.0
 	)
 	%Active.button_pressed = activate
 

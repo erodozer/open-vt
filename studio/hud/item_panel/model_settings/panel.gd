@@ -1,5 +1,6 @@
 extends Window
 
+const Collections = preload("res://lib/utils/collections.gd")
 const VtModel = preload("res://lib/model/vt_model.gd")
 const Stage = preload("res://studio/stage/stage.gd")
 
@@ -22,6 +23,15 @@ func _ready():
 		control.mesh = mesh as Node
 		control.name = mesh.name
 		meshes.add_child(control)
+		
+	for part in Collections.select(model.get_property_list(), "name", RegEx.create_from_string("^parts/")):
+		var control = preload("./part_setting.tscn").instantiate()
+		var part_name = part.name.trim_prefix("parts/")
+		control.model = model
+		control.part = part_name
+		control.name = part_name
+		%PartItems.add_child(control)
+		
 	# _model.renderer.transform_updated.connect(_update_transform)
 		
 	%IdleAnimation.clear()
@@ -63,19 +73,14 @@ func _move_model(_value):
 func _on_texture_filter_item_selected(index: int) -> void:
 	match index:
 		0:
-			model.filter = CanvasItem.TextureFilter.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+			model.texture_filter = CanvasItem.TextureFilter.TEXTURE_FILTER_NEAREST_WITH_MIPMAPS_ANISOTROPIC
 			%SmoothScaling.disabled = false
-			%GenerateMipmaps.disabled = true
 		_:
-			model.filter = CanvasItem.TextureFilter.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+			model.texture_filter = CanvasItem.TextureFilter.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 			%SmoothScaling.disabled = true
-			%GenerateMipmaps.disabled = false
 
 func _on_smooth_scaling_toggled(toggled_on: bool) -> void:
 	model.smoothing = toggled_on
-
-func _on_generate_mipmaps_toggled(toggled_on: bool) -> void:
-	model.mipmaps = toggled_on
 
 func _on_idle_animation_item_selected(index: int) -> void:
 	if index <= 0:
@@ -91,11 +96,6 @@ func _on_movement_lock_button_toggled(toggled_on: bool) -> void:
 	%Movement/XValue.editable = !toggled_on
 	%Movement/YValue.editable = !toggled_on
 	%Movement/ZValue.editable = !toggled_on
-
-func _on_search_text_changed(new_text: String) -> void:
-	var search = new_text.to_lower().strip_edges()
-	for i in meshes.get_children():
-		i.visible = i.name.to_lower().contains(search) or search.is_empty()
 
 func _on_close_requested() -> void:
 	queue_free()

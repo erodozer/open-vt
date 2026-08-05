@@ -1,9 +1,7 @@
 extends Control
 
-var items: Array[Node] = []:
-	set(_i):
-		items = _i
-		do_filter()
+
+@export var list: Node
 
 var text: String :
 	get():
@@ -18,7 +16,7 @@ func _ready():
 
 func do_filter():
 	var _txt = text
-	for item in items:
+	for item in list.get_children():
 		var i: String
 		if "text" in item:
 			i = item.text
@@ -26,6 +24,7 @@ func do_filter():
 			i = item.get_meta("text")
 		else:
 			i = item.name
+		# TODO replace this with fuzzy search in Godot 4.8
 		var text_matches = i.to_lower().contains(_txt) if not _txt.is_empty() else true
 		item.visible = text_matches
 

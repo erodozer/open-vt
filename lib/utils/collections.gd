@@ -9,6 +9,12 @@ static func extract_property_name(collection: Array, pattern: String):
 			return v.name.trim_prefix(pattern)
 	)
 		
+static func select(collection: Array, field: String, pattern: RegEx):
+	return collection.filter(
+		func (v):
+			return pattern.search(v.get(field)) != null
+	)
+
 
 ## fetch values from nested dictionaries using dot-path traversal
 static func path(dict: Dictionary, key: String, defaultValue: Variant = null) -> Variant:
