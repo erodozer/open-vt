@@ -48,7 +48,7 @@ stretch = true
 [node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer" unique_id=980610513]
 unique_name_in_owner = true
 transparent_bg = true
-handle_input_locally = false
+handle_input_locally = true
 msaa_2d = 2
 screen_space_aa = 1
 use_taa = true

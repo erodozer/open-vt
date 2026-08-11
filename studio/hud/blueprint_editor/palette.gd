@@ -14,6 +14,7 @@ func _ready():
 		var template: PackedScene = i.get_meta("action") 
 		var action: VtAction = template.instantiate()
 		_mapping[action.get_type()] = template
+		action.free()
 		if i is MenuButton:
 			i.get_popup().id_pressed.connect(
 				func (x):

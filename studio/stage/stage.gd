@@ -11,6 +11,7 @@ const INDEX_RANGE = 30
 var active_model: VtModel
 @onready var canvas = %ModelLayer
 @onready var capture_viewport = %SubViewport
+var _last_viewport_size := Vector2.ZERO
 
 signal model_changed(model: VtModel)
 signal item_added(item: VtItem)
@@ -155,11 +156,34 @@ func load_settings(data):
 func save_settings(data):
 	if active_model != null and active_model.modelmeta != null:
 		data["active_model"] = active_model.modelmeta.id
+	# window.transparent is owned by camera_panel (Bg.visible is the inverse)
 	
-	var window_settings = data.get("window", {})
-	window_settings["transparent"] = %Bg.visible
-	data["window"] = window_settings
-	
+func _ready() -> void:
+	_last_viewport_size = Vector2(capture_viewport.size)
+	capture_viewport.size_changed.connect(_on_capture_viewport_size_changed)
+
+func _on_capture_viewport_size_changed() -> void:
+	var new_size := Vector2(capture_viewport.size)
+	if _last_viewport_size == Vector2.ZERO:
+		_last_viewport_size = new_size
+		return
+	if new_size == _last_viewport_size or _last_viewport_size.y <= 0.0:
+		_last_viewport_size = new_size
+		return
+
+	# Keep model/items framed relative to viewport center as the SubViewport grows
+	# (e.g. maximize). Uniform scale by height matches VTS-style vertical framing.
+	var factor := new_size.y / _last_viewport_size.y
+	var old_center := _last_viewport_size * 0.5
+	var new_center := new_size * 0.5
+	for child in canvas.get_children():
+		if child is Node2D or child is Control:
+			var offset: Vector2 = child.position - old_center
+			child.position = new_center + offset * factor
+			child.scale *= factor
+
+	_last_viewport_size = new_size
+
 func _on_model_layer_child_order_changed() -> void:
 	for i in canvas.get_children():
 		i.sort_order = i.get_index()

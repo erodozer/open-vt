@@ -56,31 +56,29 @@ func _update_rect():
 
 func _handle_mouse_button_down(event: InputEventMouseButton):
 	var dirty = false
-	
-	# check for simultaneous inputs to perform different actions
-	if dragging:
+	var is_wheel = event.button_index == MOUSE_BUTTON_WHEEL_UP \
+		or event.button_index == MOUSE_BUTTON_WHEEL_DOWN
+
+	# Hover+scroll zooms (or Shift+scroll rotates). Drag is not required.
+	if is_wheel:
 		if Input.is_key_pressed(KEY_SHIFT):
 			var s: float = 0.0
 			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 				s = 5.0
-				dirty = true
 			elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 				s = -5.0
-				dirty = true
-			
 			rotation = wrapf(rotation + (PI / 360.0 * s), 0, 2 * PI)
+			dirty = true
 		else:
 			var s: float = 0.0
 			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-				s = 0.01
-				dirty = true
+				s = 0.05
 			elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-				s = -0.01
-				dirty = true
+				s = -0.05
 			scale += Vector2(s, s)
 			scale = clamp(scale, Vector2(0.01, 0.01), Vector2(5.0, 5.0))
-		
-	if event.button_index == MOUSE_BUTTON_LEFT:
+			dirty = true
+	elif event.button_index == MOUSE_BUTTON_LEFT:
 		dragging = true
 		drag_pressed.emit()
 	

@@ -13,10 +13,19 @@ static func walk_files(dir: String, extension: String) -> Array[String]:
 
 ## safely parses JSON data from a file
 static func read_json(filepath: String) -> Dictionary:
+	if not FileAccess.file_exists(filepath):
+		return {}
+
 	var file = FileAccess.get_file_as_string(filepath)
+	if file.strip_edges().is_empty():
+		return {}
+
 	var data = JSON.parse_string(file)
 	if data == null:
 		push_error("Unable to parse JSON from file: ", filepath)
+		return {}
+	if not data is Dictionary:
+		push_error("Expected a JSON object in file: ", filepath)
 		return {}
 	return data
 

@@ -145,12 +145,18 @@ func _on_smooth_scaling_toggled(toggled_on: bool) -> void:
 	model.smoothing = toggled_on
 
 func _on_idle_animation_item_selected(index: int) -> void:
+	var player = model.get_idle_animation_player()
 	if index <= 0:
-		model.get_idle_animation_player().stop()
-		model.get_idle_animation_player().play("RESET")
-		
+		player.stop()
+		if player.has_animation("RESET"):
+			player.play("RESET")
+		return
+
 	var anim = %IdleAnimation.get_item_text(index)
-	model.get_idle_animation_player().play(anim)
+	if not player.has_animation(anim):
+		push_warning("Idle animation not found: %s" % anim)
+		return
+	player.play(anim)
 
 func _on_movement_lock_button_toggled(toggled_on: bool) -> void:
 	model.movement_enabled = !toggled_on

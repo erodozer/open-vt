@@ -21,6 +21,7 @@ static var palette: Dictionary[StringName, PackedScene] = _action_types.reduce(
 	func (acc, template: PackedScene):
 		var action = template.instantiate() as VtAction
 		acc[action.get_type()] = template
+		action.free()
 		return acc,
 	{} as Dictionary[StringName, PackedScene]
 )

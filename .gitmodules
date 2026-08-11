@@ -9,7 +9,7 @@
 	url = https://github.com/erodozer/gd-virtualcamera.git
 [submodule "thirdparty/ayagami"]
 	path = thirdparty/ayagami
-	url = https://github.com/AyagamiDev/ayagami-gd.git
+	url = https://github.com/erynlindensson/ayagami-gd.git
 [submodule "thirdparty/godot-vrm"]
 	path = thirdparty/godot-vrm
 	url = https://github.com/V-Sekai/godot-vrm.git

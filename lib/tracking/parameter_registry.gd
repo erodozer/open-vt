@@ -40,7 +40,8 @@ func add_parameter(parameter_name: StringName, value_range: Vector2 = Vector2(0,
 		"default_value": default
 	}
 	var params = _groups.get_or_add(group, [])
-	params.append(parameter_name)
+	if parameter_name not in params:
+		params.append(parameter_name)
 	_groups[group] = params
 	_dirty = true
 	# debounce changes
