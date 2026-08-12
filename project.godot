@@ -15,6 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="open-vt"
+config/version="0.1.0"
 run/main_scene="res://studio/studio.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 run/max_fps=60
