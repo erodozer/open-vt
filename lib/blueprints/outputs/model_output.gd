@@ -9,6 +9,13 @@ var bindings = {}
 var binding_display = {}
 var _dirty = false
 var _refresh = false
+
+## only allow one model output per graph
+func can_spawn(graph: GraphEdit) -> bool:
+	return not graph.find_children("*", "VtAction", false).any(
+		func (n):
+			return n.get_type() == self.get_type()
+	)
 	
 # Called when the node enters the scene tree for the first time.
 func set_model(m: VtModel):

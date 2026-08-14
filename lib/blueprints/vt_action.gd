@@ -1,4 +1,5 @@
-@abstract extends GraphNode
+@abstract
+class_name VtAction extends GraphNode
 
 const VtModel = preload("res://lib/model/vt_model.gd")
 
@@ -35,6 +36,12 @@ func get_value(slot: int) -> Variant:
 	
 func invoke_trigger(slot: int):
 	pass
+	
+## Checks a graph and returns if the action can be spawned.  
+## Typically this is used to control if only a single instance of the Action
+## should exist in a Blueprint
+func can_spawn(graph: GraphEdit) -> bool:
+	return true
 
 @abstract func deserialize(data: Dictionary) -> void
 

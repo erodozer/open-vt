@@ -70,6 +70,12 @@ func _ready() -> void:
 	if tracking:
 		tracking.parameters_updated.connect(_on_parameters_updated)
 
+func can_spawn(graph: GraphEdit):
+	return not graph.find_children("*", "VtAction", false).any(
+		func (n):
+			return n.get_type() == self.get_type() and n.kind == self.kind
+	)
+
 func get_type() -> StringName:
 	return &"tracking_input"
 	

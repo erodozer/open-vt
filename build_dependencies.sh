@@ -2,9 +2,6 @@
 
 PROJ_ROOT=$(pwd)
 
-# scons is needed for cpp extensions
-pyenv local 3.13
-pip install pipx scons --quiet
 TARGET="${target:-x86_64-unknown-linux-gnu}"
 	
 build_ayagami () {

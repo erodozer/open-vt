@@ -41,6 +41,9 @@ func spawn_action(action_type, model: VtModel, id: String = "") -> VtAction:
 	if node == null:
 		return null
 		
+	if not node.can_spawn(self):
+		return null
+		
 	node.graph = self
 	node.model = model
 	
@@ -49,6 +52,7 @@ func spawn_action(action_type, model: VtModel, id: String = "") -> VtAction:
 	node.set_meta("id", id)
 		
 	add_child(node, true)
+	node.owner = self
 	node.position_offset = (scroll_offset + size / 2) / zoom - node.size / 2
 	return node
 

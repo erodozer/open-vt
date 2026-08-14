@@ -181,7 +181,7 @@ func id() -> StringName:
 ## given a L2D model, create a blueprint using the standard parameter list
 ## https://docs.live2d.com/en/cubism-editor-manual/standard-parameter-list/
 func load_graph(model: VtModel) -> Array[Blueprint]:
-	if model.model.format != "l2d":
+	if model.modelmeta.format != preload("res://lib/model/formats/l2d/model_loader.gd").new().model_format():
 		return []
 	
 	var graph = BlueprintTemplate.instantiate()
@@ -189,55 +189,46 @@ func load_graph(model: VtModel) -> Array[Blueprint]:
 	
 	var breathe = graph.spawn_action(&"breathe", model)
 	var blink = graph.spawn_action(&"blink", model)
+	var input = graph.spawn_action(&"tracking_input", model)
+	input.kind = &"Camera"
+	
+	var output = graph.spawn_action(&"model_output", model)
 	
 	breathe.position_offset = Vector2(-500, 0)
 	blink.position_offset = Vector2(-500, 250)
 	
-	var column_width = 0
-	var x = 0
+	var x = 500
 	var y = 0
 	for input_parameter in DEFAULT_BINDINGS:
+		var input_slot = input.get_output_port_by_name(input_parameter)
+		if input_slot < 0:
+			continue
+		
 		for output_parameter in DEFAULT_BINDINGS[input_parameter]:
-			if StringName(output_parameter.name) not in model.parameters:
+			var _input = input
+			var _input_slot = input_slot
+			var output_slot = output.get_input_port_by_name(output_parameter.name)
+			if output_slot < 0:
 				continue
 			
-			var input = graph.spawn_action(&"tracking_parameter", model)
-			var output = graph.spawn_action(&"model_parameter", model)
-			var _x = x
-		 
-			input.parameter = input_parameter
-			input.clamp_range = Registry[input_parameter].range
-			output.parameter = model.parameters.keys().find(output_parameter.name)
-			output.clamp_range = output_parameter.value_range
-			input.position_offset = Vector2(x, y)
-			_x += input.size.x + spacing
-		
 			if output_parameter.get("smoothing", 0) > 0:
 				var smoothing = graph.spawn_action(&"smoothing", model)
 				
 				smoothing.smoothing = output_parameter.get("smoothing", 0) / 100.0
 				graph._on_connection_request(
-					input.name, 0, smoothing.name, 0
+					input.name, input_slot, smoothing.name, 0
 				)
-				smoothing.position_offset = Vector2(_x, y)
-				_x += smoothing.size.x + spacing
-				input = smoothing
+				smoothing.position_offset = Vector2(x, y)
+				_input = smoothing
+				_input_slot = 0
+				y += output.size.y + 96
 			
-			if input != null:
-				graph._on_connection_request(
-					input.name, 0, output.name, 0
-				)
+			graph._on_connection_request(
+				_input.name, _input_slot, output.name, output_slot
+			)
 			
-			output.position_offset = Vector2(_x, y)
-			y += output.size.y + 96
-			_x += output.size.x + 120
-				
-			column_width = max(column_width, _x + 200)
-				
-			if y > 2000:
-				x += column_width - x
-				y = 0
-				column_width = 0
+	output.position_offset = Vector2(x + 500, 0)
+
 	return [
 		graph
 	]
