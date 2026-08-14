@@ -31,6 +31,25 @@ theme_type_variation = &"SubPanelContainer"
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/Accordion/Application Settings" unique_id=2115127700]
 layout_mode = 2
 
+[node name="HBoxContainer5" type="HBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer" unique_id=1326649490]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer5" unique_id=969849029]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "UI Theme"
+
+[node name="UITheme" type="OptionButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer5" unique_id=28770420]
+unique_name_in_owner = true
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "Automata (Default)"
+popup/item_0/id = 0
+popup/item_1/text = "Dark"
+popup/item_1/id = 1
+
 [node name="HBoxContainer3" type="HBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer" unique_id=41078559]
 layout_mode = 2
 
@@ -184,6 +203,7 @@ theme_type_variation = &"SubPanelContainer"
 unique_name_in_owner = true
 layout_mode = 2
 
+[connection signal="item_selected" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer5/UITheme" to="." method="_on_ui_theme_item_selected"]
 [connection signal="item_selected" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer3/FPS" to="." method="_on_fps_value_item_selected"]
 [connection signal="toggled" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer2/TransparencyToggle" to="." method="_on_transparency_toggle_toggled"]
 [connection signal="toggled" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer4/MicrophoneToggle" to="." method="_on_microphone_toggle_toggled"]

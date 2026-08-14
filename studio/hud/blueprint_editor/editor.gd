@@ -26,6 +26,8 @@ var active_graph: Blueprint :
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	get_viewport().gui_embed_subwindows = true
+	
 	for i in %Profiles.get_children():
 		i.queue_free()
 	
@@ -58,6 +60,10 @@ func _ready() -> void:
 				%Profiles.add_child(graph, true)
 			%Profiles.current_tab = %Profiles.get_tab_count() - 1
 	)
+	
+	%EditPopup.theme = get_tree().root.theme
+	%EditPopup.add_button("Delete", true, "Delete")
+	%EditPopup.add_cancel_button("Cancel")
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
@@ -78,18 +84,6 @@ func save_settings(model_data: Dictionary):
 		graphs[i.name] = i.serialize()
 		
 	model_data["graphs"] = graphs
-	
-func _on_profile_name_text_changed(new_text: String) -> void:
-	active_graph.name = new_text
-	
-func _on_profile_enabled_toggled(toggled_on: bool) -> void:
-	active_graph.process_mode = PROCESS_MODE_INHERIT if toggled_on else PROCESS_MODE_DISABLED
-
-func _on_delete_profile_pressed() -> void:
-	if active_graph == null:
-		return
-	%DeleteConfirmation.dialog_text = "Delete Profile %s\nThis action is Permanent" % active_graph.name
-	%DeleteConfirmation.show()
 
 func _on_palette_create_node(action: VtAction) -> void:
 	active_graph.spawn_action(action, active_model)
@@ -98,11 +92,31 @@ func _on_close_requested() -> void:
 	queue_free()
 
 func _on_profiles_tab_selected(_tab: int) -> void:
-	%ProfileName.text = %Profiles.get_current_tab_control().name
-	%ProfileEnabled.set_pressed_no_signal(
-		%Profiles.get_current_tab_control().process_mode != PROCESS_MODE_DISABLED
-	)
+	reset_edit_popup()
+	
+func reset_edit_popup():
+	var current_tab = %Profiles.get_current_tab_control()
+	if current_tab:
+		%ProfileName.text = %Profiles.get_current_tab_control().name
+		%ProfileEnabled.set_pressed_no_signal(
+			%Profiles.get_current_tab_control().process_mode != PROCESS_MODE_DISABLED
+		)
 
-func _on_delete_confirmed() -> void:
-	active_graph.queue_free()
-	await get_tree().process_frame
+func _on_edit_popup_custom_action(action: StringName) -> void:
+	if action == "Delete":
+		var g = active_graph
+		%Profiles.remove_child(g)
+		g.queue_free()
+	%EditPopup.hide()
+
+func _on_edit_popup_confirmed() -> void:
+	active_graph.name = %ProfileName.text
+	active_graph.process_mode = PROCESS_MODE_INHERIT if %ProfileEnabled.button_pressed else PROCESS_MODE_DISABLED
+
+func _on_profiles_tab_clicked(_tab: int) -> void:
+	if %TabClickTimer.time_left > 0:
+		%EditPopup.position = Vector2i(get_visible_rect().size / 2) + (%EditPopup.size / 2)
+		reset_edit_popup()
+		%EditPopup.show()
+	else:
+		%TabClickTimer.start()

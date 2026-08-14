@@ -17,7 +17,6 @@ func _ready():
 		%Meshes.add_child(btn)
 	
 	%Meshes.get_child(0).button_pressed = true
-	%Search.items = %Meshes.get_children()
 
 func _make_btn(m: MeshInstance2D):
 	var btn = Button.new()

@@ -11,10 +11,13 @@ func _ready():
 	stage.model_changed.connect(_on_stage_model_changed)
 	stage.item_added.connect(_on_stage_item_added)
 	stage.item_removed.connect(_on_stage_item_removed)
-
-func _on_directory_button_pressed() -> void:
-	OS.shell_open(ProjectSettings.globalize_path(ItemManager.FILE_DIR))
 	
+	for fmt in ModelManager.formats.values():
+		%FileDialog.add_filter(
+			"*%s" % [fmt.supported_extension()],
+			fmt.model_format()
+		)
+
 func setup():
 	for i in stage.objects:
 		_on_stage_item_added(i)
@@ -62,11 +65,7 @@ func _on_stage_update_order(objects: Array[Node]) -> void:
 				%StageItems.move_child(c, i)
 
 func _on_add_button_pressed() -> void:
-	if not stage.active_model:
-		return
-	
-	var popup = preload("./item_selector/item_selector.tscn").instantiate()
-	add_child(popup)
+	%FileDialog.show()
 	
 func _on_clear_button_pressed() -> void:
 	stage.clear_items()
@@ -74,3 +73,16 @@ func _on_clear_button_pressed() -> void:
 func _on_load_button_pressed() -> void:
 	var popup = preload("./scene_selector/scene_selector_popup.tscn").instantiate()
 	add_child(popup)
+
+func _on_file_dialog_files_selected(paths: PackedStringArray) -> void:
+	# validate all paths are of the same type
+	# also only support this for PNG types
+	if len(paths) > 1:
+		for p in paths:
+			assert(p.ends_with(".png"), "only selecting multiple PNG paths is supported")
+	
+	var item = await ItemManager.create_item(paths)
+	var preview = preload("./preview/item_preview.tscn").instantiate()
+	preview.item = item
+	add_child(preview)
+	pass # Replace with function body.

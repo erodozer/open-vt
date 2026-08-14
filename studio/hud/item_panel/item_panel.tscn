@@ -26,24 +26,18 @@ size_flags_vertical = 3
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer" unique_id=1816726359]
 layout_mode = 2
 
-[node name="DirectoryButton" type="Button" parent="VBoxContainer/VBoxContainer" unique_id=778554712]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 32)
-layout_mode = 2
-focus_mode = 0
-text = "Open Item Directory"
-
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer" unique_id=747187258]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=321830455]
-modulate = Color(0.298039, 0.282353, 0.239216, 1)
+[node name="TextureRect" type="Button" parent="VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1226572749]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 size_flags_vertical = 5
-texture = ExtResource("2_xjyov")
-expand_mode = 1
-stretch_mode = 5
+theme_type_variation = &"ImageButton"
+disabled = true
+icon = ExtResource("2_xjyov")
+icon_alignment = 1
+expand_icon = true
 
 [node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1916454536]
 custom_minimum_size = Vector2(96, 0)
@@ -89,14 +83,12 @@ theme_override_constants/separation = 24
 
 [node name="Label" type="Label" parent="VBoxContainer" unique_id=1992577208]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.3, 0.284, 0.24000001, 0.5294118)
-theme_override_font_sizes/font_size = 12
+theme_type_variation = &"SubscriptLabel"
 text = "Items are ordered background to foreground"
 horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=563307573]
 layout_mode = 2
-theme_override_constants/separation = 12
 
 [node name="AddButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=2046650369]
 custom_minimum_size = Vector2(32, 32)
@@ -128,7 +120,19 @@ icon = ExtResource("3_r3bot")
 icon_alignment = 1
 expand_icon = true
 
-[connection signal="pressed" from="VBoxContainer/VBoxContainer/DirectoryButton" to="." method="_on_directory_button_pressed"]
+[node name="FileDialog" type="FileDialog" parent="." unique_id=2005966109]
+unique_name_in_owner = true
+title = "Open File(s)"
+initial_position = 2
+size = Vector2i(1024, 600)
+file_mode = 1
+access = 2
+filters = PackedStringArray("*.png;Image;")
+use_native_dialog = true
+folder_creation_enabled = false
+
 [connection signal="pressed" from="VBoxContainer/VBoxContainer/HBoxContainer2/LoadButton" to="." method="_on_load_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/AddButton" to="." method="_on_add_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/ClearButton" to="." method="_on_clear_button_pressed"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_confirmed"]
+[connection signal="files_selected" from="FileDialog" to="." method="_on_file_dialog_files_selected"]

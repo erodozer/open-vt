@@ -13,14 +13,13 @@ layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Search..."
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=423873289]
-modulate = Color(0.298039, 0.282353, 0.239216, 1)
-texture_filter = 2
+[node name="TextureRect" type="Button" parent="." unique_id=439545460]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
-texture = ExtResource("1_oavdf")
-expand_mode = 1
-stretch_mode = 5
+theme_type_variation = &"ImageButton"
+disabled = true
+icon = ExtResource("1_oavdf")
+expand_icon = true
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
 [connection signal="text_changed" from="ItemSearch" to="." method="_on_item_search_text_changed"]

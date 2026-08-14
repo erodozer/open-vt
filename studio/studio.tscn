@@ -62,7 +62,9 @@ _data = {
 &"clear": SubResource("Animation_4c57u")
 }
 
-[node name="Studio" type="Node" unique_id=1319246631 groups=["persist"]]
+[node name="Studio" type="Control" unique_id=1306548245 groups=["persist"]]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_o3t2a")
 
 [node name="Stage" parent="." unique_id=1832089703 instance=ExtResource("9_oyfbk")]

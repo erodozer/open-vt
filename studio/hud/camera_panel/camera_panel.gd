@@ -3,6 +3,11 @@ extends "res://studio/hud/side_panel.gd"
 const Tracker = preload("res://lib/tracking/tracker.gd")
 const TrackingSystem = preload("res://lib/tracking/tracking_system.gd")
 
+const UI_THEMES: Array[Theme] = [
+	preload("res://ui/themes/automata.tres"),
+	preload("res://ui/themes/dark.res"),
+]
+
 signal update_bg_color(color: Color)
 
 @onready var tracking_system: TrackingSystem = get_tree().get_first_node_in_group("system:tracking")
@@ -68,7 +73,7 @@ func _ready() -> void:
 		var vp = get_tree().get_first_node_in_group("system:stage").capture_viewport
 	else:
 		%VirtualWebcam.queue_free()
-
+	
 func _on_tracker_system_tracker_changed(new_tracker: Tracker) -> void:
 	var config = Control.new()
 	if new_tracker != null:
@@ -104,11 +109,14 @@ func load_settings(data: Dictionary):
 			face_trackers.get_selected_metadata().new()
 		)
 		mic_toggle.button_pressed = data.get("microphone", true)
+	%UITheme.select(data.get("window", {}).get("theme", 0))
+	_on_ui_theme_item_selected(%UITheme.selected)
 	
 func save_settings(data: Dictionary):
 	var w = data.get("window", {})
 	w["transparent"] = transparency_toggle.button_pressed
 	w["fps"] = fps_option.get_selected_id()
+	w["theme"] = %UITheme.selected
 	var c = data.get("camera", {})
 	c["tracking"] = face_trackers.get_selected_id()
 	data["window"] = w
@@ -140,3 +148,7 @@ func _on_v4l2_toggled(toggled_on: bool) -> void:
 			v4l2_stream.loopback_device = device_id
 			return
 	v4l2_stream.loopback_device = ""
+
+func _on_ui_theme_item_selected(index: int) -> void:
+	var theme = UI_THEMES[index]
+	get_tree().root.propagate_call("set_theme", [theme], true)

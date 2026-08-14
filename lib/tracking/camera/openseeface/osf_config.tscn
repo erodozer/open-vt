@@ -15,8 +15,8 @@ script = ExtResource("1_l2brn")
 
 [node name="PointPreview" type="Panel" parent="." unique_id=1136600110]
 unique_name_in_owner = true
-clip_contents = true
 custom_minimum_size = Vector2(0, 256)
+clip_contents = true
 layout_mode = 2
 script = ExtResource("1_a10jp")
 mirror = true

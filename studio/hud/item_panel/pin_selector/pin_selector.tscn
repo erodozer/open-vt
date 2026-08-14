@@ -7,7 +7,7 @@
 oversampling_override = 1.0
 title = "Pin to Mesh"
 initial_position = 2
-size = Vector2i(336, 459)
+size = Vector2i(336, 468)
 visible = true
 script = ExtResource("1_wyeex")
 
@@ -15,14 +15,15 @@ script = ExtResource("1_wyeex")
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 328.0
-offset_bottom = 410.0
+offset_bottom = 419.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="Search" parent="VBoxContainer" unique_id=1363226643 instance=ExtResource("2_52rq1")]
+[node name="Search" parent="VBoxContainer" unique_id=1363226643 node_paths=PackedStringArray("list") instance=ExtResource("2_52rq1")]
 unique_name_in_owner = true
 layout_mode = 2
+list = NodePath("../ScrollContainer/Meshes")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=1283608199]
 custom_minimum_size = Vector2(320, 360)

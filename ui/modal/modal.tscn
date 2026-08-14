@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://d2a67yxp08esv"]
 
+[ext_resource type="Script" uid="uid://72vlj46kmaqc" path="res://ui/modal/modal.gd" id="1_13rqj"]
+
 [node name="Modal" type="CanvasLayer" unique_id=360995822]
+script = ExtResource("1_13rqj")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=593852400]
 anchors_preset = 15

@@ -22,7 +22,7 @@ enum PinMode {
 	VERTICES
 }
 
-@export var path: String
+@export var path: PackedStringArray
 @export var item_type: ItemType
 
 @export var pinnable: bool

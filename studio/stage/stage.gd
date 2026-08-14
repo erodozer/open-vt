@@ -154,7 +154,7 @@ func load_settings(data):
 	
 func save_settings(data):
 	if active_model != null and active_model.modelmeta != null:
-		data["active_model"] = active_model.modelmeta.id
+		data["active_model"] = active_model.modelmeta.model
 	
 	var window_settings = data.get("window", {})
 	window_settings["transparent"] = %Bg.visible

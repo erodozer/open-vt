@@ -56,14 +56,14 @@ size_flags_horizontal = 3
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=745172468]
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1072054020]
+[node name="Icon" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1896625152]
 unique_name_in_owner = true
-modulate = Color(0.298039, 0.282353, 0.239216, 1)
-custom_minimum_size = Vector2(28, 0)
+custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
-texture = ExtResource("4_gnq47")
-expand_mode = 1
-stretch_mode = 5
+theme_type_variation = &"ImageButton"
+icon = ExtResource("4_gnq47")
+icon_alignment = 1
+expand_icon = true
 
 [node name="ItemName" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1960321267]
 unique_name_in_owner = true
@@ -108,14 +108,13 @@ theme_override_constants/separation = 16
 [node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Transformation" unique_id=356612089]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2" unique_id=446385170]
-modulate = Color(0.298039, 0.282353, 0.239216, 1)
-custom_minimum_size = Vector2(30, 0)
+[node name="Icon" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2" unique_id=1871346646]
+custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
-size_flags_horizontal = 0
-texture = ExtResource("7_e4n0q")
-expand_mode = 1
-stretch_mode = 5
+theme_type_variation = &"ImageButton"
+icon = ExtResource("7_e4n0q")
+icon_alignment = 1
+expand_icon = true
 
 [node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2" unique_id=65494233]
 layout_mode = 2

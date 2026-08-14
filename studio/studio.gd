@@ -1,4 +1,4 @@
-extends Node
+extends Control
 
 func _ready() -> void:
 	Preferences.load_data.call_deferred()

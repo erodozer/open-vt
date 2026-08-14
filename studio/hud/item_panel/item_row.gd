@@ -113,9 +113,11 @@ func _on_edit_bindings_pressed() -> void:
 
 func _on_recenter_pressed() -> void:
 	item.position = item.get_viewport_rect().get_center()
+	item.notify_transform_updated()
 
 func _on_scale_to_fit_pressed() -> void:
 	item.scale = Vector2.ONE * min(1.0, item.get_viewport_rect().size.y / item.size.y)
+	item.notify_transform_updated()
 
 func _on_fps_value_value_changed(value: float) -> void:
 	var frames = item.render.sprite_frames as SpriteFrames

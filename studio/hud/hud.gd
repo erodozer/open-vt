@@ -10,10 +10,16 @@ var group: ButtonGroup
 @onready var popup_btn = %PopoutBtn
 
 func _ready() -> void:
+	for fmt in ModelManager.formats.values():
+		%ModelBrowser.add_filter(
+			"*%s" % [fmt.supported_extension()],
+			fmt.model_format(),
+		)
+	
 	group = %ParameterBtn.button_group
 	group.pressed.connect(
 		func (button):
-			if button.get_meta("panel") == null:
+			if not button.has_meta("panel"):
 				return
 			if button != null and button.button_pressed:
 				var panel = button.get_node(button.get_meta("panel"))
@@ -144,3 +150,10 @@ func _on_action_btn_pressed() -> void:
 	editor.visible = true
 	add_child(editor)
 	
+func _on_model_btn_pressed() -> void:
+	%ModelBrowser.show()
+
+func _on_model_browser_file_selected(path: String) -> void:
+	var model = ModelManager.make_model(path)
+	if model:
+		stage.spawn_model(model)
