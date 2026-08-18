@@ -71,19 +71,73 @@ popup/item_1/id = 1
 popup/item_2/text = "Max"
 popup/item_2/id = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer" unique_id=1400090515]
+[node name="BackgroundMode" type="HBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer" unique_id=1400090515]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer2" unique_id=2033207878]
+[node name="Label" type="Label" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/BackgroundMode" unique_id=2033207878]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
-text = "Transparent Background"
+text = "Background"
 vertical_alignment = 1
 
-[node name="TransparencyToggle" type="CheckButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer2" unique_id=1581570412]
+[node name="BackgroundModeSelector" type="OptionButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/BackgroundMode" unique_id=1337679399]
 unique_name_in_owner = true
 layout_mode = 2
+item_count = 4
+popup/item_0/text = "Default Grid"
+popup/item_0/id = 0
+popup/item_1/text = "Image"
+popup/item_1/id = 1
+popup/item_2/text = "Color"
+popup/item_2/id = 2
+popup/item_3/text = "Transparent"
+popup/item_3/id = 3
+
+[node name="BackgroundImage" type="HBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer" unique_id=229243433]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/BackgroundImage" unique_id=1138513313]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_type_variation = &"FieldLabel"
+text = "Image"
+vertical_alignment = 1
+
+[node name="BackgroundImageSelector" type="Button" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/BackgroundImage" unique_id=1130538190]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+text = "..."
+
+[node name="FileDialog" type="FileDialog" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/BackgroundImage/BackgroundImageSelector" unique_id=1852201404]
+title = "Open a File"
+file_mode = 0
+access = 2
+filters = PackedStringArray(";Png;image/png", ";Jpeg;image/jpeg")
+use_native_dialog = true
+
+[node name="BackgroundColor" type="HBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer" unique_id=1057400813]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/BackgroundColor" unique_id=587051148]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_type_variation = &"FieldLabel"
+text = "Color"
+vertical_alignment = 1
+
+[node name="BackgroundColorSelector" type="ColorPickerButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/BackgroundColor" unique_id=273394026]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+text = "..."
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer" unique_id=963054852]
 layout_mode = 2
@@ -205,7 +259,11 @@ layout_mode = 2
 
 [connection signal="item_selected" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer5/UITheme" to="." method="_on_ui_theme_item_selected"]
 [connection signal="item_selected" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer3/FPS" to="." method="_on_fps_value_item_selected"]
-[connection signal="toggled" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer2/TransparencyToggle" to="." method="_on_transparency_toggle_toggled"]
+[connection signal="item_selected" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/BackgroundMode/BackgroundModeSelector" to="." method="_on_background_mode_selected"]
+[connection signal="pressed" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/BackgroundImage/BackgroundImageSelector" to="." method="_on_background_image_selector_pressed"]
+[connection signal="file_selected" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/BackgroundImage/BackgroundImageSelector/FileDialog" to="." method="_on_background_file_selected"]
+[connection signal="color_changed" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/BackgroundColor/BackgroundColorSelector" to="." method="_on_background_color_changed"]
+[connection signal="toggled" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/BackgroundColor/BackgroundColorSelector" to="." method="_on_transparency_toggle_toggled"]
 [connection signal="toggled" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer4/MicrophoneToggle" to="." method="_on_microphone_toggle_toggled"]
 [connection signal="toggled" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam/HBoxContainer/V4L2Toggle" to="." method="_on_v4l2_toggled"]
 [connection signal="item_selected" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam/VirtualCameraDevice" to="." method="_on_loopback_item_selected"]

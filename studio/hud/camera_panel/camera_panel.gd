@@ -11,13 +11,14 @@ const UI_THEMES: Array[Theme] = [
 signal update_bg_color(color: Color)
 
 @onready var tracking_system: TrackingSystem = get_tree().get_first_node_in_group("system:tracking")
-@onready var transparency_toggle: CheckButton = %TransparencyToggle
+@onready var background_mode: OptionButton = %BackgroundModeSelector
 @onready var mic_toggle: CheckButton = %MicrophoneToggle
 @onready var face_trackers: OptionButton = %TrackingSource
 @onready var fps_option: OptionButton = %FPS
 
 @onready var parameter_list = %ParameterList
 @onready var v4l2_stream: VirtualCamera = get_tree().get_first_node_in_group("output:v4l2")
+@onready var stage = get_tree().get_first_node_in_group("system:stage")
 
 func _get_title():
 	return "Settings"
@@ -96,11 +97,10 @@ func _on_tracker_system_parameters_updated(parameters: Dictionary, _delta) -> vo
 func _on_preview_background_color_color_changed(color: Color) -> void:
 	update_bg_color.emit(color)
 
-func _on_transparency_toggle_toggled(toggled_on: bool) -> void:
-	get_tree().get_first_node_in_group("system:stage").toggle_bg(toggled_on)
-
 func load_settings(data: Dictionary):
-	transparency_toggle.button_pressed = data.get("window", {}).get("transparent", false)
+	_on_background_color_changed(data.get("window", {}).get("background_color", "000000"))
+	_on_background_file_selected(data.get("window", {}).get("background_image", ""))
+	background_mode.select(data.get("window", {}).get("background_mode", 0))
 	face_trackers.select(data.get("camera", {}).get("tracking", 0))
 	fps_option.select(data.get("window", {}).get("fps", 0))
 	_on_fps_value_item_selected(fps_option.get_selected_id())
@@ -114,7 +114,8 @@ func load_settings(data: Dictionary):
 	
 func save_settings(data: Dictionary):
 	var w = data.get("window", {})
-	w["transparent"] = transparency_toggle.button_pressed
+	w["background_mode"] = background_mode.selected
+	w["background_image"] = %BackgroundImageSelector.get_meta("filepath")
 	w["fps"] = fps_option.get_selected_id()
 	w["theme"] = %UITheme.selected
 	var c = data.get("camera", {})
@@ -151,3 +152,19 @@ func _on_v4l2_toggled(toggled_on: bool) -> void:
 
 func _on_ui_theme_item_selected(index: int) -> void:
 	get_tree().root.propagate_call("set_theme", [UI_THEMES[index]], true)
+
+func _on_background_mode_selected(index: int) -> void:
+	%BackgroundImage.visible = index == 1
+	%BackgroundColor.visible = index == 2
+	stage.background_mode = index
+	
+func _on_background_image_selector_pressed() -> void:
+	%BackgroundImageSelector/FileDialog.show()
+
+func _on_background_file_selected(path: String) -> void:
+	%BackgroundImageSelector.text = path.get_file()
+	%BackgroundImageSelector.set_meta("filepath", path)
+	stage.background_image = path
+
+func _on_background_color_changed(color: Color) -> void:
+	stage.background_color = color

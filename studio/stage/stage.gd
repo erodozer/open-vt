@@ -8,6 +8,46 @@ const VtItem = preload("res://lib/items/vt_item.gd")
 
 const INDEX_RANGE = 30
 
+var background_mode: int :
+	set(mode):
+		var transparent = mode == 3
+		%Bg.visible = not transparent
+		if is_inside_tree():
+			get_tree().root.transparent_bg = transparent
+			get_window().transparent = transparent
+			get_window().transparent_bg = transparent
+		
+		%Bg/BackgroundImage.visible = mode == 1
+		%Bg/DefaultBackground.visible = mode == 0 or (background_image.is_empty() and mode == 1)
+		%Bg/GridFill.visible = mode == 0 or (background_image.is_empty() and mode == 1)
+		%Bg/ColorFill.visible = mode == 2
+		background_mode = mode
+
+var background_image: String = "" :
+	set(path):
+		if path.is_empty():
+			%Bg/DefaultBackground.visible = true
+			%Bg/GridFill.visible = true
+			background_image = path
+			return
+
+		var image = Image.load_from_file(path)
+		if not image:
+			return
+
+		var tex = ImageTexture.create_from_image(image)
+		%Bg/BackgroundImage.texture = tex
+		background_image = path
+		
+		if background_mode == 1:
+			%Bg/DefaultBackground.visible = false
+			%Bg/GridFill.visible = false
+		
+var background_color: Color = Color.BLACK :
+	set(color):
+		%Bg/ColorFill.color = color
+		background_color = color
+
 var active_model: VtModel
 @onready var canvas = %ModelLayer
 @onready var capture_viewport = %SubViewport
@@ -29,12 +69,6 @@ func _ready() -> void:
 				spawn_item(item)
 	)
 
-func toggle_bg(enabled: bool) -> void:
-	get_tree().root.transparent_bg = enabled
-	get_window().transparent = true
-	get_window().transparent_bg = true
-	%Bg.visible = not enabled
-	
 func spawn_model(model: VtModel):
 	if model == null:
 		push_warning("invalid model attempted to load")
@@ -156,7 +190,9 @@ func load_settings(data):
 		if model:
 			spawn_model(model)
 	
-	toggle_bg(data.get("window", {}).get("transparent", false))
+	self.background_image = data.get("window", {}).get("background_image", "")
+	self.background_color = Color(data.get("window", {}).get("background_color", "000000"))
+	self.background_mode = data.get("window", {}).get("background_mode", 0)
 	
 func save_settings(data):
 	if active_model != null and active_model.modelmeta != null:
@@ -164,6 +200,9 @@ func save_settings(data):
 	
 	var window_settings = data.get("window", {})
 	window_settings["transparent"] = %Bg.visible
+	window_settings["background_mode"] = background_mode
+	window_settings["background_image"] = background_image
+	window_settings["background_color"] = background_color.to_html()
 	data["window"] = window_settings
 	
 func _on_model_layer_child_order_changed() -> void:
