@@ -1,6 +1,8 @@
 extends "../vt_action.gd"
 
-@onready var input: OptionButton = %Animation
+var input: OptionButton:
+	get():
+		return %Animation
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:	

@@ -2,7 +2,9 @@ extends "../vt_action.gd"
 
 const HotkeyBinding = preload("./hotkey_binding.gd")
 
-@onready var hotkey = %Handler
+var hotkey:
+	get():
+		return %Handler
 
 func get_type() -> StringName:
 	return &"hotkey"

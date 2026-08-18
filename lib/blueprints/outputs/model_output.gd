@@ -17,6 +17,9 @@ func can_spawn(graph: GraphEdit) -> bool:
 	
 # Called when the node enters the scene tree for the first time.
 func set_model(m: VtModel):
+	if model == m:
+		return
+	assert(model == null, "model has already be initialized")
 	model = m
 	build_slots()
 	
@@ -171,8 +174,9 @@ func _update_model():
 		return
 	
 	for p in bindings:
-		binding_display[p].text = "%1.2f" % bindings[p]
-		model.set("parameters/%s" % [p], bindings[p])
+		if p in binding_display:
+			binding_display[p].text = "%1.2f" % bindings[p]
+			model.set("parameters/%s" % [p], bindings[p])
 	_dirty = false
 	bindings.clear()
 	

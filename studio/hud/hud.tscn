@@ -221,6 +221,7 @@ file_mode = 0
 access = 2
 use_native_dialog = true
 folder_creation_enabled = false
+deleting_enabled = false
 
 [connection signal="pressed" from="Menu/VBoxContainer/ModelBtn" to="." method="_on_model_btn_pressed"]
 [connection signal="pressed" from="Menu/VBoxContainer/ActionBtn" to="." method="_on_action_btn_pressed"]

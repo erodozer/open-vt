@@ -31,7 +31,12 @@ func _deserialize(graph: Blueprint, model: VtModel, data: Dictionary):
 		var id = i.get("id", "")
 		if id.is_empty():
 			continue
-		var n = graph.spawn_action(StringName(i.type), model, { "id": id })
+		var n = graph.create_action(StringName(i.type))
+		n.id = id
+		n.model = model
+		n.deserialize(i.get("parameters", {}))
+		n = graph.spawn_action(n, model)
+		
 		if n == null:
 			push_error("invalid action type (%s), clearing graph" % i.type)
 			graph.clear_connections()
@@ -40,7 +45,7 @@ func _deserialize(graph: Blueprint, model: VtModel, data: Dictionary):
 			return 
 		
 		
-		n.deserialize(i.get("parameters", {}))
+		
 		n.position_offset = Serializers.Vec2Serializer.from_json(i.get("position"), Vector2.ZERO)
 		
 	for i in data.get("bindings", []):
