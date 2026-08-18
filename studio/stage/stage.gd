@@ -20,8 +20,14 @@ var objects: Array :
 	get():
 		return canvas.get_children()
 
-func toggle_ndi(enabled: bool) -> void:
-	%NDIOutput.enable_video_output = enabled
+func _ready() -> void:
+	# allow items to be dropped onto the window to spawn instantly
+	get_window().files_dropped.connect(
+		func (paths):
+			var item = await ItemManager.create_item(paths)
+			if item:
+				spawn_item(item)
+	)
 
 func toggle_bg(enabled: bool) -> void:
 	get_tree().root.transparent_bg = enabled

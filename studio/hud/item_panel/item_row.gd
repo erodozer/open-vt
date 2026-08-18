@@ -21,13 +21,13 @@ func _ready() -> void:
 		item.pin_changed.connect(_update_pin_name)
 		%PinToggle.button_pressed = item.pinnable
 		if item.item_type == VtItem.ItemType.IMAGE:
-			%Icon.texture = preload("./static_image.svg")
+			%Icon.icon = preload("./static_image.svg")
 		elif item.item_type == VtItem.ItemType.ANIMATED:
-			%Icon.texture = preload("./animated_image.svg")
+			%Icon.icon = preload("./animated_image.svg")
 			%AnimControls.show()
 			%FpsValue.value = item.render.speed_scale * item.render.sprite_frames.get_animation_speed("default")
 		elif item.item_type == VtItem.ItemType.MODEL:
-			%Icon.texture = preload("./motion.svg")
+			%Icon.icon = preload("./motion.svg")
 			%ModelControls.show()
 	
 	_on_transform_update(item.position, item.scale, item.rotation_degrees, Vector2.ZERO, Vector3.ZERO)

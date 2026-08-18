@@ -59,6 +59,8 @@ func create_item(path: PackedStringArray) -> VtItem:
 		var render = Sprite2D.new()
 		var texture: Texture2D
 		texture = ImageTexture.create_from_image(Image.load_from_file(path[0]))
+		if texture == null:
+			return
 		render.name = "Render"
 		render.texture = texture
 		render.centered = true

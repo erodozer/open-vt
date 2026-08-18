@@ -8,7 +8,7 @@ func _ready() -> void:
 	DisplayServer.window_set_min_size(Vector2i(540,360), 0)
 	
 	await RenderingServer.frame_post_draw
-
+	
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		Preferences.save_data()

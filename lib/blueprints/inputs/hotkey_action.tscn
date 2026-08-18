@@ -63,7 +63,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.847059, 0.823529, 0.729412, 1)
+color = Color(1, 1, 1, 0.39215687)
 
 [node name="Released" type="Label" parent="." unique_id=2082368000]
 unique_name_in_owner = true
@@ -83,7 +83,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.847059, 0.823529, 0.729412, 1)
+color = Color(1, 1, 1, 0.27450982)
 
 [node name="Handler" type="Node" parent="." unique_id=929992179]
 unique_name_in_owner = true

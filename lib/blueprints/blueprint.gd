@@ -168,9 +168,9 @@ func serialize() -> Dictionary:
 	
 	for i in connections:
 		var from_node: VtAction = get_node(NodePath(i.from_node))
-		var from_id = from_node.id
+		var from_id = from_node.id if from_node else -1
 		var to_node: VtAction = get_node(NodePath(i.to_node))
-		var to_id = to_node.id
+		var to_id = to_node.id if to_node else -1
 		var from_slot = from_node.get_output_slot_by_port(i.from_port)
 		var to_slot = to_node.get_input_slot_by_port(i.to_port)
 		var from_name = from_node.get_slot_name(from_slot)
