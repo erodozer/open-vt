@@ -1,6 +1,5 @@
 extends "../vt_action.gd"
 
-const Serializers = preload("res://lib/utils/serializers.gd")
 const TrackingSystem = preload("res://lib/tracking/tracking_system.gd")
 
 const VALUE_SLOT = 1
@@ -12,46 +11,22 @@ var kind = &"Camera" :
 		
 		var i = 0
 		for p in Registry.parameters_in_group(g):
-			var box = VBoxContainer.new()
+			var value_range = Registry.get(p).range
+			var box = HBoxContainer.new()
 			box.name = p
-			box.add_theme_constant_override("separation", 2.0)
+			
 			var l = Label.new()
+			l.mouse_filter = Control.MOUSE_FILTER_PASS
 			l.text = p
 			l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			l.size_flags_stretch_ratio = 2.0
-			box.add_child(l)
-			var value_box = HBoxContainer.new()
-			var value_range = Registry[p].range
-			var min_value = SpinBox.new()
-			min_value.step = 0.01
-			min_value.allow_greater = true
-			min_value.allow_lesser = true
-			min_value.value = value_range.x
-			min_value.suffix = "min"
-			min_value.alignment = HORIZONTAL_ALIGNMENT_RIGHT
-			min_value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			min_value.editable = false
-			value_box.add_child(min_value)
-			var max_value = SpinBox.new()
-			max_value.allow_greater = true
-			max_value.allow_lesser = true
-			min_value.step = 0.01
-			max_value.value = value_range.y
-			max_value.suffix = "max"
-			max_value.alignment = HORIZONTAL_ALIGNMENT_RIGHT
-			max_value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			max_value.editable = false
-			value_box.add_child(max_value)
-			var current_value = SpinBox.new()
-			current_value.allow_greater = true
-			current_value.allow_lesser = true
-			current_value.step = 0.01
-			current_value.value = Registry.get_default(p)
+			l.tooltip_text = "[%1.2f, %1.2f]" % [value_range.x, value_range.y]
+			var current_value = LineEdit.new()
 			current_value.alignment = HORIZONTAL_ALIGNMENT_RIGHT
-			current_value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			current_value.editable = false
-			value_box.add_child(current_value)
-			box.add_child(value_box)
+			box.add_child(current_value)
+			box.add_child(l)
+			
 			add_child(box)
 			
 			var slot = get_child_count() - 1
@@ -91,7 +66,7 @@ func _on_parameters_updated(parameters, delta):
 	for p in parameters:
 		if p in values:
 			values[p] = parameters[p]
-			value_displays[p].value = parameters[p]
+			value_displays[p].text = "%1.2f" % parameters[p]
 			slot_updated.emit(get_output_port_by_name(p))
 	
 func get_input_slot_by_port(port: int) -> int:
@@ -113,4 +88,4 @@ func get_value(slot: int):
 	var out: float = values[parameter]
 	var value_range = Registry.get(parameter).range
 	
-	return Vector4(value_range.x, value_range.y, out, inverse_lerp(value_range.x, value_range.y, out))
+	return Vector3(value_range.x, value_range.y, out)

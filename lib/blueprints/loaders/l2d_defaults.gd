@@ -189,10 +189,11 @@ func load_graph(model: VtModel) -> Array[Blueprint]:
 	
 	var breathe = graph.spawn_action(&"breathe", model)
 	var blink = graph.spawn_action(&"blink", model)
-	var input = graph.spawn_action(&"tracking_input", model)
-	input.kind = &"Camera"
+	var input = graph.spawn_action(&"tracking_input", model, {
+		"kind": &"Camera"
+	})
 	
-	var output = graph.spawn_action(&"model_output", model)
+	var output: VtAction = graph.spawn_action(&"model_output", model)
 	
 	breathe.position_offset = Vector2(-500, 0)
 	blink.position_offset = Vector2(-500, 250)
@@ -203,31 +204,60 @@ func load_graph(model: VtModel) -> Array[Blueprint]:
 		var input_slot = input.get_output_port_by_name(input_parameter)
 		if input_slot < 0:
 			continue
+			
+		var input_range = Registry.get(input_parameter).range
 		
 		for output_parameter in DEFAULT_BINDINGS[input_parameter]:
+			var _x = x
+			var _y = 0
 			var _input = input
 			var _input_slot = input_slot
 			var output_slot = output.get_input_port_by_name(output_parameter.name)
 			if output_slot < 0:
 				continue
+				
+			var output_range = model.get("parameters/%s/range" % output_parameter.name)
+			var map_range = output_parameter.get("value_range", output_range)
 			
 			if output_parameter.get("smoothing", 0) > 0:
 				var smoothing = graph.spawn_action(&"smoothing", model)
 				
 				smoothing.smoothing = output_parameter.get("smoothing", 0) / 100.0
 				graph._on_connection_request(
-					input.name, input_slot, smoothing.name, 0
+					_input.name, _input_slot, smoothing.name, 0
 				)
-				smoothing.position_offset = Vector2(x, y)
+				smoothing.position_offset = Vector2(_x, y)
 				_input = smoothing
 				_input_slot = 0
-				y += output.size.y + 96
+				_x += smoothing.size.x + 96
+				_y = max(smoothing.size.y + 96, _y)
+				
+			if input_range.x != map_range.x or map_range.x != output_range.x or \
+			   input_range.y != map_range.y or map_range.y != output_range.y:
+				var rangemap = graph.spawn_action(&"rangemap", model, {
+					"a": input_range,
+					"b": map_range,
+				})
+				graph._on_connection_request(
+					_input.name, _input_slot,
+					rangemap.name, rangemap.get_input_port_by_name("value")
+				)
+				rangemap.position_offset = Vector2(_x, y)
+				_input = rangemap
+				_input_slot = rangemap.get_output_port_by_name("value")
+				_x += rangemap.size.x + 96
+				_y = max(rangemap.size.y + 96, _y)
+				
+			y += _y
 			
 			graph._on_connection_request(
 				_input.name, _input_slot, output.name, output_slot
 			)
 			
-	output.position_offset = Vector2(x + 500, 0)
+			if _x > output.position_offset.x:
+				output.position_offset.x = _x
+			
+	output.position_offset.x += 250
 
 	return [
 		graph

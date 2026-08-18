@@ -1,7 +1,5 @@
 extends "../vt_action.gd"
 
-const Serializers = preload("res://lib/utils/serializers.gd")
-
 @export var curve: Curve
 
 var frequency: float :

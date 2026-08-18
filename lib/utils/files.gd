@@ -27,7 +27,7 @@ static func write_json(filepath: String, data: Dictionary) -> Error:
 		return FileAccess.get_open_error()
 	
 	var out = JSON.stringify(data, "  ")
-	f.store_string(out)
+	var success = f.store_string(out)
 	f.close()
 	
-	return OK
+	return OK if success else ERR_CANT_CREATE

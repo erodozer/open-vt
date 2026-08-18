@@ -115,18 +115,22 @@ func _build_parameter_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint
 	
 	var breathe: VtAction = graph.spawn_action(&"breathe", model)
 	var blink: VtAction = graph.spawn_action(&"blink", model)
-	var camera_tracker: VtAction = graph.spawn_action(&"tracking_input", model)
+	var camera_tracker: VtAction = graph.spawn_action(&"tracking_input", model, {
+		"kind": &"Camera"
+	})
 	camera_tracker.name = "CameraTracker"
-	camera_tracker.kind = &"Camera"
-	var mic_tracker: VtAction = graph.spawn_action(&"tracking_input", model)
+	var mic_tracker: VtAction = graph.spawn_action(&"tracking_input", model, {
+		"kind": &"Microphone"
+	})
 	mic_tracker.name = "MicrophoneTracker"
-	mic_tracker.kind = &"Microphone"
-	var gamepad_tracker: VtAction = graph.spawn_action(&"tracking_input", model)
+	var gamepad_tracker: VtAction = graph.spawn_action(&"tracking_input", model, {
+		"kind": &"Gamepad"
+	})
 	gamepad_tracker.name = "GamepadTracker"
-	gamepad_tracker.kind = &"Gamepad"
-	var kbm_tracker: VtAction = graph.spawn_action(&"tracking_input", model)
+	var kbm_tracker: VtAction = graph.spawn_action(&"tracking_input", model, {
+		"kind": &"KBM"
+	})
 	kbm_tracker.name = "KbmTracker"
-	kbm_tracker.kind = &"KBM"
 	
 	var tracker_bound = {
 		camera_tracker: false,
@@ -150,15 +154,21 @@ func _build_parameter_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint
 		var input_binding = data.get("Input", "unset")
 		var input: VtAction
 		var input_slot: int
+		var input_range: Vector2 = Vector2.ZERO
 		for t in [camera_tracker, mic_tracker, kbm_tracker, gamepad_tracker]:
 			input = t
 			input_slot = t.get_output_port_by_name(input_binding)
 			if input_slot != -1:
 				tracker_bound[t] = true
+				input_range = Registry.get(input_binding).range
 				break
 
 		var output = model_output
 		var output_slot: int = model_output.get_input_port_by_name(data.OutputLive2D)
+		if output_slot == -1: # paramter no longer exists on the model for some reason
+			continue
+		
+		var output_range: Vector2 = model.get("parameters/%s/range" % data.OutputLive2D)
 		
 		var unbound = input_slot < 0
 		var breathing = data.get("UseBreathing", false)
@@ -196,8 +206,9 @@ func _build_parameter_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint
 			_x += scalar.size.x + PAD
 			
 		if float(data.get("Smoothing", 0.0)) > 0.0 and input != null:
-			var smoothing: VtAction = graph.spawn_action(&"smoothing", model)
-			smoothing.smoothing = data.get("Smoothing", 0.0) / 100.0
+			var smoothing: VtAction = graph.spawn_action(&"smoothing", model, {
+				"smoothing": data.get("Smoothing", 0.0) / 100.0
+			})
 			graph._on_connection_request(
 				input.name, input_slot,
 				smoothing.name, smoothing.get_input_port_by_name("value")
@@ -207,6 +218,35 @@ func _build_parameter_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint
 			input = smoothing
 			input_slot = smoothing.get_output_port_by_name("value")
 			_y = max(_y, smoothing.size.y + PAD)
+		
+		if not unbound and (
+			data.get("InputRangeLower", input_range.x) != input_range.x or \
+			data.get("InputRangeUpper", input_range.y) != input_range.y or \
+			data.get("OutputRangeLower", input_range.x) != input_range.x or \
+			data.get("OutputRangeUpper", input_range.y) != input_range.y or \
+			data.get("ClampInput", false) or data.get("ClampOutput", false)
+		):
+			var remap_input: VtAction = graph.spawn_action(&"rangemap", model, {
+				"a": Vector2(
+					data.get("InputRangeLower", input_range.x),
+					data.get("InputRangeUpper", input_range.y),
+				),
+				"a_clamp": data.get("ClampInput", false),
+				"b": Vector2(
+					data.get("OutputRangeLower", output_range.x),
+					data.get("OutputRangeUpper", output_range.y),
+				),
+				"b_clamp": data.get("ClampOutput", false)
+			})
+			graph._on_connection_request(
+				input.name, input_slot,
+				remap_input.name, remap_input.get_input_port_by_name("value")
+			)
+			remap_input.position_offset = Vector2(_x, y)
+			_x += remap_input.size.x + PAD
+			input = remap_input
+			input_slot = remap_input.get_output_port_by_name("value")
+			_y = max(_y, remap_input.size.y + PAD)
 		
 		if input != null:
 			graph._on_connection_request(

@@ -2,6 +2,7 @@
 class_name VtAction extends GraphNode
 
 const VtModel = preload("res://lib/model/vt_model.gd")
+const Serializers = preload("res://lib/utils/serializers.gd")
 
 enum SlotType {
 	TRIGGER,
@@ -10,6 +11,8 @@ enum SlotType {
 	BOOL,
 	VECTOR
 }
+
+var id = ""
 
 ## reference to the bound model is directly available to all VtActions
 var model: VtModel:
@@ -47,9 +50,11 @@ func can_spawn(graph: GraphEdit) -> bool:
 
 @abstract func serialize() -> Dictionary
 
+## triggers when a slot on this node is connected to by a [VtAction]
 func bind(slot: int, node: GraphNode) -> void:
 	pass
 
+## triggers when a connection to this slot is severred
 func unbind(slot: int, node: GraphNode) -> void:
 	pass
 	

@@ -121,14 +121,12 @@ func _load_settings():
 	var model_preferences = Files.read_json(modelmeta.openvt_parameters)
 	load_model_settings(model_preferences)
 
-func save_settings(_settings: Dictionary):
+func save_settings(_settings: Dictionary = {}):
 	if not is_initialized():
 		return
 	
 	var model_data = {}
 	
 	self.save_model_settings(model_data)
-	for o in get_tree().get_nodes_in_group("persist:model"):
-		o.save_settings(model_data)
 	
 	Files.write_json(modelmeta.openvt_parameters, model_data)

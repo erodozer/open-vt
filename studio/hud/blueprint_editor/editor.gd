@@ -3,7 +3,6 @@ extends Window
 const Files = preload("res://lib/utils/files.gd")
 const VtModel = preload("res://lib/model/vt_model.gd")
 const VtItem = preload("res://lib/items/vt_item.gd")
-const VtAction = preload("res://lib/blueprints/vt_action.gd")
 
 const Blueprint = preload("res://lib/blueprints/blueprint.gd")
 const Stage = preload("res://studio/stage/stage.gd")
@@ -14,7 +13,16 @@ static var OUTPUTS_DIR = GRAPH_NODES_DIR.path_join("outputs")
 
 @onready var screen_controller = get_tree().get_first_node_in_group("system:hotkey")
 
-var active_model: VtModel
+var active_model: VtModel :
+	set(model):
+		for g in model.blueprints:
+			g.reparent(%Profiles)
+		# make sure to clean up the window when models are removed
+		model.tree_exited.connect(
+			func ():
+				queue_free()
+		)
+		active_model = model
 
 var active_profile: int :
 	get():
@@ -26,23 +34,10 @@ var active_graph: Blueprint :
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	assert(active_model != null, "Model must be set before editor is in scene tree")
 	get_viewport().gui_embed_subwindows = true
 	
-	for i in %Profiles.get_children():
-		i.queue_free()
-	
-	await get_tree().process_frame
-	
-	for g in active_model.blueprints:
-		g.reparent(%Profiles)
-	
 	self.title = "Model Bindings [%s]" % active_model.display_name
-	
-	# make sure to clean up the window when models are removed
-	active_model.tree_exited.connect(
-		func ():
-			queue_free()
-	)
 	
 	%AddBlueprint.get_popup().id_pressed.connect(
 		func (id):
@@ -61,15 +56,16 @@ func _ready() -> void:
 			%Profiles.current_tab = %Profiles.get_tab_count() - 1
 	)
 	
-	%EditPopup.theme = get_tree().root.theme
 	%EditPopup.add_button("Delete", true, "Delete")
 	%EditPopup.add_cancel_button("Cancel")
+	
+	self.propagate_call("set_theme", [get_tree().root.theme])
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
-		if active_model:
-			# reattach graphs to model before deletion
-			active_model.blueprints = %Profiles.get_children()
+		# reattach graphs to model before deletion
+		active_model.blueprints = %Profiles.get_children()
+		active_model.save_settings()
 
 func _on_add_hotkey_pressed(node: VtAction, graph: GraphEdit = active_graph, model: VtModel = active_model) -> VtAction:
 	node.model = model

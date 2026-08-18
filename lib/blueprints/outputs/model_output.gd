@@ -1,7 +1,5 @@
 extends "../vt_action.gd"
 
-const Serializers = preload("res://lib/utils/serializers.gd")
-
 var ports: Dictionary[String, int] = {}
 var slots: Dictionary[int, int] = {}
 var port_count = 0
@@ -34,55 +32,36 @@ func build_slots():
 	var parameters = model.get_parameters()
 	for property in parameters:
 		var meta = parameters[property]
+		var vis = model.get("modifiers/parameters/%s/visible" % property)
+		if not vis:
+			continue
 		var value_range: Vector2 = meta.range
 		
-		var box = VBoxContainer.new()
+		var box = HBoxContainer.new()
 		box.name = property
 		
 		var l = Label.new()
 		l.text = property
 		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		l.size_flags_stretch_ratio = 2.0
-		box.add_child(l)
-		var value_box = HBoxContainer.new()
-		value_box.add_theme_constant_override("separation", 2.0)
-		var min_value = SpinBox.new()
-		min_value.step = 0.01
-		min_value.rounded = false
-		min_value.allow_greater = true
-		min_value.allow_lesser = true
-		min_value.value = value_range.x
-		min_value.suffix = "min"
-		min_value.alignment = HORIZONTAL_ALIGNMENT_RIGHT
-		min_value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		min_value.editable = false
-		value_box.add_child(min_value)
-		var max_value = SpinBox.new()
-		max_value.allow_greater = true
-		max_value.allow_lesser = true
-		max_value.step = 0.01
-		max_value.value = value_range.y
-		max_value.suffix = "max"
-		max_value.alignment = HORIZONTAL_ALIGNMENT_RIGHT
-		max_value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		max_value.editable = false
-		value_box.add_child(max_value)
-		var current_value = SpinBox.new()
-		current_value.allow_greater = true
-		current_value.allow_lesser = true
-		current_value.step = 0.01
-		current_value.value = meta.default
-		current_value.alignment = HORIZONTAL_ALIGNMENT_RIGHT
-		current_value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		current_value.editable = false
-		value_box.add_child(current_value)
-		box.add_child(value_box)
-		add_child(box)
+		l.tooltip_text = "[%1.2f, %1.2f]" % [
+			value_range.x, value_range.y
+		]
+		l.mouse_filter = Control.MOUSE_FILTER_PASS
 		
 		label_width = max(
 			l.get_theme_default_font().get_string_size(property).x,
 			l.size.x
 		)
+		l.custom_minimum_size = Vector2(label_width + 20, 24)
+		box.add_child(l)
+		
+		var current_value = LineEdit.new()
+		current_value.editable = false
+		current_value.alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		box.add_child(current_value)
+		
+		add_child(box)
 		
 		binding_display[property] = current_value
 					
@@ -95,11 +74,7 @@ func build_slots():
 		# do initial reset of all parameters
 		# will be cleared after first update
 		bindings[property] = meta.default
-		
-		var vis = model.get("modifiers/parameters/%s/visible" % property)
-		box.visible = vis
-		if vis:
-			i += 1
+		i += 1
 			
 	# readjust sizes for columns to match
 	for row in get_children():
@@ -188,8 +163,7 @@ func deserialize(data: Dictionary):
 	
 func update_value(slot: int, v: Variant) -> void:
 	var parameter: StringName = get_slot_name(slot)
-	var value_range: Vector2 = model.get("parameters/%s/range" % [parameter])
-	bindings[parameter] = lerp(value_range.x, value_range.y, v as float)
+	bindings[parameter] = v as float
 	_dirty = true
 	
 func _update_model():
@@ -197,7 +171,7 @@ func _update_model():
 		return
 	
 	for p in bindings:
-		binding_display[p].value = bindings[p]
+		binding_display[p].text = "%1.2f" % bindings[p]
 		model.set("parameters/%s" % [p], bindings[p])
 	_dirty = false
 	bindings.clear()

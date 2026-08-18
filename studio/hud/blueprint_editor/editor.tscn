@@ -73,12 +73,6 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-current_tab = 0
-
-[node name="GraphEdit" type="GraphEdit" parent="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer/Profiles" unique_id=492983134]
-layout_mode = 2
-scroll_offset = Vector2(0, -31)
-metadata/_tab_index = 0
 
 [node name="TabClickTimer" type="Timer" parent="." unique_id=209422743]
 unique_name_in_owner = true

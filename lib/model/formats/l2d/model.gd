@@ -131,9 +131,13 @@ func _get_property_list() -> Array[Dictionary]:
 		for p in settings:
 			var modifier = settings[p]
 			for prop in modifier.get_property_list():
-				properties.append(prop.merged({
-					"name": "{0}{1}/{2}".format([prefix, p, prop.name])
-				}, true))
+				if prop.usage & PROPERTY_USAGE_STORAGE and not (prop.usage & PROPERTY_USAGE_INTERNAL):
+					properties.append({
+						"name": "{0}{1}/{2}".format([prefix, p, prop.name]),
+						"type": prop.type,
+						"hint": prop.hint,
+						"hint_string": prop.hint_string,
+					})
 	
 	return properties
 	

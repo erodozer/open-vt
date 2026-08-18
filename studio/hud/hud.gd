@@ -134,22 +134,6 @@ func _on_screenshot_btn_pressed() -> void:
 	stage.get_node("ModelLayer")
 	await Screenshot.snap(stage.get_viewport())
 	
-var editor: Window
-func _on_action_btn_pressed() -> void:
-	if editor != null:
-		if editor.is_queued_for_deletion():
-			editor = null
-		else:
-			editor.grab_focus()
-			return
-	if stage.active_model == null:
-		return
-	
-	editor = preload("res://studio/hud/blueprint_editor/editor.tscn").instantiate()
-	editor.active_model = stage.active_model
-	editor.visible = true
-	add_child(editor)
-	
 func _on_model_btn_pressed() -> void:
 	%ModelBrowser.show()
 

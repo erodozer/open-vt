@@ -6,8 +6,8 @@
 offset_right = 106.0
 offset_bottom = 88.0
 title = "Arithmetic"
-slot/0/left_enabled = false
-slot/0/left_type = 0
+slot/0/left_enabled = true
+slot/0/left_type = 1
 slot/0/left_color = Color(1, 1, 1, 1)
 slot/0/left_icon = null
 slot/0/right_enabled = false
@@ -24,42 +24,16 @@ slot/1/right_type = 0
 slot/1/right_color = Color(1, 1, 1, 1)
 slot/1/right_icon = null
 slot/1/draw_stylebox = true
-slot/2/left_enabled = true
+slot/2/left_enabled = false
 slot/2/left_type = 1
 slot/2/left_color = Color(1, 1, 1, 1)
 slot/2/left_icon = null
-slot/2/right_enabled = false
-slot/2/right_type = 0
+slot/2/right_enabled = true
+slot/2/right_type = 1
 slot/2/right_color = Color(1, 1, 1, 1)
 slot/2/right_icon = null
 slot/2/draw_stylebox = true
-slot/3/left_enabled = false
-slot/3/left_type = 0
-slot/3/left_color = Color(1, 1, 1, 1)
-slot/3/left_icon = null
-slot/3/right_enabled = true
-slot/3/right_type = 1
-slot/3/right_color = Color(1, 1, 1, 1)
-slot/3/right_icon = null
-slot/3/draw_stylebox = true
 script = ExtResource("1_i62ip")
-
-[node name="Operator" type="OptionButton" parent="." unique_id=671488355]
-unique_name_in_owner = true
-layout_mode = 2
-alignment = 1
-selected = 0
-item_count = 5
-popup/item_0/text = "Add"
-popup/item_0/id = 0
-popup/item_1/text = "Mul"
-popup/item_1/id = 1
-popup/item_2/text = "Sub"
-popup/item_2/id = 2
-popup/item_3/text = "Div"
-popup/item_3/id = 3
-popup/item_4/text = "Mod"
-popup/item_4/id = 4
 
 [node name="A" type="HBoxContainer" parent="." unique_id=1594522762]
 unique_name_in_owner = true
@@ -70,14 +44,31 @@ custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 text = "A"
 
-[node name="InputA" type="SpinBox" parent="A" unique_id=1313949354]
-unique_name_in_owner = true
+[node name="Value" type="SpinBox" parent="A" unique_id=1313949354]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 min_value = -999.9
 max_value = 999.9
-step = 0.01
-value = 0.10000000000002274
+step = 0.0
+custom_arrow_step = 0.01
+
+[node name="X" type="SpinBox" parent="A" unique_id=1314151755]
+visible = false
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+min_value = -999.9
+max_value = 999.9
+step = 0.0
+custom_arrow_step = 0.01
+
+[node name="Y" type="SpinBox" parent="A" unique_id=635295963]
+visible = false
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+min_value = -999.9
+max_value = 999.9
+step = 0.0
+custom_arrow_step = 0.01
 
 [node name="B" type="HBoxContainer" parent="." unique_id=966230471]
 unique_name_in_owner = true
@@ -88,17 +79,23 @@ custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 text = "B"
 
-[node name="InputB" type="SpinBox" parent="B" unique_id=1714002477]
-unique_name_in_owner = true
+[node name="Value" type="SpinBox" parent="B" unique_id=1714002477]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 min_value = -999.9
 max_value = 999.9
-step = 0.01
-value = 0.10000000000002274
+step = 0.0
+custom_arrow_step = 0.01
 
-[node name="Value" type="Label" parent="." unique_id=559556553]
+[node name="Output" type="HBoxContainer" parent="." unique_id=955606477]
 unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Display" type="LineEdit" parent="Output" unique_id=1120036717]
+layout_mode = 2
+alignment = 2
+
+[node name="Value" type="Label" parent="Output" unique_id=559556553]
 layout_mode = 2
 text = "Output"
 horizontal_alignment = 2

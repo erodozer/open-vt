@@ -31,7 +31,7 @@ func _deserialize(graph: Blueprint, model: VtModel, data: Dictionary):
 		var id = i.get("id", "")
 		if id.is_empty():
 			continue
-		var n = graph.spawn_action(StringName(i.type), model, id)
+		var n = graph.spawn_action(StringName(i.type), model, { "id": id })
 		if n == null:
 			push_error("invalid action type (%s), clearing graph" % i.type)
 			graph.clear_connections()

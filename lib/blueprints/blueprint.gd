@@ -12,9 +12,10 @@ static var _action_types: Array[PackedScene] = [
 	preload("res://lib/blueprints/logic/blink.tscn"),
 	preload("res://lib/blueprints/logic/breathe.tscn"),
 	preload("res://lib/blueprints/logic/smoothing.tscn"),
+	preload("res://lib/blueprints/logic/range_map.tscn"),
 	preload("res://lib/blueprints/outputs/model_output.tscn"),
 	preload("res://lib/blueprints/outputs/play_animation.tscn"),
-	preload("res://lib/blueprints/outputs/toggle_expression.tscn")
+	preload("res://lib/blueprints/outputs/toggle_expression.tscn"),
 ]
 
 static var palette: Dictionary[StringName, PackedScene] = _action_types.reduce(
@@ -31,7 +32,7 @@ static func create_action(type: StringName) -> VtAction:
 		return node
 	return null
 	
-func spawn_action(action_type, model: VtModel, id: String = "") -> VtAction:
+func spawn_action(action_type, model: VtModel, initial_parameters: Dictionary = {}) -> VtAction:
 	var node: VtAction
 	if action_type is VtAction:
 		node = action_type
@@ -41,15 +42,17 @@ func spawn_action(action_type, model: VtModel, id: String = "") -> VtAction:
 	if node == null:
 		return null
 		
+	for i in initial_parameters:
+		node.set(i, initial_parameters[i])
+		
 	if not node.can_spawn(self):
 		return null
 		
 	node.graph = self
 	node.model = model
 	
-	if id.is_empty():
-		id = "%d" % rid_allocate_id()
-	node.set_meta("id", id)
+	if node.id.is_empty():
+		node.id = "%d" % rid_allocate_id()
 		
 	add_child(node, true)
 	node.owner = self
@@ -88,7 +91,7 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 			disconnect_node(i.from_node, i.from_port, to_node, to_port)
 		
 	connect_node(from_node, from_port, to_node, to_port)
-	n2.bind(s1, n1)
+	n2.bind(s2, n1)
 
 func _on_disconnection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
 	disconnect_node(from_node, from_port, to_node, to_port)
@@ -104,7 +107,7 @@ func _on_child_entered_tree(node: Node) -> void:
 	if node is not VtAction:
 		return
 	
-	var id = node.get_meta("id", "")
+	var id = node.id
 	assert(not id.is_empty(), "node has invalid id")
 	
 	graph_elements[id] = node
@@ -114,7 +117,7 @@ func _on_child_exiting_tree(node: Node) -> void:
 	if node is not VtAction:
 		return
 	
-	var id = node.get_meta("id", "")
+	var id = node.id
 	if not id.is_empty() and id in graph_elements:
 		graph_elements.erase(id)
 	node.slot_updated.disconnect(_on_action.bind(node))
@@ -140,8 +143,8 @@ func _on_action(from_port: int, node: VtAction):
 			_:
 				var value = node.get_value(from_slot)
 				if input == VtAction.SlotType.NUMERIC and output == VtAction.SlotType.VECTOR:
-					var vec4 = value as Vector4
-					target.update_value(to_slot, vec4.w)
+					var vec = value as Vector3
+					target.update_value(to_slot, vec.z)
 				else:
 					target.update_value(to_slot, value)
 
@@ -156,7 +159,7 @@ func serialize() -> Dictionary:
 	
 	for i in graph_elements.values():
 		var node = {
-			"id": i.get_meta("id"),
+			"id": i.id,
 			"type": i.get_type(),
 			"position": Serializers.Vec2Serializer.to_json(i.position_offset),
 			"parameters": i.serialize(),
@@ -165,9 +168,9 @@ func serialize() -> Dictionary:
 	
 	for i in connections:
 		var from_node: VtAction = get_node(NodePath(i.from_node))
-		var from_id = from_node.get_meta("id")
+		var from_id = from_node.id
 		var to_node: VtAction = get_node(NodePath(i.to_node))
-		var to_id = to_node.get_meta("id")
+		var to_id = to_node.id
 		var from_slot = from_node.get_output_slot_by_port(i.from_port)
 		var to_slot = to_node.get_input_slot_by_port(i.to_port)
 		var from_name = from_node.get_slot_name(from_slot)

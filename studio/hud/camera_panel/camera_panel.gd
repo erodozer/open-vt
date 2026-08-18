@@ -150,5 +150,4 @@ func _on_v4l2_toggled(toggled_on: bool) -> void:
 	v4l2_stream.loopback_device = ""
 
 func _on_ui_theme_item_selected(index: int) -> void:
-	var theme = UI_THEMES[index]
-	get_tree().root.propagate_call("set_theme", [theme], true)
+	get_tree().root.propagate_call("set_theme", [UI_THEMES[index]], true)

@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://dwyu5dbc3akkx" path="res://lib/blueprints/inputs/screen_button.tscn" id="4_d27ip"]
 [ext_resource type="Texture2D" uid="uid://bi47la4lgog0c" path="res://lib/blueprints/inputs/face-viewfinder.svg" id="5_5ng8c"]
 [ext_resource type="Texture2D" uid="uid://lto72ierstpg" path="res://lib/blueprints/logic/calculator-simple.svg" id="7_n4xfi"]
-[ext_resource type="PackedScene" uid="uid://bpgxly1q2f3tc" path="res://lib/blueprints/logic/arithmetic.tscn" id="8_rog7t"]
 [ext_resource type="Texture2D" uid="uid://dquygailhgfka" path="res://lib/blueprints/logic/face-exhaling.svg" id="9_cbf0x"]
 [ext_resource type="Texture2D" uid="uid://cubucdwwnclkl" path="res://lib/blueprints/logic/bezier-curve.svg" id="10_d27ip"]
 [ext_resource type="PackedScene" uid="uid://dyittcs286rby" path="res://lib/blueprints/logic/breathe.tscn" id="10_woji1"]
@@ -67,17 +66,14 @@ metadata/action = ExtResource("4_d27ip")
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
 
-[node name="Math" type="Button" parent="." unique_id=525899053]
+[node name="Math" type="MenuButton" parent="." unique_id=330814102]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 6
-tooltip_text = "Add Arithmetic Function"
-focus_mode = 0
 icon = ExtResource("7_n4xfi")
+flat = false
 icon_alignment = 1
 expand_icon = true
-metadata/action = ExtResource("8_rog7t")
 
 [node name="Smoothing" type="Button" parent="." unique_id=907281668]
 custom_minimum_size = Vector2(32, 32)
