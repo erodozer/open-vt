@@ -36,7 +36,7 @@ func _ready() -> void:
 	%YValue.value_changed.connect(_update_transform)
 	%Scale.value_changed.connect(_update_transform)
 	%Rotation.value_changed.connect(_update_transform)
-	
+
 func _update_pin_name(mesh: MeshInstance2D) -> void:
 	if mesh == null:
 		%PinTarget.text = ""
@@ -130,10 +130,18 @@ func _on_reset_fps_pressed() -> void:
 	var frames = item.render.sprite_frames as SpriteFrames
 	%FpsValue.value = frames.get_animation_speed("default")
 
+var expression_popup: Window
 func _on_expression_pressed() -> void:
-	var popup = load("res://studio/hud/item_panel/expression_selector/expression_selector.tscn").instantiate()
-	popup.item = model
-	add_child(popup)
+	if expression_popup:
+		expression_popup.grab_focus()
+		return
+	expression_popup = load("res://studio/hud/item_panel/expression_selector/expression_selector.tscn").instantiate()
+	expression_popup.item = model
+	expression_popup.tree_exiting.connect(
+		func ():
+			expression_popup = null
+	)
+	add_child(expression_popup)
 
 func _on_pin_target_pressed() -> void:
 	var popup = load("res://studio/hud/item_panel/pin_selector/pin_selector.tscn").instantiate()

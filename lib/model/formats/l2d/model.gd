@@ -171,7 +171,7 @@ func _build_model():
 	idle_anim.add_animation_library("", anim_lib)
 	
 	# emotion controller
-	var expression_library = AyagamiLoader.load_expression_library(modelmeta.model.get_base_dir())
+	var expression_library = AyagamiLoader.load_expression_library(modelmeta.model.get_base_dir(), true)
 	var expression_controller: AyagamiExpressionMutator = model.get_node("ExpressionController")
 	expression_controller.expressions = expression_library.keys()
 	for e in expression_library.keys():
@@ -257,18 +257,6 @@ func get_animation_player() -> AnimationPlayer:
 	
 func get_expression_controller() -> AyagamiExpressionMutator:
 	return model.get_node("ExpressionController")
-
-func toggle_expression(expression_name: String, activate: bool = true, duration: float = 1.0, exclusive: bool = false):
-	var expression_controller = get_expression_controller()
-	if expression_controller == null:
-		return
-	if expression_name.is_empty():
-		expression_controller.reset()
-	elif activate:
-		expression_controller.set("expressions/%s" % expression_name, true)
-	else:
-		expression_controller.set("expressions/%s" % expression_name, false)
-		
 
 ## save bidirectional vts compatible settings
 func _save_to_vts():

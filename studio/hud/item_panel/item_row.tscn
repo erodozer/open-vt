@@ -201,20 +201,14 @@ suffix = "°"
 
 [node name="ModelControls" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1838614656]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 alignment = 1
 
-[node name="Expression" type="Button" parent="HBoxContainer/VBoxContainer/ModelControls" unique_id=1422558834]
-custom_minimum_size = Vector2(150, 32)
+[node name="Expression" type="Button" parent="HBoxContainer/VBoxContainer/ModelControls" unique_id=1481729494]
+unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 8
-tooltip_text = "Edit Bindings"
-focus_mode = 0
-toggle_mode = true
 text = "Set Expression"
 icon = ExtResource("8_17a61")
-expand_icon = true
 
 [node name="Bindings" type="Button" parent="HBoxContainer/VBoxContainer/ModelControls" unique_id=1012326904]
 unique_name_in_owner = true

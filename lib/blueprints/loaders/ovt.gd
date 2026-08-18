@@ -32,10 +32,12 @@ func _deserialize(graph: Blueprint, model: VtModel, data: Dictionary):
 		if id.is_empty():
 			continue
 		var n = graph.create_action(StringName(i.type))
-		n.id = id
-		n.model = model
-		n.deserialize(i.get("parameters", {}))
-		n = graph.spawn_action(n, model)
+		
+		if n != null:
+			n.id = id
+			n.model = model
+			n.deserialize(i.get("parameters", {}))
+			n = graph.spawn_action(n, model)
 		
 		if n == null:
 			push_error("invalid action type (%s), clearing graph" % i.type)

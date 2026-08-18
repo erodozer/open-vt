@@ -82,6 +82,8 @@ func save_settings(model_data: Dictionary):
 	model_data["graphs"] = graphs
 
 func _on_palette_create_node(action: VtAction) -> void:
+	if active_graph == null:
+		return
 	active_graph.spawn_action(action, active_model)
 
 func _on_close_requested() -> void:

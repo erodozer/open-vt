@@ -72,10 +72,12 @@ func _build_hotkey_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint:
 			"ToggleExpression", "RemoveAllExpressions":
 				output = graph.spawn_action(&"expression", model)
 				
-				var e_name: String = hotkey.File
+				var e_name: String = hotkey.File.trim_suffix(".exp3.json")
 				var duration = hotkey.FadeSecondsAmount * 1000.0
+				var expressions = model.get_expression_controller().expressions
+				
 				if hotkey.Action == "ToggleExpression":
-					output.expression = e_name.trim_suffix(".exp3.json")
+					output.expression = e_name
 				output.get_node("%Fade/Value").value = duration
 				output.position_offset = Vector2(x + _x, y)
 				_x += output.size.x + PAD
@@ -198,6 +200,7 @@ func _build_parameter_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint
 				)
 				scalar.position_offset = Vector2(_x, y)
 				input = scalar
+				input_slot = scalar.get_output_port_by_name("output")
 			else:
 				scalar.queue_free()
 				input = blink

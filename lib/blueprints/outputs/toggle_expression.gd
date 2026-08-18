@@ -1,38 +1,52 @@
 extends "../vt_action.gd"
 
-@onready var input: OptionButton = %Expression
+var input: OptionButton:
+	get():
+		return %Expression
 
-var expression: String = "" :
-	set(e):
-		expression = e
-		if input:
-			var expressions = model.get_expression_controller().expressions
-			var idx = expressions.find_custom(func (x): return x.get_name() == e) + 1
-			input.select(idx)
-
+var expression: String:
+	set(v):
+		var controller = model.get_expression_controller()
+		var idx = (controller.expressions as Array).find_custom(
+			func (e):
+				return e.get_name() == v
+		)
+		if idx == -1:
+			expression = ""
+		else:
+			expression = v
+			var active = controller.is_activated(expression)
+			%Active.button_pressed = active
+		self.input.select(idx + 1)
+		
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	var controller = model.get_expression_controller()
-	var expressions = model.get_expression_controller().expressions
-	for m in expressions:
-		var name = m.get_name()
-		input.add_item(name)
+func set_model(m: VtModel):
+	if model == m:
+		return
+	model = m
+	var controller = m.get_expression_controller()
+	var expressions = controller.expressions
+	for e in expressions:
+		var name = e.get_name()
+		var group = controller.get("expression_groups/%s" % name)
+		if group:
+			input.add_item("%s/%s" % [group, name])
+		else:
+			input.add_item(name)
 		input.set_item_metadata(input.item_count - 1, m)
-		var active = controller.is_activated(name)
-		%Active.button_pressed = active
-		if expression == name:
-			input.selected = input.item_count - 1
-
+		
 func get_type() -> StringName:
 	return &"expression"
 	
 func serialize():
-	return {
-		"name": self.expression,
-	}
+	var out = {}
+	if self.expression:
+		out["name"] = self.expression
+	return out
 	
 func deserialize(data: Dictionary):
-	self.expression = data.get("name")
+	if data.get("name"):
+		self.expression = data.name
 
 func get_input_slot_by_port(port: int) -> int:
 	match port:
@@ -73,11 +87,21 @@ func invoke_trigger(slot: int) -> void:
 	elif slot == 3:
 		activate = false
 		
-	model.toggle_expression(
-		expression,
-		activate,
-		%Fade/Value.value / 1000.0
-	)
+	var controller: AyagamiExpressionMutator = model.get_expression_controller()
+	var group = controller.get("expression_groups/%s" % expression)
+	var tween = create_tween().set_parallel(true)
+	var fade = %Fade/Value.value / 1000.0
+	if group and activate:
+		for e in controller.expressions:
+			var e_name = e.get_name()
+			if controller.get("expression_groups/%s" % e_name) == group and e_name != expression:
+				tween.tween_property(controller, "weight/%s" % e_name, 0.0, fade)
+		tween.tween_property(controller, "weight/%s" % expression, 1.0, fade)
+	elif activate:
+		tween.tween_property(controller, "weight/%s" % expression, 1.0, fade)
+	else:
+		tween.tween_property(controller, "weight/%s" % expression, 0.0, fade)
+
 	%Active.button_pressed = activate
 
 func _on_expression_item_selected(_index: int) -> void:

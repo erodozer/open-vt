@@ -79,7 +79,7 @@ func get_output_slot_by_port(port: int) -> int:
 
 func get_output_port_by_name(slot: StringName) -> int:
 	match slot.to_lower():
-		"value":
+		"output":
 			return 0
 		_:
 			return -1
@@ -106,7 +106,7 @@ func serialize():
 	return output
 
 func deserialize(data):
-	operator = data.get("operator", Operator.Add)
+	operator = Operator[data.get("operator", "Add")]
 	if data.get("a", null):
 		if data.a is Dictionary:
 			a = Serializers.Vec2Serializer.from_json(data.a, Vector2.DOWN)
