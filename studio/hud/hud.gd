@@ -16,7 +16,7 @@ func _ready() -> void:
 			fmt.model_format(),
 		)
 	
-	group = %ParameterBtn.button_group
+	group = %CameraBtn.button_group
 	group.pressed.connect(
 		func (button):
 			if not button.has_meta("panel"):

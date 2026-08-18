@@ -2,50 +2,49 @@
 
 [ext_resource type="Script" uid="uid://cjr68iypsu8xn" path="res://studio/hud/item_panel/scene_selector/scene_selector_popup.gd" id="1_lv7c4"]
 
-[node name="SceneSelectorPopup" type="PopupPanel" unique_id=1391015527]
-oversampling_override = 1.0
-title = "Select a Scene To Load"
-initial_position = 2
-size = Vector2i(800, 600)
-visible = true
-borderless = false
-popup_wm_hint = false
-theme_type_variation = &"FramedPopupPanel"
+[node name="SceneSelector" type="Node" unique_id=783546590]
 script = ExtResource("1_lv7c4")
 
-[node name="HSplitContainer" type="HSplitContainer" parent="." unique_id=1863228639]
+[node name="FileDialog" type="FileDialog" parent="." unique_id=790921876]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "Open a File"
+position = Vector2i(0, 36)
+visible = true
+file_mode = 0
+display_mode = 1
+access = 2
+filters = PackedStringArray("*.itemscene.json;VTube Studio Scene;")
+use_native_dialog = true
+
+[node name="ScenePreview" type="ConfirmationDialog" parent="." unique_id=551641385]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "Scene Preview"
+initial_position = 2
+size = Vector2i(800, 600)
+theme_type_variation = &"FramedPopupPanel"
+ok_button_text = "Confirm Load"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="ScenePreview" unique_id=219936190]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 792.0
-offset_bottom = 592.0
+offset_bottom = 551.0
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer" unique_id=1866270642]
-layout_mode = 2
-horizontal_scroll_mode = 0
-vertical_scroll_mode = 2
-
-[node name="ItemList" type="VBoxContainer" parent="HSplitContainer/ScrollContainer" unique_id=1665016688]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="HSplitContainer" unique_id=219936190]
-layout_mode = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="HSplitContainer/VBoxContainer2" unique_id=65350916]
+[node name="PanelContainer" type="PanelContainer" parent="ScenePreview/VBoxContainer2" unique_id=65350916]
 layout_mode = 2
 theme_type_variation = &"SubPanelContainer"
 
-[node name="Metadata" type="GridContainer" parent="HSplitContainer/VBoxContainer2/PanelContainer" unique_id=1219624543]
+[node name="Metadata" type="GridContainer" parent="ScenePreview/VBoxContainer2/PanelContainer" unique_id=1219624543]
 layout_mode = 2
 columns = 2
 
-[node name="Label" type="Label" parent="HSplitContainer/VBoxContainer2/PanelContainer/Metadata" unique_id=735129392]
+[node name="Label" type="Label" parent="ScenePreview/VBoxContainer2/PanelContainer/Metadata" unique_id=735129392]
 layout_mode = 2
 text = "Model"
 
-[node name="ModelName" type="LineEdit" parent="HSplitContainer/VBoxContainer2/PanelContainer/Metadata" unique_id=1263987559]
+[node name="ModelName" type="LineEdit" parent="ScenePreview/VBoxContainer2/PanelContainer/Metadata" unique_id=1263987559]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
@@ -55,11 +54,11 @@ placeholder_text = "Model Name"
 alignment = 2
 editable = false
 
-[node name="Label3" type="Label" parent="HSplitContainer/VBoxContainer2/PanelContainer/Metadata" unique_id=1509926141]
+[node name="Label3" type="Label" parent="ScenePreview/VBoxContainer2/PanelContainer/Metadata" unique_id=1509926141]
 layout_mode = 2
 text = "Group"
 
-[node name="GroupName" type="LineEdit" parent="HSplitContainer/VBoxContainer2/PanelContainer/Metadata" unique_id=1368452982]
+[node name="GroupName" type="LineEdit" parent="ScenePreview/VBoxContainer2/PanelContainer/Metadata" unique_id=1368452982]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
@@ -68,29 +67,22 @@ placeholder_text = "Group Name"
 alignment = 2
 editable = false
 
-[node name="Label" type="Label" parent="HSplitContainer/VBoxContainer2" unique_id=499948026]
+[node name="Label" type="Label" parent="ScenePreview/VBoxContainer2" unique_id=499948026]
 layout_mode = 2
 text = "Items"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/VBoxContainer2" unique_id=854112892]
+[node name="ScrollContainer" type="ScrollContainer" parent="ScenePreview/VBoxContainer2" unique_id=854112892]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="SceneItems" type="VBoxContainer" parent="HSplitContainer/VBoxContainer2/ScrollContainer" unique_id=1119729265]
+[node name="SceneItems" type="VBoxContainer" parent="ScenePreview/VBoxContainer2/ScrollContainer" unique_id=1119729265]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer/VBoxContainer2" unique_id=1312658463]
-layout_mode = 2
-alignment = 2
-
-[node name="LoadButton" type="Button" parent="HSplitContainer/VBoxContainer2/HBoxContainer" unique_id=1657003856]
-layout_mode = 2
-text = "Load Scene"
-
-[connection signal="close_requested" from="." to="." method="_on_close_requested"]
-[connection signal="popup_hide" from="." to="." method="_on_popup_hide"]
-[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
-[connection signal="pressed" from="HSplitContainer/VBoxContainer2/HBoxContainer/LoadButton" to="." method="_on_load_button_pressed"]
+[connection signal="close_requested" from="FileDialog" to="." method="_on_close_requested"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]
+[connection signal="canceled" from="ScenePreview" to="." method="_on_close_requested"]
+[connection signal="close_requested" from="ScenePreview" to="ScenePreview" method="_on_close_requested"]
+[connection signal="confirmed" from="ScenePreview" to="." method="load_item_scene"]

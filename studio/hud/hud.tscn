@@ -2,11 +2,9 @@
 
 [ext_resource type="Script" uid="uid://pso4m0hd1wo3" path="res://studio/hud/hud.gd" id="1_t0mli"]
 [ext_resource type="Texture2D" uid="uid://ddqu1ma3rgo08" path="res://studio/hud/icons/aperture.svg" id="2_vysue"]
-[ext_resource type="Texture2D" uid="uid://rnym8fj5ywno" path="res://studio/hud/icons/camera-web.svg" id="3_0k8c4"]
 [ext_resource type="Texture2D" uid="uid://jqiaeaslelbe" path="res://studio/hud/icons/person.svg" id="3_buab2"]
 [ext_resource type="Texture2D" uid="uid://csg8x01sho2ej" path="res://studio/hud/icons/cube.svg" id="4_0k8c4"]
 [ext_resource type="Texture2D" uid="uid://blil5brl4i0qh" path="res://studio/hud/icons/gear.svg" id="5_1vcj3"]
-[ext_resource type="Texture2D" uid="uid://b2152bd2ck2uq" path="res://ui/icons/circle-nodes.svg" id="7_bomus"]
 [ext_resource type="Texture2D" uid="uid://b3m3xj1ms8rss" path="res://ui/icons/square-arrow-up-left.svg" id="7_wochk"]
 [ext_resource type="Texture2D" uid="uid://b401bri37hvvq" path="res://studio/stage/grid.png" id="8_i4b50"]
 [ext_resource type="PackedScene" uid="uid://bcxs7fe1yqc6o" path="res://studio/hud/item_panel/item_panel.tscn" id="11_juv7g"]
@@ -74,39 +72,31 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_goisu")
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="CameraBtn" type="Button" parent="Menu/VBoxContainer" unique_id=1535069087]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(48, 48)
+[node name="PanelContainer" type="PanelContainer" parent="Menu/VBoxContainer" unique_id=862933649]
 layout_mode = 2
-tooltip_text = "Configure Application and Hardware Settings"
-focus_mode = 0
-mouse_default_cursor_shape = 2
-theme_type_variation = &"HUDButton"
-toggle_mode = true
-button_group = SubResource("ButtonGroup_42qc0")
-icon = ExtResource("3_0k8c4")
-icon_alignment = 1
-expand_icon = true
-metadata/panel = NodePath("../../../Panels/CameraPanel")
 
-[node name="ModelBtn" type="Button" parent="Menu/VBoxContainer" unique_id=1301796430]
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu/VBoxContainer/PanelContainer" unique_id=1390532557]
+layout_mode = 2
+
+[node name="ModelBtn" type="Button" parent="Menu/VBoxContainer/PanelContainer/VBoxContainer" unique_id=1301796430]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
+size_flags_horizontal = 0
 tooltip_text = "Change the active model"
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_type_variation = &"HUDButton"
-toggle_mode = true
-button_group = SubResource("ButtonGroup_42qc0")
 icon = ExtResource("3_buab2")
+flat = true
 icon_alignment = 1
 expand_icon = true
 
-[node name="ItemBtn" type="Button" parent="Menu/VBoxContainer" unique_id=1092610433]
+[node name="ItemBtn" type="Button" parent="Menu/VBoxContainer/PanelContainer/VBoxContainer" unique_id=1092610433]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
+size_flags_horizontal = 0
 tooltip_text = "Compose your scene with extra items"
 focus_mode = 0
 mouse_default_cursor_shape = 2
@@ -114,44 +104,33 @@ theme_type_variation = &"HUDButton"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_42qc0")
 icon = ExtResource("4_0k8c4")
+flat = true
 icon_alignment = 1
 expand_icon = true
-metadata/panel = NodePath("../../../Panels/ItemPanel")
+metadata/panel = NodePath("../../../../../Panels/ItemPanel")
 
-[node name="ParameterBtn" type="Button" parent="Menu/VBoxContainer" unique_id=1442291964]
+[node name="CameraBtn" type="Button" parent="Menu/VBoxContainer/PanelContainer/VBoxContainer" unique_id=1535069087]
 unique_name_in_owner = true
-visible = false
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
-tooltip_text = "Configure Model Settings"
+size_flags_horizontal = 0
+tooltip_text = "Configure Application and Hardware Settings"
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_type_variation = &"HUDButton"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_42qc0")
 icon = ExtResource("5_1vcj3")
+flat = true
 icon_alignment = 1
 expand_icon = true
-metadata/panel = NodePath("")
-
-[node name="ActionBtn" type="Button" parent="Menu/VBoxContainer" unique_id=1083827544]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-tooltip_text = "Configure Model Bindings"
-focus_mode = 0
-mouse_default_cursor_shape = 2
-theme_type_variation = &"HUDButton"
-icon = ExtResource("7_bomus")
-icon_alignment = 1
-expand_icon = true
-metadata/model = true
+metadata/panel = NodePath("../../../../../Panels/CameraPanel")
 
 [node name="ScreenshotBtn" type="Button" parent="Menu/VBoxContainer" unique_id=1335475815]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
+size_flags_horizontal = 0
 size_flags_vertical = 10
 tooltip_text = "Takes a transparent screenshot
 A slight flicker will occur when capturing"
@@ -164,6 +143,7 @@ expand_icon = true
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
+size_flags_horizontal = 0
 tooltip_text = "Pop out UI
 (Recommended when Capturing)"
 focus_mode = 0
@@ -230,8 +210,7 @@ use_native_dialog = true
 folder_creation_enabled = false
 deleting_enabled = false
 
-[connection signal="pressed" from="Menu/VBoxContainer/ModelBtn" to="." method="_on_model_btn_pressed"]
-[connection signal="pressed" from="Menu/VBoxContainer/ActionBtn" to="." method="_on_action_btn_pressed"]
+[connection signal="pressed" from="Menu/VBoxContainer/PanelContainer/VBoxContainer/ModelBtn" to="." method="_on_model_btn_pressed"]
 [connection signal="pressed" from="Menu/VBoxContainer/ScreenshotBtn" to="." method="_on_screenshot_btn_pressed"]
 [connection signal="pressed" from="Menu/VBoxContainer/PopoutBtn" to="." method="popout"]
 [connection signal="file_selected" from="ModelBrowser" to="." method="_on_model_browser_file_selected"]

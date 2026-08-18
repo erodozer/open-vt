@@ -3,6 +3,24 @@ extends Node
 const VtModel = preload("res://lib/model/vt_model.gd")
 const VtItem = preload("res://lib/items/vt_item.gd")
 
+func about_item(path: String) -> Dictionary:
+	if ModelManager.is_model(path):
+		return {
+			"name": path.get_basename(),
+			"type": VtItem.ItemType.MODEL
+		}
+	elif DirAccess.dir_exists_absolute(path):
+		return {
+			"name": path.get_basename(),
+			"type": VtItem.ItemType.ANIMATED
+		}
+	elif Image.load_from_file(path):
+		return {
+			"name": path.get_basename(),
+			"type": VtItem.ItemType.IMAGE
+		}
+	return {}
+
 func create_item(path: PackedStringArray) -> VtItem:
 	assert(not path.is_empty())
 	var vtitem = preload("res://lib/items/vt_item.tscn").instantiate()

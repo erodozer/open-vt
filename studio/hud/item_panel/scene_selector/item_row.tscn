@@ -42,7 +42,8 @@ editable = false
 layout_mode = 2
 text = "Z-Order"
 
-[node name="Ordering" type="LineEdit" parent="VBoxContainer/HBoxContainer2" unique_id=1927923971]
+[node name="Ordering" type="SpinBox" parent="VBoxContainer/HBoxContainer2" unique_id=504285170]
 unique_name_in_owner = true
 layout_mode = 2
-editable = false
+min_value = -100.0
+rounded = true
