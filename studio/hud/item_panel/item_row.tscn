@@ -201,6 +201,7 @@ suffix = "°"
 
 [node name="ModelControls" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1838614656]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 alignment = 1
 

@@ -136,7 +136,7 @@ func _on_expression_pressed() -> void:
 		expression_popup.grab_focus()
 		return
 	expression_popup = load("res://studio/hud/item_panel/expression_selector/expression_selector.tscn").instantiate()
-	expression_popup.item = model
+	expression_popup.item = item.render if item is VtItem else item
 	expression_popup.tree_exiting.connect(
 		func ():
 			expression_popup = null
@@ -155,5 +155,5 @@ func _on_pin_target_pressed() -> void:
 
 func _on_model_settings_pressed() -> void:
 	var popup = preload("./model_settings/panel.tscn").instantiate()
-	popup.model = model
+	popup.model = item.render if item is VtItem else item
 	add_child(popup)

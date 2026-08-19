@@ -11,6 +11,8 @@ var _pause_signals = false
 
 func _ready():
 	assert(model != null)
+	title = "Model Settings [%s]" % model.display_name
+	
 	%Movement/XValue.value_changed.connect(_move_model)
 	%Movement/YValue.value_changed.connect(_move_model)
 	%Movement/ZValue.value_changed.connect(_move_model)
@@ -189,4 +191,5 @@ func _on_movement_lock_button_toggled(toggled_on: bool) -> void:
 	%Movement/ZValue.editable = !toggled_on
 
 func _on_close_requested() -> void:
+	model.save_settings({})
 	queue_free()

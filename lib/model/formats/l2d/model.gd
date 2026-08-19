@@ -328,9 +328,9 @@ func _load_from_vts():
 		}
 	
 	for mesh in get_meshes():
-		if name not in mesh_settings:
+		if mesh.name not in mesh_settings:
 			continue
-		var settings = mesh_settings[mesh]
+		var settings = mesh_settings[mesh.name]
 		var exclude = mesh.name in pin_settings
 		settings.pinnable = not exclude
 		

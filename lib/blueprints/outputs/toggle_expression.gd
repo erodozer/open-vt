@@ -30,11 +30,7 @@ func set_model(m: VtModel):
 	var expressions = controller.expressions
 	for e in expressions:
 		var name = e.get_name()
-		var group = controller.get("expression_groups/%s" % name)
-		if group:
-			input.add_item("%s/%s" % [group, name])
-		else:
-			input.add_item(name)
+		input.add_item(name)
 		input.set_item_metadata(input.item_count - 1, m)
 		
 func get_type() -> StringName:

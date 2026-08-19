@@ -9,6 +9,8 @@ var buttons: Dictionary[AyagamiExpression, Array] = {}
 @onready var exp_controller: AyagamiExpressionMutator = item.get_expression_controller()
 @onready var expressions = exp_controller.expressions.duplicate()
 func _ready():
+	title = "Set Expression [%s]" % item.display_name
+	
 	expressions.sort_custom(
 		func (e, _e):
 			return exp_controller.get("expression_groups/%s" % e.get_name()).is_empty()
@@ -111,9 +113,9 @@ func toggle_expression(activate: bool, expression: AyagamiExpression, fade: floa
 			
 		tween.tween_property(exp_controller, "weight/%s" % e_name, 1.0, fade)
 	elif activate:
-		tween.tween_property(exp_controller, "weight/%s" % expression, 1.0, fade)
+		tween.tween_property(exp_controller, "weight/%s" % e_name, 1.0, fade)
 	else:
-		tween.tween_property(exp_controller, "weight/%s" % expression, 0.0, fade)
+		tween.tween_property(exp_controller, "weight/%s" % e_name, 0.0, fade)
 
 func _on_close_requested() -> void:
 	queue_free()
