@@ -209,7 +209,7 @@ func _build_model():
 		param_settings[p] = ParameterModifier.new()
 	
 	for p in get_parts():
-		part_settings[p] = PartModifier.new(self, p)
+		part_settings[p] = PartModifier.new(model, p)
 					
 	await get_tree().process_frame
 	
@@ -339,7 +339,7 @@ func _load_from_vts():
 			var colors = tint[mesh.name]
 			settings.multiply_color = colors.multiply
 			settings.screen_color = colors.creen
-
+		
 func save_model_settings(settings: Dictionary):
 	super.save_model_settings(settings)
 	
@@ -349,6 +349,18 @@ func save_model_settings(settings: Dictionary):
 		"meshes": Collections.remap(mesh_settings, func (v): return Serializers.ObjSerializer.to_json(v)),
 		"parts": Collections.remap(part_settings, func (v): return Serializers.ObjSerializer.to_json(v))
 	}
+	
+	# expression groups
+	var expression_groups = {}
+	for expression in get_expression_controller().expressions:
+		var name = expression.get_name()
+		var groups = get_expression_controller().get("expression_groups/%s" % name)
+		var path = expression.resource_path.trim_prefix(modelmeta.path + "/")
+		expression_groups[name] = {
+			"path": path,
+			"groups": groups
+		}
+	settings["expressions"] = expression_groups
 	
 	_save_to_vts()
 	
@@ -373,4 +385,15 @@ func load_model_settings(settings: Dictionary):
 		var modifier = part_settings[p]
 		var saved = settings.get("modifiers", {}).get("parts", {}).get(p, {})
 		Serializers.ObjSerializer.from_json(saved, modifier)
+	
+	var exp_controller = self.get_expression_controller()
+	var expressions = exp_controller.expressions
+	var expression_settings: Dictionary = settings.get("expressions", {})
+	for e in expression_settings:
+		var s = expression_settings[e]
+		for expression in expressions:
+			var path = self.modelmeta.path.path_join(s.get("path", "%s.exp3.json" % e))
+			if e == expression.get_name() and path == expression.resource_path:
+				exp_controller.set("expression_groups/%s" % e, s.get("groups", []))
+				break
 	

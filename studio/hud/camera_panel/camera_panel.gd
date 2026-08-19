@@ -100,7 +100,9 @@ func _on_preview_background_color_color_changed(color: Color) -> void:
 func load_settings(data: Dictionary):
 	_on_background_color_changed(data.get("window", {}).get("background_color", "000000"))
 	_on_background_file_selected(data.get("window", {}).get("background_image", ""))
-	background_mode.select(data.get("window", {}).get("background_mode", 0))
+	background_mode.selected = data.get("window", {}).get("background_mode", 0)
+	_on_background_mode_selected(background_mode.selected)
+
 	face_trackers.select(data.get("camera", {}).get("tracking", 0))
 	fps_option.select(data.get("window", {}).get("fps", 0))
 	_on_fps_value_item_selected(fps_option.get_selected_id())

@@ -135,6 +135,14 @@ focus_mode = 0
 text_overrun_behavior = 3
 fit_to_longest_item = false
 
+[node name="Expression Settings" type="PanelContainer" parent="PanelContainer/ScrollContainer/Accordion" unique_id=1861170643]
+layout_mode = 2
+theme_type_variation = &"SubPanelContainer"
+
+[node name="ExpressionList" type="VBoxContainer" parent="PanelContainer/ScrollContainer/Accordion/Expression Settings" unique_id=1227662538]
+unique_name_in_owner = true
+layout_mode = 2
+
 [connection signal="close_requested" from="." to="." method="_on_close_requested"]
 [connection signal="item_selected" from="PanelContainer/ScrollContainer/Accordion/Model Settings/VBoxContainer/HBoxContainer/TextureFilter" to="." method="_on_texture_filter_item_selected"]
 [connection signal="toggled" from="PanelContainer/ScrollContainer/Accordion/Model Settings/VBoxContainer/SmoothScaling" to="." method="_on_smooth_scaling_toggled"]

@@ -118,6 +118,35 @@ func _ready():
 	%Movement/YValue.set_value_no_signal(model.movement_scale.y)
 	%Movement/ZValue.set_value_no_signal(model.movement_scale.z)
 	
+	var expression_controller = model.get_expression_controller()
+	if expression_controller:
+		for expression in expression_controller.expressions:
+			var name = expression.get_name()
+			var row = HBoxContainer.new()
+			var label = Label.new()
+			label.text = name
+			label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			row.add_child(label)
+			
+			var edit = LineEdit.new()
+			edit.text = ",".join(expression_controller.get("expression_groups/%s" % name))
+			edit.editing_toggled.connect(
+				func (_mode):
+					var text = edit.text
+					var groups: Array = Array(text.split(","))\
+						.map(func (v: String): return StringName(v.strip_edges()))\
+						.filter(func (v: String): return not v.is_empty())
+					expression_controller.set("expression_groups/%s" % name, groups)
+					var update = expression_controller.get("expression_groups/%s" % name)
+					assert(update == groups, "unable to insert groups")
+			)
+			edit.custom_minimum_size = Vector2i(180, 0)
+			edit.size_flags_horizontal = Control.SIZE_SHRINK_END
+			row.add_child(edit)
+			%ExpressionList.add_child(row)
+	else:
+		%ExpressionList.queue_free()
+	
 	model.request_delete.connect(close_requested.emit)
 	
 func _move_model(_value):

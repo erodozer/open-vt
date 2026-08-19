@@ -23,6 +23,13 @@ static func remap(collection: Dictionary, mapper: Callable):
 		{}
 	)
 
+static func intersect(a: Array, b: Array) -> Array:
+	var out = []
+	for x in a:
+		if x in b:
+			out.append(x)
+	return out
+
 ## fetch values from nested dictionaries using dot-path traversal
 static func path(dict: Dictionary, key: String, defaultValue: Variant = null) -> Variant:
 	var levels = key.split(".")

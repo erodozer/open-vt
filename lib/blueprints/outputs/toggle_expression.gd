@@ -1,5 +1,7 @@
 extends "../vt_action.gd"
 
+const Collections = preload("res://lib/utils/collections.gd")
+
 var input: OptionButton:
 	get():
 		return %Expression
@@ -87,14 +89,18 @@ func invoke_trigger(slot: int) -> void:
 	elif slot == 3:
 		activate = false
 		
-	var controller: AyagamiExpressionMutator = model.get_expression_controller()
-	var group = controller.get("expression_groups/%s" % expression)
-	var tween = create_tween().set_parallel(true)
 	var fade = %Fade/Value.value / 1000.0
-	if group and activate:
+	var controller: AyagamiExpressionMutator = model.get_expression_controller()
+	var groups:Array = controller.get("expression_groups/%s" % expression)
+	var tween = create_tween().set_parallel(true)
+	if not groups.is_empty() and activate:
 		for e in controller.expressions:
 			var e_name = e.get_name()
-			if controller.get("expression_groups/%s" % e_name) == group and e_name != expression:
+			if e_name == expression:
+				continue
+				
+			var e_groups: Array = controller.get("expression_groups/%s" % e_name)
+			if not Collections.intersect(groups, e_groups).is_empty():
 				tween.tween_property(controller, "weight/%s" % e_name, 0.0, fade)
 		tween.tween_property(controller, "weight/%s" % expression, 1.0, fade)
 	elif activate:
