@@ -17,7 +17,7 @@ build_ayagami () {
 	make package target=$TARGET
 	cp -r $WORKDIR/addons/ayagami $ADDONDIR
 
-	cp $WORKDIR/LICENSE $PROJ_ROOT/license/LICENSE.ayagami.md
+	cp $WORKDIR/LICENSE.md $PROJ_ROOT/license/LICENSE.ayagami.md
 	cp $WORKDIR/README.md $ADDONDIR/ayagami/README.md
 	
 	echo "*" > $ADDONDIR/ayagami/.gitignore
@@ -82,7 +82,7 @@ build_vrm () {
 }
 
 # fetch submodules if they haven't been already
-git submodule update --init --recursive
+# git submodule update --init --recursive
 
 build_ayagami
 build_vrm
