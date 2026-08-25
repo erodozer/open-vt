@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://ctgn3ir4rc6ap" path="res://studio/hud/item_panel/model_settings/panel.gd" id="1_jq7pc"]
 [ext_resource type="Script" uid="uid://08yyvfky7ack" path="res://ui/accordion/accordion.gd" id="2_ew1m6"]
-[ext_resource type="Texture2D" uid="uid://pd4vy1npck5p" path="res://ui/icons/lock.svg" id="3_uedqu"]
 
 [node name="ModelSettings" type="Window" unique_id=653453700]
 oversampling_override = 1.0
@@ -109,15 +108,11 @@ step = 0.1
 alignment = 2
 suffix = "Z"
 
-[node name="LockButton" type="Button" parent="PanelContainer/ScrollContainer/Accordion/Model Settings/VBoxContainer/Movement" unique_id=1257546654]
-custom_minimum_size = Vector2(48, 0)
+[node name="LockButton" type="CheckButton" parent="PanelContainer/ScrollContainer/Accordion/Model Settings/VBoxContainer/Movement" unique_id=446024159]
 layout_mode = 2
 tooltip_text = "Lock transform"
 focus_mode = 0
-toggle_mode = true
-icon = ExtResource("3_uedqu")
-icon_alignment = 1
-expand_icon = true
+theme_type_variation = &"LockButton"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/ScrollContainer/Accordion/Model Settings/VBoxContainer" unique_id=2917476]
 layout_mode = 2

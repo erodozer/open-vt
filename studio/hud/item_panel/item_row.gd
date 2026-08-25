@@ -112,12 +112,30 @@ func _on_edit_bindings_pressed() -> void:
 	add_child(editor)
 
 func _on_recenter_pressed() -> void:
-	item.position = item.get_viewport_rect().get_center()
-	item.notify_transform_updated()
+	%XValue.editable = false
+	%YValue.editable = false
+	var t = create_tween()
+	t.tween_property(
+		item, "position", item.get_viewport_rect().get_center(), 0.2
+	).set_trans(Tween.TRANS_QUAD)
+	t.tween_callback(
+		func ():
+			item.notify_transform_updated()
+			%XValue.editable = true
+			%YValue.editable = true
+	)
 
 func _on_scale_to_fit_pressed() -> void:
-	item.scale = Vector2.ONE * min(1.0, item.get_viewport_rect().size.y / item.size.y)
-	item.notify_transform_updated()
+	%Scale.editable = false
+	var t = create_tween()
+	t.tween_property(
+		item, "scale", Vector2.ONE * min(1.0, item.get_viewport_rect().size.y / item.size.y), 0.2
+	).set_trans(Tween.TRANS_QUAD)
+	t.tween_callback(
+		func ():
+			item.notify_transform_updated()
+			%Scale.editable = true
+	)
 
 func _on_fps_value_value_changed(value: float) -> void:
 	var frames = item.render.sprite_frames as SpriteFrames
@@ -157,3 +175,41 @@ func _on_model_settings_pressed() -> void:
 	var popup = preload("./model_settings/panel.tscn").instantiate()
 	popup.model = item.render if item is VtItem else item
 	add_child(popup)
+
+func _on_rotate_reset_pressed() -> void:
+	%Rotation.editable = false
+	var target = 360.0 if 360.0 - %Rotation.value < %Rotation.value else 0.0
+		
+	var t = create_tween()
+	t.tween_property(
+		%Rotation, "value", target, 0.2
+	).set_trans(Tween.TRANS_QUAD)
+	t.tween_callback(
+		func ():
+			%Rotation.value = wrapi(%Rotation.value, %Rotation.min_value, %Rotation.max_value)
+			%Rotation.editable = true
+	)
+
+func _on_rotate_pressed(degrees: float) -> void:
+	%Rotation.editable = false
+	var t = create_tween()
+	t.tween_property(
+		%Rotation, "value", degrees, 0.2
+	).set_trans(Tween.TRANS_QUAD).as_relative()
+	t.tween_callback(
+		func ():
+			%Rotation.value = wrapi(%Rotation.value, %Rotation.min_value, %Rotation.max_value)
+			%Rotation.editable = true
+	)
+
+func _on_scale_reset_pressed() -> void:
+	%Scale.editable = false
+	var t = create_tween()
+	t.tween_property(
+		item, "scale", Vector2.ONE, 0.2
+	).set_trans(Tween.TRANS_QUAD)
+	t.tween_callback(
+		func ():
+			item.notify_transform_updated()
+			%Scale.editable = true
+	)

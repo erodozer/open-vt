@@ -3,8 +3,9 @@
 [ext_resource type="Script" uid="uid://cc2iuifrx868t" path="res://studio/hud/item_panel/item_panel.gd" id="1_uiugv"]
 [ext_resource type="Texture2D" uid="uid://cf45v7iftvjkc" path="res://studio/hud/item_panel/box-stack.svg" id="2_xjyov"]
 [ext_resource type="Texture2D" uid="uid://bdb8qf25rndd4" path="res://ui/icons/plus.svg" id="2_y3oiy"]
-[ext_resource type="Texture2D" uid="uid://pd4vy1npck5p" path="res://ui/icons/lock.svg" id="3_86vda"]
+[ext_resource type="Texture2D" uid="uid://bpovmdpeq0bgs" path="res://ui/icons/save.svg" id="3_86vda"]
 [ext_resource type="Texture2D" uid="uid://dvoxi8gjlmu1m" path="res://ui/icons/trash-can.svg" id="3_r3bot"]
+[ext_resource type="Texture2D" uid="uid://bsdpa74r5clse" path="res://ui/icons/load.svg" id="4_xjyov"]
 
 [node name="ItemPanel" type="PanelContainer" unique_id=2000214744]
 custom_minimum_size = Vector2(480, 0)
@@ -42,26 +43,27 @@ expand_icon = true
 [node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1916454536]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
-size_flags_vertical = 5
+size_flags_horizontal = 3
+size_flags_vertical = 1
 text = "Item Scene"
 vertical_alignment = 1
 
 [node name="SaveButton" type="Button" parent="VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1570415063]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 32)
+custom_minimum_size = Vector2(96, 32)
 layout_mode = 2
-size_flags_horizontal = 3
 focus_mode = 0
 text = "Save"
+icon = ExtResource("3_86vda")
 
 [node name="LoadButton" type="Button" parent="VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=255359168]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 32)
+custom_minimum_size = Vector2(96, 32)
 layout_mode = 2
-size_flags_horizontal = 3
 focus_mode = 0
 text = "Load
 "
+icon = ExtResource("4_xjyov")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=2142864229]
 layout_mode = 2
@@ -89,30 +91,27 @@ horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=563307573]
 layout_mode = 2
+theme_override_constants/separation = 24
 
 [node name="AddButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=2046650369]
-custom_minimum_size = Vector2(32, 32)
+custom_minimum_size = Vector2(196, 32)
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Add Item"
 focus_mode = 0
 icon = ExtResource("2_y3oiy")
 icon_alignment = 1
-expand_icon = true
 
-[node name="LockAllButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1399150197]
+[node name="LockAllButton" type="CheckButton" parent="VBoxContainer/HBoxContainer" unique_id=865014908]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(64, 32)
 layout_mode = 2
 tooltip_text = "Toggle Locks"
 focus_mode = 0
-icon = ExtResource("3_86vda")
-icon_alignment = 1
-expand_icon = true
+theme_type_variation = &"LockButton"
 
 [node name="ClearButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1879756400]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(64, 42)
+custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 tooltip_text = "Clear All Items"
 focus_mode = 0

@@ -7,7 +7,7 @@
 [node name="Stage" type="Node" unique_id=1822790790 groups=["persist", "system:stage"]]
 script = ExtResource("1_ptuf8")
 
-[node name="Bg" type="CanvasLayer" parent="." unique_id=411945016 groups=["hide_screenshot"]]
+[node name="Bg" type="CanvasLayer" parent="." unique_id=411945016]
 unique_name_in_owner = true
 layer = -1
 

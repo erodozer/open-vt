@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cy5glcd8s2qgt"
-path="res://.godot/imported/lock.svg-7d7f4a9bb2f3af79f4e0d10b8d97b9b1.ctex"
+uid="uid://8l0ojnucpoav"
+path="res://.godot/imported/rotate_reset.svg-4a7d1683f5caa96376037e3d9fe930a4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/icons/lock.svg"
-dest_files=["res://.godot/imported/lock.svg-7d7f4a9bb2f3af79f4e0d10b8d97b9b1.ctex"]
+source_file="res://ui/icons/rotate_reset.svg"
+dest_files=["res://.godot/imported/rotate_reset.svg-4a7d1683f5caa96376037e3d9fe930a4.ctex"]
 
 [params]
 
@@ -38,6 +38,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.5
+svg/scale=1.0
 editor/scale_with_editor_scale=false
 editor/convert_colors_with_editor_theme=false

@@ -8,11 +8,15 @@
 [ext_resource type="Texture2D" uid="uid://8cs3l0r7n6m" path="res://ui/icons/toggle-on-disabled.svg" id="6_pfoej"]
 [ext_resource type="Texture2D" uid="uid://58ua5of8kuir" path="res://ui/icons/toggle-off.svg" id="7_uno10"]
 [ext_resource type="Texture2D" uid="uid://cq6pa7el3jat7" path="res://ui/icons/toggle-off-disabled.svg" id="8_vsjrp"]
+[ext_resource type="Texture2D" uid="uid://vkd7lomcp4ey" path="res://ui/icons/fold_down_arrow.svg" id="9_ernxe"]
 [ext_resource type="Texture2D" uid="uid://dj4gi77yklb34" path="res://ui/icons/knob.svg" id="9_wewsg"]
+[ext_resource type="Texture2D" uid="uid://clp4exph6hqbo" path="res://ui/icons/fold_right_arrow.svg" id="10_pfoej"]
 [ext_resource type="Texture2D" uid="uid://caxe2m44hrqj1" path="res://ui/icons/angle-down.svg" id="10_s6oba"]
 [ext_resource type="Texture2D" uid="uid://bjxnq0slsgn8o" path="res://ui/icons/angle-up.svg" id="11_unu80"]
 [ext_resource type="Texture2D" uid="uid://fge15v8vmf64" path="res://ui/icons/xmark.svg" id="12_rkcgp"]
+[ext_resource type="Texture2D" uid="uid://cy5glcd8s2qgt" path="res://ui/icons/lock.svg" id="12_uno10"]
 [ext_resource type="Texture2D" uid="uid://mtgh7f5wubre" path="res://ui/icons/circle-chevron-left.svg" id="13_dugvo"]
+[ext_resource type="Texture2D" uid="uid://c50ku0ycr865v" path="res://ui/icons/unlock.svg" id="13_vsjrp"]
 [ext_resource type="Texture2D" uid="uid://b17r1y0nlfech" path="res://ui/icons/circle-chevron-right.svg" id="14_s8ee0"]
 [ext_resource type="Script" uid="uid://x2qr57tdvr4g" path="res://ui/padded_stylebox.gd" id="15_pnrvj"]
 
@@ -105,44 +109,32 @@ shadow_offset = Vector2(2, 2)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ltwbl"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2ihb8"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vi6v8"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dav6o"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ernxe"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uf5kg"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pfoej"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_egow3"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uno10"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b5jbl"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vsjrp"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ssym2"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wewsg"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6xxyg"]
 content_margin_left = 24.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s6oba"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_unu80"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rkcgp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dugvo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s8ee0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pnrvj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cd8m4"]
 content_margin_left = 8.0
@@ -574,14 +566,25 @@ CheckButton/icons/checked = ExtResource("5_ernxe")
 CheckButton/icons/checked_disabled = ExtResource("6_pfoej")
 CheckButton/icons/unchecked = ExtResource("7_uno10")
 CheckButton/icons/unchecked_disabled = ExtResource("8_vsjrp")
-CheckButton/styles/disabled = SubResource("StyleBoxEmpty_2ihb8")
-CheckButton/styles/focus = SubResource("StyleBoxEmpty_dav6o")
-CheckButton/styles/hover = SubResource("StyleBoxEmpty_uf5kg")
-CheckButton/styles/hover_pressed = SubResource("StyleBoxEmpty_egow3")
-CheckButton/styles/normal = SubResource("StyleBoxEmpty_b5jbl")
-CheckButton/styles/pressed = SubResource("StyleBoxEmpty_ssym2")
+CheckButton/styles/disabled = SubResource("StyleBoxEmpty_vi6v8")
+CheckButton/styles/focus = SubResource("StyleBoxEmpty_ernxe")
+CheckButton/styles/hover = SubResource("StyleBoxEmpty_pfoej")
+CheckButton/styles/hover_pressed = SubResource("StyleBoxEmpty_uno10")
+CheckButton/styles/normal = SubResource("StyleBoxEmpty_vsjrp")
+CheckButton/styles/pressed = SubResource("StyleBoxEmpty_wewsg")
 FieldLabel/base_type = &"Label"
 FieldLabel/styles/normal = SubResource("StyleBoxEmpty_6xxyg")
+FoldButton/base_type = &"CheckButton"
+FoldButton/colors/icon_normal_color = Color(0, 0, 0, 1)
+FoldButton/colors/icon_pressed_color = Color(0, 0, 0, 1)
+FoldButton/icons/checked = ExtResource("9_ernxe")
+FoldButton/icons/unchecked = ExtResource("10_pfoej")
+FoldButton/styles/disabled = SubResource("StyleBoxEmpty_s6oba")
+FoldButton/styles/focus = SubResource("StyleBoxEmpty_unu80")
+FoldButton/styles/hover = SubResource("StyleBoxEmpty_rkcgp")
+FoldButton/styles/hover_pressed = SubResource("StyleBoxEmpty_dugvo")
+FoldButton/styles/normal = SubResource("StyleBoxEmpty_s8ee0")
+FoldButton/styles/pressed = SubResource("StyleBoxEmpty_pnrvj")
 FramedPopupPanel/base_type = &"PopupPanel"
 FramedPopupPanel/styles/panel = SubResource("StyleBoxFlat_cd8m4")
 GraphEdit/styles/panel = SubResource("StyleBoxFlat_ihp3y")
@@ -631,6 +634,19 @@ LineEdit/colors/selection_color = Color(0.298039, 0.282353, 0.239216, 1)
 LineEdit/styles/focus = SubResource("StyleBoxFlat_omxgr")
 LineEdit/styles/normal = SubResource("StyleBoxFlat_atrvy")
 LineEdit/styles/read_only = SubResource("StyleBoxFlat_f6wte")
+LockButton/base_type = &"CheckButton"
+LockButton/colors/button_checked_color = Color(0.29803923, 0.28235295, 0.23921569, 1)
+LockButton/colors/button_unchecked_color = Color(0.29803923, 0.28235295, 0.23921569, 1)
+LockButton/constants/align_to_largest_stylebox = 1
+LockButton/constants/check_v_offset = 1
+LockButton/icons/checked = ExtResource("12_uno10")
+LockButton/icons/unchecked = ExtResource("13_vsjrp")
+LockButton/styles/disabled = SubResource("StyleBoxFlat_qnykt")
+LockButton/styles/focus = SubResource("StyleBoxFlat_4y231")
+LockButton/styles/hover = SubResource("StyleBoxFlat_mfmoo")
+LockButton/styles/hover_pressed = SubResource("StyleBoxFlat_mfmoo")
+LockButton/styles/normal = SubResource("StyleBoxFlat_mfmoo")
+LockButton/styles/pressed = SubResource("StyleBoxFlat_mfmoo")
 MarginContainer/constants/margin_right = 8
 MenuButton/styles/disabled = SubResource("StyleBoxFlat_qnykt")
 MenuButton/styles/focus = SubResource("StyleBoxFlat_4y231")

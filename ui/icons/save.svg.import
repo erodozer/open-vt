@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bs4ql7sv2pt8w"
-path="res://.godot/imported/Graph Node.svg-8b4d7f4995dc2e1acc827d32c1c10b2f.ctex"
+uid="uid://bpovmdpeq0bgs"
+path="res://.godot/imported/save.svg-7d10c71cbfce028963479f23c936e6bb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/icons/Graph Node.svg"
-dest_files=["res://.godot/imported/Graph Node.svg-8b4d7f4995dc2e1acc827d32c1c10b2f.ctex"]
+source_file="res://ui/icons/save.svg"
+dest_files=["res://.godot/imported/save.svg-7d10c71cbfce028963479f23c936e6bb.ctex"]
 
 [params]
 

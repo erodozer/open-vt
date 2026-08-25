@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://bmpqgbccg71l2"]
 
 [ext_resource type="Script" uid="uid://cvh32s1515wsb" path="res://studio/hud/item_panel/item_row.gd" id="1_31mjc"]
-[ext_resource type="Texture2D" uid="uid://pd4vy1npck5p" path="res://ui/icons/lock.svg" id="2_145ox"]
 [ext_resource type="Texture2D" uid="uid://qky5l021m1dt" path="res://ui/icons/thumbtack.svg" id="2_bacbn"]
 [ext_resource type="Texture2D" uid="uid://bjxnq0slsgn8o" path="res://ui/icons/angle-up.svg" id="3_7b11q"]
 [ext_resource type="Texture2D" uid="uid://jqiaeaslelbe" path="res://studio/hud/icons/person.svg" id="4_gnq47"]
@@ -10,10 +9,15 @@
 [ext_resource type="Texture2D" uid="uid://cdre4ugwvhbi8" path="res://ui/icons/axes.svg" id="7_e4n0q"]
 [ext_resource type="Texture2D" uid="uid://cbriovdwq4va0" path="res://lib/blueprints/outputs/face-laugh-wink.svg" id="8_17a61"]
 [ext_resource type="Texture2D" uid="uid://b2152bd2ck2uq" path="res://ui/icons/circle-nodes.svg" id="8_fvqys"]
+[ext_resource type="Script" uid="uid://cte3vm6g7ty7i" path="res://ui/visibility_toggle.gd" id="8_llnwn"]
 [ext_resource type="Texture2D" uid="uid://dy1nnckb883g" path="res://ui/icons/arrows-to-dot.svg" id="9_smhi3"]
 [ext_resource type="Texture2D" uid="uid://dy2yryqb16rbw" path="res://ui/icons/arrows-to-circle.svg" id="10_5efeo"]
+[ext_resource type="Texture2D" uid="uid://oeceew57r6q0" path="res://ui/icons/scale.svg" id="11_llnwn"]
+[ext_resource type="Texture2D" uid="uid://8l0ojnucpoav" path="res://ui/icons/rotate_reset.svg" id="11_tvvwp"]
+[ext_resource type="Texture2D" uid="uid://dawjdwdlevk61" path="res://ui/icons/rotate_left.svg" id="12_llnwn"]
 [ext_resource type="Texture2D" uid="uid://d1kej52kqrg0g" path="res://ui/icons/eraser.svg" id="13_5efeo"]
 [ext_resource type="Texture2D" uid="uid://blil5brl4i0qh" path="res://studio/hud/icons/gear.svg" id="13_6pmn3"]
+[ext_resource type="Texture2D" uid="uid://dl1mfmptkn28i" path="res://ui/icons/rotate_right.svg" id="13_ejsof"]
 
 [node name="ItemRow" type="PanelContainer" unique_id=1239255716]
 offset_right = 386.0
@@ -105,10 +109,10 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Transformation" unique_id=356612089]
+[node name="Header" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Transformation" unique_id=356612089]
 layout_mode = 2
 
-[node name="Icon" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2" unique_id=1871346646]
+[node name="Icon" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/Header" unique_id=1871346646]
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 theme_type_variation = &"ImageButton"
@@ -116,69 +120,92 @@ icon = ExtResource("7_e4n0q")
 icon_alignment = 1
 expand_icon = true
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2" unique_id=65494233]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Transformation/Header" unique_id=65494233]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Transform"
 
-[node name="Recenter" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2" unique_id=1322542272]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(28, 0)
-layout_mode = 2
-tooltip_text = "Recenter"
-focus_mode = 0
-icon = ExtResource("9_smhi3")
-icon_alignment = 1
-expand_icon = true
-
-[node name="ScaleToFit" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2" unique_id=1416681519]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(28, 0)
-layout_mode = 2
-tooltip_text = "Fit to Screen"
-focus_mode = 0
-icon = ExtResource("10_5efeo")
-icon_alignment = 1
-expand_icon = true
-
-[node name="LockButton" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2" unique_id=140177945]
+[node name="LockButton" type="CheckButton" parent="HBoxContainer/VBoxContainer/Transformation/Header" unique_id=224742061 node_paths=PackedStringArray("link")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 tooltip_text = "Lock transform"
 focus_mode = 0
-toggle_mode = true
-icon = ExtResource("2_145ox")
-icon_alignment = 1
-expand_icon = true
+theme_type_variation = &"LockButton"
+script = ExtResource("8_llnwn")
+link = NodePath("../../Fields")
+invert = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Transformation" unique_id=1101285371]
+[node name="Fields" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/Transformation" unique_id=625817705]
+layout_mode = 2
+
+[node name="Position" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Transformation/Fields" unique_id=1101285371]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="XValue" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer" unique_id=1176478406]
-unique_name_in_owner = true
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Position" unique_id=2080255831]
+custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
-size_flags_horizontal = 3
+theme_type_variation = &"FieldLabel"
+text = "Position"
+
+[node name="Recenter" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Position" unique_id=1322542272]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 2
+tooltip_text = "Recenter"
+focus_mode = 0
+icon = ExtResource("9_smhi3")
+icon_alignment = 1
+
+[node name="XValue" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Position" unique_id=1176478406]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
 min_value = -9999.0
 max_value = 9999.0
 alignment = 2
 suffix = "X"
 
-[node name="YValue" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer" unique_id=129745496]
+[node name="YValue" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Position" unique_id=129745496]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 min_value = -9999.0
 max_value = 9999.0
 alignment = 2
 suffix = "Y"
 
-[node name="Scale" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer" unique_id=1301806987]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(84, 0)
+[node name="Scale" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Transformation/Fields" unique_id=530539489]
 layout_mode = 2
-size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Scale" unique_id=1260752867]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"FieldLabel"
+text = "Scale"
+
+[node name="ScaleToFit" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Scale" unique_id=1416681519]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+tooltip_text = "Fit to Screen"
+focus_mode = 0
+icon = ExtResource("10_5efeo")
+icon_alignment = 1
+
+[node name="ScaleReset" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Scale" unique_id=218656511]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 2
+tooltip_text = "Reset Scale"
+focus_mode = 0
+icon = ExtResource("11_llnwn")
+icon_alignment = 1
+
+[node name="Scale" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Scale" unique_id=1301806987]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
 min_value = 1.0
 max_value = 400.0
 step = 0.01
@@ -186,14 +213,47 @@ value = 100.0
 alignment = 2
 suffix = "%"
 
-[node name="Rotation" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/HBoxContainer" unique_id=763646850]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(84, 0)
+[node name="Rotation" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/Transformation/Fields" unique_id=1003903028]
 layout_mode = 2
-min_value = -360.0
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Rotation" unique_id=93511029]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme_type_variation = &"FieldLabel"
+text = "Rotation"
+
+[node name="RotateReset" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Rotation" unique_id=1593526081]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+tooltip_text = "Reset Rotation"
+focus_mode = 0
+icon = ExtResource("11_tvvwp")
+icon_alignment = 1
+
+[node name="RotateLeft90" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Rotation" unique_id=609147518]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+tooltip_text = "Rotate Left 90 Degrees"
+focus_mode = 0
+icon = ExtResource("12_llnwn")
+icon_alignment = 1
+
+[node name="RotateRight90" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Rotation" unique_id=1687524392]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+tooltip_text = "Rotate Right 90 Degrees"
+focus_mode = 0
+icon = ExtResource("13_ejsof")
+icon_alignment = 1
+
+[node name="Rotation" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Rotation" unique_id=763646850]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+size_flags_horizontal = 10
 max_value = 360.0
 step = 0.01
-value = 359.40999999999997
+value = 359.41
 allow_greater = true
 allow_lesser = true
 alignment = 2
@@ -201,37 +261,33 @@ suffix = "°"
 
 [node name="ModelControls" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1838614656]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 alignment = 1
 
 [node name="Expression" type="Button" parent="HBoxContainer/VBoxContainer/ModelControls" unique_id=1481729494]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Set Expression"
+size_flags_horizontal = 3
+text = "Expression"
 icon = ExtResource("8_17a61")
 
 [node name="Bindings" type="Button" parent="HBoxContainer/VBoxContainer/ModelControls" unique_id=1012326904]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(150, 32)
 layout_mode = 2
-size_flags_horizontal = 8
+size_flags_horizontal = 3
 tooltip_text = "Edit Bindings"
 focus_mode = 0
-text = "Edit Bindings"
+text = "Bindings"
 icon = ExtResource("8_fvqys")
-expand_icon = true
 
 [node name="Settings" type="Button" parent="HBoxContainer/VBoxContainer/ModelControls" unique_id=409748124]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(150, 32)
 layout_mode = 2
-size_flags_horizontal = 8
+size_flags_horizontal = 3
 tooltip_text = "Edit Bindings"
 focus_mode = 0
 text = "Settings"
 icon = ExtResource("13_6pmn3")
-expand_icon = true
 
 [node name="AnimControls" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=283757506]
 unique_name_in_owner = true
@@ -263,9 +319,13 @@ expand_icon = true
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/DeleteButton" to="." method="_on_delete_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/PinControls/PinTarget" to="." method="_on_pin_target_pressed"]
 [connection signal="toggled" from="HBoxContainer/VBoxContainer/PinControls/PinToggle" to="." method="_on_pin_toggle_toggled"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2/Recenter" to="." method="_on_recenter_pressed"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2/ScaleToFit" to="." method="_on_scale_to_fit_pressed"]
-[connection signal="toggled" from="HBoxContainer/VBoxContainer/Transformation/HBoxContainer2/LockButton" to="." method="_on_lock_button_toggled"]
+[connection signal="toggled" from="HBoxContainer/VBoxContainer/Transformation/Header/LockButton" to="." method="_on_lock_button_toggled"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/Transformation/Fields/Position/Recenter" to="." method="_on_recenter_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/Transformation/Fields/Scale/ScaleToFit" to="." method="_on_scale_to_fit_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/Transformation/Fields/Scale/ScaleReset" to="." method="_on_scale_reset_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/Transformation/Fields/Rotation/RotateReset" to="." method="_on_rotate_reset_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/Transformation/Fields/Rotation/RotateLeft90" to="." method="_on_rotate_pressed" binds= [-90.0]]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/Transformation/Fields/Rotation/RotateRight90" to="." method="_on_rotate_pressed" binds= [90.0]]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/ModelControls/Expression" to="." method="_on_expression_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/ModelControls/Bindings" to="." method="_on_edit_bindings_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/ModelControls/Settings" to="." method="_on_model_settings_pressed"]

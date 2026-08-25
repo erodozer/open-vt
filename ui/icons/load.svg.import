@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bcerffj5svmka"
-path="res://.godot/imported/lock-open.svg-8dc5821ce971d89a14b0dc4e26781d8d.ctex"
+uid="uid://bsdpa74r5clse"
+path="res://.godot/imported/load.svg-191200b36d69e3677a0d341296bfea51.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/icons/lock-open.svg"
-dest_files=["res://.godot/imported/lock-open.svg-8dc5821ce971d89a14b0dc4e26781d8d.ctex"]
+source_file="res://ui/icons/load.svg"
+dest_files=["res://.godot/imported/load.svg-191200b36d69e3677a0d341296bfea51.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=4
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -24,7 +24,7 @@ compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
-mipmaps/limit=1
+mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
 process/channel_remap/red=0

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cxmvu0on3r7wd"]
 
-[ext_resource type="Script" uid="uid://cprgqedu8kiod" path="res://lib/blueprints/logic/blink.gd" id="1_cikvy"]
+[ext_resource type="Script" uid="uid://cprgqedu8kiod" path="res://lib/blueprints/inputs/blink.gd" id="1_cikvy"]
 
 [sub_resource type="Curve" id="Curve_cikvy"]
 _data = [Vector2(0.254851, 0), 0.0, 1.4, 0, 0, Vector2(0.963777, 1), 0.0, 0.0, 0, 0]

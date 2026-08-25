@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ckj4kaun5h87" path="res://studio/hud/camera_panel/camera_panel.gd" id="1_qt06k"]
 [ext_resource type="Script" uid="uid://08yyvfky7ack" path="res://ui/accordion/accordion.gd" id="2_qv3m7"]
+[ext_resource type="Texture2D" uid="uid://cu5xqrskvsnf6" path="res://ui/icons/Image.svg" id="3_otsd8"]
 
 [node name="CameraPanel" type="PanelContainer" unique_id=308808200 groups=["persist"]]
 custom_minimum_size = Vector2(480, 0)
@@ -42,7 +43,9 @@ text = "UI Theme"
 
 [node name="UITheme" type="OptionButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer5" unique_id=28770420]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
+alignment = 2
 selected = 0
 item_count = 2
 popup/item_0/text = "Automata (Default)"
@@ -61,7 +64,9 @@ text = "Application FPS Limit"
 
 [node name="FPS" type="OptionButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer3" unique_id=406626487]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
+alignment = 2
 selected = 0
 item_count = 3
 popup/item_0/text = "60"
@@ -83,7 +88,9 @@ vertical_alignment = 1
 
 [node name="BackgroundModeSelector" type="OptionButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/BackgroundMode" unique_id=1337679399]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
+alignment = 2
 item_count = 4
 popup/item_0/text = "Default Grid"
 popup/item_0/id = 0
@@ -109,9 +116,13 @@ vertical_alignment = 1
 
 [node name="BackgroundImageSelector" type="Button" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/BackgroundImage" unique_id=1130538190]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(96, 0)
+custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 text = "..."
+icon = ExtResource("3_otsd8")
+text_overrun_behavior = 3
+clip_text = true
+expand_icon = true
 
 [node name="FileDialog" type="FileDialog" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/BackgroundImage/BackgroundImageSelector" unique_id=1852201404]
 title = "Open a File"
@@ -139,40 +150,25 @@ custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 text = "..."
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer" unique_id=963054852]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer4" unique_id=109537906]
+[node name="MicrophoneToggle" type="CheckButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer" unique_id=790298465]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
 tooltip_text = "Use microphone input on PC to affect certain
 mouth related tracking parameters"
 text = "Sample Microphone"
-vertical_alignment = 1
-
-[node name="MicrophoneToggle" type="CheckButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer4" unique_id=790298465]
-unique_name_in_owner = true
-layout_mode = 2
 
 [node name="VirtualWebcam" type="VBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer" unique_id=1526479688]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam" unique_id=2056027902]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam/HBoxContainer" unique_id=1722306373]
-layout_mode = 2
-size_flags_horizontal = 3
-tooltip_text = "Use microphone input on PC to affect certain
-mouth related tracking parameters"
-text = "Virtual Webcam (V4l2 Loopback)"
-vertical_alignment = 1
-
-[node name="V4L2Toggle" type="CheckButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam/HBoxContainer" unique_id=1553025749]
+[node name="V4L2Toggle" type="CheckButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam" unique_id=1553025749]
 unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Allows casting the stage to a virtual webcam on supported Operating Systems.
+
+On Linux this requires a V4l2 Loopback device to target."
+text = "Virtual Webcam"
 
 [node name="VirtualCameraDevice" type="OptionButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam" unique_id=370618489]
 unique_name_in_owner = true
@@ -264,7 +260,7 @@ layout_mode = 2
 [connection signal="file_selected" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/BackgroundImage/BackgroundImageSelector/FileDialog" to="." method="_on_background_file_selected"]
 [connection signal="color_changed" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/BackgroundColor/BackgroundColorSelector" to="." method="_on_background_color_changed"]
 [connection signal="toggled" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/BackgroundColor/BackgroundColorSelector" to="." method="_on_transparency_toggle_toggled"]
-[connection signal="toggled" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer4/MicrophoneToggle" to="." method="_on_microphone_toggle_toggled"]
-[connection signal="toggled" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam/HBoxContainer/V4L2Toggle" to="." method="_on_v4l2_toggled"]
+[connection signal="toggled" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/MicrophoneToggle" to="." method="_on_microphone_toggle_toggled"]
+[connection signal="toggled" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam/V4L2Toggle" to="." method="_on_v4l2_toggled"]
 [connection signal="item_selected" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam/VirtualCameraDevice" to="." method="_on_loopback_item_selected"]
 [connection signal="color_changed" from="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer/PreviewBackgroundColor" to="." method="_on_preview_background_color_color_changed"]

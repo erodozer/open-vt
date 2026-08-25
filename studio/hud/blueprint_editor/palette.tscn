@@ -10,10 +10,10 @@
 [ext_resource type="Texture2D" uid="uid://lto72ierstpg" path="res://lib/blueprints/logic/calculator-simple.svg" id="7_n4xfi"]
 [ext_resource type="Texture2D" uid="uid://dquygailhgfka" path="res://lib/blueprints/logic/face-exhaling.svg" id="9_cbf0x"]
 [ext_resource type="Texture2D" uid="uid://cubucdwwnclkl" path="res://lib/blueprints/logic/bezier-curve.svg" id="10_d27ip"]
-[ext_resource type="PackedScene" uid="uid://dyittcs286rby" path="res://lib/blueprints/logic/breathe.tscn" id="10_woji1"]
+[ext_resource type="PackedScene" uid="uid://dyittcs286rby" path="res://lib/blueprints/inputs/breathe.tscn" id="10_woji1"]
 [ext_resource type="PackedScene" uid="uid://ckixji58acmx6" path="res://lib/blueprints/logic/smoothing.tscn" id="11_d27ip"]
 [ext_resource type="Texture2D" uid="uid://cvwnn0nikv5uf" path="res://lib/blueprints/logic/eye.svg" id="11_ssi51"]
-[ext_resource type="PackedScene" uid="uid://cxmvu0on3r7wd" path="res://lib/blueprints/logic/blink.tscn" id="12_m3pyl"]
+[ext_resource type="PackedScene" uid="uid://cxmvu0on3r7wd" path="res://lib/blueprints/inputs/blink.tscn" id="12_m3pyl"]
 [ext_resource type="Texture2D" uid="uid://cbriovdwq4va0" path="res://lib/blueprints/outputs/face-laugh-wink.svg" id="13_xs0xf"]
 [ext_resource type="PackedScene" uid="uid://cow7c85xiw0xr" path="res://lib/blueprints/outputs/toggle_expression.tscn" id="14_8pyru"]
 [ext_resource type="Texture2D" uid="uid://deu302jii4nsk" path="res://lib/blueprints/outputs/film-simple.svg" id="15_jnorj"]
@@ -62,6 +62,30 @@ icon_alignment = 1
 expand_icon = true
 metadata/action = ExtResource("4_d27ip")
 
+[node name="Breathe" type="Button" parent="." unique_id=1910577611]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+tooltip_text = "Add Breathe"
+focus_mode = 0
+icon = ExtResource("9_cbf0x")
+icon_alignment = 1
+expand_icon = true
+metadata/action = ExtResource("10_woji1")
+
+[node name="Blink" type="Button" parent="." unique_id=1625019620]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+tooltip_text = "Add Blink"
+focus_mode = 0
+icon = ExtResource("11_ssi51")
+icon_alignment = 1
+expand_icon = true
+metadata/action = ExtResource("12_m3pyl")
+
 [node name="Control" type="Control" parent="." unique_id=862103928]
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
@@ -86,30 +110,6 @@ icon = ExtResource("10_d27ip")
 icon_alignment = 1
 expand_icon = true
 metadata/action = ExtResource("11_d27ip")
-
-[node name="Breathe" type="Button" parent="." unique_id=1910577611]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 6
-tooltip_text = "Add Breathe"
-focus_mode = 0
-icon = ExtResource("9_cbf0x")
-icon_alignment = 1
-expand_icon = true
-metadata/action = ExtResource("10_woji1")
-
-[node name="Blink" type="Button" parent="." unique_id=1625019620]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 6
-tooltip_text = "Add Blink"
-focus_mode = 0
-icon = ExtResource("11_ssi51")
-icon_alignment = 1
-expand_icon = true
-metadata/action = ExtResource("12_m3pyl")
 
 [node name="Control2" type="Control" parent="." unique_id=815026235]
 custom_minimum_size = Vector2(12, 12)

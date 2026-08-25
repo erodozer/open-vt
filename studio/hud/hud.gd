@@ -131,8 +131,9 @@ func save_settings(settings: Dictionary):
 	
 func _on_screenshot_btn_pressed() -> void:
 	var stage = get_tree().get_first_node_in_group("system:stage")
-	stage.get_node("ModelLayer")
-	await Screenshot.snap(stage.get_viewport())
+	var filename = await Screenshot.snap(stage.capture_viewport)
+	var toast = get_tree().get_first_node_in_group("system:alert")
+	toast.alert("Screenshot saved: %s" % filename)
 	
 func _on_model_btn_pressed() -> void:
 	%ModelBrowser.show()

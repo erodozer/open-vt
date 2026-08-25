@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dyittcs286rby"]
 
-[ext_resource type="Script" uid="uid://0q0liewe0th2" path="res://lib/blueprints/logic/breathe.gd" id="1_7ad3g"]
+[ext_resource type="Script" uid="uid://0q0liewe0th2" path="res://lib/blueprints/inputs/breathe.gd" id="1_7ad3g"]
 
 [sub_resource type="Curve" id="Curve_7ad3g"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]

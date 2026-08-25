@@ -164,9 +164,11 @@ func _on_background_image_selector_pressed() -> void:
 	%BackgroundImageSelector/FileDialog.show()
 
 func _on_background_file_selected(path: String) -> void:
+	stage.background_image = path
+	if stage.background_image != path:  # check if file is valid
+		return
 	%BackgroundImageSelector.text = path.get_file()
 	%BackgroundImageSelector.set_meta("filepath", path)
-	stage.background_image = path
 
 func _on_background_color_changed(color: Color) -> void:
 	stage.background_color = color
