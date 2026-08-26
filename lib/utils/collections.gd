@@ -38,8 +38,11 @@ static func path(dict: Dictionary, key: String, defaultValue: Variant = null) ->
 	if len(levels) > 1:
 		if dict.get(level) is Dictionary:
 			return path(dict.get(level), ".".join(levels.slice(1)), defaultValue)
-		return null
-	return dict.get(level, defaultValue)
+		return defaultValue
+	var found = dict.get(level, defaultValue)
+	if found == null:
+		return defaultValue
+	return found
 	
 ## determine if a nested dictionary contains a key by its dot-path
 static func has_path(dict: Dictionary, key: String) -> bool:

@@ -58,6 +58,8 @@ class ObjSerializerImpl extends JsonSerializer:
 				continue
 			var existing = assign.get(p.name)
 			var value = v.get(p.name)
+			if value == null:
+				value = existing
 			if p.type == Variant.Type.TYPE_COLOR:
 				if existing is Dictionary:
 					value = Color(
@@ -69,8 +71,6 @@ class ObjSerializerImpl extends JsonSerializer:
 					value = Color.WHITE
 			if p.type == Variant.Type.TYPE_VECTOR2:
 				value = Vec2SerializerImpl.new().from_json(value, existing as Vector2)
-			if value == null:
-				value = existing
 			assign.set(p.name, value)
 		return assign
 	

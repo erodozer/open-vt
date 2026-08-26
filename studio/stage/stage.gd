@@ -2,6 +2,7 @@ extends Node
 
 const GROUP_NAME = "system:stage"
 
+const Collections = preload("res://lib/utils/collections.gd")
 const VtObject = preload("res://lib/vtobject.gd")
 const VtModel = preload("res://lib/model/vt_model.gd")
 const VtItem = preload("res://lib/items/vt_item.gd")
@@ -190,9 +191,9 @@ func load_settings(data):
 		if model:
 			spawn_model(model)
 	
-	self.background_image = data.get("window", {}).get("background_image", "")
-	self.background_color = Color(data.get("window", {}).get("background_color", "000000"))
-	self.background_mode = data.get("window", {}).get("background_mode", 0)
+	self.background_image = Collections.path(data, "window.background_image", "")
+	self.background_color = Color(Collections.path(data, "window.background_color", "000000"))
+	self.background_mode = Collections.path(data, "window.background_mode", 0)
 	
 func save_settings(data):
 	if active_model != null and active_model.modelmeta != null:

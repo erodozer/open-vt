@@ -69,7 +69,7 @@ build_keylogger() {
 	echo "*" > $ADDONDIR/keylogger/.gitignore
 	
 	# log completion
-	find $ADDONDIR -type f
+	find $ADDONDIR/keylogger -type f
 
 	cd $PROJ_ROOT
 }

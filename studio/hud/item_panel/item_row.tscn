@@ -157,6 +157,7 @@ tooltip_text = "Recenter"
 focus_mode = 0
 icon = ExtResource("9_smhi3")
 icon_alignment = 1
+expand_icon = true
 
 [node name="XValue" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Position" unique_id=1176478406]
 unique_name_in_owner = true
@@ -192,6 +193,7 @@ tooltip_text = "Fit to Screen"
 focus_mode = 0
 icon = ExtResource("10_5efeo")
 icon_alignment = 1
+expand_icon = true
 
 [node name="ScaleReset" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Scale" unique_id=218656511]
 custom_minimum_size = Vector2(32, 32)
@@ -201,6 +203,7 @@ tooltip_text = "Reset Scale"
 focus_mode = 0
 icon = ExtResource("11_llnwn")
 icon_alignment = 1
+expand_icon = true
 
 [node name="Scale" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Scale" unique_id=1301806987]
 unique_name_in_owner = true
@@ -229,6 +232,7 @@ tooltip_text = "Reset Rotation"
 focus_mode = 0
 icon = ExtResource("11_tvvwp")
 icon_alignment = 1
+expand_icon = true
 
 [node name="RotateLeft90" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Rotation" unique_id=609147518]
 custom_minimum_size = Vector2(32, 32)
@@ -237,6 +241,7 @@ tooltip_text = "Rotate Left 90 Degrees"
 focus_mode = 0
 icon = ExtResource("12_llnwn")
 icon_alignment = 1
+expand_icon = true
 
 [node name="RotateRight90" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Rotation" unique_id=1687524392]
 custom_minimum_size = Vector2(32, 32)
@@ -245,6 +250,7 @@ tooltip_text = "Rotate Right 90 Degrees"
 focus_mode = 0
 icon = ExtResource("13_ejsof")
 icon_alignment = 1
+expand_icon = true
 
 [node name="Rotation" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Rotation" unique_id=763646850]
 unique_name_in_owner = true

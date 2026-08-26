@@ -32,7 +32,6 @@ driver/enable_input=true
 
 [autoload]
 
-GlobalInput="*uid://deu6y3amwkivh"
 Screenshot="*res://lib/screenshot.gd"
 Registry="*res://lib/tracking/parameter_registry.gd"
 Preferences="*res://lib/preferences.gd"
@@ -52,7 +51,7 @@ window/per_pixel_transparency/allowed=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Godot-MToon-Shader/plugin.cfg", "res://addons/keylogger/plugin.cfg", "res://addons/vrm/plugin.cfg")
+enabled=PackedStringArray("res://addons/Godot-MToon-Shader/plugin.cfg", "res://addons/vrm/plugin.cfg")
 
 [global_group]
 

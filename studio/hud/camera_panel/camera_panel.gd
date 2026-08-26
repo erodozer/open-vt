@@ -2,6 +2,7 @@ extends "res://studio/hud/side_panel.gd"
 
 const Tracker = preload("res://lib/tracking/tracker.gd")
 const TrackingSystem = preload("res://lib/tracking/tracking_system.gd")
+const Collections = preload("res://lib/utils/collections.gd")
 
 const UI_THEMES: Array[Theme] = [
 	preload("res://ui/themes/automata.tres"),
@@ -98,20 +99,20 @@ func _on_preview_background_color_color_changed(color: Color) -> void:
 	update_bg_color.emit(color)
 
 func load_settings(data: Dictionary):
-	_on_background_color_changed(data.get("window", {}).get("background_color", "000000"))
-	_on_background_file_selected(data.get("window", {}).get("background_image", ""))
-	background_mode.selected = data.get("window", {}).get("background_mode", 0)
+	_on_background_color_changed(Collections.path(data, "window.background_color", "000000"))
+	_on_background_file_selected(Collections.path(data, "window.background_image", ""))
+	background_mode.selected = Collections.path(data, "window.background_mode", 0)
 	_on_background_mode_selected(background_mode.selected)
 
-	face_trackers.select(data.get("camera", {}).get("tracking", 0))
-	fps_option.select(data.get("window", {}).get("fps", 0))
+	face_trackers.select(Collections.path(data, "camera.tracking", 0))
+	fps_option.select(Collections.path(data, "window.fps", 0))
 	_on_fps_value_item_selected(fps_option.get_selected_id())
 	if tracking_system:
 		tracking_system.activate_tracker(
 			face_trackers.get_selected_metadata().new()
 		)
 		mic_toggle.button_pressed = data.get("microphone", true)
-	%UITheme.select(data.get("window", {}).get("theme", 0))
+	%UITheme.select(Collections.path(data, "window.theme", 0))
 	_on_ui_theme_item_selected(%UITheme.selected)
 	
 func save_settings(data: Dictionary):
