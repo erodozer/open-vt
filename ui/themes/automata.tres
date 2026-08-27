@@ -1,9 +1,9 @@
 [gd_resource type="Theme" format=3 uid="uid://bwesfr5en0lxv"]
 
-[ext_resource type="Texture2D" uid="uid://cj047554m680j" path="res://ui/icons/square-check.svg" id="1_xk21u"]
-[ext_resource type="Texture2D" uid="uid://gua86suty0j4" path="res://ui/icons/radio.svg" id="2_kfu87"]
-[ext_resource type="Texture2D" uid="uid://c3dee7af4se08" path="res://ui/icons/circle.svg" id="3_lx4n4"]
-[ext_resource type="Texture2D" uid="uid://cinmh6ud6reg3" path="res://ui/icons/square.svg" id="4_vi6v8"]
+[ext_resource type="Texture2D" uid="uid://bkjjdc5khrai5" path="res://ui/icons/CheckboxChecked.svg" id="1_uno10"]
+[ext_resource type="Texture2D" uid="uid://cg2o2bgu44yvd" path="res://ui/icons/RadioChecked.svg" id="2_vsjrp"]
+[ext_resource type="Texture2D" uid="uid://36oauivngbt3" path="res://ui/icons/Radio.svg" id="3_wewsg"]
+[ext_resource type="Texture2D" uid="uid://ddsqi6k5fihkc" path="res://ui/icons/Checkbox.svg" id="4_s6oba"]
 [ext_resource type="Texture2D" uid="uid://dv7o0g2fot3n3" path="res://ui/icons/toggle-on.svg" id="5_ernxe"]
 [ext_resource type="Texture2D" uid="uid://8cs3l0r7n6m" path="res://ui/icons/toggle-on-disabled.svg" id="6_pfoej"]
 [ext_resource type="Texture2D" uid="uid://58ua5of8kuir" path="res://ui/icons/toggle-off.svg" id="7_uno10"]
@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://cy5glcd8s2qgt" path="res://ui/icons/lock.svg" id="12_uno10"]
 [ext_resource type="Texture2D" uid="uid://mtgh7f5wubre" path="res://ui/icons/circle-chevron-left.svg" id="13_dugvo"]
 [ext_resource type="Texture2D" uid="uid://c50ku0ycr865v" path="res://ui/icons/unlock.svg" id="13_vsjrp"]
+[ext_resource type="Texture2D" uid="uid://clbvp8v3ryv4q" path="res://ui/icons/magnifying-glass.svg" id="14_pfoej"]
 [ext_resource type="Texture2D" uid="uid://b17r1y0nlfech" path="res://ui/icons/circle-chevron-right.svg" id="14_s8ee0"]
 [ext_resource type="Script" uid="uid://x2qr57tdvr4g" path="res://ui/padded_stylebox.gd" id="15_pnrvj"]
 
@@ -124,17 +125,50 @@ shadow_offset = Vector2(2, 2)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6xxyg"]
 content_margin_left = 24.0
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s6oba"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ernxe"]
+content_margin_left = 12.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0.690196, 0.670588, 0.592157, 1)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_unu80"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pfoej"]
+content_margin_left = 12.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0.690196, 0.670588, 0.592157, 1)
+shadow_color = Color(0, 0, 0, 0.392157)
+shadow_size = 1
+shadow_offset = Vector2(0, 2)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rkcgp"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wewsg"]
+content_margin_left = 12.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0.690196, 0.670588, 0.592157, 1)
+shadow_color = Color(0, 0, 0, 0.392157)
+shadow_size = 1
+shadow_offset = Vector2(0, 2)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dugvo"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vsjrp"]
+content_margin_left = 12.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0.298039, 0.282353, 0.239216, 1)
+shadow_size = 1
+shadow_offset = Vector2(0, 2)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s8ee0"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pnrvj"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s6oba"]
+content_margin_left = 12.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0.298039, 0.282353, 0.239216, 1)
+shadow_size = 1
+shadow_offset = Vector2(0, 2)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cd8m4"]
 content_margin_left = 8.0
@@ -515,12 +549,12 @@ default_font_size = 16
 AcceptDialog/styles/panel = SubResource("StyleBoxFlat_b7yax")
 BoldLabel/base_type = &"Label"
 BoldLabel/fonts/font = SubResource("SystemFont_4bemj")
-Button/colors/font_color = Color(0.298039, 0.282353, 0.239216, 1)
+Button/colors/font_color = Color(0.29803923, 0.28235295, 0.23921569, 1)
 Button/colors/font_disabled_color = Color(0.847059, 0.823529, 0.729412, 1)
-Button/colors/font_focus_color = Color(0.788235, 0.764706, 0.670588, 1)
-Button/colors/font_hover_color = Color(0.67451, 0.654902, 0.580392, 1)
+Button/colors/font_focus_color = Color(0.7882353, 0.7647059, 0.67058825, 1)
+Button/colors/font_hover_color = Color(0.6745098, 0.654902, 0.5803922, 1)
 Button/colors/font_hover_pressed_color = Color(0.67451, 0.654902, 0.580392, 1)
-Button/colors/font_pressed_color = Color(0.67451, 0.654902, 0.580392, 1)
+Button/colors/font_pressed_color = Color(0.6745098, 0.654902, 0.5803922, 1)
 Button/colors/icon_focus_color = Color(0.67451, 0.654902, 0.580392, 1)
 Button/colors/icon_hover_color = Color(0.67451, 0.654902, 0.580392, 1)
 Button/colors/icon_hover_pressed_color = Color(0.67451, 0.654902, 0.580392, 1)
@@ -535,25 +569,30 @@ Button/styles/normal = SubResource("StyleBoxFlat_mfmoo")
 Button/styles/pressed = SubResource("StyleBoxFlat_lmy8h")
 ButtonPanel/base_type = &"PanelContainer"
 ButtonPanel/styles/panel = SubResource("StyleBoxFlat_fqtye")
+CheckBox/colors/checkbox_checked_color = Color(0.29803923, 0.28235295, 0.23921569, 1)
+CheckBox/colors/checkbox_unchecked_color = Color(0.29803923, 0.28235295, 0.23921569, 1)
 CheckBox/colors/font_color = Color(0.298039, 0.282353, 0.239216, 1)
 CheckBox/colors/font_disabled_color = Color(0.690196, 0.670588, 0.592157, 1)
-CheckBox/colors/font_focus_color = Color(0.298039, 0.282353, 0.239216, 1)
+CheckBox/colors/font_focus_color = Color(0.29803923, 0.28235295, 0.23921569, 1)
 CheckBox/colors/font_hover_color = Color(0.3, 0.284, 0.24, 0.588235)
 CheckBox/colors/font_hover_pressed_color = Color(0.3, 0.284, 0.24, 0.588235)
 CheckBox/colors/font_pressed_color = Color(0.298039, 0.282353, 0.239216, 1)
-CheckBox/icons/checked = ExtResource("1_xk21u")
-CheckBox/icons/checked_disabled = ExtResource("1_xk21u")
-CheckBox/icons/radio_checked = ExtResource("2_kfu87")
-CheckBox/icons/radio_checked_disabled = null
-CheckBox/icons/radio_unchecked = ExtResource("3_lx4n4")
-CheckBox/icons/unchecked = ExtResource("4_vi6v8")
-CheckBox/icons/unchecked_disabled = ExtResource("4_vi6v8")
+CheckBox/constants/h_separation = 12
+CheckBox/icons/checked = ExtResource("1_uno10")
+CheckBox/icons/checked_disabled = ExtResource("1_uno10")
+CheckBox/icons/radio_checked = ExtResource("2_vsjrp")
+CheckBox/icons/radio_checked_disabled = ExtResource("2_vsjrp")
+CheckBox/icons/radio_unchecked = ExtResource("3_wewsg")
+CheckBox/icons/unchecked = ExtResource("4_s6oba")
+CheckBox/icons/unchecked_disabled = ExtResource("4_s6oba")
 CheckBox/styles/disabled = SubResource("StyleBoxEmpty_4bemj")
 CheckBox/styles/focus = SubResource("StyleBoxEmpty_klrf6")
 CheckBox/styles/hover = SubResource("StyleBoxEmpty_61t3q")
 CheckBox/styles/hover_pressed = SubResource("StyleBoxEmpty_cd8m4")
 CheckBox/styles/normal = SubResource("StyleBoxEmpty_atl1g")
 CheckBox/styles/pressed = SubResource("StyleBoxEmpty_ltwbl")
+CheckButton/colors/button_checked_color = Color(0.29803923, 0.28235295, 0.23921569, 1)
+CheckButton/colors/button_unchecked_color = Color(0.29803923, 0.28235295, 0.23921569, 1)
 CheckButton/colors/font_color = Color(0.298039, 0.282353, 0.239216, 1)
 CheckButton/colors/font_disabled_color = Color(0.67451, 0.654902, 0.580392, 1)
 CheckButton/colors/font_focus_color = Color(0.298039, 0.282353, 0.239216, 1)
@@ -575,16 +614,22 @@ CheckButton/styles/pressed = SubResource("StyleBoxEmpty_wewsg")
 FieldLabel/base_type = &"Label"
 FieldLabel/styles/normal = SubResource("StyleBoxEmpty_6xxyg")
 FoldButton/base_type = &"CheckButton"
-FoldButton/colors/icon_normal_color = Color(0, 0, 0, 1)
-FoldButton/colors/icon_pressed_color = Color(0, 0, 0, 1)
+FoldButton/colors/button_checked_color = Color(0.6745098, 0.654902, 0.5803922, 1)
+FoldButton/colors/button_unchecked_color = Color(0.29803923, 0.28235295, 0.23921569, 1)
+FoldButton/colors/font_color = Color(0.29803923, 0.28235295, 0.23921569, 1)
+FoldButton/colors/font_disabled_color = Color(0.7882353, 0.7647059, 0.67058825, 1)
+FoldButton/colors/font_focus_color = Color(0.7882353, 0.7647059, 0.67058825, 1)
+FoldButton/colors/font_hover_color = Color(0.29803923, 0.28235295, 0.23921569, 1)
+FoldButton/colors/font_hover_pressed_color = Color(0.6901961, 0.67058825, 0.5921569, 1)
+FoldButton/colors/font_pressed_color = Color(0.6745098, 0.654902, 0.5803922, 1)
 FoldButton/icons/checked = ExtResource("9_ernxe")
 FoldButton/icons/unchecked = ExtResource("10_pfoej")
-FoldButton/styles/disabled = SubResource("StyleBoxEmpty_s6oba")
-FoldButton/styles/focus = SubResource("StyleBoxEmpty_unu80")
-FoldButton/styles/hover = SubResource("StyleBoxEmpty_rkcgp")
-FoldButton/styles/hover_pressed = SubResource("StyleBoxEmpty_dugvo")
-FoldButton/styles/normal = SubResource("StyleBoxEmpty_s8ee0")
-FoldButton/styles/pressed = SubResource("StyleBoxEmpty_pnrvj")
+FoldButton/styles/disabled = SubResource("StyleBoxFlat_ernxe")
+FoldButton/styles/focus = SubResource("StyleBoxFlat_pfoej")
+FoldButton/styles/hover = SubResource("StyleBoxFlat_wewsg")
+FoldButton/styles/hover_pressed = SubResource("StyleBoxFlat_vsjrp")
+FoldButton/styles/normal = SubResource("StyleBoxFlat_wewsg")
+FoldButton/styles/pressed = SubResource("StyleBoxFlat_s6oba")
 FramedPopupPanel/base_type = &"PopupPanel"
 FramedPopupPanel/styles/panel = SubResource("StyleBoxFlat_cd8m4")
 GraphEdit/styles/panel = SubResource("StyleBoxFlat_ihp3y")
@@ -662,8 +707,11 @@ Panel/styles/panel = SubResource("StyleBoxFlat_3k4yb")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_vl7lj")
 PopupMenu/colors/font_color = Color(0.788235, 0.764706, 0.670588, 1)
 PopupMenu/colors/font_hover_color = Color(0.298039, 0.282353, 0.239216, 1)
-PopupMenu/icons/radio_checked = ExtResource("2_kfu87")
-PopupMenu/icons/radio_unchecked = ExtResource("3_lx4n4")
+PopupMenu/icons/checked = ExtResource("1_uno10")
+PopupMenu/icons/radio_checked = ExtResource("2_vsjrp")
+PopupMenu/icons/radio_unchecked = ExtResource("3_wewsg")
+PopupMenu/icons/search = ExtResource("14_pfoej")
+PopupMenu/icons/unchecked = ExtResource("4_s6oba")
 PopupMenu/styles/hover = SubResource("StyleBoxFlat_5e0sc")
 PopupMenu/styles/panel = SubResource("StyleBoxFlat_vbyic")
 PopupMenu/styles/separator = SubResource("StyleBoxLine_honxw")
@@ -682,6 +730,7 @@ SpinBox/colors/down_pressed_icon_modulate = Color(0.298039, 0.282353, 0.239216, 
 SpinBox/colors/up_disabled_icon_modulate = Color(0.811765, 0.788235, 0.698039, 1)
 SpinBox/colors/up_icon_modulate = Color(0.298039, 0.282353, 0.239216, 1)
 SpinBox/colors/up_pressed_icon_modulate = Color(0.298039, 0.282353, 0.239216, 1)
+SpinBox/constants/field_and_buttons_separation = 6
 SpinBox/icons/down = ExtResource("10_s6oba")
 SpinBox/icons/down_disabled = ExtResource("10_s6oba")
 SpinBox/icons/down_hover = ExtResource("10_s6oba")

@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rnym8fj5ywno"
-path="res://.godot/imported/camera-web.svg-de64717c20e7a0b92f27a9cd54cb4205.ctex"
+uid="uid://blil5brl4i0qh"
+path="res://.godot/imported/gear.svg-2f1480d242365e57dccba9f4f57177ae.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://studio/hud/icons/camera-web.svg"
-dest_files=["res://.godot/imported/camera-web.svg-de64717c20e7a0b92f27a9cd54cb4205.ctex"]
+source_file="res://ui/icons/gear.svg"
+dest_files=["res://.godot/imported/gear.svg-2f1480d242365e57dccba9f4f57177ae.ctex"]
 
 [params]
 
-compress/mode=4
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -24,7 +24,7 @@ compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
-mipmaps/limit=-1
+mipmaps/limit=1
 roughness/mode=0
 roughness/src_normal=""
 process/channel_remap/red=0

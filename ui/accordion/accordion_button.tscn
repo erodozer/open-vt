@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://ce4xkqt2kby3t"]
+
+[ext_resource type="Script" uid="uid://cte3vm6g7ty7i" path="res://ui/visibility_toggle.gd" id="1_fxbrk"]
+
+[node name="AccordionButton" type="CheckButton" unique_id=1000663518]
+offset_right = 64.0
+offset_bottom = 31.507692
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_type_variation = &"FoldButton"
+button_pressed = true
+text = "Section"
+script = ExtResource("1_fxbrk")

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cvwnn0nikv5uf"
-path="res://.godot/imported/eye.svg-f3cba2c0e0d9abe2e882403be60f2fb0.ctex"
+uid="uid://ddsqi6k5fihkc"
+path="res://.godot/imported/Checkbox.svg-ddfdebdacfcde4597198c273e4b95c85.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://lib/blueprints/logic/eye.svg"
-dest_files=["res://.godot/imported/eye.svg-f3cba2c0e0d9abe2e882403be60f2fb0.ctex"]
+source_file="res://ui/icons/Checkbox.svg"
+dest_files=["res://.godot/imported/Checkbox.svg-ddfdebdacfcde4597198c273e4b95c85.ctex"]
 
 [params]
 

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ddqdj7ehf48j5" path="res://lib/tracking/gamepad/config.gd" id="1_ya4c7"]
 [ext_resource type="PackedScene" uid="uid://d2a67yxp08esv" path="res://ui/modal/modal.tscn" id="1_yo73d"]
+[ext_resource type="Texture2D" uid="uid://biir6m221r6mk" path="res://ui/icons/Joypad.svg" id="2_v1whf"]
 [ext_resource type="PackedScene" uid="uid://hpg52fgw7kdc" path="res://studio/hud/input_recorder/input_rec_popup.tscn" id="2_ya4c7"]
 
 [node name="Config" type="PanelContainer" unique_id=1348548932]
@@ -19,6 +20,15 @@ layout_mode = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1709487591]
 layout_mode = 2
 theme_override_constants/separation = 12
+
+[node name="Icon" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1975068450]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+theme_type_variation = &"ImageButton"
+icon = ExtResource("2_v1whf")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=2064655887]
 layout_mode = 2

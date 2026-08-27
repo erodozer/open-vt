@@ -80,53 +80,10 @@ wait_time = 0.2
 one_shot = true
 
 [node name="Modal" parent="." unique_id=360995822 instance=ExtResource("4_cinyh")]
+unique_name_in_owner = true
 visible = false
-
-[node name="EditPopup" type="AcceptDialog" parent="Modal" unique_id=1687857522]
-unique_name_in_owner = true
-oversampling_override = 1.0
-title = "Edit Blueprint Properties"
-initial_position = 2
-size = Vector2i(451, 120)
-unresizable = true
-ok_button_text = "Save"
-
-[node name="VBoxContainer" type="GridContainer" parent="Modal/EditPopup" unique_id=876967517]
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 453.0
-offset_bottom = 142.0
-theme_override_constants/h_separation = 12
-theme_override_constants/v_separation = 8
-columns = 2
-
-[node name="Label" type="Label" parent="Modal/EditPopup/VBoxContainer" unique_id=1526299830]
-layout_mode = 2
-text = "Name"
-
-[node name="ProfileName" type="LineEdit" parent="Modal/EditPopup/VBoxContainer" unique_id=1690751980]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(360, 0)
-layout_mode = 2
-placeholder_text = "Default"
-alignment = 2
-
-[node name="Label2" type="Label" parent="Modal/EditPopup/VBoxContainer" unique_id=1516237678]
-layout_mode = 2
-text = "Enabled"
-
-[node name="ProfileEnabled" type="CheckButton" parent="Modal/EditPopup/VBoxContainer" unique_id=1839509829]
-unique_name_in_owner = true
-layout_mode = 2
-focus_mode = 0
-flat = true
 
 [connection signal="close_requested" from="." to="." method="_on_close_requested"]
 [connection signal="create_node" from="PanelContainer/HBoxContainer/Control/Palette" to="." method="_on_palette_create_node"]
 [connection signal="tab_changed" from="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer/Profiles" to="." method="_on_profiles_tab_selected"]
 [connection signal="tab_clicked" from="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer/Profiles" to="." method="_on_profiles_tab_clicked"]
-[connection signal="canceled" from="Modal/EditPopup" to="." method="_on_edit_popup_custom_action" binds= ["Cancel"]]
-[connection signal="confirmed" from="Modal/EditPopup" to="." method="_on_edit_popup_confirmed"]
-[connection signal="custom_action" from="Modal/EditPopup" to="." method="_on_edit_popup_custom_action"]
-[connection signal="visibility_changed" from="Modal/EditPopup" to="Modal" method="on_visibility_changed" flags=18]
-[connection signal="text_changed" from="Modal/EditPopup/VBoxContainer/ProfileName" to="." method="_on_profile_name_text_changed"]

@@ -7,7 +7,7 @@
 oversampling_override = 1.0
 title = "Model Settings"
 initial_position = 2
-size = Vector2i(480, 600)
+size = Vector2i(540, 600)
 script = ExtResource("1_jq7pc")
 metadata/model = true
 
@@ -20,6 +20,7 @@ grow_vertical = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer" unique_id=1078189097]
 layout_mode = 2
+vertical_scroll_mode = 2
 
 [node name="Accordion" type="VBoxContainer" parent="PanelContainer/ScrollContainer" unique_id=1064750201]
 unique_name_in_owner = true

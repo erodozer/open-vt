@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://ckj4kaun5h87" path="res://studio/hud/camera_panel/camera_panel.gd" id="1_qt06k"]
 [ext_resource type="Script" uid="uid://08yyvfky7ack" path="res://ui/accordion/accordion.gd" id="2_qv3m7"]
 [ext_resource type="Texture2D" uid="uid://cu5xqrskvsnf6" path="res://ui/icons/Image.svg" id="3_otsd8"]
+[ext_resource type="Texture2D" uid="uid://rnym8fj5ywno" path="res://studio/hud/camera_panel/camera-web.svg" id="4_s4ccp"]
 
 [node name="CameraPanel" type="PanelContainer" unique_id=308808200 groups=["persist"]]
 custom_minimum_size = Vector2(480, 0)
@@ -17,6 +18,7 @@ script = ExtResource("1_qt06k")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=471975231]
 layout_mode = 2
+vertical_scroll_mode = 2
 
 [node name="Accordion" type="VBoxContainer" parent="ScrollContainer" unique_id=875550209]
 layout_mode = 2
@@ -229,6 +231,15 @@ layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/Accordion/Tracking/PanelContainer/FaceTracking" unique_id=874727003]
 layout_mode = 2
+
+[node name="Button" type="Button" parent="ScrollContainer/Accordion/Tracking/PanelContainer/FaceTracking/HBoxContainer" unique_id=1375984522]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+theme_type_variation = &"ImageButton"
+icon = ExtResource("4_s4ccp")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="Label" type="Label" parent="ScrollContainer/Accordion/Tracking/PanelContainer/FaceTracking/HBoxContainer" unique_id=136993873]
 layout_mode = 2

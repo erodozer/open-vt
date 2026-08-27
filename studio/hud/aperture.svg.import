@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ddqu1ma3rgo08"
-path="res://.godot/imported/aperture.svg-26cbe6b5a711c650cb748ea267146107.ctex"
+path="res://.godot/imported/aperture.svg-d7814dd3ca38474505cb742795a0331c.ctex"
 metadata={
 "has_editor_variant": true,
 "vram_texture": false
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://studio/hud/icons/aperture.svg"
-dest_files=["res://.godot/imported/aperture.svg-26cbe6b5a711c650cb748ea267146107.ctex"]
+source_file="res://studio/hud/aperture.svg"
+dest_files=["res://.godot/imported/aperture.svg-d7814dd3ca38474505cb742795a0331c.ctex"]
 
 [params]
 

@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d0oc7kwqufoqr"
-path="res://.godot/imported/circle-plus.svg-3ecf2f9a585945a77183b3f3ee3ee190.ctex"
+uid="uid://36oauivngbt3"
+path="res://.godot/imported/Radio.svg-24f9d7854c1e3e3b17231bee4e4855be.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/icons/circle-plus.svg"
-dest_files=["res://.godot/imported/circle-plus.svg-3ecf2f9a585945a77183b3f3ee3ee190.ctex"]
+source_file="res://ui/icons/Radio.svg"
+dest_files=["res://.godot/imported/Radio.svg-24f9d7854c1e3e3b17231bee4e4855be.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=4
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -24,7 +24,7 @@ compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
-mipmaps/limit=1
+mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
 process/channel_remap/red=0

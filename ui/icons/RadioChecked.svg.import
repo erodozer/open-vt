@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://yfisddghfmvr"
-path="res://.godot/imported/minus.svg-17ac095607c7db016079523dc3583c6e.ctex"
+uid="uid://cg2o2bgu44yvd"
+path="res://.godot/imported/RadioChecked.svg-c1331b86b3387aa13a6a1c6b9bff877e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/icons/minus.svg"
-dest_files=["res://.godot/imported/minus.svg-17ac095607c7db016079523dc3583c6e.ctex"]
+source_file="res://ui/icons/RadioChecked.svg"
+dest_files=["res://.godot/imported/RadioChecked.svg-c1331b86b3387aa13a6a1c6b9bff877e.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=4
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -24,7 +24,7 @@ compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
-mipmaps/limit=1
+mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
 process/channel_remap/red=0

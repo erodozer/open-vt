@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dquygailhgfka"
-path="res://.godot/imported/face-exhaling.svg-6c9a61df31e304f99e193e2e14a7fbd6.ctex"
+path="res://.godot/imported/face-exhaling.svg-cc5cf4abd1c5b05087fbc2828bc123d8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://lib/blueprints/logic/face-exhaling.svg"
-dest_files=["res://.godot/imported/face-exhaling.svg-6c9a61df31e304f99e193e2e14a7fbd6.ctex"]
+source_file="res://lib/blueprints/inputs/face-exhaling.svg"
+dest_files=["res://.godot/imported/face-exhaling.svg-cc5cf4abd1c5b05087fbc2828bc123d8.ctex"]
 
 [params]
 

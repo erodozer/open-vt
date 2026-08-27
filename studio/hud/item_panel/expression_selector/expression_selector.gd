@@ -57,9 +57,13 @@ func _ready():
 		if not group.is_empty():
 			var l = Label.new()
 			l.text = group
-			l.theme_type_variation = "BoldLabel"
+			l.theme_type_variation = "FieldLabel"
 			%ExpressionList.add_child(l)
-		%ExpressionList.add_child(section)
+		
+		var container = PanelContainer.new()
+		container.theme_type_variation = "Section"
+		container.add_child(section)
+		%ExpressionList.add_child(container)
 	
 	await get_tree().process_frame
 	
@@ -74,6 +78,7 @@ func make_row(e: AyagamiExpression, btn_group: ButtonGroup = null):
 	btn.button_group = btn_group
 	btn.text = e_name
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	btn.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	btn.name = "Toggle"
 	row.add_child(btn)
 

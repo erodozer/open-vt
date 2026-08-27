@@ -27,17 +27,14 @@ func _ready() -> void:
 	)
 	
 func add_fold(section: Node):
-	var btn = Button.new()
+	var btn = preload("./accordion_button.tscn").instantiate()
 	btn.text = section.name
-	btn.toggle_mode = true
-	btn.focus_mode = Control.FOCUS_NONE
+	btn.button_pressed = section.visible
 	if select_mode == Mode.MULTI:
 		btn.button_group = button_group
+	btn.link = section
+	
+	# add sibling before
 	add_child(btn)
 	move_child(btn, section.get_index())
-	btn.button_pressed = section.visible
-	btn.toggled.connect(
-		func (pressed):
-			section.visible = pressed
-	)
 	

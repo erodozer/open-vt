@@ -19,10 +19,29 @@ grow_vertical = 2
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer" unique_id=1901355229]
 layout_mode = 2
 
-[node name="ExpressionList" type="VBoxContainer" parent="PanelContainer/ScrollContainer" unique_id=1787960898]
-unique_name_in_owner = true
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/ScrollContainer" unique_id=1312444462]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Header" type="HBoxContainer" parent="PanelContainer/ScrollContainer/VBoxContainer" unique_id=415335054]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="PanelContainer/ScrollContainer/VBoxContainer/Header" unique_id=980481453]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"BoldLabel"
+text = "Expression"
+
+[node name="Label2" type="Label" parent="PanelContainer/ScrollContainer/VBoxContainer/Header" unique_id=411265095]
+layout_mode = 2
+theme_type_variation = &"BoldLabel"
+text = "Fade (sec)"
+
+[node name="ExpressionList" type="VBoxContainer" parent="PanelContainer/ScrollContainer/VBoxContainer" unique_id=1934616629]
+unique_name_in_owner = true
+layout_mode = 2
 size_flags_vertical = 3
 
 [connection signal="close_requested" from="." to="." method="_on_close_requested"]

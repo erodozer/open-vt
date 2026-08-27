@@ -55,11 +55,7 @@ func _ready() -> void:
 				%Profiles.add_child(graph, true)
 			%Profiles.current_tab = %Profiles.get_tab_count() - 1
 	)
-	
-	%EditPopup.add_button("Delete", true, "Delete")
-	%EditPopup.add_cancel_button("Cancel")
-	
-	self.propagate_call("set_theme", [get_tree().root.theme])
+	theme = get_tree().root.theme
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
@@ -90,31 +86,15 @@ func _on_close_requested() -> void:
 	queue_free()
 
 func _on_profiles_tab_selected(_tab: int) -> void:
-	reset_edit_popup()
-	
-func reset_edit_popup():
-	var current_tab = %Profiles.get_current_tab_control()
-	if current_tab:
-		%ProfileName.text = %Profiles.get_current_tab_control().name
-		%ProfileEnabled.set_pressed_no_signal(
-			%Profiles.get_current_tab_control().process_mode != PROCESS_MODE_DISABLED
-		)
-
-func _on_edit_popup_custom_action(action: StringName) -> void:
-	if action == "Delete":
-		var g = active_graph
-		%Profiles.remove_child(g)
-		g.queue_free()
-	%EditPopup.hide()
-
-func _on_edit_popup_confirmed() -> void:
-	active_graph.name = %ProfileName.text
-	active_graph.process_mode = PROCESS_MODE_INHERIT if %ProfileEnabled.button_pressed else PROCESS_MODE_DISABLED
+	pass
 
 func _on_profiles_tab_clicked(_tab: int) -> void:
 	if %TabClickTimer.time_left > 0:
-		%EditPopup.position = Vector2i(get_visible_rect().size / 2) + (%EditPopup.size / 2)
-		reset_edit_popup()
-		%EditPopup.show()
+		var popup = preload("./edit_popup.tscn").instantiate()
+		popup.theme = theme
+		popup.graph = %Profiles.get_current_tab_control()
+		popup.tree_entered.connect(%Modal.set_visible.bind(true))
+		popup.tree_exited.connect(%Modal.set_visible.bind(false))
+		%Modal.add_child(popup)
 	else:
 		%TabClickTimer.start()

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3dee7af4se08"
-path="res://.godot/imported/circle.svg-9492137944b09f7cbefbe07674747196.ctex"
+uid="uid://biir6m221r6mk"
+path="res://.godot/imported/Joypad.svg-b10523910cae4558f92c34230b78bd89.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/icons/circle.svg"
-dest_files=["res://.godot/imported/circle.svg-9492137944b09f7cbefbe07674747196.ctex"]
+source_file="res://ui/icons/Joypad.svg"
+dest_files=["res://.godot/imported/Joypad.svg-b10523910cae4558f92c34230b78bd89.ctex"]
 
 [params]
 
