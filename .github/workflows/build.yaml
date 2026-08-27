@@ -142,3 +142,23 @@ jobs:
         with:
           name: ${{ env.project }}.${{ matrix.platform }}
           path: ./bin/${{ matrix.platform }}/*
+      - name: Upload to Itchio (Latest)
+        if: startsWith(github.event.ref, 'refs/head')
+        uses: yeslayla/butler-publish-itchio-action@v1.2.0
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+          CHANNEL: ${{ matrix.platform }}-nightly
+          ITCH_GAME: ${{ env.project }}
+          ITCH_USER: ${{ secrets.BUTLER_USER }}
+          PACKAGE: bin/${{matrix.platform}}
+          VERSION: ${{ github.sha }}
+      - name: Upload to Itchio (Stable)
+        if: startsWith(github.event.ref, 'refs/tags/v')
+        uses: yeslayla/butler-publish-itchio-action@v1.2.0
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+          CHANNEL: ${{ matrix.platform }}-stable
+          ITCH_GAME: ${{ env.project }}
+          ITCH_USER: ${{ secrets.BUTLER_USER }}
+          PACKAGE: bin/${{matrix.platform}}
+          VERSION: ${{ github.ref_name }}
