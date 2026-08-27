@@ -6,7 +6,7 @@
 allow_unpress = true
 
 [node name="ScreenButton" type="GraphNode" unique_id=965781598]
-custom_minimum_size = Vector2(185, 185)
+custom_minimum_size = Vector2(185, 0)
 title = "On-screen Button"
 slot/0/left_enabled = false
 slot/0/left_type = 0
@@ -88,7 +88,7 @@ button_group = SubResource("ButtonGroup_abhho")
 
 [node name="Pressed" type="Label" parent="." unique_id=972679266]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
+custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 text = "Pressed"
 horizontal_alignment = 2

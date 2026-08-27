@@ -295,6 +295,8 @@ border_width_bottom = 3
 border_color = Color(0.67451, 0.654902, 0.580392, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_443q7"]
+content_margin_left = 12.0
+content_margin_right = 8.0
 bg_color = Color(0.788235, 0.764706, 0.670588, 1)
 border_width_bottom = 4
 border_color = Color(0.298039, 0.282353, 0.239216, 1)
@@ -707,6 +709,10 @@ Panel/styles/panel = SubResource("StyleBoxFlat_3k4yb")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_vl7lj")
 PopupMenu/colors/font_color = Color(0.788235, 0.764706, 0.670588, 1)
 PopupMenu/colors/font_hover_color = Color(0.298039, 0.282353, 0.239216, 1)
+PopupMenu/constants/h_separation = 7
+PopupMenu/constants/item_end_padding = 9
+PopupMenu/constants/item_start_padding = 9
+PopupMenu/constants/outline_size = 0
 PopupMenu/icons/checked = ExtResource("1_uno10")
 PopupMenu/icons/radio_checked = ExtResource("2_vsjrp")
 PopupMenu/icons/radio_unchecked = ExtResource("3_wewsg")

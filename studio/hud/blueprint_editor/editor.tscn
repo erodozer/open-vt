@@ -41,7 +41,6 @@ size_flags_horizontal = 4
 icon = ExtResource("2_ira4j")
 flat = false
 icon_alignment = 1
-expand_icon = true
 item_count = 3
 popup/item_0/text = "New Blueprint"
 popup/item_0/id = 0

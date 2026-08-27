@@ -60,7 +60,6 @@ layout_mode = 2
 
 [node name="Speed" type="HBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=626723233]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Speed" unique_id=1286573084]
@@ -78,7 +77,6 @@ suffix = "%"
 
 [node name="Fade" type="HBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=1054079252]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Fade" unique_id=677367557]
@@ -96,7 +94,7 @@ suffix = "%"
 
 [node name="Play" type="Label" parent="." unique_id=1397033666]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
+custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 text = "Play"
 vertical_alignment = 1
@@ -104,7 +102,7 @@ metadata/slot_type = "trigger"
 
 [node name="Stop" type="Label" parent="." unique_id=1124769400]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
+custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 text = "Stop"
 vertical_alignment = 1
@@ -112,7 +110,7 @@ metadata/slot_type = "trigger"
 
 [node name="Completed" type="Label" parent="." unique_id=1308368861]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
+custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 text = "Completed"
 horizontal_alignment = 2
