@@ -1,0 +1,55 @@
+name: Nightly Publish to Itchio
+on:
+  schedule:
+    # Run at 8PM EST every day
+    - cron: '0 20 * * *'
+      timezone: "America/New_York"
+  workflow_dispatch:
+
+env:
+  project: openvt
+  
+jobs:
+  republish-artifact:
+    name: Upload Nightly Build (${{ matrix.platform }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          #- identifier: windows-release
+          #  platform: windows
+          - identifier: linux-release
+            platform: linux
+    steps:
+      - name: Get Latest Build
+        id: latest_artifact
+        run: |
+          gh api -X GET repos/${{ github.repository_owner }}/open-vt/actions/workflows/build.yaml/runs \
+            -f branch=main \
+            -f status=completed \
+            -f per_page=1 \
+            -q '{id: .workflow_runs[0].id, sha: .workflow_runs[0].head_sha} | to_entries[] | [.key, .value] | @tsv' \
+          | sed 's/\t/=/g' >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ secrets.PAT }}
+
+      - name: Download latest artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ env.project }}.${{ matrix.platform }}
+          run-id: ${{ steps.latest_artifact.outputs.id }}
+          github-token: ${{ secrets.PAT }}
+          skip-decompress: false
+      - name: List Files (Debug)
+        run: ls
+      - name: Upload to Itchio (Latest)
+        uses: erodozer/butler-publish-itchio-action@master
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+          CHANNEL: ${{ matrix.platform }}-nightly
+          ITCH_GAME: ${{ env.project }}
+          ITCH_USER: ${{ secrets.BUTLER_USER }}
+          PACKAGE: ./
+          VERSION: ${{ steps.latest_artifact.outputs.sha }}
+          IF_CHANGED: true
