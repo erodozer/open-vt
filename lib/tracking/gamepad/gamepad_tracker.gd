@@ -178,7 +178,7 @@ static func is_dpad_pressed(inputs):
 	},
 ]
 
-func _ready():
+static func _static_init() -> void:
 	# Nyarupad Inputs
 	Registry.add_parameter("NP_DPadDown", Vector2(0, 1), 0.0, "Nyarupad")
 	Registry.add_parameter("NP_DPadUp", Vector2(0, 1), 0.0, "Nyarupad")

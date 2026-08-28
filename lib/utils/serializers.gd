@@ -18,6 +18,22 @@ class Vec2SerializerImpl extends JsonSerializer:
 
 static var Vec2Serializer: JsonSerializer = Vec2SerializerImpl.new()
 
+class Vec3SerializerImpl extends JsonSerializer:
+	func to_json(v: Vector3) -> Dictionary:
+		return {
+			"x": v.x,
+			"y": v.y,
+			"z": v.z,
+		}
+	func from_json(v: Dictionary, fallback: Vector3 = Vector3.ZERO) -> Vector3:
+		return Vector3(
+			v.get("x", fallback.x),
+			v.get("y", fallback.y),
+			v.get("z", fallback.z)
+		)
+
+static var Vec3Serializer: JsonSerializer = Vec3SerializerImpl.new()
+
 class RangeSerializerImpl extends JsonSerializer:
 	func to_json(v: Vector2) -> Dictionary:
 		return {
@@ -71,6 +87,8 @@ class ObjSerializerImpl extends JsonSerializer:
 					value = Color.WHITE
 			if p.type == Variant.Type.TYPE_VECTOR2:
 				value = Vec2SerializerImpl.new().from_json(value, existing as Vector2)
+			if p.type == Variant.Type.TYPE_VECTOR3:
+				value = Vec3SerializerImpl.new().from_json(value, existing as Vector3)
 			assign.set(p.name, value)
 		return assign
 	

@@ -37,6 +37,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 placeholder_text = "0.0.0.0"
+alignment = 2
 editable = false
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=229503339]

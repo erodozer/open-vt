@@ -1,6 +1,6 @@
 extends "res://lib/tracking/interpolated_tracker.gd"
 
-func _ready() -> void:
+static func _static_init() -> void:
 	Registry.add_parameter("FacePositionX", Vector2(-15, 15))
 	Registry.add_parameter("FacePositionY", Vector2(-15, 15))
 	Registry.add_parameter("FacePositionZ", Vector2(-10, 10))
@@ -59,7 +59,8 @@ func _ready() -> void:
 	#Registry.add_parameter("HandRightFinger3Middle")
 	#Registry.add_parameter("HandRightFinger4Ring")
 	#Registry.add_parameter("HandRightFinger5Pinky")
-	
+
+func _ready() -> void:
 	reset()
 
 func reset():

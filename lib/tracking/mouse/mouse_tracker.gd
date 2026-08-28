@@ -2,7 +2,7 @@ extends "res://lib/tracking/tracker.gd"
 
 var has_global_input = false
 
-func _ready():
+static func _static_init() -> void:
 	# Screen Position
 	Registry.add_parameter("MousePositionX", Vector2(-1.0, 1.0), 0.0, "KBM")
 	Registry.add_parameter("MousePositionY", Vector2(-1.0, 1.0), 0.0, "KBM")

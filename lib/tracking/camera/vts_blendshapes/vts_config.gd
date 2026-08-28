@@ -1,11 +1,11 @@
-extends PanelContainer
+extends Control
 
 const SocketTracker = preload("res://lib/tracking/net/socket_tracker.gd")
 
 var tracker: SocketTracker
 
 func _ready() -> void:
-	%Hostname.text = "192.168.88.250"
+	%Hostname.text = "0.0.0.0"
 	tracker.connection_status.connect(
 		func (status):
 			match status:

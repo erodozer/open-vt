@@ -32,6 +32,9 @@ func _ready() -> void:
 	face_trackers.add_item("VTubeStudio (iOS/Android)")
 	face_trackers.set_item_metadata(face_trackers.item_count - 1, preload("res://lib/tracking/camera/vts/vts_tracker.gd"))
 	
+	face_trackers.add_item("iOS BlendShapes (VTS)")
+	face_trackers.set_item_metadata(face_trackers.item_count - 1, preload("res://lib/tracking/camera/vts_blendshapes/vts_tracker.gd"))
+	
 	for tracker in tracking_system.get_children():
 		var config = tracker.create_config()
 		if config != null:
@@ -82,8 +85,11 @@ func _on_tracker_system_tracker_changed(new_tracker: Tracker) -> void:
 		config = new_tracker.create_config()
 	config.name = "Config"
 	
-	%FaceTracking/Config.queue_free()
-	await get_tree().process_frame
+	var prev_config = %FaceTracking.get_node("Config")
+	if prev_config:
+		%FaceTracking.remove_child(prev_config)
+		prev_config.queue_free()
+	
 	%FaceTracking.add_child(config)
 
 func _on_tracker_system_parameters_updated(parameters: Dictionary, _delta) -> void:
