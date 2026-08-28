@@ -173,6 +173,9 @@ func _update_model():
 	if not _dirty:
 		return
 	
+	if model.is_queued_for_deletion():
+		return
+	
 	for p in bindings:
 		if p in binding_display:
 			binding_display[p].text = "%1.2f" % bindings[p]

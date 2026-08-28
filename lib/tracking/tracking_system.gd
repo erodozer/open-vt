@@ -29,7 +29,7 @@ func activate_tracker(tracker: Tracker):
 func _process(delta: float) -> void:
 	parameters.clear()
 	
-	# mouse tracking
+	# combine tracking
 	for i in get_children():
 		parameters.merge(i.parameters(), true)
 		

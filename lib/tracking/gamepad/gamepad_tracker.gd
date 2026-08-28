@@ -186,7 +186,6 @@ func _ready():
 	Registry.add_parameter("NP_DPadRight", Vector2(0, 1), 0.0, "Nyarupad")
 	Registry.add_parameter("NP_LButtonDown", Vector2(0, 1), 0.0, "Nyarupad")
 	Registry.add_parameter("NP_RButtonDown", Vector2(0, 1), 0.0, "Nyarupad")
-	Registry.add_parameter("NP_L2", Vector2(0, 1), 0.0, "Nyarupad")
 	Registry.add_parameter("NP_L1", Vector2(0, 1), 0.0, "Nyarupad")
 	Registry.add_parameter("NP_L2", Vector2(0, 1), 0.0, "Nyarupad")
 	Registry.add_parameter("NP_R1", Vector2(0, 1), 0.0, "Nyarupad")

@@ -16,7 +16,9 @@ func parameters() -> Array:
 	return _registry.values()
 	
 func parameter_groups() -> Array:
-	return _groups.keys()
+	var groups = _groups.keys()
+	groups.sort()
+	return groups
 
 func parameters_in_group(group: String) -> Array:
 	return _groups.get(group, []).duplicate()

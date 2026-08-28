@@ -26,6 +26,11 @@ func _ready():
 		VtItem.ItemType.ANIMATED:
 			%FrameRate.show()
 			%FrameRate/Value.value = item.render.sprite_frames.get_animation_speed("default")
+			
+	# fix theming
+	var panel: Panel = get_child(0, true)
+	panel.theme_type_variation = "WindowPanel"
+	panel.remove_theme_stylebox_override("panel")
 
 func _on_flip_toggled(toggled_on: bool) -> void:
 	item.render.scale = Vector2(-1 if toggled_on else 1, 1)

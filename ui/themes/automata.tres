@@ -276,6 +276,9 @@ bg_color = Color(0.847059, 0.823529, 0.729412, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lx4n4"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_unu80"]
+bg_color = Color(0.29803923, 0.28235295, 0.23921569, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_atl1g"]
 bg_color = Color(0.5265522, 0.50682294, 0.4285419, 1)
 
@@ -306,8 +309,8 @@ bg_color = Color(0.298039, 0.282353, 0.239216, 1)
 border_width_bottom = 4
 border_color = Color(0.298039, 0.282353, 0.239216, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3k4yb"]
-bg_color = Color(0.298039, 0.282353, 0.239216, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uno10"]
+bg_color = Color(0.8117647, 0.7882353, 0.69803923, 1)
 shadow_size = 3
 shadow_offset = Vector2(0, 4)
 
@@ -667,6 +670,8 @@ ImageButton/styles/disabled = SubResource("StyleBoxEmpty_t7fn3")
 ImageButton/styles/hover = SubResource("StyleBoxEmpty_xk21u")
 ImageButton/styles/normal = SubResource("StyleBoxEmpty_kfu87")
 ImageButton/styles/pressed = SubResource("StyleBoxEmpty_lx4n4")
+InsetPanel/base_type = &"Panel"
+InsetPanel/styles/panel = SubResource("StyleBoxFlat_unu80")
 InsetPanelContainer/base_type = &"PanelContainer"
 InsetPanelContainer/styles/panel = SubResource("StyleBoxFlat_atl1g")
 Label/colors/font_color = Color(0.298039, 0.282353, 0.239216, 1)
@@ -705,7 +710,7 @@ OptionButton/colors/font_color = Color(0.298039, 0.282353, 0.239216, 1)
 OptionButton/colors/font_pressed_color = Color(0.847059, 0.823529, 0.729412, 1)
 OptionButton/styles/normal = SubResource("StyleBoxFlat_443q7")
 OptionButton/styles/pressed = SubResource("StyleBoxFlat_wg0cd")
-Panel/styles/panel = SubResource("StyleBoxFlat_3k4yb")
+Panel/styles/panel = SubResource("StyleBoxFlat_uno10")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_vl7lj")
 PopupMenu/colors/font_color = Color(0.788235, 0.764706, 0.670588, 1)
 PopupMenu/colors/font_hover_color = Color(0.298039, 0.282353, 0.239216, 1)

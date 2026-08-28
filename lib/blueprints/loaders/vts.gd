@@ -1,6 +1,6 @@
 extends "./blueprint_loader.gd"
 	
-const PAD = 64
+const PAD = Vector2(128, 64)
 	
 func id() -> StringName:
 	return "vts"
@@ -25,14 +25,14 @@ func _build_hotkey_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint:
 			binding.load_from_vts(hotkey)
 			keybind.get_node("%Input").text = " + ".join(binding.input_as_list)
 			keybind.position_offset = Vector2(x, y + _y)
-			_y += keybind.size.y + PAD
-			_x = keybind.size.x + PAD
+			_y += keybind.size.y + PAD.y
+			_x = keybind.size.x + PAD.x
 		if hotkey.Triggers.get("ScreenButton", 0) > 0:
 			btnbind = graph.spawn_action(&"screen_button", model)
 			btnbind.get_node("%Mapping").get_child(hotkey.Triggers.ScreenButton - 1).button_pressed = true
 			btnbind.position_offset = Vector2(x, y + _y)
-			_y += btnbind.size.y + PAD
-			_x = max(_x, btnbind.size.x + PAD)
+			_y += btnbind.size.y + PAD.y
+			_x = max(_x, btnbind.size.x + PAD.x)
 		if keybind == null and btnbind == null:
 			continue
 		
@@ -50,8 +50,8 @@ func _build_hotkey_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint:
 						output.get_node("%Animation").select(i)
 				output.position_offset = Vector2(x + _x, y)
 				output.get_node("%Fade/Value").value = duration
-				_x += output.size.x + PAD
-				_y = max(_y, output.size.y + PAD)
+				_x += output.size.x + PAD.x
+				_y = max(_y, output.size.y + PAD.y)
 				
 				# pressed
 				if keybind != null:
@@ -80,8 +80,8 @@ func _build_hotkey_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint:
 					output.expression = e_name
 				output.get_node("%Fade/Value").value = duration
 				output.position_offset = Vector2(x + _x, y)
-				_x += output.size.x + PAD
-				_y = max(_y, output.size.y + PAD)
+				_x += output.size.x + PAD.x
+				_y = max(_y, output.size.y + PAD.y)
 				
 				if keybind != null:
 					if hotkey.DeactivateAfterKeyUp:
@@ -117,47 +117,32 @@ func _build_parameter_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint
 	
 	var breathe: VtAction = graph.spawn_action(&"breathe", model)
 	var blink: VtAction = graph.spawn_action(&"blink", model)
-	var camera_tracker: VtAction = graph.spawn_action(&"tracking_input", model, {
-		"kind": &"Camera"
-	})
-	camera_tracker.name = "CameraTracker"
-	var mic_tracker: VtAction = graph.spawn_action(&"tracking_input", model, {
-		"kind": &"Microphone"
-	})
-	mic_tracker.name = "MicrophoneTracker"
-	var gamepad_tracker: VtAction = graph.spawn_action(&"tracking_input", model, {
-		"kind": &"Gamepad"
-	})
-	gamepad_tracker.name = "GamepadTracker"
-	var kbm_tracker: VtAction = graph.spawn_action(&"tracking_input", model, {
-		"kind": &"KBM"
-	})
-	kbm_tracker.name = "KbmTracker"
-	
+	var trackers = []
 	var tracker_bound = {
-		camera_tracker: false,
-		mic_tracker: false,
-		gamepad_tracker: false,
-		kbm_tracker: false,
 		breathe: false,
 		blink: false
 	}
 	
+	for group in Registry.parameter_groups():
+		var tracker: VtAction = graph.spawn_action(&"tracking_input", model, {
+			"kind": group
+		})
+		tracker_bound[tracker] = false
+		trackers.append(tracker)
+		tracker.name = group + "Tracker"
+		add_child(tracker)
+	
 	var model_output: VtAction = graph.spawn_action(&"model_output", model)
 	
 	var column_width = 0
-	var x = max(
-		camera_tracker.size.x,
-		mic_tracker.size.x,
-		gamepad_tracker.size.x
-	) + PAD
+	var x = tracker_bound.keys().map(func (f): return f.size.x ).max() + PAD.x
 	var y = 0
 	for data in vtube_data["ParameterSettings"]:
 		var input_binding = data.get("Input", "unset")
 		var input: VtAction
 		var input_slot: int
 		var input_range: Vector2 = Vector2.ZERO
-		for t in [camera_tracker, mic_tracker, kbm_tracker, gamepad_tracker]:
+		for t in trackers:
 			input = t
 			input_slot = t.get_output_port_by_name(input_binding)
 			if input_slot != -1:
@@ -205,8 +190,8 @@ func _build_parameter_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint
 				scalar.queue_free()
 				input = blink
 				input_slot = blink.get_output_port_by_name("value")
-			_y = max(_y, scalar.size.y + PAD)
-			_x += scalar.size.x + PAD
+			_y = max(_y, scalar.size.y + PAD.y)
+			_x += scalar.size.x + PAD.x
 			
 		if float(data.get("Smoothing", 0.0)) > 0.0 and input != null:
 			var smoothing: VtAction = graph.spawn_action(&"smoothing", model, {
@@ -217,10 +202,10 @@ func _build_parameter_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint
 				smoothing.name, smoothing.get_input_port_by_name("value")
 			)
 			smoothing.position_offset = Vector2(_x, y)
-			_x += smoothing.size.x + PAD
+			_x += smoothing.size.x + PAD.x
 			input = smoothing
 			input_slot = smoothing.get_output_port_by_name("value")
-			_y = max(_y, smoothing.size.y + PAD)
+			_y = max(_y, smoothing.size.y + PAD.y)
 		
 		if not unbound and (
 			data.get("InputRangeLower", input_range.x) != input_range.x or \
@@ -246,10 +231,10 @@ func _build_parameter_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint
 				remap_input.name, remap_input.get_input_port_by_name("value")
 			)
 			remap_input.position_offset = Vector2(_x, y)
-			_x += remap_input.size.x + PAD
+			_x += remap_input.size.x + PAD.x
 			input = remap_input
 			input_slot = remap_input.get_output_port_by_name("value")
-			_y = max(_y, remap_input.size.y + PAD)
+			_y = max(_y, remap_input.size.y + PAD.y)
 		
 		if input != null:
 			graph._on_connection_request(
@@ -274,7 +259,7 @@ func _build_parameter_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint
 			continue
 		
 		t.position_offset = Vector2(0, y)
-		y += t.size.y + PAD
+		y += t.size.y + PAD.y
 	
 	remove_child(graph)
 	return graph
