@@ -1,12 +1,7 @@
 name: Build Project
 on:
   push:
-    paths:
-    - "thirdparty/*"
-    - "lib/*"
-    - "studio/*"
-    - "ui/*"
-    - project.godot
+  workflow_dispatch:
 
 env:
   project: openvt
