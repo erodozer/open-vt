@@ -2,12 +2,9 @@
 # and spawning them into the scene to be managed
 extends "../../vt_model.gd"
 
-const Collections = preload("res://lib/utils/collections.gd")
-
 var model: AyagamiModel
 var container: Node
 
-const ModelModifier = preload("../../modifier.gd")
 const ParameterModifier = preload("./modifiers/parameter_modifier.gd")
 const PartModifier = preload("./modifiers/part_modifier.gd")
 const MeshModifier = preload("./modifiers/mesh_modifier.gd")
@@ -15,11 +12,13 @@ const MeshModifier = preload("./modifiers/mesh_modifier.gd")
 var param_settings: Dictionary[StringName, ModelModifier] = {}
 var part_settings: Dictionary[StringName, ModelModifier] = {}
 var mesh_settings: Dictionary[StringName, ModelModifier] = {}
-var modifier_map = {
-	"modifiers/parts/": part_settings,
-	"modifiers/meshes/": mesh_settings,
-	"modifiers/parameters/": param_settings
-}
+
+func get_modifier_map():
+	return {
+		"parts": part_settings,
+		"meshes": mesh_settings,
+		"parameters": param_settings
+	}
 
 func _ready() -> void:
 	container = preload("./pixel_subviewport.tscn").instantiate()
@@ -54,32 +53,12 @@ func get_parameters() -> Dictionary:
 func _get(property: StringName) -> Variant:
 	if property.begins_with("parameters/") or property.begins_with("parts/"):
 		return model.get(property)
-	for prefix in modifier_map:
-		if not property.begins_with(prefix):
-			continue
-		var modifiers = modifier_map[prefix]
-		var segments = property.trim_prefix(prefix).split("/")
-		var part = segments[0]
-		var field = segments[1]
-		var modifier: ModelModifier = modifiers.get(part)
-		if modifier:
-			return modifier.get(field)
+	
 	return null
 
 func _property_get_revert(property: StringName) -> Variant:
 	if property.begins_with("parameters/") or property.begins_with("parts/"):
 		return model.property_get_revert(property)
-	
-	for prefix in modifier_map:
-		if not property.begins_with(prefix):
-			continue
-		
-		var segments = property.trim_prefix(prefix).split("/")
-		var part = segments[0]
-		var field = segments[1]
-		
-		var settings: ModelModifier = modifier_map[prefix][part]
-		return settings.property_get_revert(field)
 		
 	return null
 
@@ -87,21 +66,6 @@ func _set(property: StringName, value: Variant) -> bool:
 	if property.begins_with("parameters/"):
 		if not property.ends_with("/range") and not property.ends_with("/default"):
 			model.set(property, value)
-			return true
-	
-	for p in modifier_map:
-		if not property.begins_with(p):
-			continue
-		var parts = property.trim_prefix(p).split("/")
-		var param = parts[0]
-		var field = parts[1]
-		var modifier: ModelModifier = modifier_map[p].get(param)
-		if modifier:
-			var old_value = modifier.get(field)
-			modifier.set(field, value)
-			modifier_updated.emit.call_deferred(
-				property, value, old_value
-			)
 			return true
 
 	if property == "texture_filter":
@@ -125,19 +89,6 @@ func _get_property_list() -> Array[Dictionary]:
 	for param in Collections.select(base_properties, "name", RegEx.create_from_string("^parameters/")):
 		var p_name = param.name.trim_prefix("parameters/")
 		properties.append(param)
-	
-	for prefix in modifier_map:
-		var settings = modifier_map[prefix]
-		for p in settings:
-			var modifier = settings[p]
-			for prop in modifier.get_property_list():
-				if prop.usage & PROPERTY_USAGE_STORAGE and not (prop.usage & PROPERTY_USAGE_INTERNAL):
-					properties.append({
-						"name": "{0}{1}/{2}".format([prefix, p, prop.name]),
-						"type": prop.type,
-						"hint": prop.hint,
-						"hint_string": prop.hint_string,
-					})
 	
 	return properties
 	
@@ -342,13 +293,6 @@ func _load_from_vts():
 		
 func save_model_settings(settings: Dictionary):
 	super.save_model_settings(settings)
-	
-	var serializer = Serializers.ObjSerializer
-	settings["modifiers"] = {
-		"parameters": Collections.remap(param_settings, func (v): return Serializers.ObjSerializer.to_json(v)),
-		"meshes": Collections.remap(mesh_settings, func (v): return Serializers.ObjSerializer.to_json(v)),
-		"parts": Collections.remap(part_settings, func (v): return Serializers.ObjSerializer.to_json(v))
-	}
 	
 	# expression groups
 	var expression_groups = {}

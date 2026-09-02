@@ -1,7 +1,5 @@
 extends "../../vt_model.gd"
 
-const Collections = preload("res://lib/utils/collections.gd")
-
 const VRM_BLENDSHAPES : PackedStringArray = [
 	# emotions
 	"happy",
@@ -36,6 +34,11 @@ var camera: Camera3D
 
 var blendshapes_meshes = {}
 
+var mesh_settings: Dictionary[StringName, ModelModifier] = {}
+func get_modifier_map():
+	return {
+		"meshes": mesh_settings,
+	}
 
 func load_data(path: String) -> ModelMeta:
 	var model_file: String = ""
@@ -113,22 +116,22 @@ func _build_model():
 			"id": "headRotX",
 			"name": "Head Rotation X",
 			"default": 0,
-			"min": -1,
-			"max": 1
+			"range": Vector2(-1, 1),
+			"value": 0,
 		},
 		"headRotY": {
 			"id": "headRotY",
 			"name": "Head Rotation Y",
 			"default": 0,
-			"min": -0.5,
-			"max": 0.5
+			"range": Vector2(-0.5, 0.5),
+			"value": 0,
 		},
 		"headRotZ": {
 			"id": "headRotZ",
 			"name": "Head Rotation Z",
 			"default": 0,
-			"min": -0.5,
-			"max": 0.5
+			"range": Vector2(-0.5, 0.5),
+			"value": 0,
 		},
 	}
 	if anim.has_animation("RESET"):
@@ -145,8 +148,8 @@ func _build_model():
 					"id": blend_shape,
 					"name": blend_shape,
 					"default": a.track_get_key_value(track_index, 0),
-					"min": 0.0,
-					"max": 1.0
+					"range": Vector2(0.0, 1.0),
+					"value": a.track_get_key_value(track_index, 0)
 				}
 	vp.add_child(model)
 	
@@ -155,8 +158,11 @@ func _build_model():
 	await get_tree().process_frame
 	
 	_meshes = model.find_children("*", "VisualInstance3D")
+	for m in _meshes:
+		var modifier = preload("./modifiers/mesh_modifier.gd").new(m)
+		mesh_settings[m.name] = modifier
 	
-	get_parent().transform_updated.connect(
+	transform_updated.connect(
 		func (position, scale, rotation, offset, ypr):
 			model.position = camera.project_position(
 				position, 3.0
@@ -213,13 +219,18 @@ func apply_parameters(values: Dictionary[String, float]):
 		for path in blend_meshes:
 			var m = model.get_node(path)
 			m.set("blend_shapes/%s" % blend_shape, weight)
+	
+func get_texture() -> Texture2D:
+	return (container.get_child(0).get_child(0) as SubViewport).get_texture()
+
+func _process(delta: float) -> void:
+	# apply composite parameter values to Bones
 			
-	# apply parameters to Bones
 	var target: Transform3D = Transform3D(
 		Quaternion(
-			values.get("headRotY", 0.0),
-			values.get("headRotX", 0.0),
-			values.get("headRotZ", 0.0),
+			_parameters["headRotY"].value,
+			_parameters["headRotX"].value,
+			_parameters["headRotZ"].value,
 			1.0
 		)
 	)
@@ -235,55 +246,60 @@ func apply_parameters(values: Dictionary[String, float]):
 		head_bone,
 		head_transform.basis.get_rotation_quaternion()
 	)
+
+func _get(property: StringName) -> Variant:
+	if property.begins_with("parameters/"):
+		var param = property.trim_prefix("parameters/")
+		return _parameters[param]
+	return null
 	
-func get_texture() -> Texture2D:
-	return (container.get_child(0).get_child(0) as SubViewport).get_texture()
+func _property_get_revert(property: StringName) -> Variant:
+	if property.begins_with("parameters/"):
+		# transform parameters into VRM blendshapes
+		var blend_shape = property.trim_prefix("parameters/")
+		if blend_shape not in _parameters:
+			return null
 		
-func apply_modifier(part: Node, modifier: Dictionary):
-	var modifiers = get_modifiers(part)
+		return _parameters[blend_shape].default
 	
-	if modifier.type == "Color":
-		var prev = modifiers.get("Color", {})
-		var albedo: Color = Collections.get_deep([modifier, prev], "colors.albedo", Color.WHITE)
-		var emission: Color = Collections.get_deep([modifier, prev], "colors.emission", Color.WHITE)
-		var enabled: bool = Collections.get_deep([modifier, prev], "enabled", false)
-		modifiers["Color"] = {
-			"enabled": enabled,
-			"colors": {
-				"albedo": albedo,
-				"emission": emission
-			}
-		}
+	return null
+	
+func _set(property: StringName, value: Variant) -> bool:
+	if property.begins_with("parameters/"):
+		# transform parameters into VRM blendshapes
+		var blend_shape = property.trim_prefix("parameters/")
+		if blend_shape not in _parameters:
+			return false
 		
-		var m = part as MeshInstance3D
-		var count = m.mesh.get_surface_count()
-		if enabled:
-			for i in range(count):
-				var mat: BaseMaterial3D = m.mesh.surface_get_material(i)
-				var override_mat = mat.duplicate()
-				m.set_surface_override_material(i, override_mat)
-				override_mat.albedo_color = albedo
-				override_mat.emission = emission
-		else:
-			for i in range(count):
-				m.set_surface_override_material(i, null)
+		var blend_meshes = blendshapes_meshes.get(blend_shape, [])
+		var weight = value as float
+		for path in blend_meshes:
+			var m = model.get_node(path)
+			m.set("blend_shapes/%s" % blend_shape, weight)
+		_parameters[blend_shape].value = weight
+		return true
 	
-	part.set_meta("modifiers", modifiers)
+	return false
+
+func _get_property_list() -> Array[Dictionary]:
+	var properties: Array[Dictionary] = []
 	
-func get_modifiers(part: Node):
-	return part.get_meta("modifiers", {
-		"Color": {
-			"enabled": false,
-			"colors": {
-				"albedo": Color.WHITE,
-				"emission": Color.WHITE,
-			}
-		}
-	})
+	for key in _parameters:
+		var param = _parameters[key]
+		properties.append({
+			"name": "parameters/{id}".format(param),
+			"type": TYPE_FLOAT,
+			"hint": PROPERTY_HINT_RANGE,
+			"hint_string": "{min},{max}".format({"min": param.range.x, "max": param.range.y}),
+		})
+
+	return properties
 
 func get_idle_animation_player() -> AnimationPlayer:
-	return get_node("AnimationPlayer")
+	return model.get_node("AnimationPlayer")
 	
 func get_animation_player() -> AnimationPlayer:
 	return null
 	
+func get_expression_controller():
+	return null

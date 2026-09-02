@@ -7,8 +7,8 @@ const v_slot = 2
 var a : Vector2 :
 	set(v):
 		a = v
-		%A/X.value = v.x
-		%A/Y.value = v.y
+		%A/X.set_value_no_signal(v.x)
+		%A/Y.set_value_no_signal(v.y)
 		
 var a_clamp : bool :
 	set(v):
@@ -18,8 +18,8 @@ var a_clamp : bool :
 var b : Vector2 :
 	set(v):
 		b = v
-		%B/X.value = v.x
-		%B/Y.value = v.y
+		%B/X.set_value_no_signal(v.x)
+		%B/Y.set_value_no_signal(v.y)
 		
 var b_clamp : bool :
 	set(v):
@@ -30,6 +30,24 @@ var input_value : float :
 	set(v):
 		input_value = v
 		%Value/In.text = "%1.2f" % v
+
+func _ready() -> void:
+	%A/X.value_changed.connect(
+		func (v):
+			a.x = v
+	)
+	%A/Y.value_changed.connect(
+		func (v):
+			a.y = v
+	)
+	%B/X.value_changed.connect(
+		func (v):
+			b.x = v
+	)
+	%B/Y.value_changed.connect(
+		func (v):
+			b.y = v
+	)
 
 func get_input_slot_by_port(port: int) -> int:
 	match port:
@@ -100,10 +118,10 @@ func get_value(_slot):
 	
 func update_value(slot, value):
 	var dirty = false
-	if slot == a_slot and a != value:
+	if slot == a_slot and a != Vector2(value.x, value.y):
 		a = Vector2(value.x, value.y)
 		dirty = true
-	elif slot == b_slot and b != value:
+	elif slot == b_slot and b != Vector2(value.x, value.y):
 		b = Vector2(value.x, value.y)
 		dirty = true
 	elif slot == v_slot and input_value != value:

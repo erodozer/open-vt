@@ -27,6 +27,9 @@ func set_model(m: VtModel):
 		return
 	model = m
 	var controller = m.get_expression_controller()
+	if controller == null:
+		return
+	
 	var expressions = controller.expressions
 	for e in expressions:
 		var name = e.get_name()

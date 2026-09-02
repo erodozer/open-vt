@@ -7,6 +7,8 @@ const ExpressionController = preload("./parameters/expression_value_provider.gd"
 const Tracker = preload("res://lib/tracking/tracker.gd")
 const ModelMeta = preload("./metadata.gd")
 const Serializers = preload("res://lib/utils/serializers.gd")
+const Collections = preload("res://lib/utils/collections.gd")
+const ModelModifier = preload("./modifier.gd")
 
 var modelmeta: ModelMeta
 @onready var mixer = %Mixer
@@ -46,6 +48,11 @@ signal initialized
 signal loaded
 
 var _loading = false
+
+var modifier_map: Dictionary :
+	get = get_modifier_map
+		
+@abstract func get_modifier_map() -> Dictionary
 
 signal modifier_updated(field: StringName, new_value: Variant, old_value: Variant)
 
@@ -126,7 +133,90 @@ func save_settings(_settings: Dictionary = {}):
 		return
 	
 	var model_data = {}
+	var serializer = Serializers.ObjSerializer
+	model_data["modifiers"] = modifier_map.keys().reduce(
+		func (acc, k):
+			var group = modifier_map
+			var modifier_set = modifier_map[k]
+			acc[group] = Collections.remap(modifier_set, func (v): return Serializers.ObjSerializer.to_json(v))
+			return acc,
+		{}
+	)
 	
 	self.save_model_settings(model_data)
 	
 	Files.write_json(modelmeta.openvt_parameters, model_data)
+
+func _get(property: StringName) -> Variant:
+	if property.begins_with("modifiers/"):  #ex. modifiers/parts/PART_NAME/color
+		property = property.trim_prefix("modifiers/")
+		var segments = property.split("/")
+		var type = segments[0]
+		var target = segments[1]
+		var field = segments[2]
+		if type not in modifier_map:
+			return null
+		var settings: ModelModifier = modifier_map[type].get(target)
+		if not settings:
+			return null
+		var value = settings.get(field)
+		if value == null:
+			value = settings.property_get_revert(field)
+		return value
+	return null
+
+func _property_get_revert(property: StringName) -> Variant:
+	if property.begins_with("modifiers/"):  #ex. modifiers/parts/PART_NAME/color
+		property = property.trim_prefix("modifiers/")
+		var segments = property.split("/")
+		var type = segments[0]
+		var target = segments[1]
+		var field = segments[2]
+		
+		if type not in modifier_map:
+			return null
+		
+		var settings: ModelModifier = modifier_map[type][target]
+		return settings.property_get_revert(field)
+	return null
+
+func _set(property: StringName, value: Variant) -> bool:
+	if property.begins_with("modifiers/"):  #ex. modifiers/parts/PART_NAME/color
+		property = property.trim_prefix("modifiers/")
+		var parts = property.split("/")
+		var type = parts[0]
+		var target = parts[1]
+		var field = parts[2]
+		if type not in modifier_map:
+			return false
+			
+		var modifier: ModelModifier = modifier_map[type][target]
+		if field not in modifier:
+			return false
+		
+		var old_value = modifier.get(field)
+		modifier.set(field, value)
+		modifier_updated.emit.call_deferred(
+			property, value, old_value
+		)
+		return true
+	
+	return false
+
+func _get_property_list() -> Array[Dictionary]:
+	var properties: Array[Dictionary] = []
+	
+	for prefix in modifier_map:
+		var settings = modifier_map[prefix]
+		for p in settings:
+			var modifier = settings[p]
+			for prop in modifier.get_property_list():
+				if prop.usage & PROPERTY_USAGE_STORAGE and not (prop.usage & PROPERTY_USAGE_INTERNAL):
+					properties.append({
+						"name": "modifiers/{0}/{1}/{2}".format([prefix, p, prop.name]),
+						"type": prop.type,
+						"hint": prop.hint,
+						"hint_string": prop.hint_string,
+					})
+	
+	return properties

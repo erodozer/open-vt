@@ -36,7 +36,7 @@ func build_slots():
 	for property in parameters:
 		var meta = parameters[property]
 		var vis = model.get("modifiers/parameters/%s/visible" % property)
-		if not vis:
+		if vis != null and vis == false:
 			continue
 		var value_range: Vector2 = meta.range
 		

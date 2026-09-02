@@ -12,7 +12,6 @@ var mesh: MeshInstance2D
 	set(v):
 		mesh.set_instance_shader_parameter("color_screen", v)
 @export var pinnable: bool = true
-@export var pin_to: NodePath = "."
 
 func _init(m: MeshInstance2D) -> void:
 	mesh = m
