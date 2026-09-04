@@ -4,14 +4,18 @@ var input: OptionButton:
 	get():
 		return %Animation
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:	
+func set_model(model: VtModel):
+	super.set_model(model)
+	
 	for m in model.motions:
 		input.add_item(m)
 		input.set_item_metadata(input.item_count - 1, m)
 
-	if input.get_item_count() == 0:
-		queue_free()
+	model.get_animation_player().animation_finished.connect(
+		func (anim_name):
+			if anim_name == input.get_item_text(input.selected):
+				on_animation_completed()
+	)
 	
 func get_type() -> StringName:
 	return &"animation"

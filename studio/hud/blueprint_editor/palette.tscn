@@ -16,7 +16,9 @@
 [ext_resource type="PackedScene" uid="uid://cxmvu0on3r7wd" path="res://lib/blueprints/inputs/blink.tscn" id="12_m3pyl"]
 [ext_resource type="Texture2D" uid="uid://cbriovdwq4va0" path="res://lib/blueprints/outputs/face-laugh-wink.svg" id="13_xs0xf"]
 [ext_resource type="PackedScene" uid="uid://cow7c85xiw0xr" path="res://lib/blueprints/outputs/toggle_expression.tscn" id="14_8pyru"]
+[ext_resource type="Texture2D" uid="uid://5tdoy1oehfjw" path="res://lib/blueprints/logic/toggle.svg" id="15_3fswu"]
 [ext_resource type="Texture2D" uid="uid://deu302jii4nsk" path="res://lib/blueprints/outputs/film-simple.svg" id="15_jnorj"]
+[ext_resource type="PackedScene" uid="uid://cui0dq6v2ni2w" path="res://lib/blueprints/logic/toggle_state.tscn" id="16_rtnke"]
 [ext_resource type="PackedScene" uid="uid://dcqnjvju4erad" path="res://lib/blueprints/outputs/play_animation.tscn" id="16_vs2tt"]
 [ext_resource type="Texture2D" uid="uid://dnoy3sguwj6m5" path="res://lib/blueprints/outputs/person-running.svg" id="17_3ghld"]
 [ext_resource type="PackedScene" uid="uid://c375vta43nviw" path="res://lib/blueprints/outputs/model_output.tscn" id="22_3fswu"]
@@ -110,6 +112,18 @@ icon = ExtResource("10_d27ip")
 icon_alignment = 1
 expand_icon = true
 metadata/action = ExtResource("11_d27ip")
+
+[node name="Toggler" type="Button" parent="." unique_id=620787861]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+tooltip_text = "Add Toggle State"
+focus_mode = 0
+icon = ExtResource("15_3fswu")
+icon_alignment = 1
+expand_icon = true
+metadata/action = ExtResource("16_rtnke")
 
 [node name="Control2" type="Control" parent="." unique_id=815026235]
 custom_minimum_size = Vector2(12, 12)

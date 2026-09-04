@@ -58,7 +58,7 @@ func _ready() -> void:
 	theme = get_tree().root.theme
 
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_PREDELETE:
+	if what == NOTIFICATION_PREDELETE and is_instance_valid(active_model):
 		# reattach graphs to model before deletion
 		active_model.blueprints = %Profiles.get_children()
 		active_model.save_settings()

@@ -79,7 +79,10 @@ func get_slot_by_name(slot: StringName) -> int:
 
 @abstract func get_output_slot_by_port(port: int) -> int
 	
-func get_slot_name(slot: int) -> StringName:
+func get_input_slot_name(slot: int) -> StringName:
+	return get_child(slot).name
+	
+func get_output_slot_name(slot: int) -> StringName:
 	return get_child(slot).name
 
 func get_output_type(slot: int):

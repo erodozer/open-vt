@@ -13,6 +13,7 @@ static var _action_types: Array[PackedScene] = [
 	preload("res://lib/blueprints/logic/arithmetic.tscn"),
 	preload("res://lib/blueprints/logic/smoothing.tscn"),
 	preload("res://lib/blueprints/logic/range_map.tscn"),
+	preload("res://lib/blueprints/logic/toggle_state.tscn"),
 	preload("res://lib/blueprints/outputs/model_output.tscn"),
 	preload("res://lib/blueprints/outputs/play_animation.tscn"),
 	preload("res://lib/blueprints/outputs/toggle_expression.tscn"),
@@ -173,8 +174,8 @@ func serialize() -> Dictionary:
 		var to_id = to_node.id if to_node else -1
 		var from_slot = from_node.get_output_slot_by_port(i.from_port)
 		var to_slot = to_node.get_input_slot_by_port(i.to_port)
-		var from_name = from_node.get_slot_name(from_slot)
-		var to_name = to_node.get_slot_name(to_slot)
+		var from_name = from_node.get_output_slot_name(from_slot)
+		var to_name = to_node.get_input_slot_name(to_slot)
 		bindings.append({
 			"src": from_id,
 			"dst": to_id,

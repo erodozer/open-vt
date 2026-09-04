@@ -87,10 +87,8 @@ text = "Fade"
 [node name="Value" type="SpinBox" parent="VBoxContainer/HBoxContainer/Fade" unique_id=926249462]
 layout_mode = 2
 size_flags_horizontal = 3
-min_value = 1.0
-max_value = 250.0
-value = 100.0
-suffix = "%"
+max_value = 5000.0
+suffix = "ms"
 
 [node name="Play" type="Label" parent="." unique_id=1397033666]
 unique_name_in_owner = true

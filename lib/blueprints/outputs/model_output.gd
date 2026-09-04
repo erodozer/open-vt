@@ -95,7 +95,7 @@ func refresh_fields():
 		if c.to_node != self.name:
 			continue
 		var old_port = c.to_port
-		c.slot_name = get_slot_name(get_input_slot_by_port(c.to_port))
+		c.slot_name = get_input_slot_name(get_input_slot_by_port(c.to_port))
 		graph.disconnect_node(
 			c.from_node, c.from_port,
 			c.to_node, old_port
@@ -132,11 +132,11 @@ func refresh_fields():
 	size.y = 0
 
 func unbind(slot: int, node: GraphNode) -> void:
-	var param = get_slot_name(get_input_slot_by_port(slot))
+	var param = get_input_slot_name(get_input_slot_by_port(slot))
 	bindings.erase(param)
 	
 func reset_value(slot: int) -> void:
-	var param = get_slot_name(get_input_slot_by_port(slot))
+	var param = get_input_slot_name(get_input_slot_by_port(slot))
 	var default = model.property_get_revert("parameters/%s" % [param])
 	bindings[param] = default
 	_dirty = true
@@ -165,7 +165,7 @@ func deserialize(data: Dictionary):
 	pass
 	
 func update_value(slot: int, v: Variant) -> void:
-	var parameter: StringName = get_slot_name(slot)
+	var parameter: StringName = get_input_slot_name(slot)
 	bindings[parameter] = v as float
 	_dirty = true
 	
