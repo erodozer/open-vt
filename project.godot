@@ -39,6 +39,7 @@ ModelManager="*res://lib/model_manager.gd"
 ItemManager="*res://lib/item_manager.gd"
 BlueprintManager="*uid://dridhda34w6dx"
 BlendRegistry="*uid://dmhw76skp73u3"
+WindowManager="*uid://bl4pt68qhf3tn"
 
 [display]
 

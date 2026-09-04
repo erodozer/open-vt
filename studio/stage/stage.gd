@@ -162,6 +162,7 @@ func spawn_item(item: VtItem, animate = true, reposition = true):
 	).from(Color.TRANSPARENT).set_ease(Tween.EASE_IN)
 
 func remove_item(item: VtItem, animated = true):
+	item_removed.emit(item)
 	if animated:
 		var t = create_tween()
 		t.parallel().tween_property(
@@ -176,7 +177,6 @@ func remove_item(item: VtItem, animated = true):
 		t.finished.connect(item.queue_free)
 	else:
 		item.queue_free()
-	item_removed.emit(item)
 	
 func clear_items(group_name: StringName = &"*"):
 	for i in canvas.get_children():

@@ -1,5 +1,7 @@
 extends "res://ui/draggable.gd"
 
+var uid = Resource.generate_scene_unique_id()
+
 @export var display_name: String
 @export var sort_order: int = 0 :
 	set(z):

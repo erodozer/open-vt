@@ -96,20 +96,20 @@ func _update_transform(_value):
 	item.rotation_degrees = fmod(%Rotation.value, 360.0)
 	_lock_transform = false
 
-var editor: Window
 func _on_edit_bindings_pressed() -> void:
-	if editor != null:
-		if editor.is_queued_for_deletion():
-			editor = null
-		else:
-			editor.grab_focus()
-			return
-	
 	assert(item is VtModel or item.item_type == VtItem.ItemType.MODEL)
-	editor = load("res://studio/hud/blueprint_editor/editor.tscn").instantiate()
-	editor.active_model = item if item is VtModel else item.render as VtModel
-	editor.visible = true
-	add_child(editor)
+	var key = "{name}_{uid}_blueprints".format({"name": item.name, "uid": item.uid })
+	var popup = WindowManager.get_popup(
+		key,
+		func ():
+			var editor = load("res://studio/hud/blueprint_editor/editor.tscn").instantiate()
+			editor.active_model = item if item is VtModel else item.render as VtModel
+			editor.visible = true
+			item.tree_exiting.connect(WindowManager.close_popup.bind(key))
+			
+			return editor
+	)
+	popup.grab_focus()
 
 func _on_recenter_pressed() -> void:
 	%XValue.editable = false
@@ -148,33 +148,45 @@ func _on_reset_fps_pressed() -> void:
 	var frames = item.render.sprite_frames as SpriteFrames
 	%FpsValue.value = frames.get_animation_speed("default")
 
-var expression_popup: Window
 func _on_expression_pressed() -> void:
-	if expression_popup:
-		expression_popup.grab_focus()
-		return
-	expression_popup = load("res://studio/hud/item_panel/expression_selector/expression_selector.tscn").instantiate()
-	expression_popup.item = item.render if item is VtItem else item
-	expression_popup.tree_exiting.connect(
+	var key = "{name}_{uid}_expressions".format({"name": item.name, "uid": item.uid })
+	var popup = WindowManager.get_popup(
+		key,
 		func ():
-			expression_popup = null
+			var window = load("res://studio/hud/item_panel/expression_selector/expression_selector.tscn").instantiate()
+			window.item = item.render if item is VtItem else item
+			item.tree_exiting.connect(WindowManager.close_popup.bind(key))
+			return window
 	)
-	add_child(expression_popup)
+	popup.grab_focus()
 
 func _on_pin_target_pressed() -> void:
-	var popup = load("res://studio/hud/item_panel/pin_selector/pin_selector.tscn").instantiate()
-	popup.model = model
-	popup.confirmed.connect(
+	var key = "{name}_{uid}_pin".format({"name": item.name, "uid": item.uid })
+	var popup = WindowManager.get_popup(
+		key,
 		func ():
-			%PinTarget.text = "-" if popup.mesh == null else popup.mesh.name
-			item.pinned_to = popup.mesh
+			var window = load("res://studio/hud/item_panel/pin_selector/pin_selector.tscn").instantiate()
+			window.model = model
+			window.confirmed.connect(
+				func ():
+					%PinTarget.text = "-" if window.mesh == null else window.mesh.name
+					item.pinned_to = window.mesh
+			)
+			return window
 	)
-	add_child(popup)
+	popup.grab_focus()
 
 func _on_model_settings_pressed() -> void:
-	var popup = preload("./model_settings/panel.tscn").instantiate()
-	popup.model = item.render if item is VtItem else item
-	add_child(popup)
+	var key = "{name}_{uid}_settings".format({"name": item.name, "uid": item.uid })
+	var popup = WindowManager.get_popup(
+		key,
+		func ():
+			var popup = preload("./model_settings/panel.tscn").instantiate()
+			popup.model = item.render if item is VtItem else item
+			item.tree_exiting.connect(WindowManager.close_popup.bind(key))
+			return popup
+	)
+	popup.grab_focus()
 
 func _on_rotate_reset_pressed() -> void:
 	%Rotation.editable = false
