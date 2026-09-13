@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://17187ovs368q" path="res://studio/stage/stage.gd" id="1_ptuf8"]
 [ext_resource type="Texture2D" uid="uid://cv1vjl7quw52u" path="res://studio/stage/default_fill.tres" id="2_18ah1"]
 [ext_resource type="Texture2D" uid="uid://b401bri37hvvq" path="res://studio/stage/grid.png" id="2_yiyxu"]
+[ext_resource type="Script" uid="uid://g2yhj8ln6yl3" path="res://studio/stage/viewport_wrapper.gd" id="4_01dvw"]
 
 [node name="Stage" type="Node" unique_id=1822790790 groups=["persist", "system:stage"]]
 script = ExtResource("1_ptuf8")
@@ -49,16 +50,20 @@ stretch_mode = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=707448220]
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer" unique_id=1741800294]
-texture_filter = 2
+[node name="ViewportWrapper" type="Container" parent="CanvasLayer" unique_id=64391592]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("4_01dvw")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer/ViewportWrapper" unique_id=1741800294]
+texture_filter = 2
+layout_mode = 2
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer" unique_id=980610513]
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/ViewportWrapper/SubViewportContainer" unique_id=980610513]
 unique_name_in_owner = true
 transparent_bg = true
 handle_input_locally = false
@@ -68,9 +73,9 @@ use_taa = true
 size = Vector2i(1280, 720)
 render_target_update_mode = 4
 
-[node name="ModelLayer" type="CanvasLayer" parent="CanvasLayer/SubViewportContainer/SubViewport" unique_id=800326305]
+[node name="ModelLayer" type="CanvasLayer" parent="CanvasLayer/ViewportWrapper/SubViewportContainer/SubViewport" unique_id=800326305]
 unique_name_in_owner = true
 
-[node name="VirtualCamera" type="VirtualCamera" parent="CanvasLayer/SubViewportContainer/SubViewport" unique_id=341780835 groups=["output:v4l2"]]
+[node name="VirtualCamera" type="VirtualCamera" parent="CanvasLayer/ViewportWrapper/SubViewportContainer/SubViewport" unique_id=341780835 groups=["output:v4l2"]]
 
-[connection signal="child_order_changed" from="CanvasLayer/SubViewportContainer/SubViewport/ModelLayer" to="." method="_on_model_layer_child_order_changed"]
+[connection signal="child_order_changed" from="CanvasLayer/ViewportWrapper/SubViewportContainer/SubViewport/ModelLayer" to="." method="_on_model_layer_child_order_changed"]
