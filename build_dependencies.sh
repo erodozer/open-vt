@@ -1,9 +1,25 @@
 #!/usr/bin/env bash
+set -e
 
 PROJ_ROOT=$(pwd)
 
-TARGET="${target:-x86_64-unknown-linux-gnu}"
-	
+ARCH="$(uname -m)"
+PLATFORM="$(uname -s)"
+
+case "$PLATFORM" in
+	Darwin)
+		ARCH="${ARCH/arm64/aarch64}"
+		TARGET="${target:-$ARCH-apple-darwin}"
+		BUILD_KEYLOGGER=1
+		;;
+	Linux)
+		TARGET="${target:-$ARCH-unknown-linux-gnu}"
+		BUILD_VIRTUALCAMERA=1
+		BUILD_KEYLOGGER=1
+		;;
+esac
+
+
 build_ayagami () {
 	echo -e "\n#### Preparing ayagami-gd\n\n"
 
@@ -86,5 +102,9 @@ build_vrm () {
 
 build_ayagami
 build_vrm
-build_virtualcamera
-build_keylogger
+if [ "$BUILD_VIRTUALCAMERA" = 1 ]; then
+	build_virtualcamera
+fi
+if [ "$BUILD_KEYLOGGER" = 1 ]; then
+	build_keylogger
+fi
