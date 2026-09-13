@@ -18,7 +18,8 @@ signal update_bg_color(color: Color)
 @onready var fps_option: OptionButton = %FPS
 
 @onready var parameter_list = %ParameterList
-@onready var v4l2_stream: VirtualCamera = get_tree().get_first_node_in_group("output:v4l2")
+@onready var v4l2_stream: Variant = get_tree().get_first_node_in_group("output:v4l2")
+
 @onready var stage = get_tree().get_first_node_in_group("system:stage")
 
 func _get_title():

@@ -6,6 +6,9 @@ func model_format() -> StringName:
 func supported_extension() -> String:
 	return ".vrm"
 
+func mime_type() -> String:
+	return "model/gltf-binary"
+
 func strategy() -> Script:
 	return preload("./model.gd")
 
