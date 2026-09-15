@@ -251,9 +251,9 @@ func _load_from_vts():
 	if modelmeta.studio_parameters.is_empty():
 		return
 	
-	var vtube_data = JSON.parse_string(FileAccess.get_file_as_string(modelmeta.studio_parameters))
+	var vtube_data = Files.read_json(modelmeta.studio_parameters)
 	
-	var idle_animation = vtube_data["FileReferences"]["IdleAnimation"]
+	var idle_animation = vtube_data.get("FileReferences", {}).get("IdleAnimation")
 	if idle_animation:
 		get_idle_animation_player().play(idle_animation)
 		

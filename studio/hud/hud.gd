@@ -12,7 +12,7 @@ var group: ButtonGroup
 func _ready() -> void:
 	for fmt in ModelManager.formats.values():
 		%ModelBrowser.add_filter(
-			"*%s" % [fmt.supported_extension()],
+			",".join(fmt.supported_extension().map(func (e): return "*%s" % e)),
 			fmt.model_format(),
 		)
 	

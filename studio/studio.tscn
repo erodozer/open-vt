@@ -9,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://cmd2d6iiryvk4" path="res://studio/hud/hud.tscn" id="10_o8nmr"]
 [ext_resource type="Texture2D" uid="uid://bcqaflbakxadd" path="res://branding/splash.png" id="11_jnoo6"]
 [ext_resource type="Texture2D" uid="uid://d4mqdkit20d64" path="res://branding/godot_logo_large_monochrome_dark.svg" id="13_elko7"]
-[ext_resource type="PackedScene" uid="uid://idtkx4rstmqq" path="res://studio/hud/terms/terms.tscn" id="14_ylsn8"]
 
 [sub_resource type="Animation" id="Animation_efxa6"]
 length = 0.001
@@ -75,9 +74,6 @@ follow_viewport_enabled = true
 
 [node name="HUD" parent="Interface" unique_id=831684815 instance=ExtResource("10_o8nmr")]
 unique_name_in_owner = true
-
-[node name="Terms" parent="Interface" unique_id=2098445916 instance=ExtResource("14_ylsn8")]
-visible = false
 
 [node name="Splash" type="CanvasLayer" parent="." unique_id=131694603]
 unique_name_in_owner = true

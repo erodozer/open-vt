@@ -32,8 +32,10 @@ func make_model(model_path: String):
 	var data: ModelMeta
 	var format
 	for fmt in formats.values():
-		if model_path.ends_with(fmt.supported_extension()):
-			data = fmt.load_data(model_path)
+		for ext in fmt.supported_extension():
+			if model_path.ends_with(ext):
+				data = fmt.load_data(model_path)
+				break
 		if data != null:
 			format = fmt
 			break

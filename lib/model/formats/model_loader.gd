@@ -8,6 +8,6 @@ const VtModel = preload("res://lib/model/vt_model.gd")
 
 @abstract func model_format() -> StringName
 
-@abstract func supported_extension() -> String
+@abstract func supported_extension() -> Array[String]
 
 @abstract func strategy() -> Script

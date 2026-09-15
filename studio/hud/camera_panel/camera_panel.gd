@@ -18,7 +18,6 @@ signal update_bg_color(color: Color)
 @onready var fps_option: OptionButton = %FPS
 
 @onready var parameter_list = %ParameterList
-@onready var v4l2_stream: VirtualCamera = get_tree().get_first_node_in_group("output:v4l2")
 @onready var stage = get_tree().get_first_node_in_group("system:stage")
 
 func _get_title():
@@ -67,7 +66,9 @@ func _ready() -> void:
 				tracking_system.activate_tracker(_tracker.new())
 		)
 		
-	if OS.has_feature("linux") and v4l2_stream:
+	# conditionally handle virtual webcam controls based on platform availability
+	if OS.has_feature("linux"):
+		var v4l2_stream = get_tree().get_first_node_in_group("output:v4l2")
 		var feeds = v4l2_stream.get_devices()
 		
 		for feed in feeds:
@@ -151,6 +152,7 @@ func _on_loopback_item_selected(index: int) -> void:
 	_on_v4l2_toggled(%V4L2Toggle.button_pressed)
 
 func _on_v4l2_toggled(toggled_on: bool) -> void:
+	var v4l2_stream = get_tree().get_first_node_in_group("output:v4l2")
 	if toggled_on:
 		var index = %VirtualCameraDevice.selected
 		if index >= 0:
