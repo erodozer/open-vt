@@ -20,7 +20,6 @@ func load_settings(settings: Dictionary):
 	
 func _on_accept_pressed() -> void:
 	accepted = "%d" % Time.get_unix_time_from_system()
-	Preferences.save_data.call_deferred()
 	
 func _on_reject_pressed() -> void:
 	get_tree().quit()

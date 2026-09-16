@@ -42,21 +42,3 @@ func stop():
 		_poller.stop()
 		remove_child(_poller)
 		_poller = null
-	
-func _listen():
-	if server == null:
-		return
-		
-	if not server.is_bound():
-		stop()
-		return
-	
-	packet_sender.reset()
-	while server.get_available_packet_count() > 0:
-		var data: PackedByteArray = server.get_packet()
-				
-		if data.size() <= 0:
-			continue
-			
-		emit_connect.exec()
-		packet_sender.exec(data)

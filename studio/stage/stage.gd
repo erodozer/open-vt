@@ -185,15 +185,17 @@ func clear_items(group_name: StringName = &"*"):
 				remove_item(i)
 
 func load_settings(data):
+	self.background_image = Collections.path(data, "window.background_image", "")
+	self.background_color = Color(Collections.path(data, "window.background_color", "000000"))
+	self.background_mode = Collections.path(data, "window.background_mode", 0)
+	
 	if "active_model" in data:
+		await get_tree().process_frame
 		var mm = get_tree().get_first_node_in_group("system:model")
 		var model = mm.make_model(data["active_model"])
 		if model:
 			spawn_model(model)
 	
-	self.background_image = Collections.path(data, "window.background_image", "")
-	self.background_color = Color(Collections.path(data, "window.background_color", "000000"))
-	self.background_mode = Collections.path(data, "window.background_mode", 0)
 	
 func save_settings(data):
 	if active_model != null and active_model.modelmeta != null:

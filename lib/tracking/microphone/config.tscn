@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://c46tldvl1obw4"]
+
+[ext_resource type="Script" uid="uid://c56hogbrqtpyg" path="res://lib/tracking/microphone/config.gd" id="1_ft4ar"]
+
+[node name="Config" type="PanelContainer" unique_id=2018821050 groups=["persist"]]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"SubPanelContainer"
+script = ExtResource("1_ft4ar")
+
+[node name="Enabled" type="CheckButton" parent="." unique_id=448033292]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Use microphone input on PC to affect certain
+mouth related tracking parameters"
+text = "Sample Microphone"
+
+[connection signal="toggled" from="Enabled" to="." method="_on_enabled_toggled"]

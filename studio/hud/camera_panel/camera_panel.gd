@@ -11,24 +11,17 @@ const UI_THEMES: Array[Theme] = [
 
 signal update_bg_color(color: Color)
 
-@onready var tracking_system: TrackingSystem = get_tree().get_first_node_in_group("system:tracking")
-@onready var background_mode: OptionButton = %BackgroundModeSelector
-@onready var mic_toggle: CheckButton = %MicrophoneToggle
-@onready var face_trackers: OptionButton = %TrackingSource
-@onready var fps_option: OptionButton = %FPS
-
-@onready var parameter_list = %ParameterList
-@onready var stage = get_tree().get_first_node_in_group("system:stage")
-
 func _get_title():
 	return "Settings"
 
 func _ready() -> void:
+	var face_trackers = %TrackingSource
+	var tracking_system = get_tree().get_first_node_in_group("system:tracking")
 	if OS.has_feature("openseeface") or OS.is_debug_build():
 		face_trackers.add_item("OpenSeeFace (Webcam)")
 		face_trackers.set_item_metadata(face_trackers.item_count - 1, preload("res://lib/tracking/camera/openseeface/osf_tracker.gd"))
 	
-	face_trackers.add_item("VTubeStudio (iOS/Android)")
+	face_trackers.add_item("VTubeStudio (WiFi)")
 	face_trackers.set_item_metadata(face_trackers.item_count - 1, preload("res://lib/tracking/camera/vts/vts_tracker.gd"))
 	
 	face_trackers.add_item("iOS BlendShapes (VTS)")
@@ -41,7 +34,7 @@ func _ready() -> void:
 	
 	Registry.parameter_list_changed.connect(
 		func ():
-			for c in parameter_list.get_children():
+			for c in %ParameterList.get_children():
 				c.free()
 			
 			for i in Registry.parameters():
@@ -54,17 +47,12 @@ func _ready() -> void:
 				v.name = "Value"
 				box.add_child(v)
 				box.name = i.id
-				parameter_list.add_child.call_deferred(box)
+				%ParameterList.add_child.call_deferred(box)
 	)
 		
 	if tracking_system:
 		tracking_system.tracker_changed.connect(_on_tracker_system_tracker_changed)
 		tracking_system.parameters_updated.connect(_on_tracker_system_parameters_updated)
-		face_trackers.item_selected.connect(
-			func (idx):
-				var _tracker = face_trackers.get_item_metadata(idx)
-				tracking_system.activate_tracker(_tracker.new())
-		)
 		
 	# conditionally handle virtual webcam controls based on platform availability
 	if OS.has_feature("linux"):
@@ -97,7 +85,7 @@ func _on_tracker_system_parameters_updated(parameters: Dictionary, _delta) -> vo
 	if !is_node_ready():
 		return
 	for p in Registry.parameters():
-		var node = parameter_list.get_node(NodePath(p.id))
+		var node = %ParameterList.get_node(NodePath(p.id))
 		if node == null:
 			continue
 		node.get_node("Value").text = "%.02f" % parameters.get(p.id, 0)
@@ -108,32 +96,34 @@ func _on_preview_background_color_color_changed(color: Color) -> void:
 func load_settings(data: Dictionary):
 	_on_background_color_changed(Collections.path(data, "window.background_color", "000000"))
 	_on_background_file_selected(Collections.path(data, "window.background_image", ""))
-	background_mode.selected = Collections.path(data, "window.background_mode", 0)
-	_on_background_mode_selected(background_mode.selected)
+	%BackgroundModeSelector.selected = Collections.path(data, "window.background_mode", 0)
+	_on_background_mode_selected(%BackgroundModeSelector.selected)
 
-	face_trackers.select(Collections.path(data, "camera.tracking", 0))
-	fps_option.select(Collections.path(data, "window.fps", 0))
-	_on_fps_value_item_selected(fps_option.get_selected_id())
-	if tracking_system:
-		tracking_system.activate_tracker(
-			face_trackers.get_selected_metadata().new()
-		)
-		mic_toggle.button_pressed = data.get("microphone", true)
+	%FPS.select(Collections.path(data, "window.fps", 0))
+	_on_fps_value_item_selected(%FPS.get_selected_id())
 	%UITheme.select(Collections.path(data, "window.theme", 0))
 	_on_ui_theme_item_selected(%UITheme.selected)
 	
+	var tracking_system = get_tree().get_first_node_in_group("system:tracking")
+	if tracking_system:
+		var source = Collections.path(data, "trackers.source", 0)
+		await get_tree().process_frame
+		%TrackingSource.select(source)
+		tracking_system.activate_tracker(
+			%TrackingSource.get_selected_metadata().new()
+		)
+	
 func save_settings(data: Dictionary):
 	var w = data.get("window", {})
-	w["background_mode"] = background_mode.selected
+	w["background_mode"] = %BackgroundModeSelector.selected
 	w["background_image"] = %BackgroundImageSelector.get_meta("filepath")
-	w["fps"] = fps_option.get_selected_id()
+	w["fps"] = %FPS.get_selected_id()
 	w["theme"] = %UITheme.selected
-	var c = data.get("camera", {})
-	c["tracking"] = face_trackers.get_selected_id()
+	var c = data.get("trackers", {})
+	c["source"] = %TrackingSource.get_selected_id()
 	data["window"] = w
-	data["camera"] = c
-	data["microphone"] = mic_toggle.button_pressed
-
+	data["trackers"] = c
+	
 func _on_fps_value_item_selected(index: int) -> void:
 	match index:
 		0: # 60 FPS
@@ -144,8 +134,9 @@ func _on_fps_value_item_selected(index: int) -> void:
 			Engine.max_fps = 0
 
 func _on_microphone_toggle_toggled(toggled_on: bool) -> void:
+	var tracking_system = get_tree().get_first_node_in_group("system:tracking")
 	if not tracking_system:
-		return
+		return	
 	tracking_system.get_node("MicrophoneTracker").enabled = toggled_on
 
 func _on_loopback_item_selected(index: int) -> void:
@@ -167,12 +158,19 @@ func _on_ui_theme_item_selected(index: int) -> void:
 func _on_background_mode_selected(index: int) -> void:
 	%BackgroundImage.visible = index == 1
 	%BackgroundColor.visible = index == 2
-	stage.background_mode = index
+	
+	var stage = get_tree().get_first_node_in_group("system:stage")
+	if stage:
+		stage.background_mode = index
 	
 func _on_background_image_selector_pressed() -> void:
 	%BackgroundImageSelector/FileDialog.show()
 
 func _on_background_file_selected(path: String) -> void:
+	var stage = get_tree().get_first_node_in_group("system:stage")
+	if not stage:
+		return
+	
 	stage.background_image = path
 	if stage.background_image != path:  # check if file is valid
 		return
@@ -180,4 +178,22 @@ func _on_background_file_selected(path: String) -> void:
 	%BackgroundImageSelector.set_meta("filepath", path)
 
 func _on_background_color_changed(color: Color) -> void:
-	stage.background_color = color
+	var stage = get_tree().get_first_node_in_group("system:stage")
+	if stage:
+		stage.background_color = color
+
+func _on_application_scale_item_selected(index: int) -> void:
+	var SCALE_FACTOR = [
+		0.5, 1.0, 1.5, 2.0, 3.0, 4.0
+	][index]
+	ProjectSettings.set_setting("display/window/stretch/scale", SCALE_FACTOR)
+	
+	get_window().content_scale_factor = SCALE_FACTOR
+	get_tree().root.propagate_call(
+		"set_content_scale_factor", [SCALE_FACTOR]
+	)
+
+func _on_tracking_source_item_selected(index: int) -> void:
+	var _tracker = %TrackingSource.get_item_metadata(index)
+	var tracking_system = get_tree().get_first_node_in_group("system:tracking")
+	tracking_system.activate_tracker(_tracker.new())

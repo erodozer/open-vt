@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b1rphv1mx5gvf" path="res://lib/tracking/camera/vts_blendshapes/vts_config.gd" id="1_qckmn"]
 
-[node name="VtsConfig" type="VBoxContainer" unique_id=1374717089]
+[node name="VtsConfig" type="VBoxContainer" unique_id=1374717089 groups=["persist"]]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 278.0

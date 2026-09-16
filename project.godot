@@ -34,12 +34,12 @@ driver/enable_input=true
 
 Screenshot="*res://lib/screenshot.gd"
 Registry="*res://lib/tracking/parameter_registry.gd"
-Preferences="*res://lib/preferences.gd"
 ModelManager="*res://lib/model_manager.gd"
 ItemManager="*res://lib/item_manager.gd"
 BlueprintManager="*uid://dridhda34w6dx"
 BlendRegistry="*uid://dmhw76skp73u3"
 WindowManager="*uid://bl4pt68qhf3tn"
+Preferences="*res://lib/preferences.gd"
 
 [display]
 

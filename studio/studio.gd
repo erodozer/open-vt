@@ -3,17 +3,10 @@ extends Control
 const Serializers = preload("res://lib/utils/serializers.gd")
 
 func _ready() -> void:
-	Preferences.load_data.call_deferred()
 	if not Engine.is_embedded_in_editor():
 		get_window().borderless = false
 		
 	DisplayServer.window_set_min_size(Vector2i(540,360), 0)
-	
-	await RenderingServer.frame_post_draw
-	
-func _notification(what: int) -> void:
-	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		Preferences.save_data()
 
 func save_settings(settings: Dictionary):
 	var window_settings = settings.get("window", {})

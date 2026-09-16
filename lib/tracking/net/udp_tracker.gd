@@ -6,7 +6,7 @@ var server: PacketPeerUDP
 var emit_connect = RatelimitedCallable.oneshot(
 	connection_status.emit.bind(ConnectionStatus.ON)
 )
-# limit how many packats are sent throughout the system
+# limit how many packets are sent throughout the system
 # when there is backpressure
 var packet_sender = DebounceCallable.new(
 	packet_received.emit

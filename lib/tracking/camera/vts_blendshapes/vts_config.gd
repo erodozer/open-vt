@@ -1,12 +1,14 @@
 extends Control
 
 const SocketTracker = preload("res://lib/tracking/net/socket_tracker.gd")
+const Collections = preload("res://lib/utils/collections.gd")
+const VtsTracker = preload("./vts_tracker.gd")
 
-var tracker: SocketTracker
+var tracker: VtsTracker
+var server: SocketTracker
 
 func _ready() -> void:
-	%Hostname.text = "0.0.0.0"
-	tracker.connection_status.connect(
+	server.connection_status.connect(
 		func (status):
 			match status:
 				SocketTracker.ConnectionStatus.OFF:
@@ -19,14 +21,23 @@ func _ready() -> void:
 					%ActiveIndicator.text = "Waiting..."
 					%ActiveIndicator.modulate = Color.WHITE
 	)
+	%Connect.pressed.connect(_on_connect_pressed)
+	%Disconnect.pressed.connect(_on_disconnect_pressed)
 	
 func _on_connect_pressed() -> void:
-	tracker.host = Array(IP.get_local_addresses()).filter(
-		func (ip):
-			return ip.begins_with("192")
-	)[0]
-	tracker.client_host = %Hostname.text
-	tracker.start()
+	server.client_host = %Hostname.text
+	server.start()
 	
 func _on_disconnect_pressed() -> void:
-	tracker.stop()
+	server.stop()
+
+func save_settings(settings: Dictionary):
+	var trackers = settings.get("trackers", {})
+	var config = trackers.get("vts_blendshapes", {})
+	config["client_host"] = %Hostname.text
+	
+	trackers["vts_blendshapes"] = config
+	settings["trackers"] = trackers
+
+func load_settings(settings: Dictionary):
+	%Hostname.text = Collections.path(settings, "trackers.vts_blendshapes.client_host", "0.0.0.0")

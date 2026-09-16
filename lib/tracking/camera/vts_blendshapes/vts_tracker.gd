@@ -67,7 +67,7 @@ class TrackingData:
 	@export var Rotation: Vector3 = Vector3.ZERO
 	
 	# dict = { k: str, v: float }
-	@export var BlendShapes: Array[Dictionary] = []
+	@export var BlendShapes: Array = []
 
 var server: BidirectionalTracker
 
@@ -79,7 +79,7 @@ static func _static_init() -> void:
 
 func _ready():
 	server = BidirectionalTracker.new()
-	server.host = "localhost"
+	server.host = "0.0.0.0"
 	server.port = 50650
 	server.client_port = 21412
 	server.handshake_frequency = 1
@@ -103,7 +103,8 @@ func _ready():
 
 func create_config() -> Node:
 	var panel = preload("./vts_config.tscn").instantiate()
-	panel.tracker = server
+	panel.tracker = self
+	panel.server = server
 	return panel
 
 func _packet_received(packet: PackedByteArray):
@@ -117,11 +118,11 @@ func _packet_received(packet: PackedByteArray):
 func _data_received(data: TrackingData):
 	var parameters = {
 		"FacePositionX": data.Position.x,
-		"FacePositionY": data.Position.y,
-		"FacePositionZ": data.Position.z,
+		"FacePositionY": data.Position.y * -1, # Y & Z coordinates are flipped
+		"FacePositionZ": data.Position.z * -1,
 		"FaceAngleX": data.Rotation.x,
-		"FaceAngleY": data.Rotation.y,
-		"FaceAngleZ": data.Rotation.z,
+		"FaceAngleY": data.Rotation.y * -1,
+		"FaceAngleZ": data.Rotation.z * -1,
 	}
 	for parameter in data.BlendShapes:
 		parameters[parameter.k] = parameter.v

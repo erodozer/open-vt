@@ -66,6 +66,17 @@ layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_o3t2a")
 
+[node name="TrackerSystem" type="Node" parent="." unique_id=890340566 groups=["system:tracking"]]
+script = ExtResource("3_q22or")
+
+[node name="MouseTracker" type="Node" parent="TrackerSystem" unique_id=2140682791]
+script = ExtResource("4_ihfr3")
+
+[node name="MicrophoneTracker" parent="TrackerSystem" unique_id=763256297 instance=ExtResource("5_an10b")]
+
+[node name="GamepadTracker" type="Node" parent="TrackerSystem" unique_id=250471779]
+script = ExtResource("6_efmbb")
+
 [node name="Stage" parent="." unique_id=1832089703 instance=ExtResource("9_oyfbk")]
 
 [node name="Interface" type="CanvasLayer" parent="." unique_id=669714754]
@@ -122,14 +133,3 @@ stretch_mode = 5
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Splash/ColorRect" unique_id=992200835]
 libraries/ = SubResource("AnimationLibrary_dg77c")
 autoplay = &"clear"
-
-[node name="TrackerSystem" type="Node" parent="." unique_id=890340566 groups=["system:tracking"]]
-script = ExtResource("3_q22or")
-
-[node name="MouseTracker" type="Node" parent="TrackerSystem" unique_id=2140682791]
-script = ExtResource("4_ihfr3")
-
-[node name="MicrophoneTracker" parent="TrackerSystem" unique_id=763256297 instance=ExtResource("5_an10b")]
-
-[node name="GamepadTracker" type="Node" parent="TrackerSystem" unique_id=250471779]
-script = ExtResource("6_efmbb")

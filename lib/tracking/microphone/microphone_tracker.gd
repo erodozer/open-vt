@@ -26,6 +26,11 @@ var enabled = true :
 	get():
 		return mic.playing
 
+func create_config() -> Node:
+	var config = preload("res://lib/tracking/microphone/config.tscn").instantiate()
+	config.tracker = self
+	return config
+	
 func _process(_delta: float) -> void:
 	var vol = AudioServer.get_bus_peak_volume_left_db(bus, 0)
 	
