@@ -196,6 +196,9 @@ text = "Virtual Webcam"
 [node name="VirtualCameraDevice" type="OptionButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/VirtualWebcam" unique_id=370618489]
 unique_name_in_owner = true
 layout_mode = 2
+text_overrun_behavior = 5
+clip_text = true
+fit_to_longest_item = false
 
 [node name="NetworkWebcam" type="VBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer" unique_id=2087614332]
 unique_name_in_owner = true
@@ -272,7 +275,9 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
+text_overrun_behavior = 5
 clip_text = true
+fit_to_longest_item = false
 
 [node name="Config" type="Control" parent="ScrollContainer/Accordion/Tracking/PanelContainer/FaceTracking" unique_id=790541110]
 layout_mode = 2

@@ -18,13 +18,17 @@ static func _static_init() -> void:
 
 var enabled = true :
 	set(v):
-		if not self.is_node_ready():
-			return
+		var bus = AudioServer.get_bus_index("VoiceInput")
 		AudioServer.set_bus_effect_enabled(bus, 0, v)
 		mic.playing = v
 		set_process(v)
 	get():
 		return mic.playing
+
+var device: String = "Default" :
+	set(v):
+		device = v
+		AudioServer.input_device = v
 
 func create_config() -> Node:
 	var config = preload("res://lib/tracking/microphone/config.tscn").instantiate()

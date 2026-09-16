@@ -11,7 +11,10 @@ grow_vertical = 2
 theme_type_variation = &"SubPanelContainer"
 script = ExtResource("1_ft4ar")
 
-[node name="Enabled" type="CheckButton" parent="." unique_id=448033292]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=778146451]
+layout_mode = 2
+
+[node name="Enabled" type="CheckButton" parent="VBoxContainer" unique_id=448033292]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -19,4 +22,21 @@ tooltip_text = "Use microphone input on PC to affect certain
 mouth related tracking parameters"
 text = "Sample Microphone"
 
-[connection signal="toggled" from="Enabled" to="." method="_on_enabled_toggled"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1938832296]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1952088007]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Input Device"
+
+[node name="DeviceList" type="OptionButton" parent="VBoxContainer/HBoxContainer" unique_id=2118679817]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text_overrun_behavior = 5
+clip_text = true
+fit_to_longest_item = false
+
+[connection signal="toggled" from="VBoxContainer/Enabled" to="." method="_on_enabled_toggled"]
+[connection signal="item_selected" from="VBoxContainer/HBoxContainer/DeviceList" to="." method="_on_device_list_item_selected"]
