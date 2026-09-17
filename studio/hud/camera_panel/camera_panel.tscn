@@ -35,14 +35,20 @@ theme_type_variation = &"SubPanelContainer"
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/Accordion/Application Settings" unique_id=2115127700]
 layout_mode = 2
 
-[node name="HBoxContainer7" type="HBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer" unique_id=850248186]
+[node name="ProfileManagement" type="HBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer" unique_id=850248186]
 layout_mode = 2
 
-[node name="ProfileActions" type="MenuButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer7" unique_id=1129629158]
+[node name="ProfileActions" type="MenuButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/ProfileManagement" unique_id=1129629158]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
+tooltip_text = "Currently opened profile for application settings.
+
+Certain actions may trigger autosaving, such as changing the active model or closing the application.
+
+Model settings, such as bindings, are stored alongside models separately from profiles, making them portable."
 icon = ExtResource("3_rjjra")
+flat = false
 icon_alignment = 1
 expand_icon = true
 item_count = 7
@@ -61,12 +67,13 @@ popup/item_5/separator = true
 popup/item_6/text = "Clear Settings"
 popup/item_6/id = 4
 
-[node name="Label" type="Label" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer7" unique_id=597944705]
+[node name="Label" type="Label" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/ProfileManagement" unique_id=597944705]
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 size_flags_vertical = 0
-text = "Active Profile"
+text = "Profile"
 
-[node name="ProfileName" type="LineEdit" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer7" unique_id=892589661]
+[node name="ProfileName" type="LineEdit" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/ProfileManagement" unique_id=892589661]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
@@ -74,7 +81,7 @@ size_flags_horizontal = 3
 alignment = 2
 editable = false
 
-[node name="ProfileOpenDialog" type="FileDialog" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer7" unique_id=1955077781]
+[node name="ProfileOpenDialog" type="FileDialog" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/ProfileManagement" unique_id=1955077781]
 unique_name_in_owner = true
 title = "Open a File"
 file_mode = 0
@@ -82,7 +89,7 @@ access = 2
 filters = PackedStringArray("*.profile;OpenVT Profile;")
 use_native_dialog = true
 
-[node name="ProfileSaveDialog" type="FileDialog" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer7" unique_id=420434750]
+[node name="ProfileSaveDialog" type="FileDialog" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/ProfileManagement" unique_id=420434750]
 unique_name_in_owner = true
 access = 2
 filters = PackedStringArray("*.profile;OpenVT Profile;")

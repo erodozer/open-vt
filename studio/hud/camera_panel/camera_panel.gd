@@ -78,13 +78,12 @@ func _ready() -> void:
 	%ProfileOpenDialog.file_selected.connect(
 		func (path):
 			Preferences.change_profile(path)
-			
 	)
 	%ProfileSaveDialog.file_selected.connect(
 		func (path):
 			Preferences.save_data() # make sure we have latest state persisted to settings
 			Preferences.write_data(path)
-			Preferences.active_file = path
+			Preferences.change_profile(path)
 	)
 	%ProfileActions.get_popup().id_pressed.connect(
 		func (id):
