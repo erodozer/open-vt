@@ -67,6 +67,40 @@ func _ready() -> void:
 		var vp = get_tree().get_first_node_in_group("system:stage").capture_viewport
 	else:
 		%VirtualWebcam.queue_free()
+		
+	%ProfileName.text = Preferences.active_file.get_file()
+	%ProfileName.tooltip_text = Preferences.active_file
+	Preferences.profile_changed.connect(
+		func (path):
+			%ProfileName.text = path.get_file()
+			%ProfileName.tooltip_text = path
+	)
+	%ProfileOpenDialog.file_selected.connect(
+		func (path):
+			Preferences.change_profile(path)
+			
+	)
+	%ProfileSaveDialog.file_selected.connect(
+		func (path):
+			Preferences.save_data() # make sure we have latest state persisted to settings
+			Preferences.write_data(path)
+			Preferences.active_file = path
+	)
+	%ProfileActions.get_popup().id_pressed.connect(
+		func (id):
+			match id:
+				0: # Open
+					%ProfileOpenDialog.show()
+				1: # Load Default
+					Preferences.change_profile(Preferences.DEFAULT_PROFILE_PATH)
+				2: # Save
+					Preferences.save_data()
+					Preferences.write_data()
+				3: # Save as
+					%ProfileSaveDialog.show()
+				4: # Clear Settings
+					Preferences.reset()
+	)
 	
 func _on_tracker_system_tracker_changed(new_tracker: Tracker) -> void:
 	var config = Control.new()
