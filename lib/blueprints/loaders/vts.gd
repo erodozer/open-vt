@@ -130,7 +130,6 @@ func _build_parameter_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint
 		tracker_bound[tracker] = false
 		trackers.append(tracker)
 		tracker.name = group + "Tracker"
-		add_child(tracker)
 	
 	var model_output: VtAction = graph.spawn_action(&"model_output", model)
 	

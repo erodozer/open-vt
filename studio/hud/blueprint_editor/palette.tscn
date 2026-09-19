@@ -113,7 +113,8 @@ icon_alignment = 1
 expand_icon = true
 metadata/action = ExtResource("11_d27ip")
 
-[node name="Toggler" type="Button" parent="." unique_id=620787861]
+[node name="Toggler" type="MenuButton" parent="." unique_id=277692976]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -121,8 +122,14 @@ size_flags_vertical = 6
 tooltip_text = "Add Toggle State"
 focus_mode = 0
 icon = ExtResource("15_3fswu")
+flat = false
 icon_alignment = 1
 expand_icon = true
+item_count = 2
+popup/item_0/text = "Single Toggle"
+popup/item_0/id = 0
+popup/item_1/text = "Toggle Group"
+popup/item_1/id = 1
 metadata/action = ExtResource("16_rtnke")
 
 [node name="Control2" type="Control" parent="." unique_id=815026235]

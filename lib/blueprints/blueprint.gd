@@ -10,10 +10,12 @@ static var _action_types: Array[PackedScene] = [
 	preload("res://lib/blueprints/inputs/tracker_input.tscn"),
 	preload("res://lib/blueprints/inputs/blink.tscn"),
 	preload("res://lib/blueprints/inputs/breathe.tscn"),
+	preload("res://lib/blueprints/inputs/value_emitter.tscn"),
 	preload("res://lib/blueprints/logic/arithmetic.tscn"),
 	preload("res://lib/blueprints/logic/smoothing.tscn"),
 	preload("res://lib/blueprints/logic/range_map.tscn"),
 	preload("res://lib/blueprints/logic/toggle_state.tscn"),
+	preload("res://lib/blueprints/logic/toggle_group.tscn"),
 	preload("res://lib/blueprints/outputs/model_output.tscn"),
 	preload("res://lib/blueprints/outputs/play_animation.tscn"),
 	preload("res://lib/blueprints/outputs/toggle_expression.tscn"),
@@ -65,6 +67,19 @@ var graph_elements: Dictionary[String, GraphNode] = {}
 func _ready() -> void:
 	add_valid_connection_type(VtAction.SlotType.VECTOR, VtAction.SlotType.NUMERIC)
 
+# allow disconnecting using right click
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_RIGHT and event.is_pressed():
+			var connection: Dictionary = self.get_closest_connection_at_point(event.position)
+			if connection.is_empty():
+				return
+			else:
+				disconnection_request.emit(
+					connection.from_node, connection.from_port,
+					connection.to_node, connection.to_port,
+				)
+
 func _on_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
 	if not is_node_ready():
 		await self.ready
@@ -82,8 +97,7 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 		
 	var count = get_connection_count(to_node, to_port)
 	
-	# only allow more than one binding for Trigger type
-	if slot_type != VtAction.SlotType.TRIGGER and count > 0:
+	if slot_type not in VtAction.MultiBindSlotTypes and count > 0:
 		var disconnected = connections.filter(
 			func (f):
 				return f.to_node == to_node and f.to_port == to_port

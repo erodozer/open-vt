@@ -18,8 +18,9 @@ func _ready() -> void:
 	
 func is_model(path: String) -> bool:
 	for fmt in formats.values():
-		if path.ends_with(fmt.supported_extension()):
-			return true
+		for ext in fmt.supported_extension():
+			if path.ends_with(ext):
+				return true
 	return false
 	
 func _get(property: StringName) -> Variant:

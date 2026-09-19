@@ -36,7 +36,7 @@ func load_data(path: String) -> ModelMeta:
 		meta.name = vtube_data["Name"]
 		meta.id = vtube_data["ModelID"]
 	
-	var model_data = Files.read_json(path)
+	var model_data = Files.read_json(filepath)
 	meta.path = path.get_base_dir()
 	meta.format = model_format()
 	meta.studio_parameters = vt_file

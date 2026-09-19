@@ -7,6 +7,7 @@ signal create_node(action: VtAction)
 func _ready():
 	tracker_options()
 	arithmetic_options()
+	toggle_options()
 	
 	for i in get_children():
 		if i is MenuButton:
@@ -42,8 +43,19 @@ func tracker_options():
 func arithmetic_options():
 	var arithmetic: MenuButton = %Math
 	var operators = preload("res://lib/blueprints/logic/arithmetic.gd").Operator
-	arithmetic.get_popup().add_separator("Operators")
+	
 	var idx = 1
+	arithmetic.get_popup().add_separator("Constants")
+	arithmetic.get_popup().add_item("Value")
+	arithmetic.get_popup().set_item_metadata(
+		idx,
+		func ():
+			var node = preload("res://lib/blueprints/inputs/value_emitter.tscn").instantiate()
+			return node,
+	)
+	
+	idx += 1
+	arithmetic.get_popup().add_separator("Operators")
 	for i in operators:
 		arithmetic.get_popup().add_item(i)
 		arithmetic.get_popup().set_item_metadata(
@@ -61,5 +73,21 @@ func arithmetic_options():
 		idx,
 		func ():
 			var node = preload("res://lib/blueprints/logic/range_map.tscn").instantiate()
+			return node,
+	)
+	
+func toggle_options():
+	var toggler: MenuButton = %Toggler
+
+	toggler.get_popup().set_item_metadata(
+		0,
+		func ():
+			var node = preload("res://lib/blueprints/logic/toggle_state.tscn").instantiate()
+			return node,
+	)
+	toggler.get_popup().set_item_metadata(
+		1,
+		func ():
+			var node = preload("res://lib/blueprints/logic/toggle_group.tscn").instantiate()
 			return node,
 	)

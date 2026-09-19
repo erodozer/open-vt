@@ -12,6 +12,14 @@ enum SlotType {
 	VECTOR
 }
 
+## only allow more than one binding for certain types
+## even for supported types, multiple bindings may result in unexpected behavior due to potentially
+## undeterministic order of change emission	
+const MultiBindSlotTypes = [
+	SlotType.TRIGGER,
+	SlotType.NUMERIC
+]
+
 var id = ""
 
 ## reference to the bound model is directly available to all VtActions
@@ -71,10 +79,10 @@ func get_slot_by_name(slot: StringName) -> int:
 
 @abstract func get_output_port_by_name(slot: StringName) -> int
 
-# replaces godot's built in functions because since 4.5 the internal
-# port cache has been broken, only populating when the graph is first visible
-# because our graphs exist off-screen, we need to provide a method
-# of connecting ports even without the internal cache lookup
+## replaces godot's built in functions because since 4.5 the internal
+## port cache has been broken, only populating when the graph is first visible
+## because our graphs exist off-screen, we need to provide a method
+## of connecting ports even without the internal cache lookup
 @abstract func get_input_slot_by_port(port: int) -> int
 
 @abstract func get_output_slot_by_port(port: int) -> int

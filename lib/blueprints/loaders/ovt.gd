@@ -46,8 +46,6 @@ func _deserialize(graph: Blueprint, model: VtModel, data: Dictionary):
 				c.queue_free()
 			return 
 		
-		
-		
 		n.position_offset = Serializers.Vec2Serializer.from_json(i.get("position"), Vector2.ZERO)
 		
 	for i in data.get("bindings", []):

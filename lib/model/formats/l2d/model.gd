@@ -124,12 +124,13 @@ func _build_model():
 	# emotion controller
 	var expression_library = AyagamiLoader.load_expression_library(modelmeta.model.get_base_dir(), true)
 	var expression_controller: AyagamiExpressionMutator = model.get_node("ExpressionController")
-	expression_controller.expressions = expression_library.keys()
-	for e in expression_library.keys():
-		var group = expression_library[e]
-		if group != "":
-			expression_controller.set("expression_groups/%s" % e.get_name(), group)
-	
+	if not expression_library.is_empty():
+		expression_controller.expressions = expression_library.keys()
+		for e in expression_library.keys():
+			var group = expression_library[e]
+			if group != "":
+				expression_controller.set("expression_groups/%s" % e.get_name(), group)
+		
 	# add ONE_SHOT animation player
 	var os_lib = AnimationLibrary.new()
 	for anim in anim_lib.get_animation_list():
