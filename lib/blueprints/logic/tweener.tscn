@@ -1,0 +1,140 @@
+[gd_scene format=3 uid="uid://g2pvyrc422g0"]
+
+[ext_resource type="Script" uid="uid://dva65eig5easu" path="res://lib/blueprints/logic/tweener.gd" id="1_bq3qa"]
+
+[node name="Tweener" type="GraphNode" unique_id=2090624270]
+custom_minimum_size = Vector2(290, 120)
+offset_right = 106.0
+offset_bottom = 88.0
+title = "Tween"
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+slot/1/left_enabled = true
+slot/1/left_type = 1
+slot/1/left_color = Color(1, 1, 1, 1)
+slot/1/left_icon = null
+slot/1/right_enabled = true
+slot/1/right_type = 1
+slot/1/right_color = Color(1, 1, 1, 1)
+slot/1/right_icon = null
+slot/1/draw_stylebox = true
+script = ExtResource("1_bq3qa")
+
+[node name="Options" type="VBoxContainer" parent="." unique_id=747944045]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Options" unique_id=1385105065]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Options/HBoxContainer" unique_id=1438175952]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Duration"
+
+[node name="Duration" type="SpinBox" parent="Options/HBoxContainer" unique_id=1223945774]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 10.0
+step = 0.01
+value = 1.0
+alignment = 2
+suffix = "s"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Options" unique_id=1407101631]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Options/HBoxContainer2" unique_id=821952559]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Easing"
+
+[node name="Easing" type="OptionButton" parent="Options/HBoxContainer2" unique_id=1114358]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 2
+selected = 2
+item_count = 4
+popup/item_0/text = "In"
+popup/item_0/id = 0
+popup/item_1/text = "Out"
+popup/item_1/id = 1
+popup/item_2/text = "InOut"
+popup/item_2/id = 2
+popup/item_3/text = "OutIn"
+popup/item_3/id = 3
+
+[node name="Label2" type="Label" parent="Options/HBoxContainer2" unique_id=825911771]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Transition"
+
+[node name="Transition" type="OptionButton" parent="Options/HBoxContainer2" unique_id=1595309493]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 2
+selected = 0
+item_count = 12
+popup/item_0/text = "Linear"
+popup/item_0/id = 0
+popup/item_1/text = "Sine"
+popup/item_1/id = 1
+popup/item_2/text = "Quintic"
+popup/item_2/id = 2
+popup/item_3/text = "Quartic"
+popup/item_3/id = 3
+popup/item_4/text = "Quadratic"
+popup/item_4/id = 4
+popup/item_5/text = "Exponential"
+popup/item_5/id = 5
+popup/item_6/text = "Elastic"
+popup/item_6/id = 6
+popup/item_7/text = "Cubic"
+popup/item_7/id = 7
+popup/item_8/text = "Circ"
+popup/item_8/id = 8
+popup/item_9/text = "Bounce"
+popup/item_9/id = 9
+popup/item_10/text = "Back"
+popup/item_10/id = 10
+popup/item_11/text = "Spring"
+popup/item_11/id = 11
+
+[node name="Value" type="HBoxContainer" parent="." unique_id=632955756]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Value" unique_id=156993033]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+text = "In"
+
+[node name="Input" type="SpinBox" parent="Value" unique_id=1826249344]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+min_value = -999.9
+max_value = 999.9
+step = 0.001
+editable = false
+
+[node name="Output" type="SpinBox" parent="Value" unique_id=1113992443]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+min_value = -999.9
+max_value = 999.9
+step = 0.001
+editable = false
+
+[node name="Label2" type="Label" parent="Value" unique_id=1313820656]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+text = "Out"
+
+[connection signal="value_changed" from="Options/HBoxContainer/Duration" to="." method="_on_smoothing_value_changed"]

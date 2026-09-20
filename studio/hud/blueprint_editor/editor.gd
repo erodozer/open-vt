@@ -36,6 +36,8 @@ var active_graph: Blueprint :
 func _ready() -> void:
 	assert(active_model != null, "Model must be set before editor is in scene tree")
 	get_viewport().gui_embed_subwindows = true
+	content_scale_factor = get_tree().root.get_window().content_scale_factor
+	
 	
 	self.title = "Model Bindings [%s]" % active_model.display_name
 	

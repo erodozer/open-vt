@@ -96,12 +96,14 @@ layout_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+tooltip_text = "Add Arithmetic"
 icon = ExtResource("7_n4xfi")
 flat = false
 icon_alignment = 1
 expand_icon = true
 
-[node name="Smoothing" type="Button" parent="." unique_id=907281668]
+[node name="Smoothing" type="MenuButton" parent="." unique_id=1571543179]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -109,8 +111,14 @@ size_flags_vertical = 6
 tooltip_text = "Add Smoothing"
 focus_mode = 0
 icon = ExtResource("10_d27ip")
+flat = false
 icon_alignment = 1
 expand_icon = true
+item_count = 2
+popup/item_0/text = "Smoothing"
+popup/item_0/id = 0
+popup/item_1/text = "Tween"
+popup/item_1/id = 1
 metadata/action = ExtResource("11_d27ip")
 
 [node name="Toggler" type="MenuButton" parent="." unique_id=277692976]

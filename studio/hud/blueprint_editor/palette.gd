@@ -8,6 +8,7 @@ func _ready():
 	tracker_options()
 	arithmetic_options()
 	toggle_options()
+	smoothing_options()
 	
 	for i in get_children():
 		if i is MenuButton:
@@ -89,5 +90,21 @@ func toggle_options():
 		1,
 		func ():
 			var node = preload("res://lib/blueprints/logic/toggle_group.tscn").instantiate()
+			return node,
+	)
+
+func smoothing_options():
+	var menu: MenuButton = %Smoothing
+
+	menu.get_popup().set_item_metadata(
+		0,
+		func ():
+			var node = preload("res://lib/blueprints/logic/smoothing.tscn").instantiate()
+			return node,
+	)
+	menu.get_popup().set_item_metadata(
+		1,
+		func ():
+			var node = preload("res://lib/blueprints/logic/tweener.tscn").instantiate()
 			return node,
 	)

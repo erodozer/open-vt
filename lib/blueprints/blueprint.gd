@@ -13,6 +13,7 @@ static var _action_types: Array[PackedScene] = [
 	preload("res://lib/blueprints/inputs/value_emitter.tscn"),
 	preload("res://lib/blueprints/logic/arithmetic.tscn"),
 	preload("res://lib/blueprints/logic/smoothing.tscn"),
+	preload("res://lib/blueprints/logic/tweener.tscn"),
 	preload("res://lib/blueprints/logic/range_map.tscn"),
 	preload("res://lib/blueprints/logic/toggle_state.tscn"),
 	preload("res://lib/blueprints/logic/toggle_group.tscn"),
