@@ -55,7 +55,7 @@ func arithmetic_options():
 			return node,
 	)
 	
-	idx += 1
+	idx += 2
 	arithmetic.get_popup().add_separator("Operators")
 	for i in operators:
 		arithmetic.get_popup().add_item(i)

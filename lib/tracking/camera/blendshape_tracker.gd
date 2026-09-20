@@ -1,0 +1,67 @@
+extends "res://lib/tracking/interpolated_tracker.gd"
+
+static func _static_init() -> void:
+	# iOS/ARKit BlendShapes
+	Registry.add_parameter("EyeBlinkLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("EyeLookDownLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("EyeLookInLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("EyeLookOutLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("EyeLookUpLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("EyeSquintLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("EyeWideLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("EyeBlinkRight", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("EyeLookDownRight", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("EyeLookInRight", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("EyeLookOutRight", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("EyeLookUpRight", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("EyeSquintRight", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("EyeWideRight", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("JawForward", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("JawRight", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("JawLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("JawOpen", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("MouthClose", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("MouthFunnel", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("MouthPucker", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("MouthLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("MouthRight", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("MouthSmileLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("MouthSmileRight", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("MouthFrownLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("MouthFrownRight", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("MouthDimpleLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("MouthDimpleRight", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("MouthStretchLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("MouthStretchRight", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("MouthRollLower", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("MouthRollUpper", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("MouthShrugLower", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("MouthShrugUpper", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("MouthPressLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("MouthPressRight", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("MouthLowerDownLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("MouthLowerDownRight", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("MouthUpperUpLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("MouthUpperUpRight", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("BrowDownLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("BrowDownRight", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("BrowInnerUp", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("BrowOuterUpLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("BrowOuterUpRight", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("CheekPuff", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("CheekSquintLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("CheekSquintRight", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("NoseSneerLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("NoseSneerRight", Vector2(0, 1), 0.0, "iOSBlendShape")
+	Registry.add_parameter("TongueOut", Vector2(0, 1), 0.0, "iOSBlendShape")
+
+func _ready() -> void:
+	reset()
+
+func reset():
+	update(Registry.parameters_in_group("iOSBlendShape").reduce(
+		func (acc, parameter):
+			acc[parameter] = Registry.get_default(parameter)
+			return acc,
+		{}
+	))

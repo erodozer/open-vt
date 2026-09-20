@@ -2,65 +2,10 @@
 ## Instead of getting the normal VTS parameters we're used to, this API
 ## returns iOS BlendShapes, which can be used raw
 
-extends "res://lib/tracking/interpolated_tracker.gd"
+extends "../blendshape_tracker.gd"
 
 const BidirectionalTracker = preload("res://lib/tracking/net/bidirectional_tracker.gd")
 const Serializers = preload("res://lib/utils/serializers.gd")
-
-const BlendShapes = [
-	"EyeBlinkLeft",
-	"EyeLookDownLeft",
-	"EyeLookInLeft",
-	"EyeLookOutLeft",
-	"EyeLookUpLeft",
-	"EyeSquintLeft",
-	"EyeWideLeft",
-	"EyeBlinkRight",
-	"EyeLookDownRight",
-	"EyeLookInRight",
-	"EyeLookOutRight",
-	"EyeLookUpRight",
-	"EyeSquintRight",
-	"EyeWideRight",
-	"JawForward",
-	"JawRight",
-	"JawLeft",
-	"JawOpen",
-	"MouthClose",
-	"MouthFunnel",
-	"MouthPucker",
-	"MouthLeft",
-	"MouthRight",
-	"MouthSmileLeft",
-	"MouthSmileRight",
-	"MouthFrownLeft",
-	"MouthFrownRight",
-	"MouthDimpleLeft",
-	"MouthDimpleRight",
-	"MouthStretchLeft",
-	"MouthStretchRight",
-	"MouthRollLower",
-	"MouthRollUpper",
-	"MouthShrugLower",
-	"MouthShrugUpper",
-	"MouthPressLeft",
-	"MouthPressRight",
-	"MouthLowerDownLeft",
-	"MouthLowerDownRight",
-	"MouthUpperUpLeft",
-	"MouthUpperUpRight",
-	"BrowDownLeft",
-	"BrowDownRight",
-	"BrowInnerUp",
-	"BrowOuterUpLeft",
-	"BrowOuterUpRight",
-	"CheekPuff",
-	"CheekSquintLeft",
-	"CheekSquintRight",
-	"NoseSneerLeft",
-	"NoseSneerRight",
-	"TongueOut",
-]
 
 class TrackingData:
 	@export var Position: Vector3 = Vector3.ZERO
@@ -72,10 +17,6 @@ class TrackingData:
 var server: BidirectionalTracker
 
 var poller: Timer
-
-static func _static_init() -> void:
-	for param in BlendShapes:
-		Registry.add_parameter(param, Vector2.DOWN, 0.0, "iOSBlendShape")
 
 func _ready():
 	server = BidirectionalTracker.new()
