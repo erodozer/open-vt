@@ -21,7 +21,6 @@ func set_model(m: VtModel):
 		return
 	assert(model == null, "model has already be initialized")
 	model = m
-	build_slots()
 	
 	model.modifier_updated.connect(
 		func (field: StringName, _new, _old):
@@ -166,7 +165,7 @@ func deserialize(data: Dictionary):
 	
 func update_value(slot: int, v: Variant) -> void:
 	var parameter: StringName = get_input_slot_name(slot)
-	bindings[parameter] = v as float
+	bindings[parameter] = type_convert(v, TYPE_FLOAT)
 	_dirty = true
 	
 func _update_model():

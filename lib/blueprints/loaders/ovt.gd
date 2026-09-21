@@ -27,6 +27,8 @@ func load_graph(model: VtModel) -> Array:
 	return valid_graphs
 
 func _deserialize(graph: Blueprint, model: VtModel, data: Dictionary):
+	graph.process_mode = PROCESS_MODE_INHERIT if data.get("enabled", true) else PROCESS_MODE_DISABLED
+	
 	for i in data.get("nodes", []):
 		var id = i.get("id", "")
 		if id.is_empty():
@@ -44,9 +46,17 @@ func _deserialize(graph: Blueprint, model: VtModel, data: Dictionary):
 			graph.clear_connections()
 			for c in graph.get_children():
 				c.queue_free()
-			return 
+			return
 		
 		n.position_offset = Serializers.Vec2Serializer.from_json(i.get("position"), Vector2.ZERO)
+		
+	# delay connecting until all blueprints have been loaded
+	# this is necessary for some nodes that require dynamically building slots
+	# as well as for nodes that rely on cross-blueprint state
+	await get_tree().process_frame
+	for node in graph.get_children():
+		if node is VtAction:
+			node.build_slots()
 		
 	for i in data.get("bindings", []):
 		if i.src in graph.graph_elements and i.dst in graph.graph_elements:
@@ -69,4 +79,3 @@ func _deserialize(graph: Blueprint, model: VtModel, data: Dictionary):
 				to_node.name, dst_port
 			)
 			
-	graph.process_mode = PROCESS_MODE_INHERIT if data.get("enabled", true) else PROCESS_MODE_DISABLED

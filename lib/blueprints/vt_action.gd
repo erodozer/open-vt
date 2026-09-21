@@ -39,6 +39,11 @@ var _slot_to_output: Dictionary[StringName, int] = {}
 
 @abstract func get_type() -> StringName
 
+## For actions that have a variable amount of slots based on user input or graph state
+## This is also called prior to connecting all bindings on blueprint load
+func build_slots() -> void:
+	pass
+
 func update_value(slot: int, value: Variant) -> void:
 	pass
 

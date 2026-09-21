@@ -11,6 +11,7 @@ static var _action_types: Array[PackedScene] = [
 	preload("res://lib/blueprints/inputs/blink.tscn"),
 	preload("res://lib/blueprints/inputs/breathe.tscn"),
 	preload("res://lib/blueprints/inputs/value_emitter.tscn"),
+	preload("res://lib/blueprints/inputs/metastore_input.tscn"),
 	preload("res://lib/blueprints/logic/arithmetic.tscn"),
 	preload("res://lib/blueprints/logic/evaluator.tscn"),
 	preload("res://lib/blueprints/logic/smoothing.tscn"),
@@ -21,6 +22,7 @@ static var _action_types: Array[PackedScene] = [
 	preload("res://lib/blueprints/outputs/model_output.tscn"),
 	preload("res://lib/blueprints/outputs/play_animation.tscn"),
 	preload("res://lib/blueprints/outputs/toggle_expression.tscn"),
+	preload("res://lib/blueprints/outputs/metastore_output.tscn"),
 ]
 
 static var palette: Dictionary[StringName, PackedScene] = _action_types.reduce(

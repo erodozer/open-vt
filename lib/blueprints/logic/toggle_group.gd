@@ -15,9 +15,13 @@ func _init() -> void:
 
 func _ready() -> void:
 	%InactiveInput.button_group = button_group
-	build_slots(%SlotCount.value)
+	%SlotCount.value_changed.connect(
+		func (_value):
+			build_slots()
+	)
 
-func build_slots(count: int):
+func build_slots():
+	var count = %SlotCount.value
 	var total = get_child_count()
 	var current_count = total - 2 # remove hard coded slots from count
 	
@@ -74,8 +78,7 @@ func serialize():
 
 func deserialize(data):
 	var slots_count = data.get("slots", 1)
-	%SlotCount.value = slots_count
-	build_slots(slots_count)
+	%SlotCount.set_value_no_signal(slots_count)
 
 func get_value(slot):
 	return button_group.get_pressed_button().get_parent().get_index() == slot

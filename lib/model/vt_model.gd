@@ -11,6 +11,7 @@ const Collections = preload("res://lib/utils/collections.gd")
 const ModelModifier = preload("./modifier.gd")
 
 var modelmeta: ModelMeta
+
 @onready var mixer = %Mixer
 
 var motions: Array :
@@ -35,6 +36,10 @@ var blueprints: Array :
 			else:
 				%Actions.add_child(g)
 			g.visible = false
+## dynamic store used for passing named values between blueprints
+var store: Dictionary = {}
+var _store_changed = false
+signal store_changed
 			
 var texture : Texture2D
 # item pinning
@@ -65,6 +70,7 @@ func is_bound(parameter: Dictionary) -> bool:
 	return has_node(parameter.id)
 
 func _load_model():
+	set_process_internal(true)
 	_loading = true
 	
 	if not (await _build_model()):
@@ -163,6 +169,9 @@ func _get(property: StringName) -> Variant:
 		if value == null:
 			value = settings.property_get_revert(field)
 		return value
+	elif property.begins_with("store/"):
+		property = property.trim_prefix("store/")
+		return store.get(property, 0.0)
 	return null
 
 func _property_get_revert(property: StringName) -> Variant:
@@ -178,6 +187,10 @@ func _property_get_revert(property: StringName) -> Variant:
 		
 		var settings: ModelModifier = modifier_map[type][target]
 		return settings.property_get_revert(field)
+	elif property.begins_with("store/"):
+		property = property.trim_prefix("store/")
+		if property in store:
+			return 0.0
 	return null
 
 func _set(property: StringName, value: Variant) -> bool:
@@ -200,7 +213,17 @@ func _set(property: StringName, value: Variant) -> bool:
 			property, value, old_value
 		)
 		return true
-	
+	elif property.begins_with("store/"):
+		property = property.trim_prefix("store/")
+		if value == null:
+			store.erase(property)
+			_store_changed = true
+			return true
+		elif typeof(value) == TYPE_FLOAT:
+			if property not in store:
+				_store_changed = true
+			store[property] = value 
+			return true
 	return false
 
 func _get_property_list() -> Array[Dictionary]:
@@ -219,4 +242,19 @@ func _get_property_list() -> Array[Dictionary]:
 						"hint_string": prop.hint_string,
 					})
 	
+	for key in store:
+		properties.append({
+			"name": "store/{0}".format([key]),
+			"type": TYPE_FLOAT,
+			"hint": PROPERTY_HINT_NONE,
+			"hint_string": "",
+			"usage": PROPERTY_USAGE_SCRIPT_VARIABLE
+		})
+	
 	return properties
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_INTERNAL_PROCESS:
+		if _store_changed:
+			_store_changed = false
+			store_changed.emit()

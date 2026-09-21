@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://nyd127k2wm6k"]
+
+[ext_resource type="Script" uid="uid://dy5dsxjnen3iq" path="res://lib/blueprints/inputs/metastore_input.gd" id="1_rbmc8"]
+
+[node name="StoreRead" type="GraphNode" unique_id=1373402909 groups=["blueprint:store:read"]]
+custom_minimum_size = Vector2(200, 0)
+offset_right = 200.0
+offset_bottom = 55.0
+title = "Read from Store"
+script = ExtResource("1_rbmc8")

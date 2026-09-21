@@ -6,6 +6,7 @@ signal create_node(action: VtAction)
 
 func _ready():
 	tracker_options()
+	store_options()
 	arithmetic_options()
 	toggle_options()
 	smoothing_options()
@@ -114,5 +115,21 @@ func smoothing_options():
 		1,
 		func ():
 			var node = preload("res://lib/blueprints/logic/tweener.tscn").instantiate()
+			return node,
+	)
+
+func store_options():
+	var menu: MenuButton = %DataStore
+
+	menu.get_popup().set_item_metadata(
+		0,
+		func ():
+			var node = preload("res://lib/blueprints/inputs/metastore_input.tscn").instantiate()
+			return node,
+	)
+	menu.get_popup().set_item_metadata(
+		1,
+		func ():
+			var node = preload("res://lib/blueprints/outputs/metastore_output.tscn").instantiate()
 			return node,
 	)

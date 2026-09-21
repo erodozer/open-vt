@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://cokf38ntj8dxb"]
+
+[ext_resource type="Script" uid="uid://dkunode7avkmn" path="res://lib/blueprints/outputs/metastore_output.gd" id="1_qvwu8"]
+
+[node name="StoreWrite" type="GraphNode" unique_id=47841078 groups=["blueprint:store:write"]]
+custom_minimum_size = Vector2(250, 0)
+offset_right = 250.0
+offset_bottom = 87.0
+title = "Write to Store"
+slot/0/left_enabled = true
+slot/0/left_type = 1
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+script = ExtResource("1_qvwu8")
+
+[node name="Value" type="HBoxContainer" parent="." unique_id=1451100843]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Value" unique_id=1949358513]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Var"
+
+[node name="Variable" type="LineEdit" parent="Value" unique_id=733871640]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(180, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+expand_to_text_length = true
+
+[connection signal="editing_toggled" from="Value/Variable" to="." method="_on_variable_editing_toggled"]

@@ -58,5 +58,3 @@ layout_mode = 2
 size_flags_horizontal = 10
 button_pressed = true
 flat = true
-
-[connection signal="value_changed" from="HBoxContainer3/SlotCount" to="." method="build_slots"]

@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cwws2r8ygckrj" path="res://lib/blueprints/inputs/sidebar-flip.svg" id="3_fo0kw"]
 [ext_resource type="PackedScene" uid="uid://bdn6bn1khac44" path="res://lib/blueprints/inputs/tracker_input.tscn" id="3_rtnke"]
 [ext_resource type="PackedScene" uid="uid://dwyu5dbc3akkx" path="res://lib/blueprints/inputs/screen_button.tscn" id="4_d27ip"]
+[ext_resource type="Texture2D" uid="uid://dvigbidly3vep" path="res://ui/icons/data-store.svg" id="4_rtnke"]
 [ext_resource type="Texture2D" uid="uid://bi47la4lgog0c" path="res://lib/blueprints/inputs/face-viewfinder.svg" id="5_5ng8c"]
 [ext_resource type="Texture2D" uid="uid://lto72ierstpg" path="res://lib/blueprints/logic/calculator-simple.svg" id="7_n4xfi"]
 [ext_resource type="Texture2D" uid="uid://dquygailhgfka" path="res://lib/blueprints/inputs/face-exhaling.svg" id="9_cbf0x"]
@@ -38,6 +39,21 @@ icon = ExtResource("5_5ng8c")
 flat = false
 icon_alignment = 1
 expand_icon = true
+metadata/action = ExtResource("3_rtnke")
+
+[node name="DataStore" type="MenuButton" parent="." unique_id=1921186289]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+icon = ExtResource("4_rtnke")
+flat = false
+icon_alignment = 1
+expand_icon = true
+item_count = 2
+popup/item_0/text = "Read from Store"
+popup/item_0/id = 0
+popup/item_1/text = "Write to Store"
+popup/item_1/id = 1
 metadata/action = ExtResource("3_rtnke")
 
 [node name="Hotkey" type="Button" parent="." unique_id=734898577]

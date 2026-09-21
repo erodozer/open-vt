@@ -8,9 +8,14 @@ var value: float = 0.0 :
 		%Output.text = "%.2f" % [v]
 
 func _ready() -> void:
-	%Formula.text_changed.connect(build_slots)
+	%Formula.editing_toggled.connect(
+		func (toggled_on):
+			if not toggled_on:
+				build_slots()
+	)
 
-func build_slots(formula: String):
+func build_slots():
+	var formula = %Formula.text
 	expression = Expression.new()
 	# extract any variables
 	var regex = RegEx.create_from_string(r"(?<variable>\$[a-zA-Z_]+)")
@@ -71,7 +76,7 @@ func build_slots(formula: String):
 
 func get_input_slot_by_port(port: int) -> int:
 	if port >= 0:
-		return port
+		return port + 1
 	return -1
 
 func get_input_port_by_name(slot: StringName) -> int:
@@ -98,7 +103,7 @@ func serialize():
 func deserialize(data):
 	var formula = data.get("formula", "")
 	%Formula.text = formula
-	build_slots(formula)
+	build_slots()
 
 func get_value(slot):
 	return value
