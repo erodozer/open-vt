@@ -29,28 +29,39 @@ var operator: Operator = Operator.Add :
 		
 		operator = v
 		
-var a : float :
-	get():
-		return %A/Value.value
+var a : float = 0.0 :
 	set(v):
-		%A/Value.value = v
+		a = v
+		%A/Value.set_value_no_signal(v)
 
-var input_range: Vector2 :
-	get():
-		return Vector2(
-			%A/X.value,
-			%A/Y.value,
-		)
+var input_range: Vector2 = Vector2.DOWN :
 	set(v):
 		input_range = v
-		%A/X.value = v.x
-		%A/Y.value = v.y
+		%A/X.set_value_no_signal(v.x)
+		%A/Y.set_value_no_signal(v.y)
 
-var b : float :
-	get():
-		return %B/Value.value
+var b : float = 0.0 :
 	set(v):
+		b = v
 		%B/Value.value = v
+
+func _ready() -> void:
+	%A/Value.value_changed.connect(
+		func (v):
+			a = v
+	)
+	%B/Value.value_changed.connect(
+		func (v):
+			b = v
+	)
+	%A/X.value_changed.connect(
+		func (v):
+			input_range = Vector2(v, input_range.y)
+	)
+	%A/Y.value_changed.connect(
+		func (v):
+			input_range = Vector2(input_range.x, v)
+	)
 
 func get_input_slot_by_port(port: int) -> int:
 	match port:

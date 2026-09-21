@@ -49,7 +49,7 @@ custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 min_value = -999.9
 max_value = 999.9
-step = 0.0
+step = 0.01
 custom_arrow_step = 0.01
 
 [node name="X" type="SpinBox" parent="A" unique_id=1314151755]
@@ -58,7 +58,7 @@ custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 min_value = -999.9
 max_value = 999.9
-step = 0.0
+step = 0.01
 custom_arrow_step = 0.01
 
 [node name="Y" type="SpinBox" parent="A" unique_id=635295963]
@@ -67,7 +67,8 @@ custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 min_value = -999.9
 max_value = 999.9
-step = 0.0
+step = 0.01
+value = 1.0
 custom_arrow_step = 0.01
 
 [node name="B" type="HBoxContainer" parent="." unique_id=966230471]
@@ -84,7 +85,7 @@ custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 min_value = -999.9
 max_value = 999.9
-step = 0.0
+step = 0.01
 custom_arrow_step = 0.01
 
 [node name="Output" type="HBoxContainer" parent="." unique_id=955606477]

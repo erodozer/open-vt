@@ -76,6 +76,14 @@ func arithmetic_options():
 			var node = preload("res://lib/blueprints/logic/range_map.tscn").instantiate()
 			return node,
 	)
+	idx += 1
+	arithmetic.get_popup().add_item("Eval")
+	arithmetic.get_popup().set_item_metadata(
+		idx,
+		func ():
+			var node = preload("res://lib/blueprints/logic/evaluator.tscn").instantiate()
+			return node,
+	)
 	
 func toggle_options():
 	var toggler: MenuButton = %Toggler

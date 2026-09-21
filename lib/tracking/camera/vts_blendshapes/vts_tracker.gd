@@ -66,6 +66,8 @@ func _data_received(data: TrackingData):
 		"FaceAngleZ": data.Rotation.z * -1,
 	}
 	for parameter in data.BlendShapes:
-		parameters[parameter.k] = parameter.v
+		# VTS uses different names for each blendshape
+		var key = parameter.k.replace("_L", "Left").replace("_R", "Right").to_pascal_case()
+		parameters[key] = parameter.v
 		
 	update(parameters)
