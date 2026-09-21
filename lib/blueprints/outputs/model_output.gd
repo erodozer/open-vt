@@ -28,7 +28,12 @@ func set_model(m: VtModel):
 				self.refresh_fields()
 	)
 	
+var _built = false
 func build_slots():
+	if _built:
+		return
+		
+	_built = true
 	var i = 0
 	var label_width = 0
 	var parameters = model.get_parameters()
@@ -176,11 +181,11 @@ func _update_model():
 		return
 	
 	for p in bindings:
-		if p in binding_display:
-			binding_display[p].text = "%1.2f" % bindings[p]
-			model.set("parameters/%s" % [p], bindings[p])
+		model.set("parameters/%s" % [p], bindings[p])
 	_dirty = false
 	bindings.clear()
 	
 func _process(_delta: float) -> void:
 	_update_model()
+	for param in model.get_parameters().keys():
+		binding_display[param].text = "%1.2f" % model.get("parameters/%s" % [param])

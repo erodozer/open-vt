@@ -64,6 +64,8 @@ func spawn_action(action_type, model: VtModel, initial_parameters: Dictionary = 
 	add_child(node, true)
 	node.owner = self
 	node.position_offset = (scroll_offset + size / 2) / zoom - node.size / 2
+	node.build_slots()
+	
 	return node
 
 var graph_elements: Dictionary[String, GraphNode] = {}
