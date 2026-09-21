@@ -20,7 +20,7 @@ func _ready() -> void:
 			build_slots()
 	)
 
-func build_slots():
+func _build_slots() -> void:
 	var count = %SlotCount.value
 	var total = get_child_count()
 	var current_count = total - 2 # remove hard coded slots from count
@@ -46,8 +46,8 @@ func build_slots():
 			var check = CheckBox.new()
 			check.button_group = button_group
 			slot.add_child(check, true)
-			set("slot/%d/left_enabled" % [i + 2], true)
-			set("slot/%d/right_enabled" % [i + 2], true)
+			set_slot_enabled_left(i + 2, true)
+			set_slot_enabled_right(i + 2, true)
 	size.y = 0
 
 func get_input_slot_by_port(port: int) -> int:

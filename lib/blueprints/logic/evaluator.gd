@@ -14,7 +14,7 @@ func _ready() -> void:
 				build_slots()
 	)
 
-func build_slots():
+func _build_slots():
 	var formula = %Formula.text
 	expression = Expression.new()
 	# extract any variables
@@ -40,15 +40,6 @@ func build_slots():
 		var slot = get_child(1)
 		remove_child(slot)
 		slot.queue_free()
-	if graph:
-		for c in graph.get_connection_list_from_node(self.name):
-			if c.to_node == self.name:
-				graph.disconnect_node(
-					c.from_node,
-					c.from_port,
-					c.to_node,
-					c.to_port
-				)
 		
 	for i in range(count):
 		var name = inputs.keys()[i]
@@ -70,8 +61,8 @@ func build_slots():
 		display.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		slot.add_child(display)
 		
-		set("slot/%d/left_enabled" % [i + 1], true)
-		set("slot/%d/left_type" % [i + 1], VtAction.SlotType.NUMERIC)
+		set_slot_enabled_left(i + 1, true)
+		set_slot_type_left(i + 1, VtAction.SlotType.NUMERIC)
 	size.y = 0
 
 func get_input_slot_by_port(port: int) -> int:

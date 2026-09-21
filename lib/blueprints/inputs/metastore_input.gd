@@ -26,16 +26,7 @@ func _process(delta: float) -> void:
 	for i in range(get_child_count()):
 		slot_updated.emit(i)
 	
-func build_slots():
-	# rebind existing connections
-	var existing_bindings = graph.get_connection_list_from_node(self.name)
-	var old_mapping: Dictionary[int, String] = {}
-	
-	for e in existing_bindings:
-		graph.disconnect_node(e.from_node, e.from_port, e.to_node, e.to_port)
-		var old = get_output_slot_name(get_output_slot_by_port(e.from_port))
-		old_mapping[e.from_port] = old
-	
+func _build_slots():
 	for prop in get_children():
 		remove_child(prop)
 		prop.queue_free()
@@ -59,16 +50,8 @@ func build_slots():
 		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		label.name = prop
 		add_child(label)
-		set("slot/%d/right_enabled" % i, true)
-		set("slot/%d/right_type" % i, VtAction.SlotType.NUMERIC)
-	
-	for e in existing_bindings:
-		var old: String = old_mapping.get(e.from_port, "")
-		if old.is_empty():
-			continue
-		var new_out = get_output_port_by_name(old)
-		if new_out >= 0:
-			graph.connect_node(e.from_node, new_out, e.to_node, e.to_port)
+		set_slot_enabled_right(i, true)
+		set_slot_type_right(i, VtAction.SlotType.NUMERIC)
 	
 	size = Vector2.ZERO
 	

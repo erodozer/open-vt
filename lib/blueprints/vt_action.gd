@@ -39,9 +39,46 @@ var _slot_to_output: Dictionary[StringName, int] = {}
 
 @abstract func get_type() -> StringName
 
-## For actions that have a variable amount of slots based on user input or graph state
-## This is also called prior to connecting all bindings on blueprint load
+## For actions that have a variable amount of slots based on user input or graph state.
+## This calls the virtual _build_slots function while also handling reconnecting nodes whose port mappings
+## may have been affected by shuffling.
 func build_slots() -> void:
+	var existing_bindings = graph.get_connection_list_from_node(self.name)
+	var old_input_mapping: Dictionary[int, String] = {}
+	var old_output_mapping: Dictionary[int, String] = {}
+	
+	# determine existing named bindings based on current port positions
+	for e in existing_bindings:
+		graph.disconnect_node(e.from_node, e.from_port, e.to_node, e.to_port)
+		if e.from_node == self.name:
+			var old = get_output_slot_name(get_output_slot_by_port(e.from_port))
+			old_output_mapping[e.from_port] = old
+		elif e.to_node == self.name:
+			var old = get_input_slot_name(get_input_slot_by_port(e.to_port))
+			old_input_mapping[e.to_port] = old
+	
+	# call the virtual function to build the physical slots onto the node
+	_build_slots()
+	
+	# rebind prior connections to new port positions based on name
+	for e in existing_bindings:
+		if e.from_node == self.name:
+			var old: String = old_output_mapping.get(e.from_port, "")
+			if old.is_empty():
+				continue
+			var new_out = get_output_port_by_name(old)
+			if new_out >= 0:
+				graph.connect_node(e.from_node, new_out, e.to_node, e.to_port)
+		elif e.to_node == self.name:
+			var old: String = old_input_mapping.get(e.to_port, "")
+			if old.is_empty():
+				continue
+			var new_out = get_input_port_by_name(old)
+			if new_out >= 0:
+				graph.connect_node(e.from_node, e.from_port, e.to_node, new_out)
+	
+## virtual function, use to rebuild dynamic slots on a node
+func _build_slots() -> void:
 	pass
 
 func update_value(slot: int, value: Variant) -> void:

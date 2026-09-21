@@ -24,19 +24,19 @@ func set_model(m: VtModel):
 	
 	model.modifier_updated.connect(
 		func (field: StringName, _new, _old):
-			if field.begins_with("modifiers/parameters"):
-				self.refresh_fields()
+			if field.begins_with("parameters"):
+				_refresh = true
 	)
 	
-var _built = false
-func build_slots():
-	if _built:
-		return
-		
-	_built = true
+func _build_slots():
+	for prop in get_children():
+		remove_child(prop)
+		prop.queue_free()
+
 	var i = 0
 	var label_width = 0
 	var parameters = model.get_parameters()
+	binding_display.clear()
 	for property in parameters:
 		var meta = parameters[property]
 		var vis = model.get("modifiers/parameters/%s/visible" % property)
@@ -89,52 +89,8 @@ func build_slots():
 		label.size.x = label_width
 	port_count = i
 	_dirty = true
-	
-## when the visible field list changes for a model, the slot ids
-## end up being shifted around.  This function will take the existing
-## connections, disconnect them, and then remap them to the new slots by name
-func refresh_fields():
-	var conns = graph.get_connection_list_from_node(self.name)
-	for c in conns:
-		if c.to_node != self.name:
-			continue
-		var old_port = c.to_port
-		c.slot_name = get_input_slot_name(get_input_slot_by_port(c.to_port))
-		graph.disconnect_node(
-			c.from_node, c.from_port,
-			c.to_node, old_port
-		)
-		
-	# debounce requests so that we only bother with updating slots once per frame
-	_refresh = true
-	await (Engine.get_main_loop() as SceneTree).process_frame
-	if not _refresh:
-		return
-		
-	var i = 0
-	var n = 0
-	ports.clear()
-	slots.clear()
-	for param in model.get_parameters():
-		var vis = model.get("modifiers/parameters/%s/visible" % param)
-		get_node(NodePath(param)).visible = vis
-		if vis:
-			ports[param.to_lower()] = i
-			slots[i] = n
-			i += 1
-		n += 1
-	port_count = i
-		
-	for c in conns:
-		var new_port = get_input_port_by_name(c.slot_name)
-		if new_port != -1:
-			graph.connect_node(
-				c.from_node, c.from_port,
-				c.to_node, new_port
-			)
-	_refresh = false
 	size.y = 0
-
+	
 func unbind(slot: int, node: GraphNode) -> void:
 	var param = get_input_slot_name(get_input_slot_by_port(slot))
 	bindings.erase(param)
@@ -146,12 +102,15 @@ func reset_value(slot: int) -> void:
 	_dirty = true
 	
 func get_input_slot_by_port(port: int) -> int:
-	if port < 0 or port >= port_count:
+	if port < 0 or port >= get_child_count():
 		return -1
-	return slots[port]
+	return port
 	
 func get_input_port_by_name(slot: StringName) -> int:
-	return ports.get(slot.to_lower(), -1)
+	var node = get_node(NodePath(slot))
+	if node:
+		return node.get_index()
+	return -1
 
 func get_output_slot_by_port(port: int) -> int:
 	return -1
@@ -186,6 +145,12 @@ func _update_model():
 	bindings.clear()
 	
 func _process(_delta: float) -> void:
+	if _refresh:
+		build_slots()
+		_refresh = false
+		return
+	
 	_update_model()
 	for param in model.get_parameters().keys():
-		binding_display[param].text = "%1.2f" % model.get("parameters/%s" % [param])
+		if param in binding_display:
+			binding_display[param].text = "%1.2f" % model.get("parameters/%s" % [param])
