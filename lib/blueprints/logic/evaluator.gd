@@ -117,7 +117,7 @@ func update_value(slot: int, value: Variant) -> void:
 		slot_updated.emit(0)
 
 func get_input_slot_name(slot: int) -> StringName:
-	var name = inputs.keys().get(slot)
+	var name = inputs.keys().get(slot - 1)
 	if name == null:
 		name = ""
 	return name
