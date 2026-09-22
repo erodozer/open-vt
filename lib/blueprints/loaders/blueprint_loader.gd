@@ -13,6 +13,6 @@ const GRAPH_NODES_DIR = "res://studio/action_engine/graph"
 static var INPUTS_DIR = GRAPH_NODES_DIR.path_join("inputs")
 static var OUTPUTS_DIR = GRAPH_NODES_DIR.path_join("outputs")
 
-@abstract func load_graph(model: VtModel) -> Array[Blueprint]
+@abstract func load_graph(model: VtModel, path: String = "") -> Array[Blueprint]
 
 @abstract func id() -> StringName

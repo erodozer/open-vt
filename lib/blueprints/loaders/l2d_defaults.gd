@@ -180,7 +180,7 @@ func id() -> StringName:
 	
 ## given a L2D model, create a blueprint using the standard parameter list
 ## https://docs.live2d.com/en/cubism-editor-manual/standard-parameter-list/
-func load_graph(model: VtModel) -> Array[Blueprint]:
+func load_graph(model: VtModel, _path: String = "") -> Array[Blueprint]:
 	if model.modelmeta.format != preload("res://lib/model/formats/l2d/model_loader.gd").new().model_format():
 		return []
 	

@@ -37,7 +37,8 @@ func _ready() -> void:
 	assert(active_model != null, "Model must be set before editor is in scene tree")
 	get_viewport().gui_embed_subwindows = true
 	content_scale_factor = get_tree().root.get_window().content_scale_factor
-	
+		
+	%Profiles.get_tab_bar().tab_rmb_clicked.connect(_on_profiles_tab_menu)
 	
 	self.title = "Model Bindings [%s]" % active_model.display_name
 	
@@ -53,6 +54,8 @@ func _ready() -> void:
 					graphs = await BlueprintManager["loader/vts"].load_graph(active_model)
 				2:
 					graphs = await BlueprintManager["loader/l2d"].load_graph(active_model)
+				3:
+					%ImportGraphDialog.popup_centered()
 			for graph in graphs:
 				%Profiles.add_child(graph, true)
 			%Profiles.current_tab = %Profiles.get_tab_count() - 1
@@ -90,13 +93,51 @@ func _on_close_requested() -> void:
 func _on_profiles_tab_selected(_tab: int) -> void:
 	pass
 
-func _on_profiles_tab_clicked(_tab: int) -> void:
-	if %TabClickTimer.time_left > 0:
-		var popup = preload("./edit_popup.tscn").instantiate()
-		popup.theme = theme
-		popup.graph = %Profiles.get_current_tab_control()
-		popup.tree_entered.connect(%Modal.set_visible.bind(true))
-		popup.tree_exited.connect(%Modal.set_visible.bind(false))
-		%Modal.add_child(popup)
-	else:
-		%TabClickTimer.start()
+#region Edit context menu
+var _editing: Blueprint
+
+func _on_profiles_tab_menu(tab: int) -> void:
+	_editing = %Profiles.get_child(tab)
+	var ctrl = %Profiles.get_tab_bar().get_tab_rect(tab)
+	var pos = %Profiles.get_tab_bar().global_position + ctrl.position + Vector2(0, ctrl.size.y)
+	%EditMenu.set_item_checked(0, _editing.enabled)
+	%EditMenu.position = pos
+	%EditMenu.show()
+	
+func _on_edit_menu_id_pressed(id: int) -> void:
+	match id:
+		0: # Rename popup
+			%RenameDialog/%LineEdit.text = _editing.name
+			%RenameDialog.popup_centered()
+		1: # Move Left
+			%Profiles.move_child(_editing, clamp(_editing.get_index() - 1, 0, %Profiles.get_child_count()))
+		2: # Move Right
+			%Profiles.move_child(_editing, clamp(_editing.get_index() + 1, 0, %Profiles.get_child_count()))
+		3: # Remove
+			%Profiles.remove_child(_editing)
+			_editing.queue_free()
+			_editing = null
+		4: # Export
+			%ExportGraphDialog.popup_centered()
+		5: # Toggle Enabled
+			_editing.enabled = !_editing.enabled
+		
+func _on_edit_menu_popup_hide() -> void:
+	%EditMenu.set_meta("context", null)
+
+func _on_export_graph_dialog_file_selected(path: String) -> void:
+	Files.write_json(
+		path,
+		_editing.serialize()
+	)
+	
+func _on_rename_dialog_confirmed() -> void:
+	_editing.name = %RenameDialog/%LineEdit.text
+
+#endregion
+
+func _on_import_graph_dialog_file_selected(path: String) -> void:
+	var imported = BlueprintManager["loader/ovt"].load_graph(active_model, path)
+	for graph in imported:
+		%Profiles.add_child(graph, true)
+	

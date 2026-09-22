@@ -1,49 +1,113 @@
 [gd_scene format=3 uid="uid://ct02qbajx4kbs"]
 
-[ext_resource type="Script" uid="uid://3kpnuwf7m4uh" path="res://studio/hud/blueprint_editor/edit_popup.gd" id="1_db02v"]
+[sub_resource type="GDScript" id="GDScript_1hnja"]
+script/source = "extends AcceptDialog
 
-[node name="EditPopup" type="AcceptDialog" unique_id=2105187123]
+const Blueprint = preload(\"res://lib/blueprints/blueprint.gd\")
+
+var graph: Blueprint
+
+func _ready() -> void:
+	add_button(\"Delete\", true, \"Delete\")
+	add_cancel_button(\"Cancel\")
+	
+	%ProfileName.text = graph.name
+	%ProfileEnabled.set_pressed_no_signal(graph.process_mode != PROCESS_MODE_DISABLED)
+	
+	position = Vector2i(get_visible_rect().size / 2) + (size / 2)
+	
+	# fix theming
+	var panel: Panel = get_child(0, true)
+	panel.theme_type_variation = \"WindowPanel\"
+	panel.remove_theme_stylebox_override(\"panel\")
+	
+func _on_custom_action(action: StringName) -> void:
+	if action == \"Delete\":
+		graph.get_parent().remove_child(graph)
+		graph.queue_free()
+	close_requested.emit()
+
+func _on_confirmed() -> void:
+	graph.name = %ProfileName.text
+	graph.process_mode = PROCESS_MODE_INHERIT if %ProfileEnabled.button_pressed else PROCESS_MODE_DISABLED
+	close_requested.emit()
+
+func _on_close_requested() -> void:
+	queue_free()
+
+func _on_canceled() -> void:
+	close_requested.emit()
+"
+
+[node name="EditPopup" type="Window" unique_id=546347376]
 oversampling_override = 1.0
 title = "Edit Blueprint Properties"
 initial_position = 2
-size = Vector2i(449, 122)
-visible = true
+size = Vector2i(480, 229)
+transient = true
 unresizable = true
-ok_button_text = "Save"
-dialog_hide_on_ok = false
-script = ExtResource("1_db02v")
+script = SubResource("GDScript_1hnja")
 
-[node name="VBoxContainer" type="GridContainer" parent="." unique_id=186279384]
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 441.0
-offset_bottom = 73.0
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1851810600]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=1984571271]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="GridContainer" parent="PanelContainer/HBoxContainer" unique_id=186279384]
+layout_mode = 2
 theme_override_constants/h_separation = 12
 theme_override_constants/v_separation = 8
 columns = 2
 
-[node name="Label" type="Label" parent="VBoxContainer" unique_id=1306057360]
+[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer2" unique_id=1306057360]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Name"
 
-[node name="ProfileName" type="LineEdit" parent="VBoxContainer" unique_id=238039706]
+[node name="ProfileName" type="LineEdit" parent="PanelContainer/HBoxContainer/VBoxContainer2" unique_id=238039706]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(360, 0)
 layout_mode = 2
 placeholder_text = "Default"
 alignment = 2
 
-[node name="Label2" type="Label" parent="VBoxContainer" unique_id=1533837175]
+[node name="Label2" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer2" unique_id=1533837175]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Enabled"
 
-[node name="ProfileEnabled" type="CheckButton" parent="VBoxContainer" unique_id=988816523]
+[node name="ProfileEnabled" type="CheckButton" parent="PanelContainer/HBoxContainer/VBoxContainer2" unique_id=988816523]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 flat = true
 
-[connection signal="canceled" from="." to="." method="_on_canceled"]
+[node name="VBoxContainer" type="HBoxContainer" parent="PanelContainer/HBoxContainer" unique_id=305409539]
+layout_mode = 2
+
+[node name="Button4" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer" unique_id=125186166]
+layout_mode = 2
+text = "Export"
+
+[node name="Control" type="Control" parent="PanelContainer/HBoxContainer/VBoxContainer" unique_id=374581118]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button2" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer" unique_id=657607245]
+layout_mode = 2
+text = "Remove"
+
+[node name="Button" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer" unique_id=215169209]
+layout_mode = 2
+text = "Cancel"
+
+[node name="Button3" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer" unique_id=1546091382]
+layout_mode = 2
+text = "Save"
+
 [connection signal="close_requested" from="." to="." method="_on_close_requested"]
-[connection signal="confirmed" from="." to="." method="_on_confirmed"]
-[connection signal="custom_action" from="." to="." method="_on_custom_action"]

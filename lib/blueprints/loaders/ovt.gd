@@ -5,21 +5,27 @@ const Serializers = preload("res://lib/utils/serializers.gd")
 func id() -> StringName:
 	return "ovt"
 	
-func load_graph(model: VtModel) -> Array:
-	var ovt_data: Dictionary = Files.read_json(model.modelmeta.openvt_parameters)
-	if ovt_data.is_empty():
+func load_graph(model: VtModel, path: String = model.modelmeta.openvt_parameters) -> Array:
+	var data: Dictionary = Files.read_json(path)
+	if data.is_empty():
 		return []
 		
-	var graphs: Dictionary = ovt_data.get("graphs", {})
-	if graphs.is_empty():
-		return []
-	
 	var valid_graphs = []
-	for profile in graphs:
+	if "graphs" in data: # model data may hold multiple graphs
+		var graphs = data.get("graphs")
+		for profile in graphs:
+			var graph: Blueprint = BlueprintTemplate.instantiate()
+			graph.name = profile
+			add_child(graph)
+			_deserialize(graph, model, graphs[profile])
+			if graph.get_child_count() > 0:
+				valid_graphs.append(graph)
+			remove_child(graph)
+	else: # assume the file itself is a single blueprint
 		var graph: Blueprint = BlueprintTemplate.instantiate()
-		graph.name = profile
+		graph.name = data.get("name", "Blueprint")
 		add_child(graph)
-		_deserialize(graph, model, graphs[profile])
+		_deserialize(graph, model, data)
 		if graph.get_child_count() > 0:
 			valid_graphs.append(graph)
 		remove_child(graph)

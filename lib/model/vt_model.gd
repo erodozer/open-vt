@@ -142,7 +142,7 @@ func save_settings(_settings: Dictionary = {}):
 	var serializer = Serializers.ObjSerializer
 	model_data["modifiers"] = modifier_map.keys().reduce(
 		func (acc, k):
-			var group = modifier_map
+			var group = k
 			var modifier_set = modifier_map[k]
 			acc[group] = Collections.remap(modifier_set, func (v): return Serializers.ObjSerializer.to_json(v))
 			return acc,

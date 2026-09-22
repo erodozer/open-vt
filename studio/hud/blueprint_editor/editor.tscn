@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://db42rl050i8ey" path="res://studio/hud/blueprint_editor/editor.gd" id="1_i8a08"]
 [ext_resource type="PackedScene" uid="uid://dgmc2ouh0pqwh" path="res://studio/hud/blueprint_editor/palette.tscn" id="2_gl8b5"]
 [ext_resource type="Texture2D" uid="uid://bdb8qf25rndd4" path="res://ui/icons/plus.svg" id="2_ira4j"]
-[ext_resource type="PackedScene" uid="uid://d2a67yxp08esv" path="res://ui/modal/modal.tscn" id="4_cinyh"]
 
 [node name="BlueprintEditor" type="Window" unique_id=1090118760 groups=["persist:model"]]
 disable_3d = true
@@ -41,13 +40,17 @@ size_flags_horizontal = 4
 icon = ExtResource("2_ira4j")
 flat = false
 icon_alignment = 1
-item_count = 3
+item_count = 5
 popup/item_0/text = "New Blueprint"
 popup/item_0/id = 0
-popup/item_1/text = "Reimport VTS Bindings"
-popup/item_1/id = 1
-popup/item_2/text = "Auto-Setup"
-popup/item_2/id = 2
+popup/item_1/text = "Import Blueprint"
+popup/item_1/id = 3
+popup/item_2/id = 0
+popup/item_2/separator = true
+popup/item_3/text = "Reimport VTS Bindings"
+popup/item_3/id = 1
+popup/item_4/text = "Auto-Setup"
+popup/item_4/id = 2
 
 [node name="Palette" parent="PanelContainer/HBoxContainer/Control" unique_id=76400097 instance=ExtResource("2_gl8b5")]
 unique_name_in_owner = true
@@ -72,17 +75,78 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+drag_to_rearrange_enabled = true
 
 [node name="TabClickTimer" type="Timer" parent="." unique_id=209422743]
 unique_name_in_owner = true
 wait_time = 0.2
 one_shot = true
 
-[node name="Modal" parent="." unique_id=360995822 instance=ExtResource("4_cinyh")]
+[node name="ImportGraphDialog" type="FileDialog" parent="." unique_id=2078452974]
 unique_name_in_owner = true
-visible = false
+title = "Open a File"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.blueprint;OVT Blueprint;")
+use_native_dialog = true
+
+[node name="ExportGraphDialog" type="FileDialog" parent="." unique_id=1967139278]
+unique_name_in_owner = true
+access = 2
+filters = PackedStringArray("*.blueprint;OVT Blueprint;")
+use_native_dialog = true
+
+[node name="EditMenu" type="PopupMenu" parent="." unique_id=513899575]
+unique_name_in_owner = true
+allow_search = false
+item_count = 8
+item_0/text = "Enabled"
+item_0/checkable = 1
+item_0/checked = true
+item_0/id = 5
+item_1/text = "Rename"
+item_1/id = 0
+item_2/text = "Move Left"
+item_2/id = 1
+item_3/text = "Move Right"
+item_3/id = 2
+item_4/id = 0
+item_4/separator = true
+item_5/text = "Delete"
+item_5/id = 3
+item_6/id = 6
+item_6/separator = true
+item_7/text = "Export"
+item_7/id = 4
+
+[node name="RenameDialog" type="AcceptDialog" parent="." unique_id=497205366]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "Rename"
+size = Vector2i(320, 100)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RenameDialog" unique_id=100230578]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 312.0
+offset_bottom = 51.0
+
+[node name="Label" type="Label" parent="RenameDialog/HBoxContainer" unique_id=373973663]
+custom_minimum_size = Vector2(84, 0)
+layout_mode = 2
+text = "Name"
+
+[node name="LineEdit" type="LineEdit" parent="RenameDialog/HBoxContainer" unique_id=1801107417]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
 
 [connection signal="close_requested" from="." to="." method="_on_close_requested"]
 [connection signal="create_node" from="PanelContainer/HBoxContainer/Control/Palette" to="." method="_on_palette_create_node"]
+[connection signal="gui_input" from="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer/Profiles" to="." method="_on_profiles_gui_input"]
 [connection signal="tab_changed" from="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer/Profiles" to="." method="_on_profiles_tab_selected"]
-[connection signal="tab_clicked" from="PanelContainer/HBoxContainer/VBoxContainer/PanelContainer/Profiles" to="." method="_on_profiles_tab_clicked"]
+[connection signal="file_selected" from="ImportGraphDialog" to="." method="_on_import_graph_dialog_file_selected"]
+[connection signal="file_selected" from="ExportGraphDialog" to="." method="_on_export_graph_dialog_file_selected"]
+[connection signal="id_pressed" from="EditMenu" to="." method="_on_edit_menu_id_pressed"]
+[connection signal="popup_hide" from="EditMenu" to="." method="_on_edit_menu_popup_hide"]
+[connection signal="confirmed" from="RenameDialog" to="." method="_on_rename_dialog_confirmed"]

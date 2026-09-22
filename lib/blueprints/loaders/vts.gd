@@ -264,9 +264,9 @@ func _build_parameter_graph(model: VtModel, vtube_data: Dictionary) -> Blueprint
 	return graph
 	
 ## adapts bindings from VTS into our action graph
-func load_graph(model: VtModel) -> Array[Blueprint]:
+func load_graph(model: VtModel, path: String = model.modelmeta.studio_parameters) -> Array[Blueprint]:
 	# load vts hotkey settings
-	if not model.modelmeta.studio_parameters:
+	if not path:
 		return []
 	var vtube_data = Files.read_json(model.modelmeta.studio_parameters)
 	

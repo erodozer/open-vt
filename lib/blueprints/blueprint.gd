@@ -69,6 +69,7 @@ func spawn_action(action_type, model: VtModel, initial_parameters: Dictionary = 
 	return node
 
 var graph_elements: Dictionary[String, GraphNode] = {}
+var enabled: bool = true
 
 func _ready() -> void:
 	add_valid_connection_type(VtAction.SlotType.VECTOR, VtAction.SlotType.NUMERIC)
@@ -144,6 +145,8 @@ func _on_child_exiting_tree(node: Node) -> void:
 	node.slot_updated.disconnect(_on_action.bind(node))
 		
 func _on_action(from_port: int, node: VtAction):
+	if not enabled:
+		return
 	for conn in get_connection_list():
 		if not (conn.from_node == node.name and conn.from_port == from_port):
 			continue
@@ -204,7 +207,8 @@ func serialize() -> Dictionary:
 		})
 		
 	return {
-		"enabled": process_mode != PROCESS_MODE_DISABLED,
+		"name": self.name,
+		"enabled": enabled,
 		"nodes": nodes,
 		"bindings": bindings,
 	}

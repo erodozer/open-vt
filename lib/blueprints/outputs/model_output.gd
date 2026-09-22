@@ -145,6 +145,9 @@ func _update_model():
 	bindings.clear()
 	
 func _process(_delta: float) -> void:
+	if not graph.enabled:
+		return
+	
 	if _refresh:
 		build_slots()
 		_refresh = false
