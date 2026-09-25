@@ -156,7 +156,7 @@ text = "Application FPS Limit"
 
 [node name="FPS" type="OptionButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/HBoxContainer3" unique_id=406626487]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(120, 0)
+custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 alignment = 2
 selected = 0
@@ -180,7 +180,7 @@ vertical_alignment = 1
 
 [node name="BackgroundModeSelector" type="OptionButton" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/BackgroundMode" unique_id=1337679399]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(120, 0)
+custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 alignment = 2
 item_count = 4
@@ -241,6 +241,24 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 text = "..."
+
+[node name="CameraFOV" type="HBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer" unique_id=682597613]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/CameraFOV" unique_id=549451558]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Camera FOV"
+vertical_alignment = 1
+
+[node name="FovDegrees" type="SpinBox" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer/CameraFOV" unique_id=626464792]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+min_value = 1.0
+value = 10.0
+alignment = 2
 
 [node name="VirtualWebcam" type="VBoxContainer" parent="ScrollContainer/Accordion/Application Settings/VBoxContainer" unique_id=1526479688]
 unique_name_in_owner = true

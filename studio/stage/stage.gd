@@ -52,6 +52,7 @@ var background_color: Color = Color.BLACK :
 var active_model: VtModel
 @onready var canvas = %ModelLayer
 @onready var capture_viewport = %SubViewport
+@onready var camera_3d = %Camera3D
 
 signal model_changed(model: VtModel)
 signal item_added(item: VtItem)

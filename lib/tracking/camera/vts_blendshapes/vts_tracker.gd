@@ -7,6 +7,13 @@ extends "../blendshape_tracker.gd"
 const BidirectionalTracker = preload("res://lib/tracking/net/bidirectional_tracker.gd")
 const Serializers = preload("res://lib/utils/serializers.gd")
 
+## Joint tracking flags
+const JOINT_TRACKING = \
+	XRBodyTracker.JOINT_FLAG_ORIENTATION_TRACKED | \
+	XRBodyTracker.JOINT_FLAG_ORIENTATION_VALID | \
+	XRBodyTracker.JOINT_FLAG_POSITION_TRACKED | \
+	XRBodyTracker.JOINT_FLAG_POSITION_VALID
+
 class TrackingData:
 	@export var Position: Vector3 = Vector3.ZERO
 	@export var Rotation: Vector3 = Vector3.ZERO
@@ -18,6 +25,18 @@ var server: BidirectionalTracker
 
 var poller: Timer
 
+static var tracker: XRBodyTracker = XRBodyTracker.new()
+
+static func _static_init() -> void:
+	tracker.name = "/arkit/head"
+	tracker.body_flags = XRBodyTracker.BODY_FLAG_UPPER_BODY_SUPPORTED
+	for i in range(XRBodyTracker.JOINT_MAX):
+		tracker.set_joint_flags(i, 0)
+	tracker.set_joint_flags(XRBodyTracker.JOINT_HEAD, JOINT_TRACKING)
+	tracker.set_joint_flags(XRBodyTracker.JOINT_ROOT, JOINT_TRACKING)
+	
+	XRServer.add_tracker(tracker)
+	
 func _ready():
 	server = BidirectionalTracker.new()
 	server.host = "0.0.0.0"
@@ -54,17 +73,27 @@ func _packet_received(packet: PackedByteArray):
 	if content:
 		var msg = JSON.parse_string(content)
 		var data: TrackingData = Serializers.ObjSerializer.from_json(msg, TrackingData.new())
+		tracker.has_tracking_data = true
 		_data_received(data)
-
+	
 func _data_received(data: TrackingData):
-	var parameters = {
-		"FacePositionX": data.Position.x,
-		"FacePositionY": data.Position.y * -1, # Y & Z coordinates are flipped
-		"FacePositionZ": data.Position.z * -1,
-		"FaceAngleX": data.Rotation.x,
-		"FaceAngleY": data.Rotation.y * -1,
-		"FaceAngleZ": data.Rotation.z * -1,
-	}
+	var parameters = {}
+	tracker.set_joint_transform(XRBodyTracker.JOINT_HEAD, Transform3D(
+		Basis(
+			Quaternion.from_euler(Vector3(
+				deg_to_rad(data.Rotation.y),
+				deg_to_rad(data.Rotation.x),
+				deg_to_rad(data.Rotation.z),
+			))
+		),
+		Vector3.ZERO
+	))
+	
+	tracker.set_joint_transform(XRBodyTracker.JOINT_ROOT, Transform3D(
+		Basis(Quaternion.IDENTITY),
+		data.Position
+	))
+	
 	for parameter in data.BlendShapes:
 		# VTS uses different names for each blendshape
 		var key = parameter.k.replace("_L", "Left").replace("_R", "Right").to_pascal_case()

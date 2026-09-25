@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://ddjkgl761gas0"]
 
 [ext_resource type="PackedScene" uid="uid://d30mduusp81ch" path="res://ui/search/search.tscn" id="1_38moy"]
+[ext_resource type="Script" uid="uid://y2aac660t7ag" path="res://ui/expanding_scroll_container.gd" id="2_inc1s"]
 
 [node name="Modifiers" type="PanelContainer" unique_id=332123425]
-custom_minimum_size = Vector2(0, 600)
 size_flags_vertical = 3
 theme_type_variation = &"SubPanelContainer"
 
@@ -11,12 +11,15 @@ theme_type_variation = &"SubPanelContainer"
 layout_mode = 2
 
 [node name="Search" parent="VBoxContainer" unique_id=1218506196 node_paths=PackedStringArray("list") instance=ExtResource("1_38moy")]
+unique_name_in_owner = true
 layout_mode = 2
 list = NodePath("../ScrollContainer/Items")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer" unique_id=1967700398]
 layout_mode = 2
 size_flags_vertical = 3
+script = ExtResource("2_inc1s")
+maximum_size = Vector2(0, 500)
 
 [node name="Items" type="VBoxContainer" parent="VBoxContainer/ScrollContainer" unique_id=1918861227]
 unique_name_in_owner = true

@@ -33,6 +33,10 @@ func add_fold(section: Node):
 	if select_mode == Mode.MULTI:
 		btn.button_group = button_group
 	btn.link = section
+	section.tree_exiting.connect(
+		func ():
+			btn.queue_free()
+	)
 	
 	# add sibling before
 	add_child(btn)

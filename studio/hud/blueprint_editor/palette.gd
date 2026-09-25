@@ -1,8 +1,19 @@
 extends Control
 
+const VtModel = preload("res://lib/model/vt_model.gd")
+
 var _mapping: Dictionary[StringName, PackedScene] = {}
 
 signal create_node(action: VtAction)
+
+var model: VtModel :
+	set(m):
+		model = m
+		for i in get_children():
+			if i.get_meta("is_3d", false) and not model.is_3D:
+				i.visible = false
+			if i.get_meta("is_2d", false) and model.is_3D:
+				i.visible = false
 
 func _ready():
 	tracker_options()
@@ -41,6 +52,13 @@ func tracker_options():
 				return node,
 		)
 		idx += 1
+	add_trackers.get_popup().add_item("Add XR Tracker")
+	add_trackers.get_popup().set_item_metadata(
+		idx,
+		func ():
+			var node = preload("res://lib/blueprints/inputs/xr_tracker_input.tscn").instantiate()
+			return node,
+	)
 	
 func arithmetic_options():
 	var arithmetic: MenuButton = %Math

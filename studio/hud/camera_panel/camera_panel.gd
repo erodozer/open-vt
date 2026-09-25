@@ -100,6 +100,11 @@ func _ready() -> void:
 				4: # Clear Settings
 					Preferences.reset()
 	)
+	%FovDegrees.value_changed.connect(
+		func (value):
+			var stage = get_tree().get_first_node_in_group("system:stage")
+			stage.camera_3d.fov = value
+	)
 	
 func _on_tracker_system_tracker_changed(new_tracker: Tracker) -> void:
 	var config = Control.new()
@@ -136,6 +141,7 @@ func load_settings(data: Dictionary):
 	_on_fps_value_item_selected(%FPS.get_selected_id())
 	%UITheme.select(Collections.path(data, "window.theme", 0))
 	_on_ui_theme_item_selected(%UITheme.selected)
+	%FovDegrees.value = Collections.path(data, "window.fov", 10.0)
 	
 	var tracking_system = get_tree().get_first_node_in_group("system:tracking")
 	if tracking_system:
@@ -152,6 +158,7 @@ func save_settings(data: Dictionary):
 	w["background_image"] = %BackgroundImageSelector.get_meta("filepath")
 	w["fps"] = %FPS.get_selected_id()
 	w["theme"] = %UITheme.selected
+	w["fov"] = %FovDegrees.value
 	var c = data.get("trackers", {})
 	c["source"] = %TrackingSource.get_selected_id()
 	data["window"] = w

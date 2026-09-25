@@ -156,4 +156,7 @@ func _process(_delta: float) -> void:
 	_update_model()
 	for param in model.get_parameters().keys():
 		if param in binding_display:
-			binding_display[param].text = "%1.2f" % model.get("parameters/%s" % [param])
+			var value = model.get("parameters/%s" % [param])
+			if value == null:
+				value = 0.0
+			binding_display[param].text = "%1.2f" % value

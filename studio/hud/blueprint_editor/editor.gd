@@ -23,6 +23,7 @@ var active_model: VtModel :
 				queue_free()
 		)
 		active_model = model
+		%Palette.model = active_model
 
 var active_profile: int :
 	get():
@@ -53,7 +54,11 @@ func _ready() -> void:
 				1:
 					graphs = await BlueprintManager["loader/vts"].load_graph(active_model)
 				2:
-					graphs = await BlueprintManager["loader/l2d"].load_graph(active_model)
+					for loader in BlueprintManager.formats:
+						# try default loaders (path-less)
+						graphs = await loader.load_graph(active_model, "")
+						if not graphs.is_empty():
+							break
 				3:
 					%ImportGraphDialog.popup_centered()
 			for graph in graphs:

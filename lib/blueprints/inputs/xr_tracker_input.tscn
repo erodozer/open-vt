@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://7uqxsqvewrt6"]
+
+[ext_resource type="Script" uid="uid://38nqocync5i2" path="res://lib/blueprints/inputs/xr_tracker_input.gd" id="1_opj5q"]
+
+[node name="XrTrackerInput" type="GraphNode" unique_id=2121359892]
+custom_minimum_size = Vector2(160, 0)
+offset_right = 120.0
+offset_bottom = 81.0
+title = "XR Tracker"
+slot/0/left_enabled = false
+slot/0/left_type = 1
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = false
+slot/0/right_type = 1
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+script = ExtResource("1_opj5q")
+
+[node name="Input" type="VBoxContainer" parent="." unique_id=1637818209]
+layout_mode = 2
+
+[node name="Tracker" type="OptionButton" parent="Input" unique_id=1871338715]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+alignment = 2

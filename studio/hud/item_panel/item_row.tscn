@@ -220,14 +220,17 @@ suffix = "%"
 layout_mode = 2
 
 [node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Rotation" unique_id=93511029]
-custom_minimum_size = Vector2(96, 0)
+custom_minimum_size = Vector2(96, 32)
 layout_mode = 2
+size_flags_vertical = 0
 theme_type_variation = &"FieldLabel"
 text = "Rotation"
+vertical_alignment = 1
 
 [node name="RotateReset" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Rotation" unique_id=1593526081]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+size_flags_vertical = 0
 tooltip_text = "Reset Rotation"
 focus_mode = 0
 icon = ExtResource("11_tvvwp")
@@ -237,6 +240,7 @@ expand_icon = true
 [node name="RotateLeft90" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Rotation" unique_id=609147518]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+size_flags_vertical = 0
 tooltip_text = "Rotate Left 90 Degrees"
 focus_mode = 0
 icon = ExtResource("12_llnwn")
@@ -246,15 +250,20 @@ expand_icon = true
 [node name="RotateRight90" type="Button" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Rotation" unique_id=1687524392]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+size_flags_vertical = 0
 tooltip_text = "Rotate Right 90 Degrees"
 focus_mode = 0
 icon = ExtResource("13_ejsof")
 icon_alignment = 1
 expand_icon = true
 
-[node name="Rotation" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Rotation" unique_id=763646850]
+[node name="Fields" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Rotation" unique_id=1487384385]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Rotation" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Rotation/Fields" unique_id=763646850]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(96, 0)
+custom_minimum_size = Vector2(96, 32)
 layout_mode = 2
 size_flags_horizontal = 10
 max_value = 360.0
@@ -264,6 +273,45 @@ allow_greater = true
 allow_lesser = true
 alignment = 2
 suffix = "°"
+
+[node name="Rotation3D" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Rotation/Fields" unique_id=1426109353]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="X" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Rotation/Fields/Rotation3D" unique_id=1814588224]
+custom_minimum_size = Vector2(96, 32)
+layout_mode = 2
+size_flags_horizontal = 10
+max_value = 360.0
+step = 0.01
+allow_greater = true
+allow_lesser = true
+alignment = 2
+suffix = "° X"
+
+[node name="Y" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Rotation/Fields/Rotation3D" unique_id=386831719]
+custom_minimum_size = Vector2(96, 32)
+layout_mode = 2
+size_flags_horizontal = 10
+max_value = 360.0
+step = 0.01
+value = 359.41
+allow_greater = true
+allow_lesser = true
+alignment = 2
+suffix = "° Y"
+
+[node name="Z" type="SpinBox" parent="HBoxContainer/VBoxContainer/Transformation/Fields/Rotation/Fields/Rotation3D" unique_id=1271974798]
+custom_minimum_size = Vector2(96, 32)
+layout_mode = 2
+size_flags_horizontal = 10
+max_value = 360.0
+step = 0.01
+value = 359.41
+allow_greater = true
+allow_lesser = true
+alignment = 2
+suffix = "° Z"
 
 [node name="ModelControls" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1838614656]
 unique_name_in_owner = true

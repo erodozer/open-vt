@@ -6,6 +6,7 @@ const VtObject = preload("res://lib/vtobject.gd")
 
 @export var model: VtModel
 @export var item: VtObject
+var item_model: VtModel
 
 var _lock_transform = false
 
@@ -17,6 +18,7 @@ func _ready() -> void:
 		%ZControls.hide()
 		%DeleteButton.hide()
 		%ModelControls.show()
+		item_model = item
 	else:
 		item.pin_changed.connect(_update_pin_name)
 		%PinToggle.button_pressed = item.pinnable
@@ -29,13 +31,25 @@ func _ready() -> void:
 		elif item.item_type == VtItem.ItemType.MODEL:
 			%Icon.icon = preload("./motion.svg")
 			%ModelControls.show()
+			item_model = item.model
+	
+	if item_model and item_model.get_expression_controller() == null:
+		%ModelControls/Expression.hide()
 	
 	_on_transform_update(item.position, item.scale, item.rotation_degrees, Vector2.ZERO, Vector3.ZERO)
 	item.transform_updated.connect(_on_transform_update)
 	%XValue.value_changed.connect(_update_transform)
 	%YValue.value_changed.connect(_update_transform)
 	%Scale.value_changed.connect(_update_transform)
-	%Rotation.value_changed.connect(_update_transform)
+	
+	if item.is_3D:
+		%Rotation3D/X.value_changed.connect(_update_transform)
+		%Rotation3D/Y.value_changed.connect(_update_transform)
+		%Rotation3D/Z.value_changed.connect(_update_transform)
+		%Rotation.hide()
+	else:
+		%Rotation.value_changed.connect(_update_transform)
+		%Rotation3D.hide()
 
 func _update_pin_name(mesh: MeshInstance2D) -> void:
 	if mesh == null:
@@ -82,6 +96,9 @@ func _on_transform_update(position: Vector2, scale: Vector2, rotation: float, of
 	%YValue.set_value_no_signal(position.y)
 	%Scale.set_value_no_signal(scale.x * 100.0)
 	%Rotation.set_value_no_signal(rotation)
+	%Rotation3D/X.set_value_no_signal(rad_to_deg(ypr.x))
+	%Rotation3D/Y.set_value_no_signal(rad_to_deg(ypr.y))
+	%Rotation3D/Z.set_value_no_signal(rad_to_deg(ypr.z))
 
 func _update_transform(_value):
 	if _lock_transform:
@@ -94,6 +111,12 @@ func _update_transform(_value):
 	)
 	item.scale = Vector2.ONE * %Scale.value / 100.0
 	item.rotation_degrees = fmod(%Rotation.value, 360.0)
+	item.free_rotation = Vector3(
+		deg_to_rad(fmod(%Rotation3D/X.value, 360.0)),
+		deg_to_rad(fmod(%Rotation3D/Y.value, 360.0)),
+		deg_to_rad(fmod(%Rotation3D/Z.value, 360.0))
+	)
+	item.notify_transform_updated()
 	_lock_transform = false
 
 func _on_edit_bindings_pressed() -> void:
@@ -105,7 +128,8 @@ func _on_edit_bindings_pressed() -> void:
 			var editor = load("res://studio/hud/blueprint_editor/editor.tscn").instantiate()
 			editor.active_model = item if item is VtModel else item.render as VtModel
 			editor.visible = true
-			item.tree_exiting.connect(WindowManager.close_popup.bind(key))
+			
+			item.tree_exiting.connect(editor.queue_free, CONNECT_ONE_SHOT)
 			
 			return editor
 	)
@@ -190,16 +214,26 @@ func _on_model_settings_pressed() -> void:
 
 func _on_rotate_reset_pressed() -> void:
 	%Rotation.editable = false
-	var target = 360.0 if 360.0 - %Rotation.value < %Rotation.value else 0.0
+	%Rotation3D/X.editable = false
+	%Rotation3D/Y.editable = false
+	%Rotation3D/Z.editable = false
 		
 	var t = create_tween()
-	t.tween_property(
-		%Rotation, "value", target, 0.2
-	).set_trans(Tween.TRANS_QUAD)
+	if item.is_3D:
+		t.tween_property(
+			item, "free_rotation", Vector3.ZERO, 0.2
+		).set_trans(Tween.TRANS_QUAD)
+	else:
+		t.tween_property(
+			item, "rotation", lerp_angle(item.rotation, 0, 1.0), 0.2
+		).set_trans(Tween.TRANS_QUAD)
 	t.tween_callback(
 		func ():
-			%Rotation.value = wrapi(%Rotation.value, %Rotation.min_value, %Rotation.max_value)
+			item.notify_transform_updated()
 			%Rotation.editable = true
+			%Rotation3D/X.editable = true
+			%Rotation3D/Y.editable = true
+			%Rotation3D/Z.editable = true
 	)
 
 func _on_rotate_pressed(degrees: float) -> void:

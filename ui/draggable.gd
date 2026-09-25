@@ -39,6 +39,14 @@ var center: Vector2 :
 var free_rotation: Vector3
 var free_offset: Vector2 = Vector2.ZERO
 
+@export var is_3D: bool = false
+
+func _init() -> void:
+	item_rect_changed.connect(
+		func ():
+			notify_transform_updated()
+	)
+
 func _draw() -> void:
 	if debug:
 		draw_rect(
@@ -149,5 +157,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		_update_rect()
 
 func notify_transform_updated():
+	queue_redraw()
 	transform_updated.emit(global_position, scale, rotation_degrees, free_offset, free_rotation)
 	

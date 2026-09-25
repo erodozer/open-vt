@@ -144,7 +144,10 @@ func save_settings(_settings: Dictionary = {}):
 		func (acc, k):
 			var group = k
 			var modifier_set = modifier_map[k]
-			acc[group] = Collections.remap(modifier_set, func (v): return Serializers.ObjSerializer.to_json(v))
+			if modifier_set is Dictionary:
+				acc[group] = Collections.remap(modifier_set, func (v): return Serializers.ObjSerializer.to_json(v))
+			else:
+				acc[group] = Serializers.ObjSerializer.to_json(modifier_set)
 			return acc,
 		{}
 	)
@@ -158,11 +161,17 @@ func _get(property: StringName) -> Variant:
 		property = property.trim_prefix("modifiers/")
 		var segments = property.split("/")
 		var type = segments[0]
-		var target = segments[1]
-		var field = segments[2]
 		if type not in modifier_map:
 			return null
-		var settings: ModelModifier = modifier_map[type].get(target)
+		var settings: ModelModifier
+		var field: String
+		if modifier_map[type] is Dictionary:
+			var target = segments[1]
+			field = segments[2]
+			settings = modifier_map[type].get(target)
+		else:
+			settings = modifier_map[type]
+			field = segments[1]
 		if not settings:
 			return null
 		var value = settings.get(field)
@@ -179,13 +188,19 @@ func _property_get_revert(property: StringName) -> Variant:
 		property = property.trim_prefix("modifiers/")
 		var segments = property.split("/")
 		var type = segments[0]
-		var target = segments[1]
-		var field = segments[2]
 		
 		if type not in modifier_map:
 			return null
 		
-		var settings: ModelModifier = modifier_map[type][target]
+		var settings: ModelModifier
+		var field: String
+		if modifier_map[type] is Dictionary:
+			var target = segments[1]
+			field = segments[2]
+			settings = modifier_map[type].get(target)
+		else:
+			settings = modifier_map[type]
+			field = segments[1]
 		return settings.property_get_revert(field)
 	elif property.begins_with("store/"):
 		property = property.trim_prefix("store/")
@@ -198,12 +213,19 @@ func _set(property: StringName, value: Variant) -> bool:
 		property = property.trim_prefix("modifiers/")
 		var parts = property.split("/")
 		var type = parts[0]
-		var target = parts[1]
-		var field = parts[2]
 		if type not in modifier_map:
 			return false
-			
-		var modifier: ModelModifier = modifier_map[type][target]
+		
+		var modifier: ModelModifier
+		var field: String
+		if modifier_map[type] is Dictionary:
+			var target = parts[1]
+			modifier = modifier_map[type][target]
+			field = parts[2]
+		else:
+			modifier = modifier_map[type]
+			field = parts[1]
+		
 		if field not in modifier:
 			return false
 		
@@ -231,12 +253,22 @@ func _get_property_list() -> Array[Dictionary]:
 	
 	for prefix in modifier_map:
 		var settings = modifier_map[prefix]
-		for p in settings:
-			var modifier = settings[p]
-			for prop in modifier.get_property_list():
-				if prop.usage & PROPERTY_USAGE_STORAGE and not (prop.usage & PROPERTY_USAGE_INTERNAL):
+		if settings is Dictionary:
+			for p in settings:
+				var modifier = settings[p]
+				for prop in modifier.get_property_list():
+					if (prop.usage & PROPERTY_USAGE_STORAGE or prop.usage & PROPERTY_USAGE_READ_ONLY) and not (prop.usage & PROPERTY_USAGE_INTERNAL):
+						properties.append({
+							"name": "modifiers/{0}/{1}/{2}".format([prefix, p, prop.name]),
+							"type": prop.type,
+							"hint": prop.hint,
+							"hint_string": prop.hint_string,
+						})
+		else:
+			for prop in settings.get_property_list():
+				if (prop.usage & PROPERTY_USAGE_STORAGE or prop.usage & PROPERTY_USAGE_READ_ONLY) and not (prop.usage & PROPERTY_USAGE_INTERNAL):
 					properties.append({
-						"name": "modifiers/{0}/{1}/{2}".format([prefix, p, prop.name]),
+						"name": "modifiers/{0}/{1}".format([prefix, prop.name]),
 						"type": prop.type,
 						"hint": prop.hint,
 						"hint_string": prop.hint_string,

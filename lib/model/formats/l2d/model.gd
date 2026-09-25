@@ -9,18 +9,21 @@ const ParameterModifier = preload("./modifiers/parameter_modifier.gd")
 const PartModifier = preload("./modifiers/part_modifier.gd")
 const MeshModifier = preload("./modifiers/mesh_modifier.gd")
 
+var model_settings: ModelModifier
 var param_settings: Dictionary[StringName, ModelModifier] = {}
 var part_settings: Dictionary[StringName, ModelModifier] = {}
 var mesh_settings: Dictionary[StringName, ModelModifier] = {}
 
 func get_modifier_map():
 	return {
+		"model": model_settings,
 		"parts": part_settings,
 		"meshes": mesh_settings,
 		"parameters": param_settings
 	}
 
 func _ready() -> void:
+	model_settings = preload("./modifiers/base_modifier.gd").new(self)
 	container = preload("./pixel_subviewport.tscn").instantiate()
 	add_child(container)
 
@@ -67,20 +70,8 @@ func _set(property: StringName, value: Variant) -> bool:
 		if not property.ends_with("/range") and not property.ends_with("/default"):
 			model.set(property, value)
 			return true
-
-	if property == "texture_filter":
-		texture_filter = value
-		_adjust_filter()
-		return true
-
+	
 	return false
-		
-func _adjust_filter():
-	if texture_filter == CanvasItem.TEXTURE_FILTER_NEAREST_WITH_MIPMAPS_ANISOTROPIC and smoothing:
-		container.model = model
-	else:
-		model.reparent(self, false)
-		container.model = null
 		
 func _get_property_list() -> Array[Dictionary]:
 	var properties: Array[Dictionary] = []

@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://owuq1fj5j58k"]
+
+[ext_resource type="Script" uid="uid://bjb0lhay23uks" path="res://lib/blueprints/outputs/skeleton_output.gd" id="1_lw66c"]
+
+[node name="Skeleton" type="GraphNode" unique_id=47841078]
+custom_minimum_size = Vector2(250, 0)
+offset_right = 250.0
+offset_bottom = 55.0
+title = "Skeleton Driver"
+script = ExtResource("1_lw66c")

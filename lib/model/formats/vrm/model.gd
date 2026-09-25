@@ -29,15 +29,20 @@ const VRM_BLENDSHAPES : PackedStringArray = [
 
 var model: Node3D
 var container: Node
-var vp: SubViewport
-var camera: Camera3D
 
-var blendshapes_meshes = {}
+var skeleton: Skeleton3D
+var face_tracker = AnimationTree.new()
+var body_tracker = XRBodyModifier3D.new()
 
+@onready var model_settings: ModelModifier = preload("./modifiers/base_modifier.gd").new(self)
 var mesh_settings: Dictionary[StringName, ModelModifier] = {}
+var bone_settings: Dictionary[StringName, ModelModifier] = {}
+
 func get_modifier_map():
 	return {
+		"model": model_settings,
 		"meshes": mesh_settings,
+		"bones": bone_settings,
 	}
 
 func load_data(path: String) -> ModelMeta:
@@ -61,18 +66,11 @@ func load_data(path: String) -> ModelMeta:
 	meta.openvt_parameters = "%s/%s.ovt.json" % [meta.model.get_base_dir(), base_name]
 	
 	return meta
-	
-func _ready() -> void:
-	container = preload("./model_viewport.tscn").instantiate()
-	vp = container.get_node("%SubViewport")
-	camera = container.get_node("%Camera3D")
-	add_child(container)
 
 func is_initialized():
 	return model != null
 	
 func load_vrm(path: String):
-		
 	var gltf: GLTFDocument = GLTFDocument.new()
 	var vrm_extension: GLTFDocumentExtension = preload("res://addons/vrm/vrm_extension.gd").new()
 	gltf.register_gltf_document_extension(vrm_extension, true)
@@ -93,14 +91,17 @@ func load_vrm(path: String):
 		return false
 	
 	var vrm = gltf.generate_scene(state)
-	vrm.add_child(XRFaceModifier3D.new())
-	vrm.add_child(XRBodyModifier3D.new())
+	vrm.get_node("GeneralSkeleton").add_child(body_tracker)
+	vrm.add_child(face_tracker)
 	
 	gltf.unregister_gltf_document_extension(vrm_extension)
 	
 	return vrm
 	
 func _build_model():
+	#debug = true
+	centered = true
+	is_3D = true
 	model = load_vrm(modelmeta.model)
 	await get_tree().process_frame
 	
@@ -110,95 +111,96 @@ func _build_model():
 	# scan through animations to build up blendshape parameters
 	# Find all the "rest" values to blend with.
 	var anim: AnimationPlayer = model.get_node("AnimationPlayer")
-	_parameters = {
-		# head
-		"headRotX": {
-			"id": "headRotX",
-			"name": "Head Rotation X",
-			"default": 0,
-			"range": Vector2(-1, 1),
-			"value": 0,
-		},
-		"headRotY": {
-			"id": "headRotY",
-			"name": "Head Rotation Y",
-			"default": 0,
-			"range": Vector2(-0.5, 0.5),
-			"value": 0,
-		},
-		"headRotZ": {
-			"id": "headRotZ",
-			"name": "Head Rotation Z",
-			"default": 0,
-			"range": Vector2(-0.5, 0.5),
-			"value": 0,
-		},
-	}
-	if anim.has_animation("RESET"):
-		var a : Animation = anim.get_animation("RESET")
-		for track_index in range(0, a.get_track_count()):
-			var track_path : NodePath = a.track_get_path(track_index)
-			var track_type = a.track_get_type(track_index)
-			if a.track_get_type(track_index) == Animation.TYPE_BLEND_SHAPE:
-				var blend_shape = track_path.get_subname(0)
-				var meshes = blendshapes_meshes.get(blend_shape, [])
-				meshes.append(track_path)
-				blendshapes_meshes[blend_shape] = meshes
-				_parameters[blend_shape] = {
-					"id": blend_shape,
-					"name": blend_shape,
-					"default": a.track_get_key_value(track_index, 0),
-					"range": Vector2(0.0, 1.0),
-					"value": a.track_get_key_value(track_index, 0)
-				}
-	vp.add_child(model)
+	_parameters = {}
+	add_child(model)
 	
-	(model.get_node("GeneralSkeleton") as Skeleton3D).reset_bone_poses() # force reset bones
-	anim.play("RESET")
-	await get_tree().process_frame
+	skeleton = model.get_node("GeneralSkeleton")
+	skeleton.reset_bone_poses() # force reset bones
 	
+	var tree_root = AnimationNodeBlendTree.new()
+	face_tracker.anim_player = face_tracker.get_path_to(anim)
+	face_tracker.tree_root = tree_root
+	
+#region build animation tree
+	var reset_node = AnimationNodeAnimation.new()
+	reset_node.set_animation("RESET")
+	tree_root.add_node("RESET", reset_node, Vector2(0, 0))
+	
+	var last_anim = "RESET"
+	for anim_name in anim.get_animation_list():
+		if anim_name == "RESET":
+			continue
+		_parameters[anim_name] = {
+			"id": anim_name,
+			"name": anim_name.to_pascal_case(),
+			"default": 0.0,
+			"range": Vector2(0, 1),
+			"value": 0.0
+		}
+		var anim_node = AnimationNodeAnimation.new()
+		var anim_node_name = "%s_animation" % anim_name
+		anim_node.set_animation(anim_name)
+		tree_root.add_node(anim_node_name, anim_node)
+		
+		var blend_node = AnimationNodeAdd2.new()
+		var blend_name = anim_name
+		tree_root.add_node(blend_name, blend_node)
+		tree_root.connect_node(blend_name, 0, last_anim)
+		tree_root.connect_node(blend_name, 1, anim_node_name)
+		
+		last_anim = blend_name
+	tree_root.connect_node("output", 0, last_anim)
+#endregion
+
 	_meshes = model.find_children("*", "VisualInstance3D")
 	for m in _meshes:
 		var modifier = preload("./modifiers/mesh_modifier.gd").new(m)
 		mesh_settings[m.name] = modifier
 	
+	for i in range(skeleton.get_bone_count()):
+		var modifier = preload("./modifiers/bone_modifier.gd").new(skeleton, i)
+		var bone = skeleton.get_bone_name(i)
+		bone_settings[bone] = modifier
+	
+	var skeleton_bounds = Math.get_spatial_bounds(skeleton)
+	skeleton.position.y = -skeleton_bounds.size.y / 2.0
+	
 	transform_updated.connect(
-		func (position, scale, rotation, offset, ypr):
-			model.position = camera.project_position(
-				position, 3.0
-			) - Vector3(0, get_size_3d().size.y * scale.x / 2, 0)
+		func (position, scale, rotation, offset, pyr):
+			var camera = get_viewport().get_camera_3d()
+			model.rotation = pyr
 			model.scale = Vector3.ONE * scale.x
-			model.rotation = ypr
+			model.position = camera.project_position(position, 3.0)
+			size = get_size()
 	)
 	
-	#camera.look_at(model.position)
+	notify_transform_updated.call_deferred()
+	set_process_internal(true)
+	
 	return true
 	
-func get_size_3d() -> AABB:
-	var aabb: AABB = AABB()
-	for c in model.get_node("%GeneralSkeleton").get_children():
-		if c is VisualInstance3D:
-			aabb = aabb.merge(c.get_aabb())
-	return aabb
-	
 func get_size() -> Vector2:
-	var aabb = get_size_3d()
+	var camera = get_viewport().get_camera_3d()
 	
-	var bl = camera.unproject_position(
-		aabb.position
+	var aabb = Math.get_spatial_bounds(model)
+	if not aabb.is_finite():
+		return Vector2.ONE
+	
+	var rect = range(7).reduce(
+		func (dim, idx):
+			var v = aabb.get_endpoint(idx)
+			var px = camera.unproject_position(v)
+			if not dim:
+				dim.position = px
+				return dim
+			return dim.expand(px),
+		Rect2()
 	)
-	var tr = camera.unproject_position(
-		aabb.position + aabb.size
-	)
-			
-	var rect = Rect2i(
-		bl.x, tr.y, tr.x - bl.x, bl.y - tr.y
-	)
-			
-	return rect.size
+	
+	return rect.size / self.scale
 	
 func get_origin() -> Vector2:
-	return vp.size / 2.0
+	return size / 2.0
 
 var _meshes = []
 func get_meshes() -> Array:
@@ -212,45 +214,16 @@ func tracking_updated(tracking_data: Dictionary, delta: float):
 	pass
 	
 func apply_parameters(values: Dictionary[String, float]):
-	# transform parameters into VRM blendshapes
-	for blend_shape in values.keys():
-		var blend_meshes = blendshapes_meshes.get(blend_shape, [])
-		var weight = values.get(blend_shape, 0.0)
-		for path in blend_meshes:
-			var m = model.get_node(path)
-			m.set("blend_shapes/%s" % blend_shape, weight)
+	pass
 	
 func get_texture() -> Texture2D:
-	return (container.get_child(0).get_child(0) as SubViewport).get_texture()
-
-func _process(delta: float) -> void:
-	# apply composite parameter values to Bones
-			
-	var target: Transform3D = Transform3D(
-		Quaternion(
-			_parameters["headRotY"].value,
-			_parameters["headRotX"].value,
-			_parameters["headRotZ"].value,
-			1.0
-		)
-	)
-	var skeleton = (model.get_node("GeneralSkeleton") as Skeleton3D)
-	
-	var head_bone = skeleton.find_bone("Head")
-	var neck_bone = skeleton.get_bone_parent(head_bone)
-	var neck_transform: Transform3D = skeleton.global_transform * skeleton.get_bone_global_pose(neck_bone)
-	var head_transform: Transform3D = neck_transform.inverse() * target * (
-		skeleton.transform * skeleton.get_bone_global_rest(head_bone)
-	)
-	skeleton.set_bone_pose_rotation(
-		head_bone,
-		head_transform.basis.get_rotation_quaternion()
-	)
+	return null
 
 func _get(property: StringName) -> Variant:
 	if property.begins_with("parameters/"):
 		var param = property.trim_prefix("parameters/")
-		return _parameters[param]
+		var data = _parameters.get(param, {})
+		return data.get("value", 0.0)
 	return null
 	
 func _property_get_revert(property: StringName) -> Variant:
@@ -271,14 +244,14 @@ func _set(property: StringName, value: Variant) -> bool:
 		if blend_shape not in _parameters:
 			return false
 		
-		var blend_meshes = blendshapes_meshes.get(blend_shape, [])
-		var weight = value as float
-		for path in blend_meshes:
-			var m = model.get_node(path)
-			m.set("blend_shapes/%s" % blend_shape, weight)
-		_parameters[blend_shape].value = weight
+		var param = _parameters.get(blend_shape)
+		var blend = clamp(value, param.range.x, param.range.y)
+		face_tracker.set(
+			"parameters/%s/add_amount" % blend_shape,
+			blend
+		)
+		_parameters[blend_shape].value = blend
 		return true
-	
 	return false
 
 func _get_property_list() -> Array[Dictionary]:
@@ -292,7 +265,7 @@ func _get_property_list() -> Array[Dictionary]:
 			"hint": PROPERTY_HINT_RANGE,
 			"hint_string": "{min},{max}".format({"min": param.range.x, "max": param.range.y}),
 		})
-
+	
 	return properties
 
 func get_idle_animation_player() -> AnimationPlayer:

@@ -10,6 +10,7 @@ func _ready() -> void:
 		preload("./loaders/ovt.gd").new(),
 		preload("./loaders/vts.gd").new(),
 		preload("./loaders/l2d_defaults.gd").new(),
+		preload("./loaders/vrm_defaults.gd").new(),
 	]
 	
 	for f in formats:

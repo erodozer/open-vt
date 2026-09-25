@@ -4,6 +4,12 @@
 [ext_resource type="Texture2D" uid="uid://cv1vjl7quw52u" path="res://studio/stage/default_fill.tres" id="2_18ah1"]
 [ext_resource type="Texture2D" uid="uid://b401bri37hvvq" path="res://studio/stage/grid.png" id="2_yiyxu"]
 
+[sub_resource type="Environment" id="Environment_18ah1"]
+background_mode = 1
+background_color = Color(0.48553514, 0.48553514, 0.48553514, 0)
+ambient_light_source = 1
+reflected_light_source = 1
+
 [node name="Stage" type="Node" unique_id=1822790790 groups=["persist", "system:stage"]]
 script = ExtResource("1_ptuf8")
 
@@ -60,13 +66,24 @@ stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer" unique_id=980610513]
 unique_name_in_owner = true
+own_world_3d = true
 transparent_bg = true
 handle_input_locally = false
-msaa_2d = 2
-screen_space_aa = 1
-use_taa = true
+snap_2d_transforms_to_pixel = true
+msaa_2d = 1
+msaa_3d = 1
+screen_space_aa = 2
 size = Vector2i(1280, 720)
 render_target_update_mode = 4
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="CanvasLayer/SubViewportContainer/SubViewport" unique_id=972545829]
+environment = SubResource("Environment_18ah1")
+
+[node name="Camera3D" type="Camera3D" parent="CanvasLayer/SubViewportContainer/SubViewport" unique_id=1805159966]
+unique_name_in_owner = true
+current = true
+fov = 10.0
+size = 0.05
 
 [node name="ModelLayer" type="CanvasLayer" parent="CanvasLayer/SubViewportContainer/SubViewport" unique_id=800326305]
 unique_name_in_owner = true

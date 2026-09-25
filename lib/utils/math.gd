@@ -58,3 +58,15 @@ const UNITY_VIEWPORT = Transform2D(0, Vector2(1920, 1080), 0, Vector2(-960, -540
 ## note: Unity canvas origin is centered to the window instead of top left
 static func unity_to_canvas(vp: Viewport, v: Vector2) -> Vector2:
 	return UNITY_VIEWPORT.basis_xform(v)
+
+static func get_spatial_bounds(root: Node3D) -> AABB:
+	return root.find_children("*", "VisualInstance3D", true, false).reduce(
+		func (acc, mesh):
+			var _aabb = mesh.global_transform * mesh.get_aabb()
+			if _aabb.is_finite():
+				if not acc:
+					return _aabb
+				return acc.merge(_aabb)
+			return acc,
+		AABB()
+	)

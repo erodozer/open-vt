@@ -23,6 +23,8 @@
 [ext_resource type="PackedScene" uid="uid://dcqnjvju4erad" path="res://lib/blueprints/outputs/play_animation.tscn" id="16_vs2tt"]
 [ext_resource type="Texture2D" uid="uid://dnoy3sguwj6m5" path="res://lib/blueprints/outputs/person-running.svg" id="17_3ghld"]
 [ext_resource type="PackedScene" uid="uid://c375vta43nviw" path="res://lib/blueprints/outputs/model_output.tscn" id="22_3fswu"]
+[ext_resource type="Texture2D" uid="uid://8gaavqi6yd7a" path="res://ui/icons/bone.svg" id="24_1nteg"]
+[ext_resource type="PackedScene" uid="uid://owuq1fj5j58k" path="res://lib/blueprints/outputs/skeleton_output.tscn" id="25_lyx3q"]
 
 [node name="Palette" type="FlowContainer" unique_id=42573514]
 offset_right = 48.0
@@ -191,3 +193,12 @@ tooltip_text = "Set Model Parameter"
 icon = ExtResource("17_3ghld")
 expand_icon = true
 metadata/action = ExtResource("22_3fswu")
+
+[node name="BoneOutput" type="Button" parent="." unique_id=828024829]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+tooltip_text = "Set Model Parameter"
+icon = ExtResource("24_1nteg")
+expand_icon = true
+metadata/action = ExtResource("25_lyx3q")
+metadata/is_3d = true
