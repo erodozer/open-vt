@@ -7,12 +7,6 @@ extends "../blendshape_tracker.gd"
 const BidirectionalTracker = preload("res://lib/tracking/net/bidirectional_tracker.gd")
 const Serializers = preload("res://lib/utils/serializers.gd")
 
-## Joint tracking flags
-const JOINT_TRACKING = \
-	XRBodyTracker.JOINT_FLAG_ORIENTATION_TRACKED | \
-	XRBodyTracker.JOINT_FLAG_ORIENTATION_VALID | \
-	XRBodyTracker.JOINT_FLAG_POSITION_TRACKED | \
-	XRBodyTracker.JOINT_FLAG_POSITION_VALID
 
 class TrackingData:
 	@export var Position: Vector3 = Vector3.ZERO
@@ -24,18 +18,6 @@ class TrackingData:
 var server: BidirectionalTracker
 
 var poller: Timer
-
-static var tracker: XRBodyTracker = XRBodyTracker.new()
-
-static func _static_init() -> void:
-	tracker.name = "/arkit/head"
-	tracker.body_flags = XRBodyTracker.BODY_FLAG_UPPER_BODY_SUPPORTED
-	for i in range(XRBodyTracker.JOINT_MAX):
-		tracker.set_joint_flags(i, 0)
-	tracker.set_joint_flags(XRBodyTracker.JOINT_HEAD, JOINT_TRACKING)
-	tracker.set_joint_flags(XRBodyTracker.JOINT_ROOT, JOINT_TRACKING)
-	
-	XRServer.add_tracker(tracker)
 	
 func _ready():
 	server = BidirectionalTracker.new()

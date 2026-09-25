@@ -3,6 +3,8 @@ extends "res://lib/model/modifier.gd"
 var skeleton: Skeleton3D
 var bone_idx: int
 
+@export var bindable: bool = true
+
 func _init(sk: Skeleton3D, bone: int):
 	skeleton = sk
 	bone_idx = bone

@@ -41,7 +41,6 @@ icon = ExtResource("5_5ng8c")
 flat = false
 icon_alignment = 1
 expand_icon = true
-metadata/action = ExtResource("3_rtnke")
 
 [node name="DataStore" type="MenuButton" parent="." unique_id=1921186289]
 unique_name_in_owner = true

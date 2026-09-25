@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://b40k4grtengyf"]
+
+[ext_resource type="Script" uid="uid://chbjyelr5te4x" path="res://lib/blueprints/logic/decompose.gd" id="1_6rdcr"]
+
+[node name="Decompose" type="GraphNode" unique_id=2051610489]
+offset_right = 106.0
+offset_bottom = 88.0
+title = "Decompose"
+script = ExtResource("1_6rdcr")

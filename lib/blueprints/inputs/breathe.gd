@@ -32,10 +32,10 @@ func serialize():
 func deserialize(data):
 	frequency = data.get("frequency", 2000.0)
 	
-func get_input_slot_by_port(port: int) -> int:
+func get_input_slot_by_port(_port: int) -> int:
 	return -1
 	
-func get_input_port_by_name(slot: StringName) -> int:
+func get_input_port_by_name(_slot: StringName) -> int:
 	return -1
 
 func get_output_slot_by_port(port: int) -> int:

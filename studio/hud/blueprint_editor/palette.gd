@@ -23,13 +23,7 @@ func _ready():
 	smoothing_options()
 	
 	for i in get_children():
-		if i is MenuButton:
-			i.get_popup().id_pressed.connect(
-				func (x):
-					var node = i.get_popup().get_item_metadata(x).call()
-					create_node.emit(node)
-			)
-		elif i.has_meta("action"):
+		if i.has_meta("action"):
 			var template: PackedScene = i.get_meta("action") 
 			var action: VtAction = template.instantiate()
 			_mapping[action.get_type()] = template
@@ -39,12 +33,20 @@ func _ready():
 					create_node.emit(template.instantiate())
 			)
 	
+func _handle_popup(selected:int, popup: PopupMenu):
+	var type = popup.get_item_metadata(selected)
+	if type is Callable:
+		var node = type.call()
+		create_node.emit(node)
+	
 func tracker_options():
 	var add_trackers: MenuButton = %AddTracker
+	var menu: PopupMenu = add_trackers.get_popup()
 	var idx = 0
+	menu.id_pressed.connect(_handle_popup.bind(menu))
 	for i in Registry.parameter_groups():
-		add_trackers.get_popup().add_item("Add %s Tracker" % [i])
-		add_trackers.get_popup().set_item_metadata(
+		menu.add_item("Add %s Tracker" % [i])
+		menu.set_item_metadata(
 			idx,
 			func ():
 				var node = preload("res://lib/blueprints/inputs/tracker_input.tscn").instantiate()
@@ -52,8 +54,8 @@ func tracker_options():
 				return node,
 		)
 		idx += 1
-	add_trackers.get_popup().add_item("Add XR Tracker")
-	add_trackers.get_popup().set_item_metadata(
+	menu.add_item("Add XR Tracker")
+	menu.set_item_metadata(
 		idx,
 		func ():
 			var node = preload("res://lib/blueprints/inputs/xr_tracker_input.tscn").instantiate()
@@ -62,23 +64,58 @@ func tracker_options():
 	
 func arithmetic_options():
 	var arithmetic: MenuButton = %Math
+	var menu: PopupMenu = arithmetic.get_popup()
+	
+	var value_types = preload("res://lib/blueprints/inputs/value_emitter.gd").Kind
+	var submenu = PopupMenu.new()
+	submenu.id_pressed.connect(_handle_popup.bind(submenu))
+	menu.add_submenu_node_item("Data", submenu)
+	var idx = 0
+	for i in value_types:
+		submenu.add_item(i)
+		submenu.set_item_metadata(
+			idx,
+			func ():
+				var node = preload("res://lib/blueprints/inputs/value_emitter.tscn").instantiate()
+				node.kind = value_types[i]
+				return node,
+		)
+		idx += 1
+	submenu.add_separator("Compose")
+	idx += 1
+	var composition_types = preload("res://lib/blueprints/logic/compose.gd").Kind
+	for kind in composition_types:
+		submenu.add_item(kind)
+		submenu.set_item_metadata(
+			idx,
+			func ():
+				var node = preload("res://lib/blueprints/logic/compose.tscn").instantiate()
+				node.kind = composition_types[kind]
+				return node,
+		)
+		idx += 1
+	submenu.add_separator("Decompose")
+	idx += 1
+	var decomposition_types = preload("res://lib/blueprints/logic/decompose.gd").Kind
+	for kind in decomposition_types:
+		submenu.add_item(kind)
+		submenu.set_item_metadata(
+			idx,
+			func ():
+				var node = preload("res://lib/blueprints/logic/decompose.tscn").instantiate()
+				node.kind = decomposition_types[kind]
+				return node,
+		)
+		idx += 1
+	
 	var operators = preload("res://lib/blueprints/logic/arithmetic.gd").Operator
-	
-	var idx = 1
-	arithmetic.get_popup().add_separator("Constants")
-	arithmetic.get_popup().add_item("Value")
-	arithmetic.get_popup().set_item_metadata(
-		idx,
-		func ():
-			var node = preload("res://lib/blueprints/inputs/value_emitter.tscn").instantiate()
-			return node,
-	)
-	
-	idx += 2
-	arithmetic.get_popup().add_separator("Operators")
+	submenu = PopupMenu.new()
+	submenu.id_pressed.connect(_handle_popup.bind(submenu))
+	menu.add_submenu_node_item("Operators", submenu)
+	idx = 0
 	for i in operators:
-		arithmetic.get_popup().add_item(i)
-		arithmetic.get_popup().set_item_metadata(
+		submenu.add_item(i)
+		submenu.set_item_metadata(
 			idx,
 			func ():
 				var node = preload("res://lib/blueprints/logic/arithmetic.tscn").instantiate()
@@ -86,34 +123,37 @@ func arithmetic_options():
 				return node,
 		)
 		idx += 1
-	arithmetic.get_popup().add_separator("Functions")
-	idx += 1
-	arithmetic.get_popup().add_item("Remap")
-	arithmetic.get_popup().set_item_metadata(
-		idx,
+		
+	submenu = PopupMenu.new()
+	submenu.id_pressed.connect(_handle_popup.bind(submenu))
+	menu.add_submenu_node_item("Functions", submenu)
+	submenu.add_item("Remap")
+	submenu.set_item_metadata(
+		0,
 		func ():
 			var node = preload("res://lib/blueprints/logic/range_map.tscn").instantiate()
 			return node,
 	)
-	idx += 1
-	arithmetic.get_popup().add_item("Eval")
-	arithmetic.get_popup().set_item_metadata(
-		idx,
+	submenu.add_item("Eval")
+	submenu.set_item_metadata(
+		1,
 		func ():
 			var node = preload("res://lib/blueprints/logic/evaluator.tscn").instantiate()
 			return node,
 	)
 	
+	
 func toggle_options():
 	var toggler: MenuButton = %Toggler
-
-	toggler.get_popup().set_item_metadata(
+	var popup = toggler.get_popup()
+	popup.id_pressed.connect(_handle_popup.bind(popup))
+	popup.set_item_metadata(
 		0,
 		func ():
 			var node = preload("res://lib/blueprints/logic/toggle_state.tscn").instantiate()
 			return node,
 	)
-	toggler.get_popup().set_item_metadata(
+	popup.set_item_metadata(
 		1,
 		func ():
 			var node = preload("res://lib/blueprints/logic/toggle_group.tscn").instantiate()
@@ -122,14 +162,15 @@ func toggle_options():
 
 func smoothing_options():
 	var menu: MenuButton = %Smoothing
-
-	menu.get_popup().set_item_metadata(
+	var popup = menu.get_popup()
+	popup.id_pressed.connect(_handle_popup.bind(popup))
+	popup.set_item_metadata(
 		0,
 		func ():
 			var node = preload("res://lib/blueprints/logic/smoothing.tscn").instantiate()
 			return node,
 	)
-	menu.get_popup().set_item_metadata(
+	popup.set_item_metadata(
 		1,
 		func ():
 			var node = preload("res://lib/blueprints/logic/tweener.tscn").instantiate()
@@ -138,14 +179,16 @@ func smoothing_options():
 
 func store_options():
 	var menu: MenuButton = %DataStore
-
-	menu.get_popup().set_item_metadata(
+	var popup = menu.get_popup()
+	popup.id_pressed.connect(_handle_popup.bind(popup))
+	
+	popup.set_item_metadata(
 		0,
 		func ():
 			var node = preload("res://lib/blueprints/inputs/metastore_input.tscn").instantiate()
 			return node,
 	)
-	menu.get_popup().set_item_metadata(
+	popup.set_item_metadata(
 		1,
 		func ():
 			var node = preload("res://lib/blueprints/outputs/metastore_output.tscn").instantiate()

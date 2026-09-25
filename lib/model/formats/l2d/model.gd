@@ -99,13 +99,6 @@ func _build_model():
 	add_child(model)
 	await get_tree().process_frame # wait for the model to initialize
 	
-	for m in get_meshes():
-		if (m as MeshInstance2D).mesh.get_surface_count() <= 0:
-			continue
-		var center = Math.v32xy(Math.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
-		m.set_meta("centroid", center)
-		m.set_meta("start_centroid", center)
-	
 	var anim_lib = AyagamiLoader.load_motion_library(model)
 	var idle_anim: AnimationPlayer = model.get_node("MotionController")
 	if idle_anim.has_animation_library(""):
@@ -142,9 +135,9 @@ func _build_model():
 		if (m as MeshInstance2D).mesh.get_surface_count() <= 0:
 			continue
 		
-		var center = Math.v32xy(Math.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
-		m.set_meta("centroid", center)
-		m.set_meta("start_centroid", center)
+		var centroid = Math.v32xy(Math.centroid(m.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX]))
+		m.set_meta("centroid", centroid)
+		m.set_meta("start_centroid", centroid)
 		
 		mesh_settings[m.name] = MeshModifier.new(m)
 		

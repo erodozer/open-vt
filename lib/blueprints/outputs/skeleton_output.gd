@@ -1,11 +1,18 @@
 extends VtAction
 
+var _refresh = false
 # Called when the node enters the scene tree for the first time.
 func set_model(m: VtModel):
 	if model == m:
 		return
 	model = m
 	assert(m.is_3D, "model should be 3D with a skeleton")
+	
+	model.modifier_updated.connect(
+		func (field: StringName, _new, _old):
+			if field.begins_with("bones"):
+				_refresh = true
+	)
 	
 func get_type() -> StringName:
 	return &"skeleton"
@@ -22,12 +29,17 @@ func _build_slots() -> void:
 		i.queue_free()
 		
 	for i in range(model.skeleton.get_bone_count()):
+		var bone = model.skeleton.get_bone_name(i)
+		if model.get("modifiers/bones/%s/bindable" % bone) == false:
+			continue
+		
 		var label = Label.new()
-		label.text = model.skeleton.get_bone_name(i)
-		label.name = model.skeleton.get_bone_name(i)
+		label.text = bone
+		label.name = bone
 		add_child(label)
 		set_slot_enabled_left(i, true)
-		set_slot_type_left(i, VtAction.SlotType.VECTOR)
+		set_slot_type_left(i, VtAction.SlotType.TRANSFORM)
+	_refresh = false
 
 func get_input_slot_by_port(port: int) -> int:
 	return clamp(port, -1, get_child_count())
@@ -55,3 +67,7 @@ func update_value(slot: int, value: Variant) -> void:
 	var t = rest_transform * value
 	
 	model.skeleton.set_bone_pose(slot, t)
+
+func _process(delta: float) -> void:
+	if _refresh:
+		build_slots()

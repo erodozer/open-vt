@@ -39,7 +39,7 @@ func _build_slots() -> void:
 			label.set_meta("joint", joint)
 			add_child(label, true)
 			set_slot_enabled_right(idx, true)
-			set_slot_type_right(idx, VtAction.SlotType.VECTOR)
+			set_slot_type_right(idx, VtAction.SlotType.TRANSFORM)
 			idx += 1
 			
 func get_type() -> StringName:
@@ -56,10 +56,10 @@ func deserialize(data: Dictionary):
 			%Tracker.select(i)
 			break
 	
-func get_input_slot_by_port(port: int) -> int:
+func get_input_slot_by_port(_port: int) -> int:
 	return -1
 	
-func get_input_port_by_name(slot: StringName) -> int:
+func get_input_port_by_name(_slot: StringName) -> int:
 	return -1
 	
 func get_output_slot_by_port(port: int) -> int:

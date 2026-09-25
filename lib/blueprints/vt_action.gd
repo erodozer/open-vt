@@ -9,7 +9,8 @@ enum SlotType {
 	NUMERIC,
 	STRING,
 	BOOL,
-	VECTOR
+	VECTOR,
+	TRANSFORM
 }
 
 ## only allow more than one binding for certain types
@@ -61,6 +62,7 @@ func build_slots() -> void:
 		
 	# call the virtual function to build the physical slots onto the node
 	_build_slots()
+	size.y = 0
 	
 	if graph:
 		# rebind prior connections to new port positions based on name
@@ -84,19 +86,19 @@ func build_slots() -> void:
 func _build_slots() -> void:
 	pass
 
-func update_value(slot: int, value: Variant) -> void:
+func update_value(_slot: int, _value: Variant) -> void:
 	pass
 
-func get_value(slot: int) -> Variant:
+func get_value(_slot: int) -> Variant:
 	return null
 	
-func invoke_trigger(slot: int):
+func invoke_trigger(_slot: int):
 	pass
 	
 ## Checks a graph and returns if the action can be spawned.  
 ## Typically this is used to control if only a single instance of the Action
 ## should exist in a Blueprint
-func can_spawn(graph: GraphEdit) -> bool:
+func can_spawn(_graph: GraphEdit) -> bool:
 	return true
 
 @abstract func deserialize(data: Dictionary) -> void
@@ -104,14 +106,14 @@ func can_spawn(graph: GraphEdit) -> bool:
 @abstract func serialize() -> Dictionary
 
 ## triggers when a slot on this node is connected to by a [VtAction]
-func bind(slot: int, node: GraphNode) -> void:
+func bind(_slot: int, _node: GraphNode) -> void:
 	pass
 
 ## triggers when a connection to this slot is severred
-func unbind(slot: int, node: GraphNode) -> void:
+func unbind(_slot: int, _node: GraphNode) -> void:
 	pass
 	
-func reset_value(slot: int) -> void:
+func reset_value(_slot: int) -> void:
 	pass
 
 func get_slot_by_name(slot: StringName) -> int:

@@ -14,6 +14,8 @@ static var _action_types: Array[PackedScene] = [
 	preload("res://lib/blueprints/inputs/value_emitter.tscn"),
 	preload("res://lib/blueprints/inputs/metastore_input.tscn"),
 	preload("res://lib/blueprints/logic/arithmetic.tscn"),
+	preload("res://lib/blueprints/logic/compose.tscn"),
+	preload("res://lib/blueprints/logic/decompose.tscn"),
 	preload("res://lib/blueprints/logic/evaluator.tscn"),
 	preload("res://lib/blueprints/logic/smoothing.tscn"),
 	preload("res://lib/blueprints/logic/tweener.tscn"),

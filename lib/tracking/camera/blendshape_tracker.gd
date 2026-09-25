@@ -1,61 +1,92 @@
 extends "res://lib/tracking/interpolated_tracker.gd"
 
+const BLENDSHAPE_ENUM = [
+	# Left Eye
+	"EyeBlinkLeft",
+	"EyeLookDownLeft",
+	"EyeLookInLeft",
+	"EyeLookOutLeft",
+	"EyeLookUpLeft",
+	"EyeSquintLeft",
+	"EyeWideLeft",
+
+	# Right Eye
+	"EyeBlinkRight",
+	"EyeLookDownRight",
+	"EyeLookInRight",
+	"EyeLookOutRight",
+	"EyeLookUpRight",
+	"EyeSquintRight",
+	"EyeWideRight",
+
+	# Mouth and Jaw
+	"JawForward",
+	"JawRight",
+	"JawLeft",
+	"JawOpen",
+	"MouthClose",
+	"MouthFunnel",
+	"MouthPucker",
+	"MouthLeft",
+	"MouthRight",
+	"MouthSmileLeft",
+	"MouthSmileRight",
+	"MouthFrownLeft",
+	"MouthFrownRight",
+	"MouthDimpleLeft",
+	"MouthDimpleRight",
+	"MouthStretchLeft",
+	"MouthStretchRight",
+	"MouthRollLower",
+	"MouthRollUpper",
+	"MouthShrugLower",
+	"MouthShrugUpper",
+	"MouthPressLeft",
+	"MouthPressRight",
+	"MouthLowerDownLeft",
+	"MouthLowerDownRight",
+	"MouthUpperUpLeft",
+	"MouthUpperUpRight",
+
+	# Eyebrows, Cheeks, and Nose
+	"BrowDownLeft",
+	"BrowDownRight",
+	"BrowInnerUp",
+	"BrowOuterUpLeft",
+	"BrowOuterUpRight",
+	"CheekPuff",
+	"CheekSquintLeft",
+	"CheekSquintRight",
+	"NoseSneerLeft", 
+	"NoseSneerRight",
+	
+	# Tongue
+    "TongueOut"
+]
+
+## Joint tracking flags
+const JOINT_TRACKING = \
+	XRBodyTracker.JOINT_FLAG_ORIENTATION_TRACKED | \
+	XRBodyTracker.JOINT_FLAG_ORIENTATION_VALID | \
+	XRBodyTracker.JOINT_FLAG_POSITION_TRACKED | \
+	XRBodyTracker.JOINT_FLAG_POSITION_VALID
+	
+static var tracker: XRBodyTracker = XRBodyTracker.new()
+	
 static func _static_init() -> void:
 	# iOS/ARKit BlendShapes
-	Registry.add_parameter("EyeBlinkLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("EyeLookDownLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("EyeLookInLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("EyeLookOutLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("EyeLookUpLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("EyeSquintLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("EyeWideLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("EyeBlinkRight", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("EyeLookDownRight", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("EyeLookInRight", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("EyeLookOutRight", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("EyeLookUpRight", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("EyeSquintRight", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("EyeWideRight", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("JawForward", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("JawRight", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("JawLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("JawOpen", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("MouthClose", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("MouthFunnel", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("MouthPucker", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("MouthLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("MouthRight", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("MouthSmileLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("MouthSmileRight", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("MouthFrownLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("MouthFrownRight", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("MouthDimpleLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("MouthDimpleRight", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("MouthStretchLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("MouthStretchRight", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("MouthRollLower", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("MouthRollUpper", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("MouthShrugLower", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("MouthShrugUpper", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("MouthPressLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("MouthPressRight", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("MouthLowerDownLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("MouthLowerDownRight", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("MouthUpperUpLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("MouthUpperUpRight", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("BrowDownLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("BrowDownRight", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("BrowInnerUpLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("BrowInnerUpRight", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("BrowOuterUpLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("BrowOuterUpRight", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("CheekPuff", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("CheekSquintLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("CheekSquintRight", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("NoseSneerLeft", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("NoseSneerRight", Vector2(0, 1), 0.0, "iOSBlendShape")
-	Registry.add_parameter("TongueOut", Vector2(0, 1), 0.0, "iOSBlendShape")
-
+	for blendshape in BLENDSHAPE_ENUM:
+		Registry.add_parameter(blendshape, Vector2(0, 1), 0.0, "iOSBlendShape")
+	
+	tracker.name = "/arkit/head"
+	tracker.body_flags = XRBodyTracker.BODY_FLAG_UPPER_BODY_SUPPORTED
+	for i in range(XRBodyTracker.JOINT_MAX):
+		tracker.set_joint_flags(i, 0)
+	tracker.set_joint_flags(XRBodyTracker.JOINT_HEAD, JOINT_TRACKING)
+	tracker.set_joint_flags(XRBodyTracker.JOINT_ROOT, JOINT_TRACKING)
+	
+	XRServer.add_tracker(tracker)
+	
 func _ready() -> void:
 	reset()
 

@@ -34,6 +34,22 @@ class Vec3SerializerImpl extends JsonSerializer:
 
 static var Vec3Serializer: JsonSerializer = Vec3SerializerImpl.new()
 
+class TransformSerializerImpl extends JsonSerializer:
+	func to_json(v: Transform3D) -> Dictionary:
+		return {
+			"position": Vec3SerializerImpl.new().to_json(v.origin),
+			"rotation": Vec3SerializerImpl.new().to_json(v.basis.get_euler()),
+		}
+	func from_json(v: Dictionary, fallback: Transform3D = Transform3D.IDENTITY) -> Transform3D:
+		var origin = Vec3SerializerImpl.new().from_json(v.get("position"), fallback.origin)
+		var basis = Vec3SerializerImpl.new().from_json(v.get("rotation"), fallback.basis.get_euler())
+		return Transform3D(
+			Basis.from_euler(basis),
+			origin
+		)
+
+static var TransformSerializer: JsonSerializer = TransformSerializerImpl.new()
+
 class RangeSerializerImpl extends JsonSerializer:
 	func to_json(v: Vector2) -> Dictionary:
 		return {

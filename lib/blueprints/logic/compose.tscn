@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://cww3kg2i1v4dd"]
+
+[ext_resource type="Script" uid="uid://7qmeifbq2xgf" path="res://lib/blueprints/logic/compose.gd" id="1_3l3sk"]
+
+[node name="Compose" type="GraphNode" unique_id=2051610489]
+offset_right = 106.0
+offset_bottom = 88.0
+title = "Compose"
+script = ExtResource("1_3l3sk")

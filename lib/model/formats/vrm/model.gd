@@ -73,7 +73,7 @@ func is_initialized():
 func load_vrm(path: String):
 	var gltf: GLTFDocument = GLTFDocument.new()
 	var vrm_extension: GLTFDocumentExtension = preload("res://addons/vrm/vrm_extension.gd").new()
-	gltf.register_gltf_document_extension(vrm_extension, true)
+	GLTFDocument.register_gltf_document_extension(vrm_extension, true)
 	
 	var state: GLTFState = GLTFState.new()
 	# state.handle_binary_image = GLTFState.HANDLE_BINARY_EMBED_AS_BASISU
@@ -87,14 +87,14 @@ func load_vrm(path: String):
 	
 	var err = gltf.append_from_file(path, state, 16 | 8 | 2)
 	if err != OK:
-		gltf.unregister_gltf_document_extension(vrm_extension)
+		GLTFDocument.unregister_gltf_document_extension(vrm_extension)
 		return false
 	
 	var vrm = gltf.generate_scene(state)
 	vrm.get_node("GeneralSkeleton").add_child(body_tracker)
 	vrm.add_child(face_tracker)
 	
-	gltf.unregister_gltf_document_extension(vrm_extension)
+	GLTFDocument.unregister_gltf_document_extension(vrm_extension)
 	
 	return vrm
 	
@@ -166,7 +166,7 @@ func _build_model():
 	skeleton.position.y = -skeleton_bounds.size.y / 2.0
 	
 	transform_updated.connect(
-		func (position, scale, rotation, offset, pyr):
+		func (position, scale, rotation, _offset, pyr):
 			var camera = get_viewport().get_camera_3d()
 			model.rotation = pyr
 			model.scale = Vector3.ONE * scale.x
