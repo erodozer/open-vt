@@ -151,7 +151,8 @@ func _on_child_exiting_tree(node: Node) -> void:
 func _on_action(from_port: int, node: VtAction):
 	if not enabled:
 		return
-	for conn in get_connection_list():
+		
+	for conn in get_connection_list_from_node(node.name):
 		if not (conn.from_node == node.name and conn.from_port == from_port):
 			continue
 			

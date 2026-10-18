@@ -120,8 +120,11 @@ func _on_tracker_system_tracker_changed(new_tracker: Tracker) -> void:
 	%FaceTracking.add_child(config)
 
 func _on_tracker_system_parameters_updated(parameters: Dictionary, _delta) -> void:
-	if !is_node_ready():
+	if not is_node_ready():
 		return
+	if not is_visible_in_tree():
+		return
+	
 	for p in Registry.parameters():
 		var node = %ParameterList.get_node(NodePath(p.id))
 		if node == null:

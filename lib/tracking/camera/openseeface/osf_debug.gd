@@ -17,6 +17,9 @@ func _ready():
 	%FaceMesh.mesh = mesh
 
 func _on_data_received(data: OpenSeeData) -> void:
+	if not is_visible_in_tree():
+		return
+		
 	# draw gaze from points 68 (right eye) and 69 (left eye)
 	var t = Transform3D(
 		Basis(data.rawQuaternion * Quaternion(Vector3.FORWARD, PI/2)),

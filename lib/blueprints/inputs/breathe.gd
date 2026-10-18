@@ -14,12 +14,6 @@ var progress: float :
 			fmod(Time.get_ticks_msec(), frequency * 2), frequency
 		) / frequency
 		return curve.sample_baked(time)
-		
-var input: float :
-	get():
-		return %Value.value
-	set(v):
-		%Value.value = v
 
 func get_type():
 	return &"breathe"
@@ -56,5 +50,6 @@ func get_value(_slot):
 	return progress
 
 func _process(_delta: float) -> void:
-	%Value.value = progress
 	slot_updated.emit(1)
+	if is_visible_in_tree():
+		%Value.value = progress

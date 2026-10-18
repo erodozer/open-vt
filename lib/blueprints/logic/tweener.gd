@@ -17,12 +17,8 @@ var a : float = 0.0 :
 		_prev = a
 		_changed = Time.get_ticks_msec()
 		a = v
-		%Input.value = v
 
-var b : float = 0.0 :
-	set(v):
-		b = v
-		%Output.value = v
+var b : float = 0.0
 
 func get_type() -> StringName:
 	return &"tweener"
@@ -72,6 +68,8 @@ func get_value(_slot):
 
 func update_value(_slot, value):
 	a = value
+	if is_visible_in_tree():
+		%Input.value = value
 
 func _process(_delta: float) -> void:
 	var before = b
@@ -82,3 +80,7 @@ func _process(_delta: float) -> void:
 	)
 	if before != b:
 		slot_updated.emit(0)
+
+	if is_visible_in_tree():
+		%Output.value = b
+			

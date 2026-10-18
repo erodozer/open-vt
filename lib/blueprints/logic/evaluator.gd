@@ -2,10 +2,7 @@ extends VtAction
 
 var inputs = {}
 var expression: Expression
-var value: float = 0.0 :
-	set(v):
-		value = v
-		%Output.text = "%.2f" % [v]
+var value: float = 0.0
 
 func _ready() -> void:
 	%Formula.editing_toggled.connect(
@@ -115,6 +112,8 @@ func update_value(slot: int, value: Variant) -> void:
 	if result != self.value:
 		self.value = result
 		slot_updated.emit(0)
+		if is_visible_in_tree():
+			%Output.text = "%.2f" % [result]
 
 func get_input_slot_name(slot: int) -> StringName:
 	var name = inputs.keys().get(slot - 1)

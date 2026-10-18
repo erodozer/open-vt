@@ -141,6 +141,7 @@ func _update_model():
 	
 	for p in bindings:
 		model.set("parameters/%s" % [p], bindings[p])
+		binding_display[p].text = "%1.2f" % bindings[p]
 	_dirty = false
 	bindings.clear()
 	
@@ -154,6 +155,10 @@ func _process(_delta: float) -> void:
 		return
 	
 	_update_model()
+	
+	if not is_visible_in_tree():
+		return
+	
 	for param in model.get_parameters().keys():
 		if param in binding_display:
 			var value = model.get("parameters/%s" % [param])

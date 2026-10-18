@@ -29,10 +29,7 @@ var operator: Operator = Operator.Add :
 		
 		operator = v
 		
-var a : float = 0.0 :
-	set(v):
-		a = v
-		%A/Value.set_value_no_signal(v)
+var a : float = 0.0
 
 var input_range: Vector2 = Vector2.DOWN :
 	set(v):
@@ -40,10 +37,7 @@ var input_range: Vector2 = Vector2.DOWN :
 		%A/X.set_value_no_signal(v.x)
 		%A/Y.set_value_no_signal(v.y)
 
-var b : float = 0.0 :
-	set(v):
-		b = v
-		%B/Value.value = v
+var b : float = 0.0
 
 func _ready() -> void:
 	%A/Value.value_changed.connect(
@@ -152,13 +146,18 @@ func update_value(slot, value):
 	if slot == %A.get_index() and a != value:
 		a = value
 		dirty = true
+			
 	elif slot == %B.get_index() and b != value:
 		b = value
 		dirty = true
 	
 	if dirty:
-		%Output/Display.text = "%1.2f" % get_value(0)
 		slot_updated.emit(0)
+		if is_visible_in_tree():
+			%Output/Display.text = "%1.2f" % get_value(0)
+			%A/Value.set_value_no_signal(a)
+			%B/Value.set_value_no_signal(b)
+		
 	
 func bind(slot: int, _node: GraphNode):
 	if slot == 0:

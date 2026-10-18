@@ -66,8 +66,9 @@ func _on_parameters_updated(parameters, delta):
 	for p in parameters:
 		if p in values:
 			values[p] = parameters[p]
-			value_displays[p].text = "%1.2f" % parameters[p]
 			slot_updated.emit(get_output_port_by_name(p))
+			if is_visible_in_tree():
+				value_displays[p].text = "%1.2f" % parameters[p]
 	
 func get_input_slot_by_port(port: int) -> int:
 	return -1

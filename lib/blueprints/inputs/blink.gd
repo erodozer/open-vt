@@ -74,5 +74,7 @@ func _process(_delta: float) -> void:
 	if blinking < now:
 		blinking = now + randf_range(frequency.x, frequency.y) + speed
 	
-	%Value.value = progress
 	slot_updated.emit(0)
+	if is_visible_in_tree():
+		%Value.value = progress
+	
