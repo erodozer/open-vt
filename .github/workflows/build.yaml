@@ -53,7 +53,7 @@ jobs:
         with:
           submodules: recursive
       - name: Setup Rust
-        uses: actions-rust-lang/setup-rust-toolchain@v1.17.0
+        uses: actions-rust-lang/setup-rust-toolchain@v2
       - name: Compute Cache Key
         id: cache-key
         run: |
