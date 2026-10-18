@@ -74,6 +74,30 @@ build_keylogger() {
 	cd $PROJ_ROOT
 }
 
+build_vtubetrackers() {
+	echo -e "\n#### Preparing mediapipe\n\n"
+
+	WORKDIR=$PROJ_ROOT/thirdparty/vtubetrackers-gd
+	ADDONDIR=$PROJ_ROOT/addons
+
+	mkdir -p $ADDONDIR
+
+	cd $WORKDIR
+
+	make package target=$TARGET
+	cp -r $WORKDIR/addons/vtube_trackers $ADDONDIR
+
+	cp LICENSE.md $PROJ_ROOT/license/LICENSE.vtubetrackers.md
+	cp README.md $ADDONDIR/vtube_trackers/README.md
+	echo "*" > $ADDONDIR/vtube_trackers/.gitignore
+
+	# log completion
+	find $ADDONDIR/vtube_trackers -type f
+
+	cd $PROJ_ROOT
+}
+
+
 build_vrm () {
     cp -r $PROJ_ROOT/thirdparty/godot-vrm/addons $PROJ_ROOT
 	cp $PROJ_ROOT/thirdparty/godot-vrm/LICENSE $PROJ_ROOT/license/LICENSE.godotvrm.md
@@ -88,3 +112,4 @@ build_ayagami
 build_vrm
 build_virtualcamera
 build_keylogger
+build_vtubetrackers

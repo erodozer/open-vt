@@ -21,6 +21,9 @@ func _ready() -> void:
 		face_trackers.add_item("OpenSeeFace (Webcam)")
 		face_trackers.set_item_metadata(face_trackers.item_count - 1, preload("res://lib/tracking/camera/openseeface/osf_tracker.gd"))
 	
+	face_trackers.add_item("Mediapipe")
+	face_trackers.set_item_metadata(face_trackers.item_count - 1, preload("res://lib/tracking/camera/mediapipe/tracker.gd"))
+	
 	face_trackers.add_item("VTubeStudio (WiFi)")
 	face_trackers.set_item_metadata(face_trackers.item_count - 1, preload("res://lib/tracking/camera/vts/vts_tracker.gd"))
 	

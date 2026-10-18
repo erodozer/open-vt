@@ -10,3 +10,6 @@
 [submodule "thirdparty/godot-vrm"]
 	path = thirdparty/godot-vrm
 	url = https://github.com/V-Sekai/godot-vrm.git
+[submodule "thirdparty/vtubetrackers-gd"]
+	path = thirdparty/vtubetrackers-gd
+	url = https://github.com/erodozer/vtubetrackers-gd.git

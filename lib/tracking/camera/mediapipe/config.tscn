@@ -1,0 +1,95 @@
+[gd_scene format=3 uid="uid://b833sqbyo600c"]
+
+[ext_resource type="Script" uid="uid://bjq2cgsnofagd" path="res://lib/tracking/camera/mediapipe/config.gd" id="1_qddpf"]
+[ext_resource type="Script" uid="uid://chwlfxhy87aae" path="res://lib/tracking/camera/openseeface/osf_debug.gd" id="2_hxsyu"]
+
+[sub_resource type="PlaceholderMesh" id="PlaceholderMesh_e6bxh"]
+
+[node name="Config" type="VBoxContainer" unique_id=1374717089 groups=["persist"]]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 278.0
+offset_bottom = 209.0
+script = ExtResource("1_qddpf")
+
+[node name="PointPreview" type="Panel" parent="." unique_id=671325190]
+unique_name_in_owner = true
+clip_contents = true
+custom_minimum_size = Vector2(0, 256)
+layout_mode = 2
+theme_type_variation = &"InsetPanel"
+script = ExtResource("2_hxsyu")
+mirror = true
+
+[node name="FpsCounter" type="Label" parent="PointPreview" unique_id=1518134621]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 45.0
+offset_bottom = 23.0
+theme_type_variation = &"ValueLabel"
+text = "FPS: 0"
+
+[node name="FaceMesh" type="MeshInstance2D" parent="PointPreview" unique_id=1363921438]
+unique_name_in_owner = true
+position = Vector2(216, 128)
+scale = Vector2(128, 128)
+mesh = SubResource("PlaceholderMesh_e6bxh")
+
+[node name="ActiveIndicator" type="Label" parent="PointPreview" unique_id=345580802]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -48.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 31.0
+grow_horizontal = 0
+theme_type_variation = &"ValueLabel"
+text = "Off"
+horizontal_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=1548461613]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer2" unique_id=828633715]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "Webcam"
+
+[node name="Webcam" type="OptionButton" parent="HBoxContainer2" unique_id=862902564]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1217245643]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=1821391216]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "Format"
+
+[node name="WebcamFormat" type="OptionButton" parent="HBoxContainer" unique_id=485867427]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="." unique_id=1976487711]
+layout_mode = 2
+
+[node name="Connect" type="Button" parent="HBoxContainer4" unique_id=1649450394]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Activate Camera"
+
+[node name="Disconnect" type="Button" parent="HBoxContainer4" unique_id=759688804]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Disconnect"
