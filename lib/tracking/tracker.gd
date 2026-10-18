@@ -13,4 +13,4 @@ func parameters(_time: float = Time.get_ticks_msec()) -> Dictionary:
 
 func update(updated_parameters: Dictionary):
 	for p in updated_parameters:
-		_parameters[p] = float(updated_parameters[p])
+		_parameters[p] = Registry.clamp_to_range(float(updated_parameters[p]), p)

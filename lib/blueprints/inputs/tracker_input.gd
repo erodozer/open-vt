@@ -86,6 +86,7 @@ func get_output_port_by_name(slot: StringName) -> int:
 	
 func get_value(slot: int):
 	var parameter: StringName = get_output_slot_name(slot)
+	
 	var out: float = values[parameter]
 	var value_range = Registry.get(parameter).range
 	

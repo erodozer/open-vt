@@ -97,3 +97,35 @@ func reset():
 			return acc,
 		{}
 	))
+
+func update(p: Dictionary):
+	# inject standard ARKit to VTS named parameters adapters for ease of adoption
+	var face_rotation = tracker.get_joint_transform(XRBodyTracker.JOINT_HEAD).basis.get_euler()
+	var body_position = tracker.get_joint_transform(XRBodyTracker.JOINT_ROOT).origin
+	p["FaceAngleX"] = rad_to_deg(face_rotation.y) * 0.66
+	p["FaceAngleY"] = rad_to_deg(face_rotation.x) * -0.66
+	p["FaceAngleZ"] = rad_to_deg(face_rotation.z) * -0.66
+	
+	p["FacePositionX"] = -body_position.x
+	p["FacePositionY"] = body_position.y
+	p["FacePositionZ"] = -body_position.z
+	
+	p["EyeRightX"] = p.get("EyeLookInRight", 0.0) - .1 - p.get("EyeLookOutRight", 0.0)
+	p["EyeRightY"] = p.get("EyeLookUpRight", 0.0) - p.get("EyeLookDownRight", 0.0) - (p.get("BrowOuterUpRight", 0.0) * .15)
+	p["EyeLeftX"] = p.get("EyeLookInLeft", 0.0) - .1 - p.get("EyeLookOutLeft", 0.0)
+	p["EyeLeftY"] = p.get("EyeLookUpLeft", 0.0) - p.get("EyeLookDownLeft", 0.0) - (p.get("BrowOuterUpLeft", 0.0) * .15)
+	p["EyeOpenRight"] = .5 + (p.get("EyeWideRight", 0.0) - p.get("EyeBlinkRight", 0.0)) * 0.8
+	p["EyeOpenLeft"] = .5 + (p.get("EyeWideLeft", 0.0) - p.get("EyeBlinkLeft", 0.0)) * 0.8
+
+	p["MouthOpen"] = p.get("JawOpen", 0.0) - p.get("MouthClose", 0.0) - (p.get("MouthRollUpper", 0.0) + p.get("MouthRollLower", 0.0) + p.get("MouthFunnel", 0.0)) * .2
+	p["MouthSmile"] = 2 - (
+		(p.get("MouthFrownLeft", 0.0) + p.get("MouthFrownRight", 0.0) + p.get("MouthPucker", 0.0)) +
+		((
+			(p.get("MouthSmileRight", 0.0) + p.get("MouthSmileLeft", 0.0)) +
+			((p.get("MouthDimpleLeft", 0.0) + p.get("MouthDimpleRight", 0.0)) * 0.5)
+		) * 0.25)
+	)
+	p["MouthX"] = (p.get("MouthLeft", 0.0) - p.get("MouthRight", 0.0)) + (p.get("MouthSmileLeft", 0.0) - p.get("MouthSmileRight", 0.0))
+	p["Brows"] = 0.5 + (p.get("BrowOuterUpRight", 0.0) + p.get("BrowOuterUpRight", 0.0) - p.get("BrowDownLeft", 0.0) - p.get("BrowDownRight", 0.0)) * 0.25
+	
+	super.update(p)

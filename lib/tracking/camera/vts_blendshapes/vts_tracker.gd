@@ -59,6 +59,9 @@ func _packet_received(packet: PackedByteArray):
 		_data_received(data)
 	
 func _data_received(data: TrackingData):
+	if not data.BlendShapes:
+		return
+	
 	var parameters = {}
 	tracker.set_joint_transform(XRBodyTracker.JOINT_HEAD, Transform3D(
 		Basis(

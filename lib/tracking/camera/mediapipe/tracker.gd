@@ -8,7 +8,12 @@ const AtomicValue = preload("res://lib/utils/atomic.gd").AtomicValue
 
 # Burn Instance
 var camera: CameraTexture = CameraTexture.new()
-var img: AtomicValue = AtomicValue.new()
+var feed: CameraFeed :
+	set(f):
+		feed = f
+		camera.camera_feed_id = f.get_id()
+		
+var image: AtomicValue = AtomicValue.new()
 var result: AtomicValue = AtomicValue.new()
 
 var handle: int = -1
@@ -17,12 +22,24 @@ var kill: bool = false
 func _ready():
 	# perform inference in a worker thread
 	handle = WorkerThreadPool.add_task(_inference_task)
+	smoothing = 1.0
+	camera.which_feed = CameraServer.FEED_RGBA_IMAGE
+			
+func start():
+	camera.camera_is_active = true
+	feed.frame_changed.connect(_on_frame_changed)
+	
+func stop():
+	feed.frame_changed.disconnect(_on_frame_changed)
+	camera.camera_is_active = false
 	
 func _exit_tree() -> void:
+	stop()
 	kill = true
+	feed.frame_changed.disconnect(_on_frame_changed)
+			
 	if handle != -1:
 		WorkerThreadPool.wait_for_task_completion(handle)
-	camera.camera_is_active = false
 
 func create_config() -> Node:
 	var panel = preload("./config.tscn").instantiate()
@@ -33,21 +50,25 @@ func _inference_task():
 	var detector = VtFaceDetection.new()
 	
 	while not kill:
-		var data = img.try_get()
+		OS.delay_msec(10)
+		if not camera.camera_is_active:
+			continue
+		var data = image.try_get_changed()
 		if data == null:
 			continue
-		var blendshapes = detector.submit(data)
-		result.store(blendshapes)
-
-func _process(delta: float) -> void:
-	if camera.camera_is_active:
-		img.store(camera.get_image())
 		
-	var blendshapes = result.try_get()
-	if blendshapes:
+		var blendshapes = detector.submit(data)
 		_blendshape_to_update(blendshapes)
+	
+func _on_frame_changed():
+	image.store(camera.get_image())
 
 func _blendshape_to_update(data: Dictionary):
+	if not data:
+		return
+	if not data.blendshapes:
+		return
+	
 	var v = {}
 	for i in range(len(data.blendshapes)):
 		v[BLENDSHAPE_ENUM[i]] = data.blendshapes[i]

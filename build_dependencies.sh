@@ -14,7 +14,7 @@ build_ayagami () {
 	
 	cd $WORKDIR
 	
-	make package target=$TARGET
+	make release target=$TARGET
 	cp -r $WORKDIR/addons/ayagami $ADDONDIR
 
 	cp $WORKDIR/LICENSE.md $PROJ_ROOT/license/LICENSE.ayagami.md
@@ -38,7 +38,7 @@ build_virtualcamera () {
 	
 	cd $WORKDIR
 	
-	make package
+	make release
 	cp -r $WORKDIR/addons/virtualcamera $ADDONDIR
 
 	cp LICENSE.md $PROJ_ROOT/license/LICENSE.gdvirtualcamera.md
@@ -61,7 +61,7 @@ build_keylogger() {
 	
 	cd $WORKDIR
 	
-	make package
+	make release
 	cp -r $WORKDIR/addons/keylogger $ADDONDIR
 
 	cp LICENSE.md $PROJ_ROOT/license/LICENSE.keylogger.md
@@ -84,7 +84,7 @@ build_vtubetrackers() {
 
 	cd $WORKDIR
 
-	make package target=$TARGET
+	make package target=$TARGET runtime="cpu"
 	cp -r $WORKDIR/addons/vtube_trackers $ADDONDIR
 
 	cp LICENSE.md $PROJ_ROOT/license/LICENSE.vtubetrackers.md

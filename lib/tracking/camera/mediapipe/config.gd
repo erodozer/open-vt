@@ -15,16 +15,17 @@ func _ready() -> void:
 			var fmt = %WebcamFormat.get_item_id(%WebcamFormat.selected)
 			var feed = CameraServer.feeds()[id]
 			feed.set_format(fmt, {"output": "copy"})
-			tracker.camera.camera_feed_id = feed.get_id()
-			tracker.camera.which_feed = CameraServer.FEED_RGBA_IMAGE
-			tracker.camera.camera_is_active = true
+			tracker.feed = feed
+			tracker.start()
 			
 			%Webcam.disabled = true
 			%WebcamFormat.disabled = true
 	)
 	%Disconnect.pressed.connect(
 		func ():
-			tracker.camera.camera_is_active = false
+			var id = %Webcam.get_item_id(%Webcam.selected)
+			var feed = CameraServer.feeds()[id]
+			tracker.stop()
 			%Webcam.disabled = false
 			%WebcamFormat.disabled = false
 	)
@@ -82,4 +83,4 @@ func load_settings(settings: Dictionary):
 func _process(delta: float) -> void:
 	if visible:
 		%ActiveIndicator.text = "On" if tracker.camera.camera_is_active else "Off"
-	
+		%FpsCounter.text = "FPS: %d" % [tracker.fps]
