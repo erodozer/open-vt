@@ -136,6 +136,8 @@ jobs:
           mkdir "bin/${{ matrix.platform }}/license"
           find license/ ! -name "*.import" -type f -print0 | xargs -0 cp -t "bin/${{ matrix.platform }}/license"
           cp LICENSE.txt README.md "bin/${{ matrix.platform }}"
+          mkdir -p "bin/${{ matrix.platform }}/addons/vtube_trackers/models"
+          find addons/ -name "*.bpk" -type f -print0 | xargs -0 cp -t "bin/${{ matrix.platform }}/addons/vtube_trackers/models"
       - name: Verify Output
         run: |
           find bin/${{ matrix.platform }} -type f
