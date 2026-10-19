@@ -3,6 +3,68 @@
 
 extends "../blendshape_tracker.gd"
 
+## mediapipe uses the same blendshape names as ARKit, but has a different order
+## https://storage.googleapis.com/mediapipe-assets/Model%20Card%20Blendshape%20V2.pdf
+const MEDIAPIPE_BLENDSHAPE_ENUM = [
+	"BrowDownLeft",
+	"BrowDownRight",
+	"BrowInnerUp",
+	"BrowOuterUpLeft",
+	"BrowOuterUpRight",
+	"CheekPuff",
+	"CheekSquintLeft",
+	"CheekSquintRight",
+	
+	"EyeBlinkLeft",
+	"EyeBlinkRight",
+	"EyeLookDownLeft",
+	"EyeLookDownRight",
+	"EyeLookInLeft",
+	"EyeLookInRight",
+	"EyeLookOutLeft",
+	"EyeLookOutRight",
+	"EyeLookUpLeft",
+	"EyeLookUpRight",
+	"EyeSquintLeft",
+	"EyeSquintRight",
+	"EyeWideLeft",
+	"EyeWideRight",
+
+	"JawForward",
+	"JawLeft",
+	"JawOpen",
+	"JawRight",
+	
+	"MouthClose",
+	"MouthDimpleLeft",
+	"MouthDimpleRight",
+	"MouthFrownLeft",
+	"MouthFrownRight",
+	"MouthFunnel",
+	"MouthLeft",
+	"MouthLowerDownLeft",
+	"MouthLowerDownRight",
+	"MouthPressLeft",
+	"MouthPressRight",
+	"MouthPucker",
+	"MouthRight",
+	"MouthRollLower",
+	"MouthRollUpper",
+	"MouthShrugLower",
+	"MouthShrugUpper",
+	"MouthSmileLeft",
+	"MouthSmileRight",
+	"MouthStretchLeft",
+	"MouthStretchRight",
+	"MouthUpperUpLeft",
+	"MouthUpperUpRight",
+
+	"NoseSneerLeft", 
+	"NoseSneerRight",
+	
+	"TongueOut"
+]
+
 const Serializers = preload("res://lib/utils/serializers.gd")
 const AtomicValue = preload("res://lib/utils/atomic.gd").AtomicValue
 
@@ -73,7 +135,7 @@ func _blendshape_to_update(data: Dictionary):
 	
 	var v = {}
 	for i in range(len(data.blendshapes)):
-		v[BLENDSHAPE_ENUM[i]] = data.blendshapes[i]
+		v[MEDIAPIPE_BLENDSHAPE_ENUM[i]] = data.blendshapes[i]
 		
 	var t: Transform3D = data.transform
 	tracker.set_joint_transform(XRBodyTracker.JOINT_HEAD, Transform3D(

@@ -1,6 +1,7 @@
 extends "res://lib/tracking/interpolated_tracker.gd"
 
-const BLENDSHAPE_ENUM = [
+## Standard blendshapes from ARKit
+const ARKIT_BLENDSHAPE_ENUM = [
 	# Left Eye
 	"EyeBlinkLeft",
 	"EyeLookDownLeft",
@@ -75,7 +76,7 @@ static var tracker: XRBodyTracker = XRBodyTracker.new()
 	
 static func _static_init() -> void:
 	# iOS/ARKit BlendShapes
-	for blendshape in BLENDSHAPE_ENUM:
+	for blendshape in ARKIT_BLENDSHAPE_ENUM:
 		Registry.add_parameter(blendshape, Vector2(0, 1), 0.0, "iOSBlendShape")
 	
 	tracker.name = "/arkit/head"
