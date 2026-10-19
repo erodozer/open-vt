@@ -61,7 +61,9 @@ func _inference_task():
 		_blendshape_to_update(blendshapes)
 	
 func _on_frame_changed():
-	image.store(camera.get_image())
+	var img = camera.get_image()
+	img.convert(Image.FORMAT_RGB8)
+	image.store(img)
 
 func _blendshape_to_update(data: Dictionary):
 	if not data:

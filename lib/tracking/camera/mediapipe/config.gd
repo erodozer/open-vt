@@ -55,11 +55,10 @@ func _refresh_camera_format(feed_idx):
 	%WebcamFormat.clear()
 	for i in range(len(feed.formats)):
 		var fmt = feed.formats[i]
-		if "jpeg" in fmt.format.to_lower():
-			%WebcamFormat.add_item(
-				"%dx%d %s (%d FPS)" % [fmt.width, fmt.height, fmt.format, fmt.frame_denominator],
-				i
-			)
+		%WebcamFormat.add_item(
+			"%dx%d %s (%d FPS)" % [fmt.width, fmt.height, fmt.format, fmt.frame_denominator],
+			i
+		)
 
 func save_settings(settings: Dictionary):
 	var trackers = settings.get("trackers", {})
